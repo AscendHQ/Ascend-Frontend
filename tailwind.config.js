@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const { fontFamily } = require("tailwindcss/defaultTheme");
 
 module.exports = {
   content: [
@@ -30,22 +31,36 @@ module.exports = {
         "green-800": "#386450",
         "green-900": "#1C3228",
       },
+      accent: {
+        100: "#DCFBDD",
+        200: "#201F52",
+        300: "#0E0E18",
+        400: "#24093F",
+        500: "#868686",
+        600: "#CFE7FC",
+        700: "#C099FF",
+        800: "#FFC866",
+        900: "#3B2E70",
+      },
       grey: {
-        "grey-100": "#FFFFFF",
-        "grey-200": "#F0F0F0",
-        "grey-300": "#E0E0E0",
-        "grey-400": "#D1D1D1",
-        "grey-500": "#C2C2C2",
-        "grey-600": "#B3B3B3",
-        "grey-700": "#A4A4A4",
-        "grey-800": "#959595",
-        "grey-900": "#858585",
-        "grey-1000": "#000000",
+        100: "#FFFFFF",
+        200: "#F0F0F0",
+        300: "#E0E0E0",
+        400: "#D1D1D1",
+        500: "#C2C2C2",
+        600: "#B3B3B3",
+        700: "#A4A4A4",
+        800: "#959595",
+        900: "#858585",
+        1000: "#000000",
       },
       bgColour: {
         "variant-1": "#FFFFFF",
         "variant-2": "#F9FBFC",
         "variant-3": "#212121",
+      },
+      star: {
+        default: "#FFE500AB",
       },
       success: { main: "#36B37E", dark: "#206B4C" },
       info: { main: "#0072DA", dark: "#004483", light: "#CCE3F8" },
@@ -57,15 +72,11 @@ module.exports = {
       },
     },
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      fontFamily: {
+        inter: ["var(--inter-font)", ...fontFamily.sans],
+        GTWalsheimPro: ["var(--GTWalsheimPro-font)", ...fontFamily.sans],
       },
     },
   },
   plugins: [require("flowbite/plugin")],
-  // variants:{
-  //   fill:[]
-  // }
 };

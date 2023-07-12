@@ -1,118 +1,281 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-
-const inter = Inter({ subsets: ['latin'] })
+/* eslint-disable react/no-unescaped-entities */
+import Image from "next/image";
+import { Container } from "@/components/ui/container";
+import { Icon } from "@iconify/react";
 
 export default function Home() {
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
+    <div className="font-GTWalsheimPro">
+      <SectionOne />
+      <section className="bg-bgColour-variant-1 mt-16">
+        <Container>
+          <div className="text-center">
+            <h3 className="text-5xl font-bold tracking-tighter text-accent-200">
+              Why our clients choose Ascend
+            </h3>
+            <p className="mt-5 text-accent-300 text-opacity-60">
+              Invoicing, bill pay, and cash flow control for freelancers and
+              small businesses.
+            </p>
+
+            <div className="flex text-left mt-24 justify-between">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div
+                  className="max-w-[360px] space-y-6 border p-5 rounded-md"
+                  key={i}
+                >
+                  <Image
+                    src="/customizable-report.svg"
+                    alt="customizable-report"
+                    className="dark:invert"
+                    width={24}
+                    height={24}
+                    priority
+                  />
+
+                  <h4 className="text-2xl text-accent-400 font-bold">
+                    Customizable Reports
+                  </h4>
+                  <p className="text-accent-500 ">
+                    You can easily generate customized reports that provide
+                    valuable insights into your school's finances, staff
+                    management and meet your specific requirements.
+                  </p>
+                </div>
+              ))}
+            </div>
+            <ContentSection />
+            <ContentSection direction="flex-row-reverse" />
+            <section className="flex border border-accent-300 justify-between p-10 items-center rounded-lg mt-10">
+              <div className="text-left">
+                <h4 className="text-4xl font-black max-w-[37rem] text-accent-200">
+                  More than 1,200 schools use Ascend for administration
+                </h4>
+                <p className="text-accent-300 text-opacity-60 mt-3">
+                  Boost revenue, gain insights that help your school grow and
+                  scale faster.
+                </p>
+              </div>
+              <div className="space-y-3">
+                <span className="text-accent-200 text-4xl font-black">4.9</span>
+                <div className="flex">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Icon
+                      icon="bi:star-fill"
+                      className="text-star-default"
+                      key={i}
+                    />
+                  ))}
+                </div>
+                <p className="text-accent-300 text-opacity-60">Capterare</p>
+              </div>
+
+              <div className="space-y-3">
+                <span className="text-accent-200 text-4xl font-black">4.9</span>
+                <div className="flex">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Icon
+                      icon="bi:star-fill"
+                      className="text-star-default"
+                      key={i}
+                    />
+                  ))}
+                </div>
+                <p className="text-accent-300 text-opacity-60">Capterare</p>
+              </div>
+            </section>
+          </div>
+        </Container>
+        <TailoredSolutions />
+        <Container>
+          <div className="">
+            <ContentSection />
+            <div className="space-y-10 mt-32">
+              <h4 className="text-5xl font-bold tracking-tighter text-accent-200">
+                Loved by top school owners around the world
+              </h4>
+              <div className="flex justify-between">
+                <div className="max-w-[34rem] border-2 bg-accent-700 p-8 space-y-4 rounded-2xl border-accent-300">
+                  <Icon icon="fontisto:quote-left" fontSize={25} />
+                  <h5 className="text-accent-300 text-opacity-60">
+                    It has completely transformed our administrative processes.
+                    From student enrollment to staff payroll, everything is now
+                    streamlined and efficient. Highly recommended!"
+                  </h5>
+                  <div className="flex items-center gap-4">
+                    <Image
+                      src="/joebrendan.png"
+                      alt="joebrendan"
+                      width={62}
+                      height={60}
+                      priority
+                    />
+                    <div className="">
+                      <p>Joe Brendan</p>
+                      <h6>CEO, Lighthall</h6>
+                    </div>
+                  </div>
+                </div>
+                <div className="max-w-[34rem] border-2 bg-accent-800 p-8 space-y-4 rounded-2xl border-accent-300">
+                  <Icon icon="fontisto:quote-left" fontSize={25} />
+                  <h5 className="text-accent-300 text-opacity-60">
+                    We have been using this website for a few months now, and it
+                    has made a significant impact on our operations. It's
+                    user-friendly, visually appealing, and provides us with
+                    valuable insights through its analytics and reporting
+                    features.
+                  </h5>
+                  <div className="flex items-center gap-4">
+                    <Image
+                      src="/joebrendan.png"
+                      alt="joebrendan"
+                      width={62}
+                      height={60}
+                      priority
+                    />
+                    <div className="">
+                      <p>Joe Brendan</p>
+                      <h6>CEO, Lighthall</h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="bg-accent-900 text-center p-10 py-32 space-y-4 rounded-lg my-32">
+              <h4 className="text-grey-100 text-4xl font-bold">
+                Give your school administration an
+                <span className="text-secondary-green-500"> edge</span>.
+              </h4>
+              <button>Book a Demo</button>
+            </div>
+          </div>
+        </Container>
+      </section>
+    </div>
+  );
+}
+function TailoredSolutions() {
+  return (
+    <section className="bg-accent-100 my-10 py-20">
+      <h4 className="text-center text-4xl font-bold tracking-tight text-accent-300">
+        Explore our tailored solutions
+      </h4>
+      <Container>
+        <div className="flex justify-between mt-10">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div className="rounded-md overflow-hidden" key={i}>
+              <Image
+                src="/school-management-solution.avif"
+                alt="school-management-solution"
+                width={403}
+                height={221}
+                priority
+              />
+
+              <p className="bg-bgColour-variant-1 p-5 text-Text-high-emphasis font-bold text-xl">
+                Student Management:
+              </p>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function ContentSection({ direction = "flex-row" }) {
+  return (
+    <div
+      className={`flex gap-5 ${direction} justify-between mt-20 items-center`}
     >
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.tsx</code>
+      <div className="bg-warning-main h-[700px] w-[520px] rounded-lg border-2 border-black" />
+      <div className="text-left space-y-8 max-w-[31rem]">
+        <h4 className="text-5xl font-bold tracking-tighter text-accent-200">
+          Effortlessly handle school administration
+        </h4>
+        <p className="text-accent-500 leading-8">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Bibendum
+          viverra praesent arcu diam et interdum volutpat. Lacus, egestas purus
+          etiam volutpat sagittis et neque diam.
         </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
+        <ul className="space-y-2">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <li className="flex gap-6 items-center" key={i}>
+              <Icon
+                icon="fluent:checkmark-12-regular"
+                className="bg-accent-600 rounded-full"
+                fontSize={21}
+              />
+              <span className="text-accent-500 leading-8">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit bibendum
+                viverra.
+              </span>
+            </li>
+          ))}
+        </ul>
+        <button>Book a free demo</button>
+      </div>
+    </div>
+  );
+}
+
+function SectionOne() {
+  return (
+    <div className="bg-accent-100">
+      <Container>
+        <header className="flex items-center justify-between gap-3 py-7">
+          <Image
+            src="/Ascend-Logo.svg"
+            alt="Vercel Logo"
+            className="dark:invert"
+            width={100}
+            height={24}
+            priority
+          />
+          <ul className="flex items-center gap-9">
+            <li>Home</li>
+            <li>Solutions</li>
+            <li>About us</li>
+            <li>Contact</li>
+          </ul>
+          <ul className="flex items-center gap-9">
+            <li>Sign up</li>
+            <li>Book a Demo</li>
+          </ul>
+        </header>
+      </Container>
+      <Container>
+        <section className="text-center mt-24 space-y-9">
+          <h2 className="text-6xl font-bold max-w-[67rem] mx-auto tracking-tighter">
+            Streamlining School Administration, Management, and Payroll
+            Processes.
+          </h2>
+          <p className="max-w-[53rem] mx-auto text-2xl text-accent-300 text-opacity-60">
+            With our complete platform, you can quickly manage your school's
+            administrative responsibilities, automate payroll processes and
+            streamline communication—all in one place.
+          </p>
+          <ul className="flex justify-center">
+            <li>
+              <button>Book a Demo</button>
+            </li>
+            <li>
+              <button>How it Works</button>
+            </li>
+          </ul>
+          <div className="relative w-full h-[35.5rem]">
             <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
+              src="/dashboard-img.avif"
+              alt="dashboard-img"
+              fill
+              style={{
+                objectFit: "contain",
+              }}
               priority
             />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+          </div>
+        </section>
+      </Container>
+    </div>
+  );
 }
