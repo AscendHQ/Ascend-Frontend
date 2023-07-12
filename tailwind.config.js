@@ -43,6 +43,7 @@ module.exports = {
         900: "#3B2E70",
       },
       grey: {
+        50: "#F9FAFB",
         100: "#FFFFFF",
         200: "#F0F0F0",
         300: "#E0E0E0",
@@ -53,6 +54,9 @@ module.exports = {
         800: "#959595",
         900: "#858585",
         1000: "#000000",
+      },
+      neutral: {
+        100: "#F8F9FA",
       },
       bgColour: {
         "variant-1": "#FFFFFF",
@@ -70,6 +74,7 @@ module.exports = {
         "meduim-emphasis": "#949396",
         "low-emphasis": "#BDBDBD",
       },
+      "border-colour-light": "#E4E4E7",
     },
     extend: {
       fontFamily: {
