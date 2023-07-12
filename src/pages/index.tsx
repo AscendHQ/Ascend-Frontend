@@ -28,36 +28,36 @@ function FooterSection({ date }: { date: Date }) {
                 height={24}
                 priority
               />
-              <p className="max-w-sm text-grey-600 mt-8">
+              <p className="max-w-sm text-gray-600 mt-8">
                 Transforming school administration into a streamlined and
                 hassle-free process.
               </p>
             </div>
             <div className="">
-              <h4 className="text-grey-500 mb-3">Company</h4>
+              <h4 className="text-gray-500 mb-3">Company</h4>
               <ul>
                 {["About us", "Careers", "Solutions", "Contact"].map((item) => (
-                  <li key={item} className="text-grey-600">
+                  <li key={item} className="text-gray-600">
                     {item}
                   </li>
                 ))}
               </ul>
             </div>
             <div className="">
-              <h4 className="text-grey-500 mb-3">Social</h4>
+              <h4 className="text-gray-500 mb-3">Social</h4>
               <ul>
                 {["Twitter", "Instagram", "LinkedIn"].map((item) => (
-                  <li key={item} className="text-grey-600">
+                  <li key={item} className="text-gray-600">
                     {item}
                   </li>
                 ))}
               </ul>
             </div>
             <div className="">
-              <h4 className="text-grey-500 mb-3">Legal</h4>
+              <h4 className="text-gray-500 mb-3">Legal</h4>
               <ul>
                 {["Terms", "Privacy", "Licenses", "Media kit"].map((item) => (
-                  <li key={item} className="text-grey-600">
+                  <li key={item} className="text-gray-600">
                     {item}
                   </li>
                 ))}
@@ -75,17 +75,17 @@ function FooterSection({ date }: { date: Date }) {
             <div className="flex gap-2">
               <Icon
                 icon="ri:twitter-fill"
-                className="text-grey-400"
+                className="text-gray-400"
                 fontSize={30}
               />
               <Icon
                 icon="mdi:linkedin"
-                className="text-grey-400"
+                className="text-gray-400"
                 fontSize={30}
               />
               <Icon
                 icon="fa6-brands:facebook"
-                className="text-grey-400"
+                className="text-gray-400"
                 fontSize={30}
               />
             </div>
@@ -109,7 +109,7 @@ function MainSection() {
             businesses.
           </p>
 
-          <div className="flex text-left mt-24 justify-between">
+          <div className="flex text-left flex-wrap gap-10 mt-24 justify-center">
             {[
               {
                 img: "/customizable-report.svg",
@@ -155,7 +155,7 @@ function MainSection() {
             }
           />
           <ContentSection
-            direction="flex-row-reverse"
+            direction="lg:flex-row-reverse"
             heading="Disburse staff payment effectively"
             button={
               <button className="bg-primary-purple-500 text-grey-100 border-2 px-14 py-2 border-accent-300 rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all">
@@ -271,7 +271,9 @@ function MainSection() {
               Give your school administration an
               <span className="text-secondary-green-500"> edge</span>.
             </h4>
-            <button>Book a Demo</button>
+            <button className="bg-grey-100 border-border-colour-light px-6 py-2 rounded-md">
+              Book a Demo
+            </button>
           </div>
         </div>
       </Container>
@@ -286,7 +288,7 @@ function TailoredSolutions(): JSX.Element {
         Explore our tailored solutions
       </h4>
       <Container>
-        <div className="flex justify-between mt-10">
+        <div className="flex flex-wrap justify-center xl:justify-between  gap-3 mt-10">
           {[
             "Student Management",
             "Staff Management",
@@ -313,7 +315,7 @@ function TailoredSolutions(): JSX.Element {
 }
 
 function ContentSection({
-  direction = "flex-row",
+  direction = "lg:flex-row",
   heading,
   button,
 }: {
@@ -323,7 +325,7 @@ function ContentSection({
 }): JSX.Element {
   return (
     <div
-      className={`flex gap-5 ${direction} justify-between mt-20 items-center`}
+      className={`flex gap-5 flex-col ${direction} justify-between mt-20 items-center`}
     >
       <div className="bg-warning-main h-[650px] w-[520px] rounded-lg border-2 border-black" />
       <div className="text-left space-y-8 max-w-[31rem]">
