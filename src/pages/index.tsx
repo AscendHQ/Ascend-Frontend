@@ -2,12 +2,15 @@
 import Image from "next/image";
 import { Container } from "@/components/ui/container";
 import { Icon } from "@iconify/react";
+import React from "react";
 
 export default function Home() {
   const date = new Date();
+  const [isOpen, setIsOpen] = React.useState(false);
+
   return (
     <div className="font-GTWalsheimPro">
-      <HeadingSection />
+      <HeadingSection isOpen={isOpen} setIsOpen={setIsOpen} />
       <MainSection />
       <FooterSection date={date} />
     </div>
@@ -19,7 +22,7 @@ function FooterSection({ date }: { date: Date }) {
     <footer>
       <div className="bg-neutral-100 py-10">
         <Container>
-          <section className="flex justify-between">
+          <section className="flex flex-wrap gap-5 justify-between">
             <div className="">
               <Image
                 src="/Ascend-Logo.svg"
@@ -43,10 +46,11 @@ function FooterSection({ date }: { date: Date }) {
                 ))}
               </ul>
             </div>
+
             <div className="">
-              <h4 className="text-gray-500 mb-3">Social</h4>
+              <h4 className="text-gray-500 mb-3">Legal</h4>
               <ul>
-                {["Twitter", "Instagram", "LinkedIn"].map((item) => (
+                {["Terms", "Privacy", "Media kit"].map((item) => (
                   <li key={item} className="text-gray-600">
                     {item}
                   </li>
@@ -54,21 +58,24 @@ function FooterSection({ date }: { date: Date }) {
               </ul>
             </div>
             <div className="">
-              <h4 className="text-gray-500 mb-3">Legal</h4>
-              <ul>
-                {["Terms", "Privacy", "Licenses", "Media kit"].map((item) => (
-                  <li key={item} className="text-gray-600">
-                    {item}
-                  </li>
-                ))}
-              </ul>
+              <h4>Subscribe to our newsletter</h4>
+              <div className="relative">
+                <input
+                  type="email"
+                  placeholder="Enter your email address"
+                  className="w-full rounded-md min-w-[370px] py-5"
+                />
+                <button className="bg-primary-purple-500 text-grey-100 border-2 px-6 py-2 border-accent-300 rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all absolute right-3 top-3">
+                  Subscribe
+                </button>
+              </div>
             </div>
           </section>
         </Container>
       </div>
       <div className="bg-grey-50 py-5">
         <Container>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center flex-wrap gap-5 justify-between">
             <p>
               © {date.getFullYear()} AscendTechnologies. All rights reserved.
             </p>
@@ -163,7 +170,7 @@ function MainSection() {
               </button>
             }
           />
-          <section className="flex border border-accent-300 justify-between p-10 items-center rounded-lg mt-10 max-w-[70rem] mx-auto">
+          <section className="flex border flex-col lg:flex-row gap-6 border-accent-300 justify-between p-10 items-center rounded-lg mt-10 max-w-[70rem] mx-auto">
             <div className="text-left">
               <h4 className="text-4xl font-black max-w-[37rem] text-accent-200">
                 More than 1,200 schools use Ascend for administration
@@ -218,8 +225,8 @@ function MainSection() {
             <h4 className="text-5xl font-bold tracking-tighter text-accent-200">
               Loved by top school owners around the world
             </h4>
-            <div className="flex justify-between">
-              <div className="max-w-[34rem] border-2 bg-accent-700 p-8 space-y-4 rounded-2xl border-accent-300">
+            <div className="flex justify-between gap-5 flex-col lg:flex-row">
+              <div className="lg:max-w-[34rem] border-2 bg-accent-700 p-8 space-y-4 rounded-2xl border-accent-300">
                 <Icon icon="fontisto:quote-left" fontSize={25} />
                 <h5 className="text-accent-300 text-opacity-60">
                   It has completely transformed our administrative processes.
@@ -240,7 +247,7 @@ function MainSection() {
                   </div>
                 </div>
               </div>
-              <div className="max-w-[34rem] border-2 bg-accent-800 p-8 space-y-4 rounded-2xl border-accent-300">
+              <div className="lg:max-w-[34rem] border-2 bg-accent-800 p-8 space-y-4 rounded-2xl border-accent-300">
                 <Icon icon="fontisto:quote-left" fontSize={25} />
                 <h5 className="text-accent-300 text-opacity-60">
                   We have been using this website for a few months now, and it
@@ -266,7 +273,6 @@ function MainSection() {
             </div>
           </div>
           <div className="bg-accent-900 text-center border-2 border-accent-300 p-10 py-32 space-y-4 rounded-3xl my-32 relative">
-            <Image src="/wave.svg" alt="wave Logo" fill priority />
             <h4 className="text-grey-100 text-5xl font-bold tracking-tighter">
               Give your school administration an
               <span className="text-secondary-green-500"> edge</span>.
@@ -298,7 +304,7 @@ function TailoredSolutions(): JSX.Element {
               <Image
                 src="/school-management-solution.avif"
                 alt="school-management-solution"
-                width={403}
+                width={395}
                 height={221}
                 priority
               />
@@ -327,8 +333,18 @@ function ContentSection({
     <div
       className={`flex gap-5 flex-col ${direction} justify-between mt-20 items-center`}
     >
-      <div className="bg-warning-main h-[650px] w-[520px] rounded-lg border-2 border-black" />
-      <div className="text-left space-y-8 max-w-[31rem]">
+      <div className="bg-warning-main relative h-[650px] w-full lg:w-[520px] overflow-hidden rounded-lg border-2 border-black">
+        <Image
+          src="/Database __ Students.png"
+          alt="Vercel Logo"
+          fill
+          priority
+          style={{
+            transform: "translateX(60px) translateY(150px)",
+          }}
+        />
+      </div>
+      <div className="text-left space-y-8 w-full lg:max-w-[31rem]">
         <h4 className="text-5xl font-bold tracking-tighter text-accent-200">
           {heading}
         </h4>
@@ -358,7 +374,24 @@ function ContentSection({
   );
 }
 
-function HeadingSection(): JSX.Element {
+function HeadingSection({
+  isOpen,
+  setIsOpen,
+}: {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}): JSX.Element {
+  const genericHamburgerLine = `
+  h-1 
+  w-full 
+  my-1 
+  rounded-full 
+  bg-black 
+  transition 
+  ease 
+  transform 
+  duration-300
+`;
   return (
     <div className="bg-accent-100">
       <Container>
@@ -370,22 +403,50 @@ function HeadingSection(): JSX.Element {
             height={24}
             priority
           />
-          <ul className="flex items-center justify-end gap-9 w-[35%]">
-            <li>Home</li>
-            <li>Solutions</li>
-            <li>About us</li>
-            <li>Contact</li>
-          </ul>
-          <ul className="flex items-center gap-9 w-fit">
-            <li>
-              <button className="">Sign up</button>
-            </li>
-            <li>
-              <button className="bg-grey-100 text-accent-300 border-2 px-4 py-2 border-border-colour-light rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all flex items-center gap-2">
-                Book a Demo
-              </button>
-            </li>
-          </ul>
+
+          <div className="lg:w-[65%] hidden items-center md:flex justify-between gap-5">
+            <ul className="flex items-center justify-end gap-9">
+              <li>Home</li>
+              <li>Solutions</li>
+              <li>About us</li>
+              <li>Contact</li>
+            </ul>
+            <ul className="flex items-center gap-9">
+              <li>
+                <button className="">Sign up</button>
+              </li>
+              <li>
+                <button className="bg-grey-100 text-accent-300 border-2 px-4 py-2 border-border-colour-light rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all flex items-center gap-2">
+                  Book a Demo
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <button
+            className={` flex flex-col h-10 w-8 rounded justify-center items-center group md:hidden`}
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <span
+              className={`${genericHamburgerLine} ${
+                isOpen
+                  ? `rotate-45 translate-y-3 group-hover:opacity-100`
+                  : `group-hover:opacity-100`
+              }`}
+            />
+            <span
+              className={`${genericHamburgerLine} ${
+                isOpen ? "opacity-0" : "group-hover:opacity-100"
+              }`}
+            />
+            <span
+              className={`${genericHamburgerLine} ${
+                isOpen
+                  ? `-rotate-45 -translate-y-3 group-hover:opacity-100`
+                  : `group-hover:opacity-100`
+              }`}
+            />
+          </button>
         </header>
       </Container>
       <Container>
@@ -417,9 +478,11 @@ function HeadingSection(): JSX.Element {
               src="/dashboard-img.avif"
               alt="dashboard-img"
               fill
-              style={{
-                objectFit: "contain",
-              }}
+              style={
+                {
+                  // objectFit: "cover",
+                }
+              }
               priority
             />
           </div>
