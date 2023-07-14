@@ -2,11 +2,12 @@ import Image from "next/image";
 import { Container } from "../ui/container";
 import { Icon } from "@iconify/react";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 export default function Footer({ date }: { date: Date }) {
   return (
     <footer>
-      <div className="bg-neutral-100 py-10">
+      <div className="bg-neutral-100 py-10 font-medium">
         <Container>
           <section className="flex flex-wrap gap-5 justify-between">
             <div className="">
@@ -25,9 +26,14 @@ export default function Footer({ date }: { date: Date }) {
             <div className="">
               <h4 className="text-gray-500 mb-3">Company</h4>
               <ul>
-                {["About us", "Careers", "Solutions", "Contact"].map((item) => (
-                  <li key={item} className="text-gray-600">
-                    {item}
+                {[
+                  { title: "About us", url: "/" },
+                  { title: "Careers", url: "/" },
+                  { title: "Solutions", url: "/" },
+                  { title: "Contact", url: "/" },
+                ].map((item) => (
+                  <li key={item.title} className="text-gray-600">
+                    <Link href={item.url}>{item.title}</Link>
                   </li>
                 ))}
               </ul>
@@ -36,14 +42,18 @@ export default function Footer({ date }: { date: Date }) {
             <div className="">
               <h4 className="text-gray-500 mb-3">Legal</h4>
               <ul>
-                {["Terms", "Privacy", "Media kit"].map((item) => (
-                  <li key={item} className="text-gray-600">
-                    {item}
+                {[
+                  { title: "Terms", url: "/" },
+                  { title: "Privacy", url: "/" },
+                  { title: "Media kit", url: "/" },
+                ].map((item) => (
+                  <li key={item.title} className="text-gray-600">
+                    <Link href={item.url}>{item.title}</Link>
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="w-full">
+            <div className="w-full md:w-fit">
               <h4>Subscribe to our newsletter</h4>
               <div className="relative">
                 <input

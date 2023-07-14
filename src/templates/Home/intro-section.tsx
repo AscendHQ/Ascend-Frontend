@@ -32,7 +32,7 @@ export default function IntroSection(): JSX.Element {
             </Button>
           </li>
         </ul>
-        <div className="relative w-full h-[35.5rem]">
+        <div className="relative w-full h-[20rem] md:h-[35.5rem]">
           <Image
             src="/dashboard-img.avif"
             alt="dashboard-img"

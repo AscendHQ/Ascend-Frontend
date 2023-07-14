@@ -3,6 +3,7 @@ import { Container } from "../ui/container";
 import Image from "next/image";
 import Link from "next/link";
 import { menuData } from "@/config";
+import classNames from "classnames";
 
 function Header({
   isOpen,
@@ -13,6 +14,16 @@ function Header({
 }): JSX.Element {
   const genericHamburgerLine = `h-1 w-full my-1 rounded-full bg-black transition ease transform duration-300`;
 
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+    // Add code to toggle the menu state and apply the CSS class
+    if (!isOpen) {
+      document.body.classList.add("disable-scroll");
+    } else {
+      document.body.classList.remove("disable-scroll");
+    }
+  };
+
   return (
     <Container>
       <header className="flex items-center justify-between gap-3 py-7">
@@ -22,24 +33,30 @@ function Header({
           width={100}
           height={24}
           priority
+          className="relative z-50"
         />
-
-        <div className="lg:w-[65%] hidden items-center md:flex justify-between gap-5">
-          <ul className="flex items-center gap-9">
+        <div
+          className={classNames(
+            "fixed inset-0 z-40 bg-white lg:bg-transparent lg:w-[65%] lg:relative px-10 pt-24 lg:p-0 items-center flex flex-col-reverse lg:flex-row justify-end lg:justify-between gap-5 transition-all duration-300",
+            { "move-out": isOpen },
+            { "move-in": !isOpen }
+          )}
+        >
+          <ul className="flex flex-col w-full lg:flex-row lg:items-center gap-9">
             {menuData.slice(0, -2).map((item) => (
               <li key={item.title} className="font-medium">
                 <Link href={item.to}>{item.title}</Link>
               </li>
             ))}
           </ul>
-          <ul className="flex items-center gap-9">
+          <ul className="flex flex-col-reverse w-full lg:flex-row lg:items-center justify-end gap-9">
             {menuData.slice(-2).map((item, index) => (
               <li key={item.title} className="font-medium">
                 <Link
                   href={item.to}
                   className={`${
                     index === 1
-                      ? "bg-grey-100 text-accent-300 border-2 px-4 py-2 border-border-colour-light rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all flex items-center gap-2"
+                      ? "bg-primary-purple-500 lg:bg-grey-100 text-accent-300 border-2 px-4 py-2 border-accent-300 lg:border-border-colour-light rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all flex items-center gap-2"
                       : ""
                   }`}
                 >
@@ -51,8 +68,8 @@ function Header({
         </div>
 
         <button
-          className={` flex flex-col h-10 w-8 rounded justify-center items-center group md:hidden`}
-          onClick={() => setIsOpen(!isOpen)}
+          className={` flex flex-col h-10 w-8 rounded justify-center relative z-50 items-center group lg:hidden`}
+          onClick={toggleMenu}
         >
           <span
             className={`${genericHamburgerLine} ${

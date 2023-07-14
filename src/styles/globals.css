@@ -67,3 +67,15 @@
     font-size: clamp(6.19rem, calc(3.49rem + 13.53vw), 13.97rem);
   }
 }
+
+body.disable-scroll {
+  overflow: hidden;
+}
+@media (max-width: 1024px) {
+  .move-in {
+    transform: translateX(100vw);
+  }
+  .move-out {
+    transform: translateX(0);
+  }
+}

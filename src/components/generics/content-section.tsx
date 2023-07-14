@@ -14,7 +14,7 @@ export default function ContentSection({
     <div
       className={`flex gap-5 flex-col ${direction} justify-between mt-20 items-center`}
     >
-      <div className="bg-warning-main relative h-[650px] w-full lg:w-[520px] overflow-hidden rounded-lg border-2 border-black">
+      <div className="bg-warning-main relative h-[350px] md:h-[650px] w-full lg:w-[520px] overflow-hidden rounded-lg border-2 border-black">
         <Image
           src="/Database __ Students.png"
           alt="Vercel Logo"

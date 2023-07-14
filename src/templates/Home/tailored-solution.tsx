@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function TailoredSolutions(): JSX.Element {
   return (
     <section className="bg-accent-100 my-10 py-20">
-      <h4 className="text-center text-4xl font-bold tracking-tight text-accent-300">
+      <h4 className="text-center text-step-2 font-bold tracking-tight text-accent-300">
         Explore our tailored solutions
       </h4>
       <Container>
@@ -23,7 +23,7 @@ export default function TailoredSolutions(): JSX.Element {
                 priority
               />
 
-              <p className="bg-bgColour-variant-1 p-5 text-Text-high-emphasis font-bold text-xl">
+              <p className="bg-bgColour-variant-1 p-5 text-Text-high-emphasis font-bold text-step-1">
                 {item}
               </p>
             </div>
