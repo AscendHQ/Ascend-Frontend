@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Container } from "../ui/container";
 import { Icon } from "@iconify/react";
+import { Button } from "../ui/button";
 
 export default function Footer({ date }: { date: Date }) {
   return (
@@ -42,17 +43,20 @@ export default function Footer({ date }: { date: Date }) {
                 ))}
               </ul>
             </div>
-            <div className="">
+            <div className="w-full">
               <h4>Subscribe to our newsletter</h4>
               <div className="relative">
                 <input
                   type="email"
                   placeholder="Enter your email address"
-                  className="w-full rounded-md min-w-[370px] py-5"
+                  className="w-full rounded-md md:min-w-[370px] py-5"
                 />
-                <button className="bg-primary-purple-500 text-grey-100 border-2 px-6 py-2 border-accent-300 rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all absolute right-3 top-3">
+                <Button
+                  variant="primary"
+                  className="text-white absolute right-3 top-3 px-6 py-2"
+                >
                   Subscribe
-                </button>
+                </Button>
               </div>
             </div>
           </section>

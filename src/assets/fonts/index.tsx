@@ -28,20 +28,20 @@ export const GTWalsheimPro = localFont({
       style: "italic",
     },
     {
-      path: "./GTWalsheimPro-Medium.ttf",
+      path: "./GTWalsheimPro-Regular.ttf",
       weight: "400",
     },
     {
-      path: "./GTWalsheimPro-MediumOblique.ttf",
+      path: "./GTWalsheimPro-RegularOblique.ttf",
       weight: "400",
       style: "italic",
     },
     {
-      path: "./GTWalsheimPro-Regular.ttf",
+      path: "./GTWalsheimPro-Medium.ttf",
       weight: "500",
     },
     {
-      path: "./GTWalsheimPro-RegularOblique.ttf",
+      path: "./GTWalsheimPro-MediumOblique.ttf",
       weight: "500",
       style: "italic",
     },

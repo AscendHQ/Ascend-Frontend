@@ -6,6 +6,7 @@ import React from "react";
 import { ContentSection, Footer, Header } from "@/components/generics";
 import { IntroSection, WhyUs, TailoredSolutions } from "@/templates/Home/";
 import { commentData } from "@/config";
+import Button from "@/components/ui/button/button";
 
 export default function Home() {
   const date = new Date();
@@ -33,9 +34,9 @@ function MainSection() {
           <ContentSection
             heading="Why we do what we do at Ascend"
             button={
-              <button className="bg-primary-purple-500 text-grey-100 border-2 px-24 py-2 border-accent-300 rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all">
+              <Button variant={"primary"} className={"px-24 py-2 text-white"}>
                 About us
-              </button>
+              </Button>
             }
           />
           <div className="space-y-10 mt-32">
@@ -75,14 +76,12 @@ function MainSection() {
               ))}
             </div>
           </div>
-          <div className="bg-accent-900 text-center border-2 border-accent-300 p-10 py-32 space-y-4 rounded-3xl my-32 relative">
-            <h4 className="text-grey-100 text-5xl font-bold tracking-tighter">
+          <div className="bg-accent-900 text-center border-2 border-accent-300 px-5 md:px-10 py-32 space-y-4 rounded-3xl my-32 relative">
+            <h4 className="text-grey-100 text-step-5 font-bold tracking-tighter">
               Give your school administration an
               <span className="text-secondary-green-500"> edge</span>.
             </h4>
-            <button className="bg-grey-100 border-border-colour-light px-6 py-2 rounded-md">
-              Book a Demo
-            </button>
+            <Button>Book a Demo</Button>
           </div>
         </div>
       </Container>

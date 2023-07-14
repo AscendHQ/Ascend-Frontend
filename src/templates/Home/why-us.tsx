@@ -9,10 +9,10 @@ function WhyUs() {
   return (
     <Container>
       <div className="text-center">
-        <h3 className="text-5xl font-bold tracking-tighter text-accent-200">
+        <h3 className="text-step-4 font-bold tracking-tighter text-accent-200">
           Why our clients choose Ascend
         </h3>
-        <p className="mt-5 text-accent-300 text-opacity-60">
+        <p className="mt-5 w-[80%] mx-auto text-accent-300 text-step-0 text-opacity-60">
           Invoicing, bill pay, and cash flow control for freelancers and small
           businesses.
         </p>

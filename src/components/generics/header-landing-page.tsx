@@ -27,14 +27,14 @@ function Header({
         <div className="lg:w-[65%] hidden items-center md:flex justify-between gap-5">
           <ul className="flex items-center gap-9">
             {menuData.slice(0, -2).map((item) => (
-              <li key={item.title}>
+              <li key={item.title} className="font-medium">
                 <Link href={item.to}>{item.title}</Link>
               </li>
             ))}
           </ul>
           <ul className="flex items-center gap-9">
             {menuData.slice(-2).map((item, index) => (
-              <li key={item.title}>
+              <li key={item.title} className="font-medium">
                 <Link
                   href={item.to}
                   className={`${

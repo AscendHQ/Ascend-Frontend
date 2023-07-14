@@ -26,23 +26,24 @@ export default function ContentSection({
         />
       </div>
       <div className="text-left space-y-8 w-full lg:max-w-[31rem]">
-        <h4 className="text-5xl font-bold tracking-tighter text-accent-200">
+        <h4 className="text-step-3 font-bold tracking-tighter text-accent-200">
           {heading}
         </h4>
-        <p className="text-accent-500 leading-8">
+        <p className="text-accent-500 text-step-0 leading-8">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Bibendum
           viverra praesent arcu diam et interdum volutpat. Lacus, egestas purus
           etiam volutpat sagittis et neque diam.
         </p>
         <ul className="space-y-2">
           {Array.from({ length: 3 }).map((_, i) => (
-            <li className="flex gap-6 items-center" key={i}>
-              <Icon
-                icon="fluent:checkmark-12-regular"
-                className="bg-accent-600 rounded-full"
-                fontSize={21}
-              />
-              <span className="text-accent-500 leading-8">
+            <li className="flex gap-3 md:gap-6 items-center" key={i}>
+              <div className="bg-accent-600 rounded-full p-1">
+                <Icon
+                  icon="fluent:checkmark-12-regular"
+                  className="text-lg md:text-xl"
+                />
+              </div>
+              <span className="text-accent-500 leading-8 text-step-0">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit bibendum
                 viverra.
               </span>
