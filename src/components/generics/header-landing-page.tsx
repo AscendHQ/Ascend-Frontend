@@ -1,6 +1,8 @@
 import React from "react";
 import { Container } from "../ui/container";
 import Image from "next/image";
+import Link from "next/link";
+import { menuData } from "@/config";
 
 function Header({
   isOpen,
@@ -23,21 +25,28 @@ function Header({
         />
 
         <div className="lg:w-[65%] hidden items-center md:flex justify-between gap-5">
-          <ul className="flex items-center justify-end gap-9">
-            <li>Home</li>
-            <li>Solutions</li>
-            <li>About us</li>
-            <li>Contact</li>
+          <ul className="flex items-center gap-9">
+            {menuData.slice(0, -2).map((item) => (
+              <li key={item.title}>
+                <Link href={item.to}>{item.title}</Link>
+              </li>
+            ))}
           </ul>
           <ul className="flex items-center gap-9">
-            <li>
-              <button className="">Sign up</button>
-            </li>
-            <li>
-              <button className="bg-grey-100 text-accent-300 border-2 px-4 py-2 border-border-colour-light rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all flex items-center gap-2">
-                Book a Demo
-              </button>
-            </li>
+            {menuData.slice(-2).map((item, index) => (
+              <li key={item.title}>
+                <Link
+                  href={item.to}
+                  className={`${
+                    index === 1
+                      ? "bg-grey-100 text-accent-300 border-2 px-4 py-2 border-border-colour-light rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all flex items-center gap-2"
+                      : ""
+                  }`}
+                >
+                  {item.title}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 

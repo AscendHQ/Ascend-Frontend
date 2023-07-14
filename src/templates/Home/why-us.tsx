@@ -2,8 +2,8 @@ import React from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 import { whyAscendData } from "@/config";
-import { ContentSection } from "@/pages";
 import { Container } from "@/components/ui/container";
+import { ContentSection } from "@/components/generics";
 
 function WhyUs() {
   return (

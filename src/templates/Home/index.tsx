@@ -1,4 +1,4 @@
 import WhyUs from "./why-us";
 import IntroSection from "./intro-section";
-
-export { WhyUs, IntroSection };
+import TailoredSolutions from "./tailored-solution";
+export { WhyUs, IntroSection, TailoredSolutions };
