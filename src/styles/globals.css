@@ -1,27 +1,81 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer utilities {
+  .text-step--2 {
+    @apply text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl;
+    font-size: clamp(0.69rem, calc(0.6rem + 0.46vw), 0.96rem);
+  }
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+  .text-step--1 {
+    @apply text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl;
+    font-size: clamp(0.83rem, calc(0.71rem + 0.64vw), 1.2rem);
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+  .text-step-0 {
+    @apply text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl;
+    font-size: clamp(1rem, calc(0.83rem + 0.87vw), 1.1rem);
+  }
+
+  .text-step-1 {
+    @apply text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl;
+    font-size: clamp(1.2rem, calc(0.97rem + 1.17vw), 1.48rem);
+  }
+
+  .text-step-2 {
+    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl;
+    font-size: clamp(1.44rem, calc(1.13rem + 1.57vw), 2.34rem);
+  }
+
+  .text-step-3 {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl;
+    font-size: clamp(1.73rem, calc(1.31rem + 2.09vw), 2.93rem);
+  }
+
+  .text-step-4 {
+    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl;
+    font-size: clamp(2.07rem, calc(1.52rem + 2.76vw), 3.66rem);
+  }
+
+  .text-step-5 {
+    @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl;
+    font-size: clamp(2.49rem, calc(1.76rem + 3.63vw), 4.58rem);
+  }
+
+  .text-step-6 {
+    @apply text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl;
+    font-size: clamp(2.99rem, calc(2.03rem + 4.76vw), 5.72rem);
+  }
+
+  .text-step-7 {
+    @apply text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-10xl;
+    font-size: clamp(3.58rem, calc(2.34rem + 6.21vw), 7.15rem);
+  }
+
+  .text-step-8 {
+    @apply text-7xl sm:text-8xl md:text-9xl lg:text-10xl xl:text-11xl;
+    font-size: clamp(4.3rem, calc(2.69rem + 8.07vw), 8.94rem);
+  }
+
+  .text-step-9 {
+    @apply text-8xl sm:text-9xl md:text-10xl lg:text-11xl xl:text-12xl;
+    font-size: clamp(5.16rem, calc(3.07rem + 10.46vw), 11.18rem);
+  }
+
+  .text-step-10 {
+    @apply text-9xl sm:text-10xl md:text-11xl lg:text-12xl xl:text-13xl;
+    font-size: clamp(6.19rem, calc(3.49rem + 13.53vw), 13.97rem);
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+body.disable-scroll {
+  overflow: hidden;
+}
+@media (max-width: 1024px) {
+  .move-in {
+    transform: translateX(100vw);
+  }
+  .move-out {
+    transform: translateX(0);
+  }
 }
