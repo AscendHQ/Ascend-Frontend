@@ -3,6 +3,9 @@ import Image from "next/image";
 import { Container } from "@/components/ui/container";
 import { Icon } from "@iconify/react";
 import React from "react";
+import { Footer, Header } from "@/components/generics";
+import { IntroSection, WhyUs } from "@/templates/Home/";
+import TailoredSolutions from "@/templates/Home/tailored-solution";
 
 export default function Home() {
   const date = new Date();
@@ -10,206 +13,20 @@ export default function Home() {
 
   return (
     <div className="font-GTWalsheimPro">
-      <HeadingSection isOpen={isOpen} setIsOpen={setIsOpen} />
+      <div className="bg-accent-100">
+        <Header isOpen={isOpen} setIsOpen={setIsOpen} />
+        <IntroSection />
+      </div>
       <MainSection />
-      <FooterSection date={date} />
+      <Footer date={date} />
     </div>
-  );
-}
-
-function FooterSection({ date }: { date: Date }) {
-  return (
-    <footer>
-      <div className="bg-neutral-100 py-10">
-        <Container>
-          <section className="flex flex-wrap gap-5 justify-between">
-            <div className="">
-              <Image
-                src="/Ascend-Logo.svg"
-                alt="Vercel Logo"
-                width={100}
-                height={24}
-                priority
-              />
-              <p className="max-w-sm text-gray-600 mt-8">
-                Transforming school administration into a streamlined and
-                hassle-free process.
-              </p>
-            </div>
-            <div className="">
-              <h4 className="text-gray-500 mb-3">Company</h4>
-              <ul>
-                {["About us", "Careers", "Solutions", "Contact"].map((item) => (
-                  <li key={item} className="text-gray-600">
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="">
-              <h4 className="text-gray-500 mb-3">Legal</h4>
-              <ul>
-                {["Terms", "Privacy", "Media kit"].map((item) => (
-                  <li key={item} className="text-gray-600">
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="">
-              <h4>Subscribe to our newsletter</h4>
-              <div className="relative">
-                <input
-                  type="email"
-                  placeholder="Enter your email address"
-                  className="w-full rounded-md min-w-[370px] py-5"
-                />
-                <button className="bg-primary-purple-500 text-grey-100 border-2 px-6 py-2 border-accent-300 rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all absolute right-3 top-3">
-                  Subscribe
-                </button>
-              </div>
-            </div>
-          </section>
-        </Container>
-      </div>
-      <div className="bg-grey-50 py-5">
-        <Container>
-          <div className="flex items-center flex-wrap gap-5 justify-between">
-            <p>
-              © {date.getFullYear()} AscendTechnologies. All rights reserved.
-            </p>
-            <div className="flex gap-2">
-              <Icon
-                icon="ri:twitter-fill"
-                className="text-gray-400"
-                fontSize={30}
-              />
-              <Icon
-                icon="mdi:linkedin"
-                className="text-gray-400"
-                fontSize={30}
-              />
-              <Icon
-                icon="fa6-brands:facebook"
-                className="text-gray-400"
-                fontSize={30}
-              />
-            </div>
-          </div>
-        </Container>
-      </div>
-    </footer>
   );
 }
 
 function MainSection() {
   return (
     <section className="bg-bgColour-variant-1 mt-16">
-      <Container>
-        <div className="text-center">
-          <h3 className="text-5xl font-bold tracking-tighter text-accent-200">
-            Why our clients choose Ascend
-          </h3>
-          <p className="mt-5 text-accent-300 text-opacity-60">
-            Invoicing, bill pay, and cash flow control for freelancers and small
-            businesses.
-          </p>
-
-          <div className="flex text-left flex-wrap gap-10 mt-24 justify-center">
-            {[
-              {
-                img: "/customizable-report.svg",
-                title: "Customizable Reports",
-                text: "You can easily generate customized reports that provide valuable insights into your school's finances, staff management and meet your specific requirements.",
-              },
-              {
-                img: "/data-storage.svg",
-                title: "Secure Data Storage",
-                text: "Ascend prioritizes the security and confidentiality of your school's data by ensuring that all data is encrypted and stored securely. ",
-              },
-              {
-                img: "/payroll-system.svg",
-                title: "Automated Payroll System",
-                text: "Say goodbye to manual calculations and tedious paperwork. Ascend automates the payroll process hence solving payment complexities with ease.",
-              },
-            ].map((item) => (
-              <div
-                className="max-w-[360px] space-y-6 border p-5 rounded-md"
-                key={item.title}
-              >
-                <Image
-                  src={item.img}
-                  alt={item.title}
-                  width={24}
-                  height={24}
-                  priority
-                />
-
-                <h4 className="text-2xl text-accent-400 font-bold">
-                  {item.title}
-                </h4>
-                <p className="text-accent-500 ">{item.text}</p>
-              </div>
-            ))}
-          </div>
-          <ContentSection
-            heading="Effortlessly handle school administration"
-            button={
-              <button className="bg-primary-purple-500 text-grey-100 border-2 px-14 py-2 border-accent-300 rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all">
-                Book a free demo
-              </button>
-            }
-          />
-          <ContentSection
-            direction="lg:flex-row-reverse"
-            heading="Disburse staff payment effectively"
-            button={
-              <button className="bg-primary-purple-500 text-grey-100 border-2 px-14 py-2 border-accent-300 rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all">
-                Explore our solutions
-              </button>
-            }
-          />
-          <section className="flex border flex-col lg:flex-row gap-6 border-accent-300 justify-between p-10 items-center rounded-lg mt-10 max-w-[70rem] mx-auto">
-            <div className="text-left">
-              <h4 className="text-4xl font-black max-w-[37rem] text-accent-200">
-                More than 1,200 schools use Ascend for administration
-              </h4>
-              <p className="text-accent-300 text-opacity-60 mt-3">
-                Boost revenue, gain insights that help your school grow and
-                scale faster.
-              </p>
-            </div>
-            <div className="space-y-3">
-              <span className="text-accent-200 text-4xl font-black">4.9</span>
-              <div className="flex">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Icon
-                    icon="bi:star-fill"
-                    className="text-star-default"
-                    key={i}
-                  />
-                ))}
-              </div>
-              <p className="text-accent-300 text-opacity-60">Capterare</p>
-            </div>
-
-            <div className="space-y-3">
-              <span className="text-accent-200 text-4xl font-black">4.7</span>
-              <div className="flex">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Icon
-                    icon="bi:star-fill"
-                    className="text-star-default"
-                    key={i}
-                  />
-                ))}
-              </div>
-              <p className="text-accent-300 text-opacity-60">Trust Pilot</p>
-            </div>
-          </section>
-        </div>
-      </Container>
+      <WhyUs />
       <TailoredSolutions />
       <Container>
         <div className="">
@@ -287,40 +104,7 @@ function MainSection() {
   );
 }
 
-function TailoredSolutions(): JSX.Element {
-  return (
-    <section className="bg-accent-100 my-10 py-20">
-      <h4 className="text-center text-4xl font-bold tracking-tight text-accent-300">
-        Explore our tailored solutions
-      </h4>
-      <Container>
-        <div className="flex flex-wrap justify-center xl:justify-between  gap-3 mt-10">
-          {[
-            "Student Management",
-            "Staff Management",
-            "Automated Payroll System",
-          ].map((item, i) => (
-            <div className="rounded-md overflow-hidden" key={item}>
-              <Image
-                src="/school-management-solution.avif"
-                alt="school-management-solution"
-                width={395}
-                height={221}
-                priority
-              />
-
-              <p className="bg-bgColour-variant-1 p-5 text-Text-high-emphasis font-bold text-xl">
-                {item}
-              </p>
-            </div>
-          ))}
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-function ContentSection({
+export function ContentSection({
   direction = "lg:flex-row",
   heading,
   button,
@@ -370,124 +154,6 @@ function ContentSection({
         </ul>
         {button}
       </div>
-    </div>
-  );
-}
-
-function HeadingSection({
-  isOpen,
-  setIsOpen,
-}: {
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}): JSX.Element {
-  const genericHamburgerLine = `
-  h-1 
-  w-full 
-  my-1 
-  rounded-full 
-  bg-black 
-  transition 
-  ease 
-  transform 
-  duration-300
-`;
-  return (
-    <div className="bg-accent-100">
-      <Container>
-        <header className="flex items-center justify-between gap-3 py-7">
-          <Image
-            src="/Ascend-Logo.svg"
-            alt="Vercel Logo"
-            width={100}
-            height={24}
-            priority
-          />
-
-          <div className="lg:w-[65%] hidden items-center md:flex justify-between gap-5">
-            <ul className="flex items-center justify-end gap-9">
-              <li>Home</li>
-              <li>Solutions</li>
-              <li>About us</li>
-              <li>Contact</li>
-            </ul>
-            <ul className="flex items-center gap-9">
-              <li>
-                <button className="">Sign up</button>
-              </li>
-              <li>
-                <button className="bg-grey-100 text-accent-300 border-2 px-4 py-2 border-border-colour-light rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all flex items-center gap-2">
-                  Book a Demo
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          <button
-            className={` flex flex-col h-10 w-8 rounded justify-center items-center group md:hidden`}
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            <span
-              className={`${genericHamburgerLine} ${
-                isOpen
-                  ? `rotate-45 translate-y-3 group-hover:opacity-100`
-                  : `group-hover:opacity-100`
-              }`}
-            />
-            <span
-              className={`${genericHamburgerLine} ${
-                isOpen ? "opacity-0" : "group-hover:opacity-100"
-              }`}
-            />
-            <span
-              className={`${genericHamburgerLine} ${
-                isOpen
-                  ? `-rotate-45 -translate-y-3 group-hover:opacity-100`
-                  : `group-hover:opacity-100`
-              }`}
-            />
-          </button>
-        </header>
-      </Container>
-      <Container>
-        <section className="text-center mt-24 space-y-9">
-          <h2 className="text-6xl font-bold max-w-[67rem] mx-auto tracking-tighter">
-            Streamlining School Administration, Management, and Payroll
-            Processes.
-          </h2>
-          <p className="max-w-[53rem] mx-auto text-2xl text-accent-300 text-opacity-60">
-            With our complete platform, you can quickly manage your school's
-            administrative responsibilities, automate payroll processes and
-            streamline communication—all in one place.
-          </p>
-          <ul className="flex justify-center gap-6">
-            <li>
-              <button className="bg-primary-purple-500 text-grey-100 border-2 px-6 py-2 border-accent-300 rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all">
-                Book a Demo
-              </button>
-            </li>
-            <li>
-              <button className="bg-grey-100 text-accent-300 border-2 px-4 py-2 border-border-colour-light rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all flex items-center gap-2">
-                <Icon icon="mdi:play" />
-                How it Works
-              </button>
-            </li>
-          </ul>
-          <div className="relative w-full h-[35.5rem]">
-            <Image
-              src="/dashboard-img.avif"
-              alt="dashboard-img"
-              fill
-              style={
-                {
-                  // objectFit: "cover",
-                }
-              }
-              priority
-            />
-          </div>
-        </section>
-      </Container>
     </div>
   );
 }
