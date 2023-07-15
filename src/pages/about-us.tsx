@@ -1,9 +1,9 @@
 import { ContentSection, Footer, Header } from "@/components/generics";
 import { Container } from "@/components/ui/container";
 import { SchoolStat } from "@/templates/Home/why-us";
-import { IntroSection } from "@/templates/Solution";
 import React from "react";
 import { BookADemo } from ".";
+import { IntroSection } from "@/templates/About-us";
 
 function Solutions() {
   const [isOpen, setIsOpen] = React.useState(false);

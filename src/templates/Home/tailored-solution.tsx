@@ -1,6 +1,8 @@
 import { Container } from "@/components/ui/container";
+import { SOLUTION_PAGE } from "@/config/links";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function TailoredSolutions(): JSX.Element {
   return (
@@ -43,11 +45,14 @@ export default function TailoredSolutions(): JSX.Element {
                 {item.title}
               </p>
               <div className="absolute inset-0 flex flex-col justify-between bg-primary-purple-500 text-white px-6 py-10 translate-y-full group-hover:translate-y-0 transition-all">
-                <div className="flex justify-between">
+                <div className="flex justify-between items-center">
                   <h4>Solutions</h4>
-                  <button className="bg-black rounded-full py-2 px-1.5 flex justify-center items-center">
+                  <Link
+                    href={SOLUTION_PAGE}
+                    className="bg-black rounded-full py-2 px-1.5 flex justify-center items-center"
+                  >
                     <Icon icon="formkit:arrowright" />
-                  </button>
+                  </Link>
                 </div>
                 <div className="">
                   <h5 className="text-step-1 font-bold text-black">
