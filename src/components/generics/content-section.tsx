@@ -8,7 +8,7 @@ export default function ContentSection({
 }: {
   direction?: string;
   heading: string;
-  button: JSX.Element;
+  button?: JSX.Element;
 }): JSX.Element {
   return (
     <div

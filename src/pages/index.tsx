@@ -9,7 +9,6 @@ import { commentData } from "@/config";
 import Button from "@/components/ui/button/button";
 
 export default function Home() {
-  const date = new Date();
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
@@ -19,7 +18,7 @@ export default function Home() {
         <IntroSection />
       </div>
       <MainSection />
-      <Footer date={date} />
+      <Footer />
     </div>
   );
 }
@@ -30,7 +29,7 @@ function MainSection() {
       <WhyUs />
       <TailoredSolutions />
       <Container>
-        <div className="">
+        <div className="mb-32">
           <ContentSection
             heading="Why we do what we do at Ascend"
             button={
@@ -76,15 +75,20 @@ function MainSection() {
               ))}
             </div>
           </div>
-          <div className="bg-accent-900 text-center border-2 border-accent-300 px-8 md:px-10 py-32 space-y-4 rounded-3xl my-32 relative">
-            <h4 className="text-grey-100 text-step-4 font-bold tracking-tighter">
-              Give your school administration an
-              <span className="text-secondary-green-500"> edge</span>.
-            </h4>
-            <Button>Book a Demo</Button>
-          </div>
+          <BookADemo />
         </div>
       </Container>
     </section>
+  );
+}
+export function BookADemo() {
+  return (
+    <div className="bg-accent-900 text-center border-2 border-accent-300 px-8 md:px-10 py-32 space-y-4 rounded-3xl mt-32 relative">
+      <h4 className="text-grey-100 text-step-4 font-bold tracking-tighter">
+        Give your school administration an
+        <span className="text-secondary-green-500"> edge</span>.
+      </h4>
+      <Button>Book a Demo</Button>
+    </div>
   );
 }

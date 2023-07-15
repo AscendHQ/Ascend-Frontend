@@ -45,7 +45,7 @@ function Header({
   return (
     <div
       className={`fixed w-full z-[999] bg-white ${
-        isScrolled ? "bg-opacity-50 shadow-lg" : "bg-opacity-0"
+        isScrolled ? "bg-opacity-80 shadow-lg" : "bg-opacity-0"
       } transition-all`}
     >
       <Container>

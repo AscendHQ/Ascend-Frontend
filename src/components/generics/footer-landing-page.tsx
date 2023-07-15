@@ -4,12 +4,14 @@ import { Icon } from "@iconify/react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 
-export default function Footer({ date }: { date: Date }) {
+export default function Footer() {
+  const date = new Date();
+
   return (
     <footer>
       <div className="bg-neutral-100 py-10 font-medium">
         <Container>
-          <section className="flex flex-wrap gap-5 justify-between">
+          <section className="flex flex-col md:flex-row flex-wrap gap-5 justify-between">
             <div className="">
               <Image
                 src="/Ascend-Logo.svg"
@@ -74,7 +76,7 @@ export default function Footer({ date }: { date: Date }) {
       </div>
       <div className="bg-grey-50 py-5">
         <Container>
-          <div className="flex items-center flex-wrap gap-5 justify-between">
+          <div className="flex flex-col-reverse md:flex-row md:items-center flex-wrap gap-5 justify-between">
             <p>
               © {date.getFullYear()} AscendTechnologies. All rights reserved.
             </p>

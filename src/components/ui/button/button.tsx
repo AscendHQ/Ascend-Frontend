@@ -7,12 +7,14 @@ export default function Button({
   children,
   variant,
   className,
+  styles,
 }: {
   leftElement?: JSX.Element;
   rightElement?: JSX.Element;
   children: ReactNode;
   variant?: "primary" | "secondary";
   className?: string;
+  styles?: string;
 }): React.JSX.Element {
   let variantClasses = "";
 
@@ -31,7 +33,7 @@ export default function Button({
       break;
   }
   return (
-    <button className={twMerge(variantClasses, className)}>
+    <button className={`${twMerge(variantClasses, className)} ${styles}`}>
       {leftElement}
       {children}
       {rightElement}
