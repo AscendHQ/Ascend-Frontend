@@ -84,7 +84,7 @@ function Header({
                     href={item.to}
                     className={`${
                       index === 1
-                        ? "bg-primary-purple-500 lg:bg-grey-100 text-accent-300 border-2 px-4 py-2 border-accent-300 lg:border-border-colour-light rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all flex items-center gap-2"
+                        ? "bg-primary-purple-500 text-white  lg:bg-grey-100 lg:text-accent-300 border-2 px-4 py-2 border-accent-300 lg:border-border-colour-light rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all flex items-center gap-2"
                         : ""
                     }`}
                   >
