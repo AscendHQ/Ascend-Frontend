@@ -17,9 +17,6 @@ function Header({
   const [isScrolled, setIsScrolled] = React.useState(false);
   const genericHamburgerLine = `h-1 w-full my-1 rounded-full bg-black transition ease transform duration-300`;
 
-  // remove the default fixed scrolling when navigated between pages
-  document.body.classList.remove("disable-scroll");
-
   const toggleMenu = () => {
     setIsOpen(!isOpen);
     // Add code to toggle the menu state and apply the CSS class
@@ -41,6 +38,9 @@ function Header({
   React.useEffect(() => {
     // Attach scroll event listener on component mount
     window.addEventListener("scroll", handleScroll);
+
+    // remove the default fixed scrolling when navigated between pages
+    document.body.classList.remove("disable-scroll");
 
     // Clean up the event listener on component unmount
     return () => {
