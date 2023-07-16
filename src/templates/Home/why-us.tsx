@@ -1,11 +1,12 @@
-import React from "react";
-import Image from "next/image";
 import { Icon } from "@iconify/react";
-import { whyAscendData } from "@/config";
-import { Container } from "@/components/ui/container";
-import { ContentSection } from "@/components/generics";
-import { SOLUTION_PAGE } from "@/config/links";
+import Image from "next/image";
 import Link from "next/link";
+import React from "react";
+
+import { ContentSection } from "@/components/generics";
+import { Container } from "@/components/ui/container";
+import { whyAscendData } from "@/config";
+import { SOLUTION_PAGE } from "@/config/links";
 
 function WhyUs() {
   return (

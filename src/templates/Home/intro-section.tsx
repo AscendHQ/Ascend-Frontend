@@ -1,8 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Button } from "@/components/ui/button";
-import { Container } from "@/components/ui/container";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
+
+import { Button } from "@/components/ui/button";
+import { Container } from "@/components/ui/container";
 
 export default function IntroSection(): JSX.Element {
   return (

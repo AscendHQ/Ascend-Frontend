@@ -1,8 +1,9 @@
-import { Container } from "@/components/ui/container";
-import { SOLUTION_PAGE } from "@/config/links";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 import Link from "next/link";
+
+import { Container } from "@/components/ui/container";
+import { SOLUTION_PAGE } from "@/config/links";
 
 export default function TailoredSolutions(): JSX.Element {
   return (
