@@ -52,7 +52,7 @@ function Header({
         <header className="flex items-center justify-between gap-3 py-7">
           <Image
             src="/Ascend-Logo.svg"
-            alt="Vercel Logo"
+            alt="Ascend Logo"
             width={100}
             height={24}
             priority

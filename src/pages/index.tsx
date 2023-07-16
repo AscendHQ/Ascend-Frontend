@@ -7,6 +7,8 @@ import { ContentSection, Footer, Header } from "@/components/generics";
 import { IntroSection, WhyUs, TailoredSolutions } from "@/templates/Home/";
 import { commentData } from "@/config";
 import Button from "@/components/ui/button/button";
+import Link from "next/link";
+import { ABOUT_US_PAGE, SOLUTION_PAGE } from "@/config/links";
 
 export default function Home() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -33,9 +35,12 @@ function MainSection() {
           <ContentSection
             heading="Why we do what we do at Ascend"
             button={
-              <Button variant={"primary"} className={"px-24 py-2 text-white"}>
+              <Link
+                href={ABOUT_US_PAGE}
+                className="bg-primary-purple-500 text-step--2 text-grey-100 border-2 px-24 py-2 border-accent-300 rounded-md shadow-[4px_4px_0px_0px_#000000] block w-fit hover:shadow-none transition-all"
+              >
                 About us
-              </Button>
+              </Link>
             }
           />
           <div className="space-y-10 mt-32">

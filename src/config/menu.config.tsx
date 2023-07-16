@@ -3,7 +3,7 @@ import {
   CONTACT_PAGE,
   DEMO_PAGE,
   HOME_PAGE,
-  SIGN_UP_PAGE,
+  LOGIN_PAGE,
   SOLUTION_PAGE,
 } from "./links";
 
@@ -26,7 +26,7 @@ const menuData = [
   },
   {
     title: "Sign up",
-    to: SIGN_UP_PAGE,
+    to: LOGIN_PAGE,
   },
   {
     title: "Book a Demo",

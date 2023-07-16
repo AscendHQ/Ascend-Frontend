@@ -4,6 +4,8 @@ import { Icon } from "@iconify/react";
 import { whyAscendData } from "@/config";
 import { Container } from "@/components/ui/container";
 import { ContentSection } from "@/components/generics";
+import { SOLUTION_PAGE } from "@/config/links";
+import Link from "next/link";
 
 function WhyUs() {
   return (
@@ -52,9 +54,12 @@ function WhyUs() {
           direction="lg:flex-row-reverse"
           heading="Disburse staff payment effectively"
           button={
-            <button className="bg-primary-purple-500 text-grey-100 border-2 px-14 py-2 border-accent-300 rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all">
+            <Link
+              href={SOLUTION_PAGE}
+              className="bg-primary-purple-500 text-step--2 text-grey-100 border-2 px-14 py-2 border-accent-300 rounded-md shadow-[4px_4px_0px_0px_#000000] block w-fit hover:shadow-none transition-all"
+            >
               Explore our solutions
-            </button>
+            </Link>
           }
         />
         <SchoolStat />

@@ -87,6 +87,10 @@ module.exports = {
         inter: ["var(--inter-font)", ...fontFamily.sans],
         GTWalsheimPro: ["var(--GTWalsheimPro-font)", ...fontFamily.sans],
       },
+      backgroundImage: {
+        "hero-pattern": "url('/children-face-of-africa.avif')",
+        // "footer-texture": "url('/img/footer-texture.png')",
+      },
     },
   },
   plugins: [require("flowbite/plugin")],
