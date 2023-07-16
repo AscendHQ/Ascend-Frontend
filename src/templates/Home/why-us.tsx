@@ -52,7 +52,7 @@ function WhyUs() {
           }
         />
         <ContentSection
-          direction="lg:flex-row-reverse"
+          direction="left"
           heading="Disburse staff payment effectively"
           button={
             <Link

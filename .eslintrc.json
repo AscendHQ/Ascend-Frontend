@@ -1,7 +1,46 @@
 {
   "extends": "next/core-web-vitals",
-  "plugins": ["simple-import-sort"],
+  "plugins": ["react", "simple-import-sort", "jsx-a11y"],
   "rules": {
-    "simple-import-sort/imports": "error"
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "react/no-unescaped-entities": "off",
+    "react/no-array-index-key": "error",
+    // Enforce anchors <a> to have content and not be empty.
+    "jsx-a11y/anchor-has-content": "error",
+    // Enforce valid ARIA attributes are used.
+    "jsx-a11y/aria-props": "error",
+    // Enforce valid ARIA roles are used.
+    "jsx-a11y/aria-role": "error",
+    // Enforce click events are accompanied by key events for keyboard accessibility.
+    "jsx-a11y/click-events-have-key-events": "error",
+    // Enforce form controls have associated labels.
+    "jsx-a11y/label-has-for": "error",
+    // Enforce headings have content and not be empty.
+    "jsx-a11y/heading-has-content": "error",
+    // Enforce <html> element has a lang attribute.
+    "jsx-a11y/html-has-lang": "error",
+    // Enforce elements that are interactive support keyboard focus.
+    "jsx-a11y/interactive-supports-focus": "error",
+    // Enforce labels have a htmlFor attribute pointing to a valid form control.
+    "jsx-a11y/label-has-associated-control": "error",
+    // Enforce not to use the accessKey attribute as it can interfere with keyboard navigation.
+    "jsx-a11y/no-access-key": "error",
+    // Enforce not to use the autoFocus attribute as it may cause accessibility issues.
+    "jsx-a11y/no-autofocus": "error",
+    // Enforce not to use potentially distracting elements like <marquee>.
+    "jsx-a11y/no-distracting-elements": "error",
+    // Enforce not to use onChange on select menus, as it can cause issues for keyboard users.
+    "jsx-a11y/no-onchange": "error",
+    // Enforce elements that have an interactive role must have a keyboard event listener.
+    "jsx-a11y/no-static-element-interactions": "error",
+    // Enforce ARIA roles have the required ARIA attributes.
+    "jsx-a11y/role-has-required-aria-props": "error",
+    // Enforce the <th> element with scope attribute contains valid values.
+    "jsx-a11y/scope": "error",
+    // Enforce all elements that require an alt attribute have it.
+    "jsx-a11y/alt-text": "error",
+    // Enforce elements with aria-activedescendant must be tabbable.
+    "jsx-a11y/aria-activedescendant-has-tabindex": "error"
   }
 }

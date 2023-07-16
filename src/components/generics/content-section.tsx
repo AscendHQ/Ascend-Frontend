@@ -2,17 +2,19 @@ import { Icon } from "@iconify/react";
 import Image from "next/image";
 
 export default function ContentSection({
-  direction = "lg:flex-row",
+  direction = "right",
   heading,
   button,
 }: {
-  direction?: string;
+  direction?: "right" | "left";
   heading: string;
   button?: JSX.Element;
 }): JSX.Element {
   return (
     <div
-      className={`flex gap-5 flex-col ${direction} justify-between mt-20 items-center`}
+      className={`flex gap-5 flex-col ${
+        direction == "right" ? "lg:flex-row" : "lg:flex-row-reverse"
+      }  justify-between mt-20 items-center`}
     >
       <div className="bg-warning-main relative h-[350px] md:h-[650px] w-full lg:w-[520px] overflow-hidden rounded-lg border-2 border-black">
         <Image

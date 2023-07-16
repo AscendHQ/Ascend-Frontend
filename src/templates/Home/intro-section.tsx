@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 

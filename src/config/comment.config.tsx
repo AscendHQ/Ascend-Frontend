@@ -11,7 +11,7 @@ const commentData = [
       " We have been using this website for a few months now, and it has made a significant impact on our operations. It's user-friendly, visually appealing, and provides us with valuable insights through its analytics and reporting features.",
     img: "/joebrendan.png",
     author: "Joe Brendan",
-    title: "CEO, Lighthall",
+    title: "CEO,Dayhall",
   },
 ];
 
