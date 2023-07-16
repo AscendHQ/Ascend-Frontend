@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-for */
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -61,7 +62,7 @@ export default function FormSection() {
       </div>
       <div className="grid">
         <label
-          htmlFor="ID"
+          htmlFor="personal-id"
           className="text-step--2 text-Text-high-emphasis font-semibold"
         >
           {whoIsLoggingIn === "staff" ? "Staff" : "Admin"} ID
@@ -76,15 +77,16 @@ export default function FormSection() {
             type="text"
             placeholder="Your personal ID"
             className="pl-11 border-border-colour-light py-3 border w-full rounded-md"
+            id="personal-id"
           />
         </div>
         <label
-          htmlFor="Password"
+          htmlFor="password"
           className="text-step--2 text-Text-high-emphasis  mt-5 font-semibold"
         >
           Password
         </label>
-        <div className="relative ">
+        <div className="relative">
           <Icon
             icon="mdi:password-outline"
             fontSize={25}
@@ -94,6 +96,7 @@ export default function FormSection() {
             type="text"
             placeholder="Enter your password"
             className="pl-11 border-border-colour-light py-3 border w-full rounded-md"
+            id="password"
           />
         </div>
         <div className="flex justify-between mt-7">

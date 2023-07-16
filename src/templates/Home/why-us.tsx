@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -50,6 +51,11 @@ function WhyUs() {
               Book a free demo
             </button>
           }
+          outlines={[
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit bibendum viverra.",
+            "Lorem ipsum dolor sit amet, adipiscing consectetur elit bibendum viverra.",
+            "Lorem ipsum dolor sit amet, consectetur elit adipiscing bibendum viverra.",
+          ]}
         />
         <ContentSection
           direction="left"
@@ -62,6 +68,11 @@ function WhyUs() {
               Explore our solutions
             </Link>
           }
+          outlines={[
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit bibendum viverra.",
+            "Lorem ipsum dolor sit amet, adipiscing consectetur elit bibendum viverra.",
+            "Lorem ipsum dolor sit amet, consectetur elit adipiscing bibendum viverra.",
+          ]}
         />
         <SchoolStat />
       </div>

@@ -28,7 +28,13 @@ export default function MainSection() {
                 About us
               </Link>
             }
+            outlines={[
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit bibendum viverra.",
+              "Lorem ipsum dolor sit amet, adipiscing consectetur elit bibendum viverra.",
+              "Lorem ipsum dolor sit amet, consectetur elit adipiscing bibendum viverra.",
+            ]}
           />
+
           <div className="space-y-10 mt-32">
             <h4 className="text-step-3 font-bold tracking-tighter text-accent-200">
               Loved by top school owners around the world

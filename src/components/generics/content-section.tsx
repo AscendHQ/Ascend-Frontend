@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 
@@ -5,10 +6,14 @@ export default function ContentSection({
   direction = "right",
   heading,
   button,
+  subHeading,
+  outlines,
 }: {
   direction?: "right" | "left";
   heading: string;
   button?: JSX.Element;
+  subHeading?: string;
+  outlines: string[];
 }): JSX.Element {
   return (
     <div
@@ -21,7 +26,6 @@ export default function ContentSection({
           src="/Database __ Students.png"
           alt="Vercel Logo"
           fill
-          priority
           style={{
             transform: "translateX(60px) translateY(150px)",
           }}
@@ -37,8 +41,8 @@ export default function ContentSection({
           etiam volutpat sagittis et neque diam.
         </p>
         <ul className="space-y-2">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <li className="flex gap-3 md:gap-6 items-center" key={i}>
+          {outlines.map((each) => (
+            <li className="flex gap-3 md:gap-6 items-center" key={each}>
               <div className="bg-accent-600 rounded-full p-1">
                 <Icon
                   icon="fluent:checkmark-12-regular"
@@ -46,8 +50,7 @@ export default function ContentSection({
                 />
               </div>
               <span className="text-accent-500 leading-8 text-step-0">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit bibendum
-                viverra.
+                {each}
               </span>
             </li>
           ))}
