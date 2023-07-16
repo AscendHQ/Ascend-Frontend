@@ -1,8 +1,9 @@
-import Image from "next/image";
-import { Container } from "../ui/container";
 import { Icon } from "@iconify/react";
-import { Button } from "../ui/button";
+import Image from "next/image";
 import Link from "next/link";
+
+import { Button } from "../ui/button";
+import { Container } from "../ui/container";
 
 export default function Footer() {
   const date = new Date();

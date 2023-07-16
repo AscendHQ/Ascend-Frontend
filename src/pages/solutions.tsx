@@ -1,8 +1,10 @@
+import React from "react";
+
 import { ContentSection, Footer, Header } from "@/components/generics";
 import { Container } from "@/components/ui/container";
 import { SchoolStat } from "@/templates/Home/why-us";
 import { IntroSection } from "@/templates/Solution";
-import React from "react";
+
 import { BookADemo } from ".";
 
 function Solutions() {

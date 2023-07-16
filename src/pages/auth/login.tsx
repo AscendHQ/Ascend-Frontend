@@ -1,9 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { Container } from "@/components/ui/container";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+
+import { Button } from "@/components/ui/button";
+import { Container } from "@/components/ui/container";
 
 export default function Login() {
   return (

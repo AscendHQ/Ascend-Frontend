@@ -1,14 +1,15 @@
 /* eslint-disable react/no-unescaped-entities */
-import Image from "next/image";
-import { Container } from "@/components/ui/container";
 import { Icon } from "@iconify/react";
-import React from "react";
-import { ContentSection, Footer, Header } from "@/components/generics";
-import { IntroSection, WhyUs, TailoredSolutions } from "@/templates/Home/";
-import { commentData } from "@/config";
-import Button from "@/components/ui/button/button";
+import Image from "next/image";
 import Link from "next/link";
+import React from "react";
+
+import { ContentSection, Footer, Header } from "@/components/generics";
+import Button from "@/components/ui/button/button";
+import { Container } from "@/components/ui/container";
+import { commentData } from "@/config";
 import { ABOUT_US_PAGE, SOLUTION_PAGE } from "@/config/links";
+import { IntroSection, TailoredSolutions, WhyUs } from "@/templates/Home/";
 
 export default function Home() {
   const [isOpen, setIsOpen] = React.useState(false);

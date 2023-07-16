@@ -1,8 +1,10 @@
-import { InterFont, GTWalsheimPro } from "@/assets/fonts";
 import "@/styles/globals.css";
 import "@/styles/loading.module.css";
-import NextNprogress from "nextjs-progressbar";
+
 import type { AppProps } from "next/app";
+import NextNprogress from "nextjs-progressbar";
+
+import { GTWalsheimPro, InterFont } from "@/assets/fonts";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
