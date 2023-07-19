@@ -1,7 +1,10 @@
 {
-  "extends": "next/core-web-vitals",
-  "plugins": ["react", "simple-import-sort", "jsx-a11y"],
+  "extends": ["plugin:sonarjs/recommended", "next/core-web-vitals", "airbnb"],
+  "plugins": ["react", "simple-import-sort", "jsx-a11y", "sonarjs"],
+
   "rules": {
+    "sonarjs/no-duplicate-string": "warn",
+    "sonarjs/no-small-switch": "off",
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "react/no-unescaped-entities": "off",

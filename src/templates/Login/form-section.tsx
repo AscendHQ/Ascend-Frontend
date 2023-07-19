@@ -1,4 +1,4 @@
-// /* eslint-disable jsx-a11y/label-has-for */
+/* eslint-disable jsx-a11y/label-has-for */
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -109,7 +109,6 @@ function NewFunction({ whoIsLoggingIn }: { whoIsLoggingIn: string }) {
         <div className="flex items-center gap-2 text-sm">
           <input type="checkbox" name="check" id="check" />
           <label htmlFor="check">Remember me for this device</label>
-          {/* <label htmlFor="check">Remember me for this device</label> */}
         </div>
         <Link href="/" className="text-primary-purple-600 text-sm">
           Forgot Password?
