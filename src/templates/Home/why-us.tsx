@@ -8,7 +8,51 @@ import { ContentSection } from "@/components/generics";
 import { Container } from "@/components/ui/container";
 import { whyAscendData } from "@/config";
 import { SOLUTION_PAGE } from "@/config/links";
-
+export function SchoolStat() {
+  return (
+    <section className="flex border flex-col lg:flex-row gap-6 border-accent-300 justify-between p-10 items-center rounded-lg mt-10 max-w-[70rem] mx-auto">
+      <div className="text-center lg:text-left">
+        <h4 className="text-step-2 font-black max-w-[37rem] text-accent-200">
+          More than 1,200 schools use Ascend for administration
+        </h4>
+        <p className="text-accent-300 text-step-0 text-opacity-60 mt-3">
+          Boost revenue, gain insights that help your school grow and scale
+          faster.
+        </p>
+      </div>
+      <div className="flex-1 flex gap-6 justify-between">
+        {[
+          {
+            rating: "4.9",
+            title: "Capterare",
+          },
+          {
+            rating: "4.7",
+            title: "Trust Pilot",
+          },
+        ].map(item => (
+          <div className="space-y-1" key={item.title}>
+            <span className="text-accent-200 text-4xl font-black">
+              {item.rating}
+            </span>
+            <div className="flex">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Icon
+                  icon="bi:star-fill"
+                  className="text-star-default"
+                  key={i}
+                />
+              ))}
+            </div>
+            <p className="text-accent-300 text-step-0 text-opacity-60">
+              {item.title}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
 function WhyUs() {
   return (
     <Container>
@@ -21,7 +65,7 @@ function WhyUs() {
           businesses.
         </p>
         <div className="flex text-left flex-wrap gap-10 mt-24 justify-center">
-          {whyAscendData.map((item) => (
+          {whyAscendData.map(item => (
             <div
               className="max-w-[360px] space-y-6 border p-5 rounded-md"
               key={item.title}
@@ -79,49 +123,5 @@ function WhyUs() {
     </Container>
   );
 }
-export function SchoolStat() {
-  return (
-    <section className="flex border flex-col lg:flex-row gap-6 border-accent-300 justify-between p-10 items-center rounded-lg mt-10 max-w-[70rem] mx-auto">
-      <div className="text-center lg:text-left">
-        <h4 className="text-step-2 font-black max-w-[37rem] text-accent-200">
-          More than 1,200 schools use Ascend for administration
-        </h4>
-        <p className="text-accent-300 text-step-0 text-opacity-60 mt-3">
-          Boost revenue, gain insights that help your school grow and scale
-          faster.
-        </p>
-      </div>
-      <div className="flex-1 flex gap-6 justify-between">
-        {[
-          {
-            rating: "4.9",
-            title: "Capterare",
-          },
-          {
-            rating: "4.7",
-            title: "Trust Pilot",
-          },
-        ].map((item) => (
-          <div className="space-y-1" key={item.title}>
-            <span className="text-accent-200 text-4xl font-black">
-              {item.rating}
-            </span>
-            <div className="flex">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Icon
-                  icon="bi:star-fill"
-                  className="text-star-default"
-                  key={i}
-                />
-              ))}
-            </div>
-            <p className="text-accent-300 text-step-0 text-opacity-60">
-              {item.title}
-            </p>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
+
 export default WhyUs;

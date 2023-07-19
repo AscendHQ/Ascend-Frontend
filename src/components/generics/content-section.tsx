@@ -6,7 +6,7 @@ export default function ContentSection({
   direction = "right",
   heading,
   button,
-  subHeading,
+  // subHeading,
   outlines,
 }: {
   direction?: "right" | "left";
@@ -14,11 +14,11 @@ export default function ContentSection({
   button?: JSX.Element;
   subHeading?: string;
   outlines: string[];
-}): JSX.Element {
+}) {
   return (
     <div
       className={`flex gap-5 flex-col ${
-        direction == "right" ? "lg:flex-row" : "lg:flex-row-reverse"
+        direction === "right" ? "lg:flex-row" : "lg:flex-row-reverse"
       }  justify-between mt-20 items-center`}
     >
       <div className="bg-warning-main relative h-[350px] md:h-[650px] w-full lg:w-[520px] overflow-hidden rounded-lg border-2 border-black">
@@ -41,7 +41,7 @@ export default function ContentSection({
           etiam volutpat sagittis et neque diam.
         </p>
         <ul className="space-y-2">
-          {outlines.map((each) => (
+          {outlines.map(each => (
             <li className="flex gap-3 md:gap-6 items-center" key={each}>
               <div className="bg-accent-600 rounded-full p-1">
                 <Icon

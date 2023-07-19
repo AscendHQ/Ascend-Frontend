@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 
-export default function IntroSection(): JSX.Element {
+export default function IntroSection() {
   return (
     <Container>
       <section className="pt-40 pb-20 text-center md:py-56 top-0 space-y-9">
@@ -13,7 +13,7 @@ export default function IntroSection(): JSX.Element {
           administrative.
         </p>
         <Button
-          variant={"primary"}
+          variant="primary"
           className="text-white px-14 py-1.5 rounded-lg"
           styles="text-step--2"
         >

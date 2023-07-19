@@ -1,3 +1,5 @@
+import React from "react";
+
 import { ContentSection } from "@/components/generics";
 import { Container } from "@/components/ui/container";
 

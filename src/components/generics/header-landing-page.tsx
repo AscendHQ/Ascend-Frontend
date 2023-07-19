@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
-import React, { use, useState } from "react";
+import React from "react";
 
 import { menuData } from "@/config";
 
@@ -13,9 +13,10 @@ function Header({
 }: {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}): JSX.Element {
+}) {
   const [isScrolled, setIsScrolled] = React.useState(false);
-  const genericHamburgerLine = `h-1 w-full my-1 rounded-full bg-black transition ease transform duration-300`;
+  const genericHamburgerLine =
+    "h-1 w-full my-1 rounded-full bg-black transition ease transform duration-300";
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -71,7 +72,7 @@ function Header({
             )}
           >
             <ul className="flex flex-col w-full lg:flex-row lg:items-center gap-9">
-              {menuData.slice(0, -2).map((item) => (
+              {menuData.slice(0, -2).map(item => (
                 <li key={item.title} className="font-medium">
                   <Link href={item.to}>{item.title}</Link>
                 </li>
@@ -95,14 +96,14 @@ function Header({
             </ul>
           </div>
           <button
-            className={` flex flex-col h-10 w-8 rounded justify-center relative z-50 items-center group lg:hidden`}
+            className=" flex flex-col h-10 w-8 rounded justify-center relative z-50 items-center group lg:hidden"
             onClick={toggleMenu}
           >
             <span
               className={`${genericHamburgerLine} ${
                 isOpen
-                  ? `rotate-45 translate-y-3 group-hover:opacity-100`
-                  : `group-hover:opacity-100`
+                  ? "rotate-45 translate-y-3 group-hover:opacity-100"
+                  : "group-hover:opacity-100"
               }`}
             />
             <span
@@ -113,8 +114,8 @@ function Header({
             <span
               className={`${genericHamburgerLine} ${
                 isOpen
-                  ? `-rotate-45 -translate-y-3 group-hover:opacity-100`
-                  : `group-hover:opacity-100`
+                  ? "-rotate-45 -translate-y-3 group-hover:opacity-100"
+                  : "group-hover:opacity-100"
               }`}
             />
           </button>

@@ -1,11 +1,12 @@
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 
 import { Container } from "@/components/ui/container";
 import { SOLUTION_PAGE } from "@/config/links";
 
-export default function TailoredSolutions(): JSX.Element {
+export default function TailoredSolutions() {
   return (
     <section className="bg-accent-100 my-10 py-20">
       <h4 className="text-center text-step-2 font-bold tracking-tight text-accent-300">
@@ -32,7 +33,7 @@ export default function TailoredSolutions(): JSX.Element {
               description:
                 "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, quo. Delectus sed reiciendis odit, voluptas magnam ducimus quas quia nesciunt suscipit id, minus labore maiores nobis debitis eligendi pariatur eveniet!",
             },
-          ].map((item) => (
+          ].map(item => (
             <div
               className="rounded-md overflow-hidden w-[395px] flex justify-end items-end h-[300px] relative group"
               key={item.title}
