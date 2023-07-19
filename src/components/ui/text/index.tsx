@@ -1,6 +1,7 @@
 import Text from "./text";
+
 export { Text };
-/* 
+/*
 
 Display/D1 - Bold
 text-6xl font-bold leading-16 tracking-tighter
@@ -40,7 +41,6 @@ Display/D3 - Medium
 "text-3xl font-medium leading-12 tracking-wide text-left"
 Display/D4 - Regular
 "text-2xl leading-10 tracking-wide text-left"
-
 
 Headline/H1 - Regular
 "text-xl leading-9 tracking-wide text-left"

@@ -1,6 +1,7 @@
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 
 import { ContentSection } from "@/components/generics";
 import { Container } from "@/components/ui/container";
@@ -43,7 +44,7 @@ export default function MainSection() {
               {commentData.map((item, index) => (
                 <div
                   className={`lg:max-w-[34rem] border-2 ${
-                    index == 0 ? "bg-accent-700" : "bg-accent-800"
+                    index === 0 ? "bg-accent-700" : "bg-accent-800"
                   } p-8 space-y-4 rounded-2xl border-accent-300 font-medium`}
                   key={item.title}
                 >

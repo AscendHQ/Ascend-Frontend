@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 
-export default function IntroSection(): JSX.Element {
+export default function IntroSection() {
   return (
     <Container>
       <section className="text-center pt-40 top-0 space-y-9">
@@ -18,13 +18,13 @@ export default function IntroSection(): JSX.Element {
         </p>
         <ul className="flex flex-col sm:flex-row items-center justify-center gap-6">
           <li className="text-white">
-            <Button variant={"primary"} className="text-step--2 px-6 py-2">
+            <Button variant="primary" className="text-step--2 px-6 py-2">
               Book a Demo
             </Button>
           </li>
           <li>
             <Button
-              variant={"secondary"}
+              variant="secondary"
               leftElement={<Icon icon="mdi:play" />}
               className="px-4 py-2"
             >

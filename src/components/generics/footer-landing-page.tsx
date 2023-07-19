@@ -34,7 +34,7 @@ export default function Footer() {
                   { title: "Careers", url: "/" },
                   { title: "Solutions", url: "/" },
                   { title: "Contact", url: "/" },
-                ].map((item) => (
+                ].map(item => (
                   <li key={item.title} className="text-gray-600">
                     <Link href={item.url}>{item.title}</Link>
                   </li>
@@ -49,7 +49,7 @@ export default function Footer() {
                   { title: "Terms", url: "/" },
                   { title: "Privacy", url: "/" },
                   { title: "Media kit", url: "/" },
-                ].map((item) => (
+                ].map(item => (
                   <li key={item.title} className="text-gray-600">
                     <Link href={item.url}>{item.title}</Link>
                   </li>
