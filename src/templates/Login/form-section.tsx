@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/label-has-for */
+// /* eslint-disable jsx-a11y/label-has-for */
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 import Link from "next/link";
