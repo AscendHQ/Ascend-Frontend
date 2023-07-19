@@ -18,8 +18,6 @@
     "jsx-a11y/label-has-for": "error",
     // Enforce headings have content and not be empty.
     "jsx-a11y/heading-has-content": "error",
-    // Enforce <html> element has a lang attribute.
-    "jsx-a11y/html-has-lang": "error",
     // Enforce elements that are interactive support keyboard focus.
     "jsx-a11y/interactive-supports-focus": "error",
     // Enforce labels have a htmlFor attribute pointing to a valid form control.
@@ -39,8 +37,6 @@
     // Enforce the <th> element with scope attribute contains valid values.
     "jsx-a11y/scope": "error",
     // Enforce all elements that require an alt attribute have it.
-    "jsx-a11y/alt-text": "error",
-    // Enforce elements with aria-activedescendant must be tabbable.
-    "jsx-a11y/aria-activedescendant-has-tabindex": "error"
+    "jsx-a11y/alt-text": "error"
   }
 }

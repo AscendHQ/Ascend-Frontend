@@ -88,8 +88,7 @@ module.exports = {
         GTWalsheimPro: ["var(--GTWalsheimPro-font)", ...fontFamily.sans],
       },
       backgroundImage: {
-        "hero-pattern": "url('/children-face-of-africa.avif')",
-        // "footer-texture": "url('/img/footer-texture.png')",
+        "children-face-of-africa": "url('/children-face-of-africa.avif')",
       },
     },
   },
