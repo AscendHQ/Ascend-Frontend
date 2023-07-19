@@ -1,7 +1,7 @@
-import localFont from "next/font/local";
 import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 
-export const inter = Inter({
+export const InterFont = Inter({
   subsets: ["latin"],
   style: ["normal"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],

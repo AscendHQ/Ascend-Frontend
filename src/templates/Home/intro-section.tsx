@@ -1,13 +1,13 @@
-/* eslint-disable react/no-unescaped-entities */
-import { Button } from "@/components/ui/button";
-import { Container } from "@/components/ui/container";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
+
+import { Button } from "@/components/ui/button";
+import { Container } from "@/components/ui/container";
 
 export default function IntroSection(): JSX.Element {
   return (
     <Container>
-      <section className="text-center mt-24 space-y-9">
+      <section className="text-center pt-40 top-0 space-y-9">
         <h2 className="text-step-4 font-bold max-w-[67rem] mx-auto tracking-tighter">
           Streamlining School Administration, Management, and Payroll Processes.
         </h2>

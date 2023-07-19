@@ -1,25 +1,31 @@
+/* eslint-disable react/no-array-index-key */
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 
 export default function ContentSection({
-  direction = "lg:flex-row",
+  direction = "right",
   heading,
   button,
+  subHeading,
+  outlines,
 }: {
-  direction?: string;
+  direction?: "right" | "left";
   heading: string;
-  button: JSX.Element;
+  button?: JSX.Element;
+  subHeading?: string;
+  outlines: string[];
 }): JSX.Element {
   return (
     <div
-      className={`flex gap-5 flex-col ${direction} justify-between mt-20 items-center`}
+      className={`flex gap-5 flex-col ${
+        direction == "right" ? "lg:flex-row" : "lg:flex-row-reverse"
+      }  justify-between mt-20 items-center`}
     >
       <div className="bg-warning-main relative h-[350px] md:h-[650px] w-full lg:w-[520px] overflow-hidden rounded-lg border-2 border-black">
         <Image
           src="/Database __ Students.png"
           alt="Vercel Logo"
           fill
-          priority
           style={{
             transform: "translateX(60px) translateY(150px)",
           }}
@@ -35,8 +41,8 @@ export default function ContentSection({
           etiam volutpat sagittis et neque diam.
         </p>
         <ul className="space-y-2">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <li className="flex gap-3 md:gap-6 items-center" key={i}>
+          {outlines.map((each) => (
+            <li className="flex gap-3 md:gap-6 items-center" key={each}>
               <div className="bg-accent-600 rounded-full p-1">
                 <Icon
                   icon="fluent:checkmark-12-regular"
@@ -44,8 +50,7 @@ export default function ContentSection({
                 />
               </div>
               <span className="text-accent-500 leading-8 text-step-0">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit bibendum
-                viverra.
+                {each}
               </span>
             </li>
           ))}

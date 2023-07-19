@@ -87,6 +87,9 @@ module.exports = {
         inter: ["var(--inter-font)", ...fontFamily.sans],
         GTWalsheimPro: ["var(--GTWalsheimPro-font)", ...fontFamily.sans],
       },
+      backgroundImage: {
+        "children-face-of-africa": "url('/children-face-of-africa.avif')",
+      },
     },
   },
   plugins: [require("flowbite/plugin")],
