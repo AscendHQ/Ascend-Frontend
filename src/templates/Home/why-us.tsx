@@ -1,9 +1,13 @@
-import React from "react";
-import Image from "next/image";
+/* eslint-disable react/no-array-index-key */
 import { Icon } from "@iconify/react";
-import { whyAscendData } from "@/config";
-import { Container } from "@/components/ui/container";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+
 import { ContentSection } from "@/components/generics";
+import { Container } from "@/components/ui/container";
+import { whyAscendData } from "@/config";
+import { SOLUTION_PAGE } from "@/config/links";
 
 function WhyUs() {
   return (
@@ -47,60 +51,77 @@ function WhyUs() {
               Book a free demo
             </button>
           }
+          outlines={[
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit bibendum viverra.",
+            "Lorem ipsum dolor sit amet, adipiscing consectetur elit bibendum viverra.",
+            "Lorem ipsum dolor sit amet, consectetur elit adipiscing bibendum viverra.",
+          ]}
         />
         <ContentSection
-          direction="lg:flex-row-reverse"
+          direction="left"
           heading="Disburse staff payment effectively"
           button={
-            <button className="bg-primary-purple-500 text-grey-100 border-2 px-14 py-2 border-accent-300 rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all">
+            <Link
+              href={SOLUTION_PAGE}
+              className="bg-primary-purple-500 text-step--2 text-grey-100 border-2 px-14 py-2 border-accent-300 rounded-md shadow-[4px_4px_0px_0px_#000000] block w-fit hover:shadow-none transition-all"
+            >
               Explore our solutions
-            </button>
+            </Link>
           }
+          outlines={[
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit bibendum viverra.",
+            "Lorem ipsum dolor sit amet, adipiscing consectetur elit bibendum viverra.",
+            "Lorem ipsum dolor sit amet, consectetur elit adipiscing bibendum viverra.",
+          ]}
         />
-        <section className="flex border flex-col lg:flex-row gap-6 border-accent-300 justify-between p-10 items-center rounded-lg mt-10 max-w-[70rem] mx-auto">
-          <div className="text-center lg:text-left">
-            <h4 className="text-step-2 font-black max-w-[37rem] text-accent-200">
-              More than 1,200 schools use Ascend for administration
-            </h4>
-            <p className="text-accent-300 text-step-0 text-opacity-60 mt-3">
-              Boost revenue, gain insights that help your school grow and scale
-              faster.
-            </p>
-          </div>
-          <div className="flex-1 flex gap-6 justify-between">
-            {[
-              {
-                rating: "4.9",
-                title: "Capterare",
-              },
-              {
-                rating: "4.7",
-                title: "Trust Pilot",
-              },
-            ].map((item) => (
-              <div className="space-y-1" key={item.title}>
-                <span className="text-accent-200 text-4xl font-black">
-                  {item.rating}
-                </span>
-                <div className="flex">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Icon
-                      icon="bi:star-fill"
-                      className="text-star-default"
-                      key={i}
-                    />
-                  ))}
-                </div>
-                <p className="text-accent-300 text-step-0 text-opacity-60">
-                  {item.title}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
+        <SchoolStat />
       </div>
     </Container>
   );
 }
-
+export function SchoolStat() {
+  return (
+    <section className="flex border flex-col lg:flex-row gap-6 border-accent-300 justify-between p-10 items-center rounded-lg mt-10 max-w-[70rem] mx-auto">
+      <div className="text-center lg:text-left">
+        <h4 className="text-step-2 font-black max-w-[37rem] text-accent-200">
+          More than 1,200 schools use Ascend for administration
+        </h4>
+        <p className="text-accent-300 text-step-0 text-opacity-60 mt-3">
+          Boost revenue, gain insights that help your school grow and scale
+          faster.
+        </p>
+      </div>
+      <div className="flex-1 flex gap-6 justify-between">
+        {[
+          {
+            rating: "4.9",
+            title: "Capterare",
+          },
+          {
+            rating: "4.7",
+            title: "Trust Pilot",
+          },
+        ].map((item) => (
+          <div className="space-y-1" key={item.title}>
+            <span className="text-accent-200 text-4xl font-black">
+              {item.rating}
+            </span>
+            <div className="flex">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Icon
+                  icon="bi:star-fill"
+                  className="text-star-default"
+                  key={i}
+                />
+              ))}
+            </div>
+            <p className="text-accent-300 text-step-0 text-opacity-60">
+              {item.title}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
 export default WhyUs;
