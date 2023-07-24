@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import { ContentSection } from "@/components/generics";
+import { ContentSection } from "@/components/common";
 import { Container } from "@/components/ui/container";
 import { commentData } from "@/config";
 import { ABOUT_US_PAGE } from "@/config/links";

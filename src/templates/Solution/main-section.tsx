@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ContentSection } from "@/components/generics";
+import { ContentSection } from "@/components/common";
 import { Container } from "@/components/ui/container";
 
 import BookADemo from "../Home/book-a-demo";

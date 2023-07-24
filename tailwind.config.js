@@ -63,6 +63,7 @@ module.exports = {
       },
       neutral: {
         100: "#F8F9FA",
+        200: "#F1F1F1",
       },
       bgColour: {
         "variant-1": "#FFFFFF",

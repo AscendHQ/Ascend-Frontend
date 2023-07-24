@@ -13,7 +13,7 @@
     "plugin:sonarjs/recommended",
     "next/core-web-vitals"
   ],
-  "plugins": ["react", "simple-import-sort", "jsx-a11y", "sonarjs"],
+  "plugins": ["react", "simple-import-sort", "jsx-a11y", "sonarjs", "prettier"],
 
   "rules": {
     "sonarjs/no-duplicate-string": "warn",
@@ -70,5 +70,8 @@
       }
     ],
     "@typescript-eslint/no-var-requires": 0
+  },
+  "globals": {
+    "React": "writable"
   }
 }
