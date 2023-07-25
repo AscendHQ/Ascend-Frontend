@@ -60,15 +60,7 @@
       1,
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
     ],
-    "import/no-extraneous-dependencies": [
-      "error",
-      {
-        "devDependencies": true,
-        "optionalDependencies": false,
-        "peerDependencies": false,
-        "packageDir": "./"
-      }
-    ],
+    "import/no-extraneous-dependencies": "off",
     "@typescript-eslint/no-var-requires": 0
   },
   "globals": {

@@ -3,7 +3,7 @@ import React from "react";
 
 export default function DashboardHeader() {
   return (
-    <header className="flex justify-between max-h-[80px] items-center p-10">
+    <header className="flex justify-between max-h-[80px] bg-white items-center p-10">
       <h2 className="text-Text-high-emphasis text-2xl font-bold tracking-tight">
         Overview
       </h2>
