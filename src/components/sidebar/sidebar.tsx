@@ -11,7 +11,7 @@ export default function Sidebar() {
     React.useState(true);
 
   return (
-    <aside className="w-[30%] max-w-[350px] min-w-[300px] border-r border-neutral-200 p-6 bg-white">
+    <aside className="w-[20%] max-w-[350px] min-w-[300px] border-r border-neutral-200 p-6 bg-white relative">
       <Image
         src="/Ascend-Logo.svg"
         alt="Ascend Logo"
@@ -84,7 +84,9 @@ export default function Sidebar() {
           urlPath="/dashboard/staff"
         />
       </div>
-      <span className="text-primary-purple-200">©product of Ascend</span>
+      <span className="text-primary-purple-200 absolute bottom-0">
+        ©product of Ascend
+      </span>
     </aside>
   );
 }

@@ -31,6 +31,8 @@ module.exports = {
         "green-700": "#549678",
         "green-800": "#386450",
         "green-900": "#1C3228",
+
+        "color-1": "#151518",
       },
       accent: {
         100: "#DCFBDD",
@@ -71,6 +73,7 @@ module.exports = {
         100: "#F8F9FA",
         200: "#F1F1F1",
         300: "#F1F3F4",
+        400: "#F4F4F5",
       },
       bgColour: {
         "variant-1": "#FFFFFF",
