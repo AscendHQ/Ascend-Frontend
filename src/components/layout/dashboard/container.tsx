@@ -2,15 +2,18 @@ import React from "react";
 
 import { DashboardHeader } from "@/components/common";
 import { Sidebar } from "@/components/sidebar";
-import MainSection from "@/templates/Dashboard-overview/main-section";
 
-export default function Dashboard() {
+type Props = {
+  children: JSX.Element;
+};
+
+export default function Container({ children }: Props) {
   return (
     <div className="flex font-inter">
       <Sidebar />
       <div className="flex-1 bg-neutral-300">
         <DashboardHeader />
-        <MainSection />
+        {children}
       </div>
     </div>
   );

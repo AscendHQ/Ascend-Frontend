@@ -40,12 +40,15 @@ export default function FinancialSummary(): ReactNode {
   };
 
   return (
-    <div id="chart" className="relative top-5">
-      <ReactApexChart
-        options={chartData.options as ApexOptions}
-        series={chartData.series}
-        type="donut"
-      />
+    <div className="flex-1 border-2 rounded-lg p-5 grid  bg-white border-border-colour-light">
+      <h4>Financial Sum</h4>
+      <div id="chart" className="relative top-5">
+        <ReactApexChart
+          options={chartData.options as ApexOptions}
+          series={chartData.series}
+          type="donut"
+        />
+      </div>
     </div>
   );
 }

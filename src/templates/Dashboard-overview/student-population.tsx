@@ -59,13 +59,35 @@ export default function StudentPopulation() {
     },
   };
   return (
-    <div id="chart">
-      <ReactApexChart
-        options={chartData.options as ApexOptions}
-        series={chartData.series}
-        type="bar"
-        height={350}
-      />
+    <div className="w-[60%] border-2 rounded-lg p-5 bg-white border-border-colour-light">
+      <div className="flex flex-col xl:flex-row gap-5 mb-7 flex-wrap justify-between items-center">
+        <h4>Student Population Statistics</h4>
+        <ul className="flex">
+          <li>
+            <button className="border border-gray-400 text-Text-high-emphasis font-bold py-2 px-5 rounded-md">
+              4 Years
+            </button>
+          </li>
+          <li>
+            <button className="border border-white py-2 text-Text-meduim-emphasis font-bold px-5 rounded-md">
+              1 Year
+            </button>
+          </li>
+          <li>
+            <button className="border border-white py-2 text-Text-meduim-emphasis font-bold px-5 rounded-md">
+              4 Months
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div id="chart">
+        <ReactApexChart
+          options={chartData.options as ApexOptions}
+          series={chartData.series}
+          type="bar"
+          height={350}
+        />
+      </div>
     </div>
   );
 }

@@ -11,7 +11,7 @@ export default function Sidebar() {
     React.useState(true);
 
   return (
-    <aside className="w-[20%] max-w-[350px] min-w-[300px] border-r border-neutral-200 p-6 bg-white relative">
+    <aside className="w-[25%] max-w-[350px] min-w-[300px] border-r border-neutral-200 p-6 bg-white relative">
       <Image
         src="/Ascend-Logo.svg"
         alt="Ascend Logo"

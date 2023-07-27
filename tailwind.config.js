@@ -33,6 +33,8 @@ module.exports = {
         "green-900": "#1C3228",
 
         "color-1": "#151518",
+
+        "mint-green-100": "#E8FEF4",
       },
       accent: {
         100: "#DCFBDD",
