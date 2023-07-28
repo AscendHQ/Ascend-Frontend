@@ -31,6 +31,10 @@ module.exports = {
         "green-700": "#549678",
         "green-800": "#386450",
         "green-900": "#1C3228",
+
+        "color-1": "#151518",
+
+        "mint-green-100": "#E8FEF4",
       },
       accent: {
         100: "#DCFBDD",
@@ -56,6 +60,12 @@ module.exports = {
         900: "#858585",
         1000: "#000000",
       },
+      "secondary-green": {
+        500: "#22C55E",
+      },
+      "secondary-red": {
+        500: "#EF4444",
+      },
       gray: {
         400: "#98A2B3",
         500: "#667085",
@@ -63,6 +73,9 @@ module.exports = {
       },
       neutral: {
         100: "#F8F9FA",
+        200: "#F1F1F1",
+        300: "#F1F3F4",
+        400: "#F4F4F5",
       },
       bgColour: {
         "variant-1": "#FFFFFF",

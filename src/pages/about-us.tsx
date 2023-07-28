@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Footer, Header } from "@/components/generics";
+import { Footer, Header } from "@/components/common";
 import { IntroSection, MainSection } from "@/templates/About-us";
 
 function Solutions() {
