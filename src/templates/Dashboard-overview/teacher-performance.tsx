@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function TeacherPerformance() {
   return (
-    <div className="bg-white py-4 rounded-lg px-6 w-[60%] border border-border-colour-light">
+    <div className="bg-white py-4 rounded-lg grid px-6 w-[60%] border border-border-colour-light">
       <h3 className="text-Text-high-emphasis text-lg font-semibold ">
         Teacher Performance
       </h3>

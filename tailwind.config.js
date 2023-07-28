@@ -103,6 +103,12 @@ module.exports = {
       backgroundImage: {
         "children-face-of-africa": "url('/children-face-of-africa.avif')",
       },
+      borderWidth: {
+        1.5: "1.5px",
+        2.5: "2.5px",
+        3: "3px",
+        3.5: "3.5px",
+      },
     },
   },
   plugins: [require("flowbite/plugin")],

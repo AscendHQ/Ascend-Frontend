@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 
 export default function SubjectPerformance() {
   return (
-    <div className="bg-white py-4 rounded-lg px-6 flex-1 border border-border-colour-light">
+    <div className="bg-white py-4 rounded-lg grid px-6 flex-1 border border-border-colour-light">
       <div className="flex justify-between items-center gap-5">
         <div className="">
           <h3 className="text-Text-high-emphasis text-lg font-semibold ">
@@ -13,8 +13,12 @@ export default function SubjectPerformance() {
             This is a performance stats for all subjects
           </p>
         </div>
-        <select id="term" className="text-sm rounded-lg border-none">
-          <option selected>Third Term</option>
+        <select
+          id="term"
+          className="text-sm rounded-lg border-none"
+          defaultValue={"First Term"}
+        >
+          <option value="Third Term">Third Term</option>
           <option value="First Term">First Term</option>
           <option value="Second Term">Second Term</option>
         </select>

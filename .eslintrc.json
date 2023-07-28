@@ -31,14 +31,10 @@
     "jsx-a11y/aria-role": "error",
     // Enforce click events are accompanied by key events for keyboard accessibility.
     "jsx-a11y/click-events-have-key-events": "error",
-    // Enforce form controls have associated labels.
-    "jsx-a11y/label-has-for": "error",
     // Enforce headings have content and not be empty.
     "jsx-a11y/heading-has-content": "error",
     // Enforce elements that are interactive support keyboard focus.
     "jsx-a11y/interactive-supports-focus": "error",
-    // Enforce labels have a htmlFor attribute pointing to a valid form control.
-    "jsx-a11y/label-has-associated-control": "error",
     // Enforce not to use the accessKey attribute as it can interfere with keyboard navigation.
     "jsx-a11y/no-access-key": "error",
     // Enforce not to use the autoFocus attribute as it may cause accessibility issues.
@@ -61,7 +57,25 @@
       { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
     ],
     "import/no-extraneous-dependencies": "off",
-    "@typescript-eslint/no-var-requires": 0
+    "@typescript-eslint/no-var-requires": 0,
+    // Enforce labels have a htmlFor attribute pointing to a valid form control.
+    "jsx-a11y/label-has-associated-control": [
+      "error",
+      {
+        "required": {
+          "some": ["nesting", "id"]
+        }
+      }
+    ],
+    // Enforce form controls have associated labels.
+    "jsx-a11y/label-has-for": [
+      "error",
+      {
+        "required": {
+          "some": ["nesting", "id"]
+        }
+      }
+    ]
   },
   "globals": {
     "React": "writable"

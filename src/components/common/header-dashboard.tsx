@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+import { ACCOUNT_SETTING_DETAILS } from "@/config/links";
+
 export default function DashboardHeader() {
   const [accountDropDown, setAccountDropDown] = React.useState(false);
   const [notificationDropDown, setNotificationDropDown] = React.useState(false);
@@ -389,7 +391,7 @@ function AccountDropDownSection({ dropDown }: { dropDown: boolean }) {
       <ul className="w-full py-3 space-y-1">
         <li>
           <Link
-            href="/dashboard/account-setting"
+            href={ACCOUNT_SETTING_DETAILS}
             className="flex w-full gap-2 hover:bg-primary-purple-200 hover:text-Text-high-emphasis text-Text-meduim-emphasis py-2 px-3 transition-all duration-700 rounded-md items-center"
           >
             <Icon icon="ep:setting" fontSize={20} />
@@ -397,13 +399,10 @@ function AccountDropDownSection({ dropDown }: { dropDown: boolean }) {
           </Link>
         </li>
         <li>
-          <Link
-            href="/"
-            className="flex w-full gap-2 hover:bg-primary-purple-200 hover:text-Text-high-emphasis text-Text-meduim-emphasis py-2 px-3 transition-all duration-700 rounded-md items-center"
-          >
+          <button className="flex w-full gap-2 hover:bg-primary-purple-200 hover:text-Text-high-emphasis text-Text-meduim-emphasis py-2 px-3 transition-all duration-700 rounded-md items-center">
             <Icon icon="solar:logout-linear" fontSize={20} />
             <span>Log out</span>
-          </Link>
+          </button>
         </li>
       </ul>
     </section>

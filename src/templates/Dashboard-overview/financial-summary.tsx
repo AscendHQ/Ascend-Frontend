@@ -42,7 +42,7 @@ export default function FinancialSummary(): ReactNode {
   return (
     <div className="flex-1 border-2 rounded-lg p-5 grid  bg-white border-border-colour-light">
       <h4>Financial Sum</h4>
-      <div id="chart" className="relative top-5">
+      <div id="chart" className="relative top-5 max-w-[600px] mx-auto">
         <ReactApexChart
           options={chartData.options as ApexOptions}
           series={chartData.series}
