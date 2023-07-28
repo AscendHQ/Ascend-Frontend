@@ -5,5 +5,10 @@ export const CONTACT_PAGE = "/";
 export const SIGN_UP_PAGE = "/";
 export const LOGIN_PAGE = "/auth/login";
 export const DEMO_PAGE = "/";
-
+export const ACCOUNT_SETTING_DETAILS = "/dashboard/details";
+export const ACCOUNT_SETTING_SCHOOLINFO = "/dashboard/school-information";
+export const ACCOUNT_SETTING_GENERALSETTING = "/dashboard/general-settings";
+export const DASHBOARD_LESSON = "/dashboard/lesson";
+export const DASHBOARD_TIMETABLE = "/dashboard/timetable";
+export const DASHBOARD_RESULT = "/dashboard/result";
 // export const BLOG_PAGE = (slug: string) => `/blog/${slug}`;

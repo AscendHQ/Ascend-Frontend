@@ -2,6 +2,12 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 
+import {
+  DASHBOARD_LESSON,
+  DASHBOARD_RESULT,
+  DASHBOARD_TIMETABLE,
+} from "@/config/links";
+
 import SideBarItem from "./sidebar-item";
 import SidebarMenu from "./sidebar-menu";
 
@@ -30,7 +36,10 @@ export default function Sidebar() {
         />
         <SidebarMenu
           heading={"Database"}
-          collapse={showCollapsibleSideNav}
+          collapse={Boolean(
+            !databaseNavSection.find(each => each.path === router.pathname)
+          )}
+          collapseAction={showCollapsibleSideNav}
           setCollapse={setshowCollapsibleSideNav}
         >
           {databaseNavSection.map(each => (
@@ -38,6 +47,7 @@ export default function Sidebar() {
               title={each.title}
               isActive={router.pathname === each.path}
               urlPath={each.path}
+              isSideBarMenu
               key={each.title}
             />
           ))}
@@ -45,20 +55,20 @@ export default function Sidebar() {
         <SideBarItem
           title={"Lesson plan"}
           icon="material-symbols:menu-book-outline"
-          isActive={router.pathname === "/dashboard/lesson"}
-          urlPath="/dashboard/lesson"
+          isActive={router.pathname === DASHBOARD_LESSON}
+          urlPath={DASHBOARD_LESSON}
         />
         <SideBarItem
           title={"Timetable"}
           icon="solar:calendar-linear"
-          isActive={router.pathname === "/dashboard/timetable"}
-          urlPath="/dashboard/timetable"
+          isActive={router.pathname === DASHBOARD_TIMETABLE}
+          urlPath={DASHBOARD_TIMETABLE}
         />
         <SideBarItem
           title={"Results"}
           icon="fluent:trophy-16-regular"
-          isActive={router.pathname === "/dashboard/result"}
-          urlPath="/dashboard/result"
+          isActive={router.pathname === DASHBOARD_RESULT}
+          urlPath={DASHBOARD_RESULT}
         />
       </div>
       <div className="mt-10 mb-5 pb-4 border-b border-neutral-200 space-y-2">
