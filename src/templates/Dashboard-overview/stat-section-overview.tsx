@@ -3,7 +3,7 @@ import { Icon } from "@iconify/react";
 export default function StatSectionOverview() {
   return (
     <div className="flex my-5 gap-5 justify-center flex-wrap">
-      <div className="bg-white min-w-[300px] border-2 rounded-xl border-border-colour-light px-4 py-5 space-y-3">
+      <div className="bg-white min-w-[300px] xl:flex-1 xl:min-w-fit border-2 rounded-xl border-border-colour-light px-4 py-5 space-y-3">
         <h5 className="text-sm text-Text-meduim-emphasis font-medium">
           TOTAL STUDENT POPULATION
         </h5>
@@ -15,7 +15,7 @@ export default function StatSectionOverview() {
           </div>
         </div>
       </div>
-      <div className="bg-white min-w-[300px] border-2 rounded-xl border-border-colour-light px-4 py-5 space-y-3">
+      <div className="bg-white min-w-[300px] xl:flex-1 xl:min-w-fit border-2 rounded-xl border-border-colour-light px-4 py-5 space-y-3">
         <h5 className="text-sm text-Text-meduim-emphasis font-medium">
           ATTENDANCE RATE
         </h5>
@@ -27,8 +27,7 @@ export default function StatSectionOverview() {
           </div>
         </div>
       </div>
-
-      <div className="bg-white min-w-[300px] border-2 rounded-xl border-border-colour-light px-4 py-5 space-y-3">
+      <div className="bg-white min-w-[300px] xl:flex-1 xl:min-w-fit border-2 rounded-xl border-border-colour-light px-4 py-5 space-y-3">
         <h5 className="text-sm text-Text-meduim-emphasis font-medium">
           TOTAL STAFF COUNT
         </h5>
@@ -40,7 +39,7 @@ export default function StatSectionOverview() {
           </div>
         </div>
       </div>
-      <div className="bg-white min-w-[330px] border-2 rounded-xl border-border-colour-light px-4 py-5 space-y-3">
+      <div className="bg-white min-w-[330px] 2xl:flex-1 2xl:min-w-fit border-2 rounded-xl border-border-colour-light px-4 py-5 space-y-3">
         <h5 className="text-sm text-Text-meduim-emphasis font-medium">
           GENDER DEMOGRAPHICS
         </h5>
