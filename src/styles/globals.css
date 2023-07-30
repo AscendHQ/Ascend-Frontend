@@ -71,6 +71,9 @@
 body.disable-scroll {
   overflow: hidden;
 }
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
 @media (max-width: 1024px) {
   .move-in {
     transform: translateX(100vw);
