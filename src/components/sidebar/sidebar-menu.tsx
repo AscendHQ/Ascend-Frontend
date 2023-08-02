@@ -25,13 +25,13 @@ export default function SidebarMenu({
         className="flex justify-between items-center w-full"
         onClick={() => setCollapse(prev => !prev)}
       >
-        <div className="flex items-center gap-4 py-3 px-5">
+        <div className="flex items-center gap-4 py-3 px-4">
           <Icon
             icon="ph:cube"
             fontSize={30}
-            className="text-Text-meduim-emphasis"
+            className="text-Text-high-emphasis"
           />
-          <h4 className="text-lg text-Text-meduim-emphasis">{heading}</h4>
+          <h4 className="text-base text-Text-high-emphasis">{heading}</h4>
         </div>
 
         <Icon
@@ -41,7 +41,7 @@ export default function SidebarMenu({
         />
       </button>
       <div
-        className={`pl-10 overflow-hidden transition-all duration-500 ml-9 before:w-[2px] before:h-[90%] before:top-0 before:left-0 before:bg-Text-meduim-emphasis before:absolute relative ${
+        className={`pl-10 overflow-hidden transition-all duration-500 ml-8 before:w-[1px] before:h-[90%] before:top-0 before:left-0 before:bg-Text-high-emphasis before:absolute relative ${
           collapseAction ? "h-0 hidden" : "h-auto"
         }`}
       >

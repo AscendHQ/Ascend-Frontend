@@ -24,7 +24,7 @@ export default function DashboardHeader() {
           <Icon
             icon="mi:notification"
             fontSize={23}
-            className="text-Text-meduim-emphasis"
+            className="text-gray-800"
           />
         </button>
         <button
@@ -65,7 +65,7 @@ function NotificationDropDownSection({
     <section
       className={`absolute ${
         dropDown ? "block" : "hidden"
-      } bg-white top-[115%] right-64 rounded-2xl max-w-[500px] shadow-md`}
+      } bg-white top-[115%] right-64 rounded-2xl min-w-[500px] shadow-xl z-50`}
     >
       <Icon
         icon="teenyicons:up-solid"
@@ -178,21 +178,23 @@ function NotificationDropDownSection({
                 />
                 <div className="space-y-2">
                   <h5 className="text-sm">
-                    <span className="font-medium">BLESSING OKOWAH</span> is
-                    requesting permission to edit results.
+                    <span className="font-medium uppercase">
+                      Ernest Francis
+                    </span>{" "}
+                    is requesting permission to edit results.
                   </h5>
                   <div className="flex text-xs gap-2 text-Text-meduim-emphasis font-bold">
                     <span>2 mins ago</span>
                     <span>@Admin @Bursary</span>
                   </div>
-                  <div className="flex gap-2">
+                  {/* <div className="flex gap-2">
                     <button className="font-semibold text-sm bg-primary-purple-500 rounded-md py-2 px-4 text-white">
                       Accept
                     </button>
                     <button className="font-semibold text-sm bg-white rounded-md py-2 px-4 text-Text-high-emphasis border-2 border-border-colour-light">
                       Decline
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               </li>
               <li className="flex bg-secondary-mint-green-100 items-start gap-2 py-2 px-6 border-b border-border-colour-light">
@@ -222,21 +224,21 @@ function NotificationDropDownSection({
                 />
                 <div className="space-y-2">
                   <h5 className="text-sm">
-                    <span className="font-medium">BLESSING OKOWAH</span> is
-                    requesting permission to edit results.
+                    <span className="font-medium uppercase">Mike Carlson</span>{" "}
+                    is requesting permission to edit results.
                   </h5>
                   <div className="flex text-xs gap-2 text-Text-meduim-emphasis font-bold">
                     <span>2 mins ago</span>
                     <span>@Admin @Bursary</span>
                   </div>
-                  <div className="flex gap-2">
+                  {/* <div className="flex gap-2">
                     <button className="font-semibold text-sm bg-primary-purple-500 rounded-md py-2 px-4 text-white">
                       Accept
                     </button>
                     <button className="font-semibold text-sm bg-white rounded-md py-2 px-4 text-Text-high-emphasis border-2 border-border-colour-light">
                       Decline
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               </li>
               <li className="flex items-start gap-2 py-2 px-6 border-b border-border-colour-light">
@@ -248,8 +250,8 @@ function NotificationDropDownSection({
                 />
                 <div className="space-y-2">
                   <h5 className="text-sm">
-                    <span className="font-medium">BLESSING OKOWAH</span> is
-                    requesting permission to edit results.
+                    <span className="font-medium uppercase">Leonard Perry</span>{" "}
+                    is requesting permission to edit results.
                   </h5>
                   <div className="flex text-xs gap-2 text-Text-meduim-emphasis font-bold">
                     <span>2 mins ago</span>
@@ -274,21 +276,21 @@ function NotificationDropDownSection({
                 />
                 <div className="space-y-2">
                   <h5 className="text-sm">
-                    <span className="font-medium">BLESSING OKOWAH</span> is
-                    requesting permission to edit results.
+                    <span className="font-medium uppercase">Stella Kelley</span>{" "}
+                    is requesting permission to edit results.
                   </h5>
                   <div className="flex text-xs gap-2 text-Text-meduim-emphasis font-bold">
                     <span>2 mins ago</span>
                     <span>@Admin @Bursary</span>
                   </div>
-                  <div className="flex gap-2">
+                  {/* <div className="flex gap-2">
                     <button className="font-semibold text-sm bg-primary-purple-500 rounded-md py-2 px-4 text-white">
                       Accept
                     </button>
                     <button className="font-semibold text-sm bg-white rounded-md py-2 px-4 text-Text-high-emphasis border-2 border-border-colour-light">
                       Decline
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               </li>
               <li className="flex bg-secondary-mint-green-100 items-start gap-2 py-2 px-6 border-b border-border-colour-light">
@@ -300,7 +302,7 @@ function NotificationDropDownSection({
                 />
                 <div className="space-y-2">
                   <h5 className="text-sm">
-                    <span className="font-medium">BLESSING OKOWAH</span> is
+                    <span className="font-medium uppercase">Lula Tran</span> is
                     requesting permission to edit results.
                   </h5>
                   <div className="flex text-xs gap-2 text-Text-meduim-emphasis font-bold">
@@ -326,21 +328,21 @@ function NotificationDropDownSection({
                 />
                 <div className="space-y-2">
                   <h5 className="text-sm">
-                    <span className="font-medium">BLESSING OKOWAH</span> is
-                    requesting permission to edit results.
+                    <span className="font-medium uppercase">Nettie Cross</span>{" "}
+                    is requesting permission to edit results.
                   </h5>
                   <div className="flex text-xs gap-2 text-Text-meduim-emphasis font-bold">
                     <span>2 mins ago</span>
                     <span>@Admin @Bursary</span>
                   </div>
-                  <div className="flex gap-2">
+                  {/* <div className="flex gap-2">
                     <button className="font-semibold text-sm bg-primary-purple-500 rounded-md py-2 px-4 text-white">
                       Accept
                     </button>
                     <button className="font-semibold text-sm bg-white rounded-md py-2 px-4 text-Text-high-emphasis border-2 border-border-colour-light">
                       Decline
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               </li>
               <li className="flex items-start gap-2 py-2 px-6 border-b border-border-colour-light">
@@ -352,8 +354,10 @@ function NotificationDropDownSection({
                 />
                 <div className="space-y-2">
                   <h5 className="text-sm">
-                    <span className="font-medium">BLESSING OKOWAH</span> is
-                    requesting permission to edit results.
+                    <span className="font-medium uppercase">
+                      Clara Alexander
+                    </span>{" "}
+                    is requesting permission to edit results.
                   </h5>
                   <div className="flex text-xs gap-2 text-Text-meduim-emphasis font-bold">
                     <span>2 mins ago</span>
@@ -373,7 +377,7 @@ function AccountDropDownSection({ dropDown }: { dropDown: boolean }) {
   return (
     <section
       className={`absolute bg-white top-full right-10 p-4 flex flex-col items-center justify-center rounded-md shadow-lg transition-all origin-top duration-500 z-50 ${
-        dropDown ? "scale-y-100" : "scale-y-0 "
+        dropDown ? "block" : "hidden"
       }`}
     >
       <Image
@@ -385,21 +389,21 @@ function AccountDropDownSection({ dropDown }: { dropDown: boolean }) {
       <p className="text-Text-high-emphasis text-lg font-medium tracking-tight">
         Blessing Okowah
       </p>
-      <span className="text-sm text-Text-meduim-emphasis px-5">
+      <span className="text-sm text-gray-800 px-5">
         blessingokowah@gmail.com
       </span>
       <ul className="w-full py-3 space-y-1">
         <li>
           <Link
             href={ACCOUNT_SETTING_DETAILS}
-            className="flex w-full gap-2 hover:bg-primary-purple-200 hover:text-Text-high-emphasis text-Text-meduim-emphasis py-2 px-3 transition-all duration-700 rounded-md items-center"
+            className="flex w-full gap-2 hover:bg-primary-purple-200 hover:text-Text-high-emphasis text-gray-800 py-2 px-3 transition-all duration-700 rounded-md items-center"
           >
             <Icon icon="ep:setting" fontSize={20} />
             <span>Settings</span>
           </Link>
         </li>
         <li>
-          <button className="flex w-full gap-2 hover:bg-primary-purple-200 hover:text-Text-high-emphasis text-Text-meduim-emphasis py-2 px-3 transition-all duration-700 rounded-md items-center">
+          <button className="flex w-full gap-2 hover:bg-primary-purple-200 hover:text-Text-high-emphasis text-gray-800 py-2 px-3 transition-all duration-700 rounded-md items-center">
             <Icon icon="solar:logout-linear" fontSize={20} />
             <span>Log out</span>
           </button>

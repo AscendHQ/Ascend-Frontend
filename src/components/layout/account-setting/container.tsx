@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 
+import { DashboardHeader } from "@/components/common";
 import { Sidebar } from "@/components/sidebar";
 import {
   ACCOUNT_SETTING_DETAILS,
@@ -20,7 +21,8 @@ export default function AccountSettingContainer({ children }: Props) {
     <div className="flex font-inter">
       <Sidebar />
       <div className="flex-1 bg-neutral-300">
-        <div className="bg-white p-10 mt-24">
+        <DashboardHeader />
+        <div className="bg-white p-10">
           <div className="flex gap-4">
             <Image
               src="/joebrendan.png"
@@ -32,7 +34,7 @@ export default function AccountSettingContainer({ children }: Props) {
               <h3 className="text-Text-high-emphasis text-2xl font-semibold tracking-tight">
                 Blessing Okowah
               </h3>
-              <span className="text-base text-Text-meduim-emphasis font-medium">
+              <span className="text-base text-gray-800 font-medium">
                 blessingokowah@gmail.com
               </span>
             </div>
@@ -58,8 +60,8 @@ export default function AccountSettingContainer({ children }: Props) {
                     href={each.url}
                     className={`px-3 py-2 ${
                       each.url === router.pathname
-                        ? "shadow-[0px_2px_12px_0px_#18181B36] text-primary-purple-500 bg-white rounded"
-                        : " text-Text-meduim-emphasis"
+                        ? "shadow-[0px_2px_12px_0px_#18181B36] text-primary-purple-700 bg-white rounded"
+                        : " text-gray-800"
                     } font-medium tracking-tight`}
                   >
                     {each.title}
@@ -74,7 +76,7 @@ export default function AccountSettingContainer({ children }: Props) {
                 </button>
               </li>
               <li>
-                <button className="text-white bg-primary-purple-500 border-1.5 border-border-colour-light rounded-lg py-3 px-6 font-semibold text-sm">
+                <button className="text-white bg-primary-purple-700 border-1.5 border-border-colour-light rounded-lg py-3 px-6 font-semibold text-sm">
                   Save changes
                 </button>
               </li>

@@ -46,8 +46,7 @@ export default function StudentPopulation() {
           text: "Students",
         },
       },
-      colors: ["#7864FF", "#483C99", "#C9C1FF"],
-
+      colors: ["#302866", "#483C99", "#6050CC"],
       fill: {
         opacity: 1,
       },
@@ -59,26 +58,17 @@ export default function StudentPopulation() {
     },
   };
   return (
-    <div className="w-[60%] border-2 rounded-lg p-5 bg-white border-border-colour-light">
-      <div className="flex flex-col xl:flex-row gap-5 mb-7 flex-wrap justify-between items-center">
+    <div className="w-full xl:w-[60%] border-2 rounded-lg p-5 bg-white ">
+      <div className="flex gap-5 mb-7 flex-wrap justify-between items-center">
         <h4>Student Population Statistics</h4>
-        <ul className="flex">
-          <li>
-            <button className="border border-gray-400 text-Text-high-emphasis font-bold py-2 px-5 rounded-md">
-              4 Years
-            </button>
-          </li>
-          <li>
-            <button className="border border-white py-2 text-Text-meduim-emphasis font-bold px-5 rounded-md">
-              1 Year
-            </button>
-          </li>
-          <li>
-            <button className="border border-white py-2 text-Text-meduim-emphasis font-bold px-5 rounded-md">
-              4 Months
-            </button>
-          </li>
-        </ul>
+        <select className="rounded-lg text-xs">
+          <option value="4 Months">1 Year</option>
+          <option value="4 Months">10 Months</option>
+          <option value="4 Months">8 Months</option>
+          <option value="4 Months">4 Months</option>
+          <option value="4 Months">2 Months</option>
+          <option value="1 Month">1 Month</option>
+        </select>
       </div>
       <div id="chart">
         <ReactApexChart
