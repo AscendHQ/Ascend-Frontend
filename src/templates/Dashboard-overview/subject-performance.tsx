@@ -9,7 +9,7 @@ export default function SubjectPerformance() {
           <h3 className="text-Text-high-emphasis text-lg font-semibold ">
             Subject Performance
           </h3>
-          <p className="text-sm text-Text-meduim-emphasis">
+          <p className="text-sm text-gray-800">
             This is a performance stats for all subjects
           </p>
         </div>
@@ -39,7 +39,7 @@ export default function SubjectPerformance() {
           </div>
         ))}
       </div>
-      <button className="text-Text-low-emphasis font-semibold gap-4 flex items-center pt-2">
+      <button className="text-gray-800 font-semibold gap-4 flex items-center pt-2">
         <span>SEE ALL SUBJECTS</span>
         <Icon icon="material-symbols:arrow-forward-ios" />
       </button>

@@ -17,7 +17,7 @@ export default function Sidebar() {
     React.useState(true);
 
   return (
-    <aside className="w-[25%] max-w-[350px] min-w-[300px] border-r border-neutral-200 p-6 bg-white relative">
+    <aside className="w-[15%] max-w-[350px] min-w-[250px] border-r border-neutral-200 py-6 px-4 bg-white relative">
       <Image
         src="/Ascend-Logo.svg"
         alt="Ascend Logo"
@@ -27,7 +27,7 @@ export default function Sidebar() {
         className="relative z-50 mt-3"
       />
       <div className="mt-16 pb-4 border-b border-neutral-200 space-y-2">
-        <h3 className="text-base mb-4 text-Text-meduim-emphasis">MAIN</h3>
+        <h3 className="text-base mb-4 text-gray-800">MAIN</h3>
         <SideBarItem
           title={"Overview"}
           icon="iconamoon:category-light"
@@ -72,9 +72,7 @@ export default function Sidebar() {
         />
       </div>
       <div className="mt-10 mb-5 pb-4 border-b border-neutral-200 space-y-2">
-        <h3 className="text-base mb-4 text-Text-meduim-emphasis">
-          ADMINISTRATION
-        </h3>
+        <h3 className="text-base mb-4 text-gray-800">ADMINISTRATION</h3>
         <SideBarItem
           title={"Payroll"}
           icon="icon-park-outline:transaction-order"

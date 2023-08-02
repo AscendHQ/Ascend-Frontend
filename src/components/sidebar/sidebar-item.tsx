@@ -17,11 +17,11 @@ export default function SideBarItem({
   return (
     <Link
       href={urlPath}
-      className={`flex items-center gap-4 w-full relative ${
+      className={`flex items-center gap-3 w-full relative ${
         isActive ? "bg-primary-purple-100" : "bg-white"
-      } py-3 px-5 rounded-md ${
+      } py-2 px-4 rounded-md ${
         isSideBarMenu
-          ? "before:border-l-2 before:border-b-3 before:border-Text-meduim-emphasis before:absolute before:w-7 before:h-7 before:rounded-sm before:top-0 before:-left-10"
+          ? "before:border-l-1 before:border-b before:border-Text-meduim-emphasis before:absolute before:w-7 before:h-7 before:rounded-sm before:-top-2 before:-left-10"
           : ""
       }`}
     >
@@ -29,14 +29,14 @@ export default function SideBarItem({
         <Icon
           icon={icon}
           className={`${
-            isActive ? "text-primary-purple-500" : "text-Text-meduim-emphasis"
+            isActive ? "text-primary-purple-800" : "text-Text-high-emphasis"
           }`}
           fontSize={30}
         />
       ) : null}
       <span
-        className={`text-lg ${
-          isActive ? "text-primary-purple-500" : "text-Text-meduim-emphasis"
+        className={`text-base ${
+          isActive ? "text-primary-purple-800" : "text-Text-high-emphasis"
         }`}
       >
         {title}

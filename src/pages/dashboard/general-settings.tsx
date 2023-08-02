@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+import { Icon } from "@iconify/react";
 import React from "react";
 
 import AccountSettingContainer from "@/components/layout/account-setting/container";
@@ -42,11 +43,13 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
     <div className="relative inline-block">
       <button
         onClick={handleToggle}
-        className="bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+        className="border border-neutral-500 text-gray-800 flex font-semibold py-2 px-4 rounded-lg gap-1"
       >
+        <span className="text-gray-700">Grade style: </span>
         {selectedOption
-          ? `Grade style: ${selectedOption.replace(" Standard", "")}`
-          : "Grade style: Normal"}
+          ? ` ${selectedOption.replace(" Standard", "")}`
+          : " Normal"}
+        <Icon icon="mdi:chevron-down" fontSize={27} />
       </button>
       {isOpen && (
         <ul className="absolute z-10 mt-2 w-full bg-white shadow-lg rounded-lg">
@@ -72,13 +75,13 @@ function AssessmentStyle() {
         <h4 className="text-Text-high-emphasis font-semibold">
           Assessment style
         </h4>
-        <p className="text-sm tracking-tight text-Text-meduim-emphasis">
+        <p className="text-sm tracking-tight text-gray-800">
           This will be displayed on your organization profile.
         </p>
       </div>
       <div className="flex flex-1 flex-wrap gap-5">
         <div className="lg:min-w-full flex-1">
-          <h4 className="block text-base font-medium text-Text-meduim-emphasis">
+          <h4 className="block text-base font-medium text-gray-800">
             Select an option
           </h4>
           <div className="flex gap-10">
@@ -92,7 +95,7 @@ function AssessmentStyle() {
               />
               <label
                 htmlFor="examination"
-                className="w-full py-4 ml-2 text-base font-medium text-Text-meduim-emphasis"
+                className="w-full py-4 ml-2 text-base font-medium text-gray-800"
               >
                 Examination
               </label>
@@ -107,7 +110,7 @@ function AssessmentStyle() {
               />
               <label
                 htmlFor="continuous_assessment"
-                className="w-full py-4 ml-2 text-base font-medium text-Text-meduim-emphasis"
+                className="w-full py-4 ml-2 text-base font-medium text-gray-800"
               >
                 Continuous assessment (CA)
               </label>
@@ -124,7 +127,7 @@ function AssessmentStyle() {
           <input
             type="text"
             id="Examination_percentage_of_total_marks"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-gray-800 text-Text-high-emphasis"
             placeholder="60"
             required
           />
@@ -139,7 +142,7 @@ function AssessmentStyle() {
           <input
             type="text"
             id="continuous_assessment_percentage_of_total_mark"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-gray-800 text-Text-high-emphasis"
             placeholder="40"
             required
           />
@@ -156,7 +159,7 @@ function AcademicTimeline() {
         <h4 className="text-Text-high-emphasis font-semibold">
           Academic timeline
         </h4>
-        <p className="text-sm tracking-tight text-Text-meduim-emphasis">
+        <p className="text-sm tracking-tight text-gray-800">
           This will be displayed on your organization profile.
         </p>
       </div>
@@ -171,7 +174,7 @@ function AcademicTimeline() {
           <select
             name="academic_year"
             id="academic_year"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-gray-800 text-Text-high-emphasis"
           >
             <option value="2023">2023</option>
             <option value="2022">2022</option>
@@ -189,7 +192,7 @@ function AcademicTimeline() {
           <select
             name="academic_session"
             id="academic_session"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-gray-800 text-Text-high-emphasis"
           >
             <option value="2022/2023">2022/2023</option>
             <option value="2021/2022">2021/2022</option>
@@ -207,7 +210,7 @@ function AcademicTimeline() {
           <select
             name="current_term"
             id="current_term"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-gray-800 text-Text-high-emphasis"
           >
             <option value="First term">First term</option>
             <option value="Second term">Second term</option>
@@ -225,7 +228,7 @@ function AcademicTimeline() {
           <input
             type="text"
             id="term_length"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-gray-800 text-Text-high-emphasis"
             placeholder="1 week"
             required
           />
@@ -241,14 +244,14 @@ function TimetableSetting() {
         <h4 className="text-Text-high-emphasis font-semibold">
           Timetable setting
         </h4>
-        <p className="text-sm tracking-tight text-Text-meduim-emphasis">
+        <p className="text-sm tracking-tight text-gray-800">
           This will be displayed on your school timetable.
         </p>
       </div>
       <div className="flex-1">
         <div className="flex flex-wrap gap-5">
           <div className="lg:min-w-full flex-1">
-            <h4 className="block text-base font-medium text-Text-meduim-emphasis">
+            <h4 className="block text-base font-medium text-gray-800">
               Set a timeline for classes every week
             </h4>
           </div>
@@ -262,7 +265,7 @@ function TimetableSetting() {
             <input
               type="time"
               id="resumption_time"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-gray-800 text-Text-high-emphasis"
               // placeholder="8:00 AM"
               required
             />
@@ -277,14 +280,14 @@ function TimetableSetting() {
             <input
               type="time"
               id="closing_time"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-gray-800 text-Text-high-emphasis"
               required
             />
           </div>
         </div>
         <div className="flex flex-wrap gap-5 mt-10">
           <div className="lg:min-w-full flex-1">
-            <h4 className="block text-base font-medium text-Text-meduim-emphasis">
+            <h4 className="block text-base font-medium text-gray-800">
               Set a timeline for break time every week
             </h4>
           </div>
@@ -298,7 +301,7 @@ function TimetableSetting() {
             <input
               type="text"
               id="number_of_breaks"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-gray-800 text-Text-high-emphasis"
               placeholder="1"
               required
             />
@@ -313,7 +316,7 @@ function TimetableSetting() {
             <input
               type="time"
               id="start_time"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-gray-800 text-Text-high-emphasis"
               // placeholder="8:00 AM"
               required
             />
@@ -328,7 +331,7 @@ function TimetableSetting() {
             <input
               type="time"
               id="end_time"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-gray-800 text-Text-high-emphasis"
               required
             />
           </div>
@@ -340,8 +343,8 @@ function TimetableSetting() {
 const Table = () => {
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <table className="w-full text-sm text-left text-gray-500">
+        <thead className="text-xs text-gray-700 uppercase border-b border-grey-300 bg-gray-50 ">
           <tr>
             <th scope="col" className="pl-6 pr-32 py-3">
               Grade
@@ -355,28 +358,27 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              A
-            </td>
-            <td className="px-6 py-4">
-              <input type="text" className="max-w-[100px]" />
-            </td>
-            <td className="px-6 py-4">
-              <input type="text" className="max-w-[100px]" />
-            </td>
-          </tr>
-          <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              B
-            </td>
-            <td className="px-6 py-4">
-              <input type="text" className="max-w-[100px]" />
-            </td>
-            <td className="px-6 py-4">
-              <input type="text" className="max-w-[100px]" />
-            </td>
-          </tr>
+          {["A", "B", "C", "D", "E", "F"].map(item => (
+            <tr className="bg-white border-b " key={item}>
+              <td className="px-6 py-4 font-medium text-gray-900  whitespace-nowrap">
+                {item}
+              </td>
+              <td className="px-6 py-4">
+                <input
+                  type="text"
+                  className="max-w-[100px] placeholder:text-Text-meduim-emphasis border border-grey-300"
+                  placeholder="0.00"
+                />
+              </td>
+              <td className="px-6 py-4">
+                <input
+                  type="text"
+                  className="max-w-[100px] placeholder:text-Text-meduim-emphasis border border-grey-300"
+                  placeholder="0.00"
+                />
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
@@ -384,15 +386,15 @@ const Table = () => {
 };
 function GradingStyle() {
   const options = ["Normal Standard", "WAEC Standard"];
+
   const handleDropdownChange = (selectedOption: string) => {
     console.log("Selected Option:", selectedOption);
-    // Perform any action based on the selected option.
   };
   return (
     <div className="flex justify-between gap-16 border-b-2 border-border-colour-light py-16">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">Grading style</h4>
-        <p className="text-sm tracking-tight text-Text-meduim-emphasis">
+        <p className="text-sm tracking-tight text-gray-800">
           This will be used as metric in grading results.
         </p>
       </div>

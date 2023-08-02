@@ -17,13 +17,13 @@ export default function FinancialSummary(): ReactNode {
           expandOnClick: true,
           donut: {
             labels: {
-              show: true,
-              // name: {
-              //   // formatter: (val: number) => val + "gdh",
-              //   formatter:(val:number)=>{
-              //     return "djdj"
-              //   }
-              // },
+              show: false,
+              name: {
+                // formatter: (val: number) => val + "gdh",
+                // formatter: (val: number) => {
+                //   return val;
+                // },
+              },
               // value: {
               //   ...
               // }
@@ -31,7 +31,7 @@ export default function FinancialSummary(): ReactNode {
           },
         },
       },
-      colors: ["#7864FF", "#483C99", "#C9C1FF"],
+      colors: ["#302866", "#483C99", "#6050CC"],
       labels: ["School Fees", "Social Media", "Referrals"],
       legend: {
         position: "bottom",

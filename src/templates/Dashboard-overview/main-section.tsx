@@ -1,4 +1,4 @@
-import { Icon } from "@iconify/react";
+// import { Icon } from "@iconify/react";
 import dynamic from "next/dynamic";
 import React from "react";
 
@@ -20,10 +20,10 @@ const FinancialSummaryChart = dynamic(
 );
 
 export default function MainSection() {
-  const [showAd, setshowAd] = React.useState(true);
+  // const [showAd, setshowAd] = React.useState(true);
   return (
     <main className="p-6">
-      {showAd && (
+      {/* {showAd && (
         <section className="pl-11 pr-4 py-7 bg-primary-purple-300 rounded-lg flex items-start justify-between">
           <div className="">
             <h4 className="text-3xl font-bold">
@@ -41,13 +41,13 @@ export default function MainSection() {
             <Icon icon="iconoir:cancel" />
           </button>
         </section>
-      )}
+      )} */}
       <StatSectionOverview />
-      <div className="flex gap-2">
+      <div className="flex flex-col xl:flex-row gap-2">
         <StudentPopulationChart />
         <FinancialSummaryChart />
       </div>
-      <div className="mt-6 flex gap-2">
+      <div className="mt-6 flex flex-col xl:flex-row gap-2">
         <TeacherPerformance />
         <SubjectPerformance />
       </div>
