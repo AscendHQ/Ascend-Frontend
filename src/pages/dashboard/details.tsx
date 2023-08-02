@@ -20,7 +20,7 @@ function Authorization() {
     <div className="flex justify-between gap-16 border-b-2 border-border-colour-light py-16">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">Authorization</h4>
-        <p className="text-sm tracking-tight text-Text-meduim-emphasis">
+        <p className="text-sm tracking-tight text-gray-800">
           This will help strengthen your security
         </p>
       </div>
@@ -79,7 +79,7 @@ function ChangePassword() {
         <h4 className="text-Text-high-emphasis font-semibold">
           Change password
         </h4>
-        <p className="text-sm tracking-tight text-Text-meduim-emphasis">
+        <p className="text-sm tracking-tight text-gray-800">
           Set everything regarding your account security.
         </p>
       </div>
@@ -142,7 +142,7 @@ function Contactinformation() {
         <h4 className="text-Text-high-emphasis font-semibold">
           Contact information
         </h4>
-        <p className="text-sm tracking-tight text-Text-meduim-emphasis">
+        <p className="text-sm tracking-tight text-gray-800">
           Your contact information is displayed here
         </p>
       </div>
@@ -204,7 +204,7 @@ function SchoolInformation() {
         <h4 className="text-Text-high-emphasis font-semibold">
           School Information
         </h4>
-        <p className="text-sm tracking-tight text-Text-meduim-emphasis">
+        <p className="text-sm tracking-tight text-gray-800">
           This will be displayed on your organization profile.
         </p>
       </div>

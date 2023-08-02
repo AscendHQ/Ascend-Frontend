@@ -21,7 +21,7 @@ function AcademicYear() {
     <div className="flex justify-between gap-16 border-b-2 border-border-colour-light py-16">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">Academic year</h4>
-        <p className="text-sm tracking-tight text-Text-meduim-emphasis">
+        <p className="text-sm tracking-tight text-gray-800">
           This will be displayed on your organization profile.
         </p>
       </div>
@@ -138,7 +138,7 @@ function SchoolInformation() {
         <h4 className="text-Text-high-emphasis font-semibold">
           School Information
         </h4>
-        <p className="text-sm tracking-tight text-Text-meduim-emphasis">
+        <p className="text-sm tracking-tight text-gray-800">
           This will be displayed on your organization profile.
         </p>
       </div>
@@ -255,11 +255,11 @@ function SchoolInformation() {
                     d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                   />
                 </svg>
-                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                <p className="mb-2 text-sm text-gray-800">
                   <span className="font-semibold">Click to upload</span> or drag
                   and drop
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
+                <p className="text-xs text-gray-800">
                   SVG, PNG, JPG or GIF (MAX. 800x400px)
                 </p>
               </div>
@@ -276,7 +276,7 @@ function Authorization() {
     <div className="flex justify-between gap-16 border-b-2 border-border-colour-light py-16">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">Authorization</h4>
-        <p className="text-sm tracking-tight text-Text-meduim-emphasis">
+        <p className="text-sm tracking-tight text-gray-800">
           This will help strengthen your security
         </p>
       </div>
@@ -312,7 +312,7 @@ function Authorization() {
           <div className="flex gap-2 items-center">
             <Icon
               icon="solar:key-square-outline"
-              className="text-primary-purple-500"
+              className="text-primary-purple-700"
             />
             <span className="text-Text-high-emphasis tracking-tight text-sm">
               Authentication application

@@ -62,9 +62,11 @@ module.exports = {
       },
       "secondary-green": {
         500: "#22C55E",
+        600: "#2e8540",
       },
       "secondary-red": {
         500: "#EF4444",
+        600: "#cd2026",
       },
       gray: {
         400: "#98A2B3",
@@ -76,6 +78,7 @@ module.exports = {
         200: "#F1F1F1",
         300: "#F1F3F4",
         400: "#F4F4F5",
+        500: "#A1A1AA",
       },
       bgColour: {
         "variant-1": "#FFFFFF",
