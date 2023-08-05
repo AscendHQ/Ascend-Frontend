@@ -22,7 +22,11 @@ export default function DashboardHeader() {
       <div className="flex items-center gap-10">
         <button onClick={() => setNotificationDropDown(prev => !prev)}>
           <Icon
-            icon="mi:notification"
+            icon={
+              notificationDropDown
+                ? "mingcute:notification-fill"
+                : "mi:notification"
+            }
             fontSize={23}
             className="text-gray-800"
           />
@@ -61,6 +65,13 @@ function NotificationDropDownSection({
   handleTabClick: (tabId: React.SetStateAction<string>) => void;
   dropDown: boolean;
 }) {
+  const checkActiveTabContainer = (route: string) =>
+    activeTab === route ? "border-grey-1000" : "border-transparent";
+
+  const checkActiveTabCounter = (route: string) =>
+    activeTab === route
+      ? "bg-info-main text-white"
+      : "bg-grey-200 text-Text-meduim-emphasis";
   return (
     <section
       className={`absolute ${
@@ -87,9 +98,9 @@ function NotificationDropDownSection({
         >
           <li className="mr-2" role="presentation">
             <button
-              className={`flex gap-2 p-2 text-Text-high-emphasis items-center border-b-2 rounded-t-lg ${
-                activeTab === "All" ? "border-grey-1000" : "border-transparent"
-              }`}
+              className={`flex gap-2 p-2 text-Text-high-emphasis items-center border-b-2 rounded-t-lg ${checkActiveTabContainer(
+                "All"
+              )}`}
               id="All-tab"
               type="button"
               role="tab"
@@ -99,11 +110,9 @@ function NotificationDropDownSection({
             >
               All
               <span
-                className={`${
-                  activeTab === "All"
-                    ? "bg-info-main text-white"
-                    : "bg-grey-200 text-Text-meduim-emphasis"
-                } text-sm font-medium mr-2 px-2 py-1 rounded`}
+                className={`${checkActiveTabCounter(
+                  "All"
+                )} text-sm font-medium mr-2 px-2 py-1 rounded`}
               >
                 {" "}
                 10
@@ -112,11 +121,9 @@ function NotificationDropDownSection({
           </li>
           <li className="mr-2" role="presentation">
             <button
-              className={`flex gap-2 p-2 text-Text-high-emphasis items-center border-b-2 rounded-t-lg ${
-                activeTab === "Unread"
-                  ? "border-grey-1000"
-                  : "border-transparent"
-              }`}
+              className={`flex gap-2 p-2 text-Text-high-emphasis items-center border-b-2 rounded-t-lg ${checkActiveTabContainer(
+                "Unread"
+              )}`}
               id="Unread-tab"
               type="button"
               role="tab"
@@ -126,11 +133,9 @@ function NotificationDropDownSection({
             >
               Unread
               <span
-                className={`${
-                  activeTab === "Unread"
-                    ? "bg-info-main text-white"
-                    : "bg-grey-200 text-Text-meduim-emphasis"
-                } text-sm font-medium mr-2 px-2 py-1 rounded`}
+                className={`${checkActiveTabCounter(
+                  "Unread"
+                )} text-sm font-medium mr-2 px-2 py-1 rounded`}
               >
                 8
               </span>
@@ -138,9 +143,9 @@ function NotificationDropDownSection({
           </li>
           <li className="mr-2" role="presentation">
             <button
-              className={`flex gap-2 p-2 text-Text-high-emphasis items-center border-b-2 rounded-t-lg ${
-                activeTab === "Read" ? "border-grey-1000" : "border-transparent"
-              }`}
+              className={`flex gap-2 p-2 text-Text-high-emphasis items-center border-b-2 rounded-t-lg ${checkActiveTabContainer(
+                "Read"
+              )}`}
               id="Read-tab"
               type="button"
               role="tab"
@@ -150,11 +155,9 @@ function NotificationDropDownSection({
             >
               Read
               <span
-                className={`${
-                  activeTab === "Read"
-                    ? "bg-info-main text-white"
-                    : "bg-grey-200 text-Text-meduim-emphasis"
-                } text-sm font-medium mr-2 px-2 py-1 rounded`}
+                className={`${checkActiveTabCounter(
+                  "Read"
+                )} text-sm font-medium mr-2 px-2 py-1 rounded`}
               >
                 2
               </span>

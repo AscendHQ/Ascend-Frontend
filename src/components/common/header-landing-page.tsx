@@ -15,12 +15,12 @@ function Header({
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [isScrolled, setIsScrolled] = React.useState(false);
+
   const genericHamburgerLine =
     "h-1 w-full my-1 rounded-full bg-black transition ease transform duration-300";
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-    // Add code to toggle the menu state and apply the CSS class
     if (!isOpen) {
       document.body.classList.add("disable-scroll");
     } else {
@@ -28,7 +28,6 @@ function Header({
     }
   };
   const handleScroll = () => {
-    // Check if the page has been scrolled
     if (window.scrollY > 20) {
       setIsScrolled(true);
     } else {
@@ -37,13 +36,10 @@ function Header({
   };
 
   React.useEffect(() => {
-    // Attach scroll event listener on component mount
     window.addEventListener("scroll", handleScroll);
 
-    // remove the default fixed scrolling when navigated between pages
     document.body.classList.remove("disable-scroll");
 
-    // Clean up the event listener on component unmount
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -51,7 +47,7 @@ function Header({
   return (
     <div
       className={`fixed w-full z-[999] bg-white ${
-        isScrolled ? "bg-opacity-80 shadow-lg" : "bg-opacity-0"
+        isScrolled ? "bg-opacity-80 shadow-lg backdrop-blur" : "bg-opacity-0"
       } transition-all`}
     >
       <Container>
@@ -64,7 +60,7 @@ function Header({
             priority
             className="relative z-50"
           />
-          <div
+          <nav
             className={classNames(
               "fixed inset-0 z-40 bg-white lg:bg-transparent lg:w-[65%] lg:relative px-10 pt-24 lg:p-0 items-center flex flex-col-reverse lg:flex-row justify-end lg:justify-between gap-5 transition-all duration-300",
               { "move-out": isOpen },
@@ -73,7 +69,7 @@ function Header({
           >
             <ul className="flex flex-col w-full lg:flex-row lg:items-center gap-9">
               {menuData.slice(0, -2).map(item => (
-                <li key={item.title} className="font-medium">
+                <li key={item.title} className="font-medium whitespace-nowrap">
                   <Link href={item.to}>{item.title}</Link>
                 </li>
               ))}
@@ -94,7 +90,7 @@ function Header({
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
           <button
             className=" flex flex-col h-10 w-8 rounded justify-center relative z-50 items-center group lg:hidden"
             onClick={toggleMenu}
