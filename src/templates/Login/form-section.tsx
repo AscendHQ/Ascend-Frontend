@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-for */
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,6 +8,7 @@ import { Button } from "@/components/ui/button";
 export default function FormSection() {
   type UserRole = "staff" | "admin";
   const [whoIsLoggingIn, setwhoIsLoggingIn] = React.useState<UserRole>("staff");
+
   return (
     <section className="mx-auto space-y-7 max-w-[450px]">
       <Link href="/">
@@ -39,26 +39,28 @@ export default function FormSection() {
         <hr className="flex-1" />
       </div>
       <div className="flex w-full gap-10">
-        <button
-          className={`${
-            whoIsLoggingIn === "admin"
-              ? "bg-primary-purple-100 border-primary-purple-500 border-2 text-primary-purple-500"
-              : "bg-bgColour-variant-2 text-Text-high-emphasis border-2 border-bgColour-variant-2"
-          }  flex-1 rounded-lg p-6 transition-all font-medium`}
-          onClick={() => setwhoIsLoggingIn("admin")}
-        >
-          As an Admin
-        </button>
-        <button
-          className={`${
-            whoIsLoggingIn === "staff"
-              ? "bg-primary-purple-100 border-primary-purple-500 border-2 text-primary-purple-500"
-              : "bg-bgColour-variant-2 text-Text-high-emphasis border-2 border-bgColour-variant-2"
-          }  flex-1 rounded-lg p-6 transition-all font-medium`}
-          onClick={() => setwhoIsLoggingIn("staff")}
-        >
-          As a Staff
-        </button>
+        {[
+          {
+            title: "As an Admin",
+            role: "admin",
+          },
+          {
+            title: "As an Admin",
+            role: "staff",
+          },
+        ].map(item => (
+          <button
+            className={`${
+              whoIsLoggingIn === item.role
+                ? "bg-primary-purple-100 border-primary-purple-500 border-2 text-primary-purple-500"
+                : "bg-bgColour-variant-2 text-Text-high-emphasis border-2 border-bgColour-variant-2"
+            }  flex-1 rounded-lg p-6 transition-all font-medium`}
+            onClick={() => setwhoIsLoggingIn("admin")}
+            key={item.title}
+          >
+            {item.title}
+          </button>
+        ))}
       </div>
       <NewFunction whoIsLoggingIn={whoIsLoggingIn} />
     </section>
@@ -114,7 +116,7 @@ function NewFunction({ whoIsLoggingIn }: { whoIsLoggingIn: string }) {
           Forgot Password?
         </Link>
       </div>
-      <button className="bg-primary-purple-500 py-4 text-white rounded-lg mt-4">
+      <button className="bg-primary-purple-500 py-4 text-white rounded-lg mt-4 active:scale-90 transition-all">
         Sign in
       </button>
     </div>

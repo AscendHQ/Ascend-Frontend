@@ -5,16 +5,12 @@ import React from "react";
 
 import { DashboardHeader } from "@/components/common";
 import { Sidebar } from "@/components/sidebar";
-import {
-  ACCOUNT_SETTING_DETAILS,
-  ACCOUNT_SETTING_GENERALSETTING,
-  ACCOUNT_SETTING_SCHOOLINFO,
-} from "@/config/links";
+import { STUDENT_ACADEMIC_INFORMATION, STUDENT_BIODATA } from "@/config/links";
 
 type Props = {
   children: JSX.Element;
 };
-export default function AccountSettingContainer({ children }: Props) {
+export default function DatabaseStudentContainer({ children }: Props) {
   const router = useRouter();
 
   return (
@@ -32,27 +28,23 @@ export default function AccountSettingContainer({ children }: Props) {
             />
             <div>
               <h3 className="text-Text-high-emphasis text-2xl font-semibold tracking-tight">
-                Blessing Okowah
+                Babalola Philips
               </h3>
               <span className="text-base text-gray-800 font-medium">
-                blessingokowah@gmail.com
+                Registration Number: 202230120
               </span>
             </div>
           </div>
           <div className="flex justify-between pt-10 pb-5">
-            <ul className="flex bg-neutral-300 border-1.5 items-center border-border-colour-light rounded px-2 py-1 gap-2">
+            <ul className="flex bg-neutral-300 border-1.5 items-center border-border-colour-light rounded px-2 py-3 gap-2">
               {[
                 {
-                  title: "My Details",
-                  url: ACCOUNT_SETTING_DETAILS,
+                  title: "Biodata",
+                  url: STUDENT_BIODATA,
                 },
                 {
-                  title: "School Information",
-                  url: ACCOUNT_SETTING_SCHOOLINFO,
-                },
-                {
-                  title: "General Settings",
-                  url: ACCOUNT_SETTING_GENERALSETTING,
+                  title: "Academic information",
+                  url: STUDENT_ACADEMIC_INFORMATION,
                 },
               ].map(each => (
                 <li key={each.title}>
@@ -68,18 +60,6 @@ export default function AccountSettingContainer({ children }: Props) {
                   </Link>
                 </li>
               ))}
-            </ul>
-            <ul className="flex gap-2">
-              <li>
-                <button className="text-Text-high-emphasis border-1.5 border-border-colour-light rounded-lg py-3 px-6 font-semibold text-sm">
-                  Cancel
-                </button>
-              </li>
-              <li>
-                <button className="text-white bg-primary-purple-700 border-1.5 border-border-colour-light rounded-lg py-3 px-6 font-semibold text-sm">
-                  Save changes
-                </button>
-              </li>
             </ul>
           </div>
           {children}
