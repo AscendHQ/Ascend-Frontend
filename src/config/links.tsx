@@ -11,4 +11,7 @@ export const ACCOUNT_SETTING_GENERALSETTING = "/dashboard/general-settings";
 export const DASHBOARD_LESSON = "/dashboard/lesson";
 export const DASHBOARD_TIMETABLE = "/dashboard/timetable";
 export const DASHBOARD_RESULT = "/dashboard/result";
+export const STUDENT_BIODATA = "/dashboard/biodata";
+export const DASHBOARD_STUDENT = "/dashboard/students";
+export const STUDENT_ACADEMIC_INFORMATION = "/dashboard/academic-information";
 // export const BLOG_PAGE = (slug: string) => `/blog/${slug}`;

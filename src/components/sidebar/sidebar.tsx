@@ -5,7 +5,10 @@ import React from "react";
 import {
   DASHBOARD_LESSON,
   DASHBOARD_RESULT,
+  DASHBOARD_STUDENT,
   DASHBOARD_TIMETABLE,
+  STUDENT_ACADEMIC_INFORMATION,
+  STUDENT_BIODATA,
 } from "@/config/links";
 
 import SideBarItem from "./sidebar-item";
@@ -17,7 +20,7 @@ export default function Sidebar() {
     React.useState(true);
 
   return (
-    <aside className="w-[15%] max-w-[350px] min-w-[250px] border-r border-neutral-200 py-6 px-4 bg-white relative">
+    <aside className="col-span-2 3xl:col-span-1 border-r border-neutral-200 py-6 px-4 bg-white relative">
       <Image
         src="/Ascend-Logo.svg"
         alt="Ascend Logo"
@@ -37,7 +40,9 @@ export default function Sidebar() {
         <SidebarMenu
           heading={"Database"}
           collapse={Boolean(
-            !databaseNavSection.find(each => each.path === router.pathname)
+            !databaseNavSection.find(each =>
+              each.isActivepath.some(path => router.pathname === path)
+            )
           )}
           collapseAction={showCollapsibleSideNav}
           setCollapse={setshowCollapsibleSideNav}
@@ -45,7 +50,9 @@ export default function Sidebar() {
           {databaseNavSection.map(each => (
             <SideBarItem
               title={each.title}
-              isActive={router.pathname === each.path}
+              isActive={each.isActivepath.some(
+                path => router.pathname === path
+              )}
               urlPath={each.path}
               isSideBarMenu
               key={each.title}
@@ -102,22 +109,31 @@ export default function Sidebar() {
 const databaseNavSection = [
   {
     title: "Students",
-    path: "/dashboard/students",
+    path: DASHBOARD_STUDENT,
+    isActivepath: [
+      DASHBOARD_STUDENT,
+      STUDENT_BIODATA,
+      STUDENT_ACADEMIC_INFORMATION,
+    ],
   },
   {
     title: "Subjects",
     path: "/dashboard/subjects",
+    isActivepath: ["/dashboard/subjects"],
   },
   {
     title: "Classes",
     path: "/dashboard/classes",
+    isActivepath: ["/dashboard/classes"],
   },
   {
     title: "Teachers",
     path: "/dashboard/teachers",
+    isActivepath: ["/dashboard/teachers"],
   },
   {
     title: "Hostels",
     path: "/dashboard/hostels",
+    isActivepath: ["/dashboard/hostels"],
   },
 ];

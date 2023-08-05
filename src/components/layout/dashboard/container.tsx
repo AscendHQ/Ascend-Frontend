@@ -9,9 +9,9 @@ type Props = {
 
 export default function Container({ children }: Props) {
   return (
-    <div className="flex font-inter">
+    <div className="grid font-inter grid-cols-9">
       <Sidebar />
-      <div className="flex-1 bg-neutral-300">
+      <div className="col-[3/-1] 3xl:col-[2/-1] bg-neutral-300">
         <DashboardHeader />
         {children}
       </div>
