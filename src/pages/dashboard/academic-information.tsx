@@ -1,4 +1,6 @@
+/* eslint-disable react/no-array-index-key */
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import React from "react";
 
 import DatabaseStudentContainer from "@/components/layout/database-student/container";
@@ -14,7 +16,7 @@ export default function AcademicInformation() {
   return (
     <DatabaseStudentContainer>
       <div>
-        <BioUpdate />
+        <AcademicInfoUpdate />
         <AttendanceInformation />
         <ClassInformation />
       </div>
@@ -33,7 +35,7 @@ function AttendanceInformation() {
           This will be displayed on the student's profile.
         </p>
       </div>
-      <div className="flex flex-1 gap-3 justify-end">
+      <div className="flex flex-1 gap-3 ">
         <div>
           <div className="border border-border-colour-light rounded p-3.5 space-y-1">
             <h4 className="font-medium uppercase text-gray-800 text-xs">
@@ -70,7 +72,7 @@ function ClassInformation() {
           This will be displayed on the student's profile.
         </p>
       </div>
-      <div className="flex flex-1 gap-5">
+      <div className="flex-1">
         <div className="flex gap-3">
           <div className="border-1.5 border-border-colour-light space-y-1 rounded-lg p-3.5 min-w-[200px]">
             <h4 className="text-xs font-medium text-gray-800">CURRENT CLASS</h4>
@@ -90,12 +92,28 @@ function ClassInformation() {
             </p>
           </div>
         </div>
+        <h5 className="text-gray-800 text-sm my-3 font-medium">
+          Class Position History
+        </h5>
+        <div className="flex gap-5 flex-wrap">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div
+              className="border-1.5 border-border-colour-light space-y-1 rounded-lg p-3.5 min-w-[190px]"
+              key={i}
+            >
+              <h4 className="text-xs font-medium text-gray-800">1st Term</h4>
+              <p className="border-none text-sm p-0">
+                <span className="text-lg font-bold">12th</span> of 50 students
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
-function BioUpdate() {
+function AcademicInfoUpdate() {
   return (
     <div className="flex justify-between items-center gap-16 py-8 mb-8 border-b-2 border-border-colour-light">
       <div className="w-96">
@@ -106,9 +124,12 @@ function BioUpdate() {
           Update the academic performance and achievements of students.
         </p>
       </div>
-      <button className="ml-auto flex gap-3 items-center bg-primary-purple-700 text-sm text-white px-6 py-3 rounded-lg">
+      <Link
+        href="/dashboard/update-academic-information"
+        className="ml-auto flex gap-3 items-center bg-primary-purple-700 text-sm text-white px-6 py-3 rounded-lg"
+      >
         <span>Update</span>
-      </button>
+      </Link>
     </div>
   );
 }

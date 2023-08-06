@@ -24,19 +24,19 @@ const options = {
         ranges: [
           {
             from: 0,
-            to: 42,
+            to: 2,
             color: "#7864FF",
             name: "Attended",
           },
           {
-            from: 42,
-            to: 50,
+            from: 3,
+            to: 4,
             color: "#C7D2FE",
             name: "Not Attended",
           },
           {
-            from: 50,
-            to: 200,
+            from: 5,
+            to: 7,
             color: "#808080",
             name: "Impending",
           },
@@ -51,23 +51,23 @@ const seriesData = [
     data: [
       {
         x: "M",
-        y: 100,
+        y: 6,
       },
       {
         x: "T",
-        y: 100,
+        y: 6,
       },
       {
         x: "w",
-        y: 100,
+        y: 6,
       },
       {
         x: "Th",
-        y: 100,
+        y: 6,
       },
       {
         x: "Fr",
-        y: 100,
+        y: 6,
       },
     ],
   },
@@ -76,23 +76,23 @@ const seriesData = [
     data: [
       {
         x: "M",
-        y: 43,
+        y: 2,
       },
       {
         x: "T",
-        y: 43,
+        y: 2,
       },
       {
         x: "w",
-        y: 43,
+        y: 2,
       },
       {
         x: "Th",
-        y: 43,
+        y: 2,
       },
       {
         x: "Fr",
-        y: 120,
+        y: 5,
       },
     ],
   },
@@ -101,23 +101,23 @@ const seriesData = [
     data: [
       {
         x: "M",
-        y: 43,
+        y: 2,
       },
       {
         x: "T",
-        y: 43,
+        y: 2,
       },
       {
         x: "w",
-        y: 43,
+        y: 2,
       },
       {
         x: "Th",
-        y: 43,
+        y: 2,
       },
       {
         x: "Fr",
-        y: 12,
+        y: 3,
       },
     ],
   },
@@ -126,23 +126,23 @@ const seriesData = [
     data: [
       {
         x: "M",
-        y: 22,
+        y: 2,
       },
       {
         x: "T",
-        y: 29,
+        y: 2,
       },
       {
         x: "w",
-        y: 13,
+        y: 2,
       },
       {
         x: "Th",
-        y: 32,
+        y: 2,
       },
       {
         x: "Fr",
-        y: 12,
+        y: 2,
       },
     ],
   },

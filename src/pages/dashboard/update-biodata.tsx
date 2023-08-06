@@ -1,35 +1,45 @@
+import { Icon } from "@iconify/react";
 import Link from "next/link";
 import React from "react";
 
-import DatabaseStudentContainer from "@/components/layout/database-student/container";
+import { DashboardHeader } from "@/components/common";
+import { Sidebar } from "@/components/sidebar";
 
-export default function Biodata() {
+export default function UpdateBiodata() {
   return (
-    <DatabaseStudentContainer>
-      <div>
-        <BioUpdate />
-        <PersonalInformation />
-        <ContactInformation />
-        <HostelAccommodation />
-        <GuardianInformation />
-        <MedicalInformation />
-        <AdditionalInformation />
-        <div className="flex justify-end gap-6">
-          <Link
-            href="/dashboard/students"
-            className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg"
-          >
-            Cancel
+    <div className="grid font-inter grid-cols-9">
+      <Sidebar />
+      <div className="col-[3/-1] 3xl:col-[2/-1] bg-white">
+        <DashboardHeader />
+        <main className="p-10">
+          <Link href="/dashboard/biodata" className="flex items-center gap-2">
+            <Icon icon="teenyicons:arrow-left-solid" />
+            Back to Students
           </Link>
-          <Link
-            href="/dashboard/students"
-            className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg"
-          >
-            Save and continue
-          </Link>
-        </div>
+          <StudentBiodataHeading />
+          <PersonalInformation />
+          <ContactInformation />
+          <HostelAccommodation />
+          <GuardianInformation />
+          <MedicalInformation />
+          <AdditionalInformation />
+          <div className="flex justify-end gap-6">
+            <Link
+              href="/dashboard/students"
+              className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg"
+            >
+              Cancel
+            </Link>
+            <Link
+              href="/dashboard/students"
+              className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg"
+            >
+              Save and continue
+            </Link>
+          </div>
+        </main>
       </div>
-    </DatabaseStudentContainer>
+    </div>
   );
 }
 
@@ -362,29 +372,23 @@ function ContactInformation() {
   );
 }
 
-function BioUpdate() {
+function StudentBiodataHeading() {
   return (
-    <div className="flex justify-between items-center gap-16 py-8 mb-8 border-b-2 border-border-colour-light">
+    <div className="flex justify-between gap-16 pb-4 my-8 border-b-2 border-border-colour-light">
       <div className="w-96">
-        <h4 className="text-Text-high-emphasis font-semibold">
+        <h4 className="text-Text-high-emphasis text-2xl font-bold">
           Student Biodata
         </h4>
-        <p className="text-sm tracking-tight max-w-xs text-gray-800">
-          Update key information and details about the students in our database.
+        <p className="text-sm tracking-tight text-gray-800">
+          This will be displayed on your organization profile.
         </p>
       </div>
-      <Link
-        href="/dashboard/update-biodata"
-        className="ml-auto flex gap-3 items-center bg-primary-purple-700 text-sm text-white px-6 py-3 rounded-lg"
-      >
-        <span>Update</span>
-      </Link>
     </div>
   );
 }
 function PersonalInformation() {
   return (
-    <div className="flex justify-between gap-16 pb-16 mb-8 border-b-2 border-border-colour-light">
+    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Personal information
@@ -394,6 +398,34 @@ function PersonalInformation() {
         </p>
       </div>
       <div className="flex flex-1 flex-wrap gap-5">
+        <section className="lg:min-w-full flex-1 flex items-center gap-3 justify-start">
+          <div className="relative flex justify-center items-center p-3 w-24 h-24 mr-5 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+            <svg
+              className=" w-17 h-17 text-gray-400"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </div>
+          <Link
+            href="/dashboard/update-biodata"
+            className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg"
+          >
+            <span>Upload new</span>
+          </Link>
+          <Link
+            href="/dashboard/update-biodata"
+            className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg"
+          >
+            <span>Remove</span>
+          </Link>
+        </section>
         <div className="lg:min-w-[250px] flex-1">
           <label
             htmlFor="first_name"
