@@ -81,6 +81,7 @@ module.exports = {
         500: "#A1A1AA",
       },
       "default-black": "#333333",
+      "default-link-color": "#3D5CFF",
       bgColour: {
         "variant-1": "#FFFFFF",
         "variant-2": "#F9FBFC",

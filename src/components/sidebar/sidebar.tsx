@@ -3,12 +3,15 @@ import { useRouter } from "next/router";
 import React from "react";
 
 import {
+  DASHBOARD_CLASS,
+  DASHBOARD_CLASS_INFO,
   DASHBOARD_LESSON,
   DASHBOARD_RESULT,
   DASHBOARD_STUDENT,
   DASHBOARD_SUBJECT,
   DASHBOARD_SUBJECT_INFO,
   DASHBOARD_TIMETABLE,
+  NEW_CLASS,
   NEW_SUBJECT,
   STUDENT_ACADEMIC_INFORMATION,
   STUDENT_ACADEMIC_INFORMATION_UPDATE,
@@ -134,8 +137,12 @@ const databaseNavSection = [
   },
   {
     title: "Classes",
-    path: "/dashboard/classes",
-    isActivepath: ["/dashboard/classes"],
+    path: DASHBOARD_CLASS,
+    isActivepath: [
+      DASHBOARD_CLASS,
+      NEW_CLASS,
+      DASHBOARD_CLASS_INFO("[classInfo]"),
+    ],
   },
   {
     title: "Teachers",

@@ -16,6 +16,11 @@ export const NEW_SUBJECT = "/dashboard/subjects/new-subject";
 export const DASHBOARD_SUBJECT_INFO = (slug: string) =>
   `/dashboard/subjects/${slug}`;
 
+export const DASHBOARD_CLASS = "/dashboard/classes";
+export const NEW_CLASS = "/dashboard/classes/new-class";
+export const DASHBOARD_CLASS_INFO = (slug: string) =>
+  `/dashboard/classes/${slug}`;
+
 export const STUDENT_BIODATA = "/dashboard/biodata";
 export const DASHBOARD_STUDENT = "/dashboard/students";
 export const STUDENT_ACADEMIC_INFORMATION = "/dashboard/academic-information";
