@@ -22,11 +22,7 @@ export default function DashboardHeader() {
       <div className="flex items-center gap-10">
         <button onClick={() => setNotificationDropDown(prev => !prev)}>
           <Icon
-            icon={
-              notificationDropDown
-                ? "mingcute:notification-fill"
-                : "mi:notification"
-            }
+            icon="mi:notification"
             fontSize={23}
             className="text-gray-800"
           />

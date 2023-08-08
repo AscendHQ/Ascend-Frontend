@@ -1,4 +1,7 @@
+/* eslint-disable react/no-array-index-key */
+import { Icon } from "@iconify/react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import React from "react";
 
 import DatabaseStudentContainer from "@/components/layout/database-student/container";
@@ -14,11 +17,67 @@ export default function AcademicInformation() {
   return (
     <DatabaseStudentContainer>
       <div>
-        <BioUpdate />
+        <AcademicInfoUpdate />
         <AttendanceInformation />
         <ClassInformation />
+        <GradesPerformance />
       </div>
     </DatabaseStudentContainer>
+  );
+}
+
+function GradesPerformance() {
+  return (
+    <div className="flex justify-between gap-16 pb-5 border-b-2 mb-5 border-border-colour-light">
+      <div className="w-96">
+        <h4 className="text-Text-high-emphasis font-semibold">
+          Grades & Performance
+        </h4>
+        <p className="text-sm tracking-tight text-gray-800">
+          This will be displayed on the student's profile.
+        </p>
+      </div>
+      <div className="flex-1 min-w-[60%] space-y-3">
+        <div className="flex justify-between flex-wrap gap-4 w-full">
+          <div className="flex gap-3">
+            <div className="flex items-center border border-border-colour-light rounded p-2">
+              <label htmlFor="academic_session" className="font-semibold">
+                Session:
+              </label>
+              <select
+                className="border-none font-semibold p-0"
+                name="academic_session"
+              >
+                <option value="2022/2023">2022/2023</option>
+                <option value="2021/2022">2021/2022</option>
+                <option value="2020/2021">2020/2021</option>
+              </select>
+            </div>
+            <div className="flex items-center border border-border-colour-light rounded p-2">
+              <label
+                htmlFor="academic_session"
+                className="text-gray-800 font-semibold"
+              >
+                Term:
+              </label>
+              <select
+                className="border-none font-semibold p-0 text-Text-high-emphasis"
+                name="academic_session"
+              >
+                <option value="1st term">1st term</option>
+                <option value="2nd term">2nd term</option>
+                <option value="3rd term">3rd term</option>
+              </select>
+            </div>
+          </div>
+          <button className="flex gap-3 items-center bg-primary-purple-700 text-sm text-white px-6 py-3 rounded-lg">
+            <Icon icon="ph:plus-bold" />
+            <span>Add Subject</span>
+          </button>
+        </div>
+        <Table />
+      </div>
+    </div>
   );
 }
 
@@ -33,7 +92,7 @@ function AttendanceInformation() {
           This will be displayed on the student's profile.
         </p>
       </div>
-      <div className="flex flex-1 gap-3 justify-end">
+      <div className="flex flex-1 gap-3 ">
         <div>
           <div className="border border-border-colour-light rounded p-3.5 space-y-1">
             <h4 className="font-medium uppercase text-gray-800 text-xs">
@@ -59,9 +118,10 @@ function AttendanceInformation() {
     </div>
   );
 }
+
 function ClassInformation() {
   return (
-    <div className="flex justify-between gap-16 pb-5 border-b-2 border-border-colour-light">
+    <div className="flex justify-between gap-16 pb-5 mb-6 border-b-2 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Class information
@@ -70,7 +130,7 @@ function ClassInformation() {
           This will be displayed on the student's profile.
         </p>
       </div>
-      <div className="flex flex-1 gap-5">
+      <div className="flex-1">
         <div className="flex gap-3">
           <div className="border-1.5 border-border-colour-light space-y-1 rounded-lg p-3.5 min-w-[200px]">
             <h4 className="text-xs font-medium text-gray-800">CURRENT CLASS</h4>
@@ -90,12 +150,28 @@ function ClassInformation() {
             </p>
           </div>
         </div>
+        <h5 className="text-gray-800 text-sm my-3 font-medium">
+          Class Position History
+        </h5>
+        <div className="flex gap-5 flex-wrap">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div
+              className="border-1.5 border-border-colour-light space-y-1 rounded-lg p-3.5 min-w-[190px]"
+              key={i}
+            >
+              <h4 className="text-xs font-medium text-gray-800">1st Term</h4>
+              <p className="border-none text-sm p-0">
+                <span className="text-lg font-bold">12th</span> of 50 students
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
-function BioUpdate() {
+function AcademicInfoUpdate() {
   return (
     <div className="flex justify-between items-center gap-16 py-8 mb-8 border-b-2 border-border-colour-light">
       <div className="w-96">
@@ -106,9 +182,96 @@ function BioUpdate() {
           Update the academic performance and achievements of students.
         </p>
       </div>
-      <button className="ml-auto flex gap-3 items-center bg-primary-purple-700 text-sm text-white px-6 py-3 rounded-lg">
+      <Link
+        href="/dashboard/update-academic-information"
+        className="ml-auto flex gap-3 items-center bg-primary-purple-700 text-sm text-white px-6 py-3 rounded-lg"
+      >
         <span>Update</span>
-      </button>
+      </Link>
+    </div>
+  );
+}
+
+function Table() {
+  return (
+    <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
+      <table className="w-full text-sm text-left text-gray-500">
+        <thead className="text-xs text-gray-700 uppercase border-b border-grey-300 bg-gray-50 ">
+          <tr>
+            <th scope="col" className="pl-6 pr-3 py-3">
+              Subject
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Mid-Term test
+            </th>
+            <th scope="col" className="px-6 py-3">
+              CA Score
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Exam score
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Total
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Grade
+            </th>
+
+            <th scope="col" className="px-6 py-3">
+              <Icon icon="ion:filter" />
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            "General Mathematics",
+            "Use of English Language",
+            "Chemistry",
+            "Further Mathematics",
+            "Biology",
+            "Physics",
+            "Economics",
+            "Civic Education",
+            "Data Processing",
+          ].map(item => (
+            <tr className="bg-white border-b " key={item}>
+              <td className="px-6 py-4 font-medium text-gray-900  whitespace-nowrap">
+                {item}
+              </td>
+              <td className="px-6 py-4">
+                <input
+                  type="text"
+                  className="max-w-[100px] placeholder:text-Text-meduim-emphasis border border-grey-300"
+                  placeholder="0.00"
+                />
+              </td>
+              <td className="px-6 py-4">
+                <input
+                  type="text"
+                  className="max-w-[100px] placeholder:text-Text-meduim-emphasis border border-grey-300"
+                  placeholder="0.00"
+                />
+              </td>
+              <td className="px-6 py-4">
+                <input
+                  type="text"
+                  className="max-w-[100px] placeholder:text-Text-meduim-emphasis border border-grey-300"
+                  placeholder="0.00"
+                />
+              </td>
+              <td className="px-6 py-4">
+                <span>N/A</span>
+              </td>
+              <td className="px-6 py-4">
+                <span>N/A</span>
+              </td>
+              <td className="px-6 py-4">
+                <Icon icon="ri:more-2-fill" />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

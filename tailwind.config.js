@@ -80,6 +80,7 @@ module.exports = {
         400: "#F4F4F5",
         500: "#A1A1AA",
       },
+      "default-black": "#333333",
       bgColour: {
         "variant-1": "#FFFFFF",
         "variant-2": "#F9FBFC",
@@ -88,7 +89,7 @@ module.exports = {
       star: {
         default: "#FFE500AB",
       },
-      success: { main: "#36B37E", dark: "#206B4C" },
+      success: { main: "#36B37E", dark: "#206B4C", light: "#D7F0E5" },
       info: { main: "#0072DA", dark: "#004483", light: "#CCE3F8" },
       warning: { main: "#FFAB00", dark: "#996700", light: "#FFEECC" },
       Text: {

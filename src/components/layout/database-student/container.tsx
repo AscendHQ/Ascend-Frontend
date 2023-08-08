@@ -1,3 +1,4 @@
+import { Icon } from "@iconify/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -5,7 +6,11 @@ import React from "react";
 
 import { DashboardHeader } from "@/components/common";
 import { Sidebar } from "@/components/sidebar";
-import { STUDENT_ACADEMIC_INFORMATION, STUDENT_BIODATA } from "@/config/links";
+import {
+  DASHBOARD_STUDENT,
+  STUDENT_ACADEMIC_INFORMATION,
+  STUDENT_BIODATA,
+} from "@/config/links";
 
 type Props = {
   children: JSX.Element;
@@ -61,6 +66,10 @@ export default function DatabaseStudentContainer({ children }: Props) {
                 </li>
               ))}
             </ul>
+            <Link href={DASHBOARD_STUDENT} className="flex items-center gap-2">
+              <Icon icon="teenyicons:arrow-left-solid" />
+              Back to Students
+            </Link>
           </div>
           {children}
         </div>

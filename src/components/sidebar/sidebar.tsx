@@ -6,9 +6,14 @@ import {
   DASHBOARD_LESSON,
   DASHBOARD_RESULT,
   DASHBOARD_STUDENT,
+  DASHBOARD_SUBJECT,
+  DASHBOARD_SUBJECT_INFO,
   DASHBOARD_TIMETABLE,
+  NEW_SUBJECT,
   STUDENT_ACADEMIC_INFORMATION,
+  STUDENT_ACADEMIC_INFORMATION_UPDATE,
   STUDENT_BIODATA,
+  STUDENT_BIODATA_UPDATE,
 } from "@/config/links";
 
 import SideBarItem from "./sidebar-item";
@@ -114,12 +119,18 @@ const databaseNavSection = [
       DASHBOARD_STUDENT,
       STUDENT_BIODATA,
       STUDENT_ACADEMIC_INFORMATION,
+      STUDENT_ACADEMIC_INFORMATION_UPDATE,
+      STUDENT_BIODATA_UPDATE,
     ],
   },
   {
     title: "Subjects",
-    path: "/dashboard/subjects",
-    isActivepath: ["/dashboard/subjects"],
+    path: DASHBOARD_SUBJECT,
+    isActivepath: [
+      DASHBOARD_SUBJECT,
+      NEW_SUBJECT,
+      DASHBOARD_SUBJECT_INFO("[subjectInfo]"),
+    ],
   },
   {
     title: "Classes",

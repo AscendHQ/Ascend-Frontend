@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/no-array-index-key */
 import { Icon } from "@iconify/react";
+import Image from "next/image";
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 
@@ -29,7 +31,20 @@ const StudentTable: React.FC = () => {
           {Array.from({ length: 10 }).map((_, i) => (
             <tr className="bg-white border-b hover:bg-gray-50" key={i}>
               <TableBodyText title="DEMO/2022/120" styles="text-left" />
-              <TableBodyText title="Babalola Philips" />
+
+              <TableBodyText
+                title="Babalola Philips"
+                leftElement={
+                  <Image
+                    src={"/joebrendan.png"}
+                    alt="Joe Brendan"
+                    width={27}
+                    className="rounded-full inline mr-2"
+                    height={27}
+                  />
+                }
+                styles="pr-5"
+              />
               <TableBodyText title="Grade 4" />
               <TableBodyText title="M" />
               <TableBodyText title="12" />
@@ -59,9 +74,11 @@ const StudentTable: React.FC = () => {
   function TableBodyText({
     title,
     styles,
+    leftElement,
   }: {
     title: string;
     styles?: string;
+    leftElement?: any;
   }) {
     return (
       <td
@@ -70,6 +87,7 @@ const StudentTable: React.FC = () => {
           styles
         )}
       >
+        {leftElement}
         {title}
       </td>
     );
