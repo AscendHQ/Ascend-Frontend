@@ -76,7 +76,7 @@ export default function AccountSettingContainer({ children }: Props) {
                 </button>
               </li>
               <li>
-                <button className="text-white bg-primary-purple-700 border-1.5 border-border-colour-light rounded-lg py-3 px-6 font-semibold text-sm">
+                <button className="text-white bg-primary-purple-700 rounded-lg py-3 px-6 font-semibold text-sm">
                   Save changes
                 </button>
               </li>

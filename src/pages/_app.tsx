@@ -23,6 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
         stopDelayMs={200}
         height={3}
       />
+
       <Component {...pageProps} />
     </>
   );

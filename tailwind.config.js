@@ -80,6 +80,7 @@ module.exports = {
         400: "#F4F4F5",
         500: "#A1A1AA",
       },
+      "default-black": "#333333",
       bgColour: {
         "variant-1": "#FFFFFF",
         "variant-2": "#F9FBFC",

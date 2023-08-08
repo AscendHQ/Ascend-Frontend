@@ -1,8 +1,11 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Icon } from "@iconify/react";
+import Link from "next/link";
 import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
+import { DASHBOARD_SUBJECT_INFO, NEW_SUBJECT } from "@/config/links";
 
 export default function Subjects() {
   const [viewStudent, setviewStudent] = React.useState<
@@ -21,18 +24,17 @@ export default function Subjects() {
   ]);
   return (
     <Container>
-      <main className="px-10 py-5">
-        <div className="flex ">
-          <button className="flex items-center gap-3 text-sm">
-            <Icon icon="teenyicons:arrow-left-solid" />
-            <span>Back to dashboard</span>
-          </button>
-          <button className="ml-auto flex gap-3 items-center bg-primary-purple-700 text-white px-4 py-3 rounded-lg">
+      <main className="px-10 py-5 h-full bg-white">
+        <div className="flex">
+          <Link
+            href={NEW_SUBJECT}
+            className="ml-auto flex gap-3 items-center bg-primary-purple-700 text-white px-4 py-3 rounded-lg"
+          >
             <Icon icon="tabler:plus" />
-            <span>Register student</span>
-          </button>
+            <span>Add Subject</span>
+          </Link>
         </div>
-        <ul className="flex bg-gray-200 border-1.5 items-center w-fit my-2 border-border-colour-light rounded px-2 py-1 gap-2 mt-10">
+        <ul className="flex bg-neutral-300 border-1.5 items-center w-fit my-2 border-border-colour-light rounded px-2 py-1 gap-2 mt-10">
           {studentDemographics.map(each => (
             <li key={each.name}>
               <button
@@ -84,7 +86,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {gass.map(item => (
+          {subjectInfo.map(item => (
             <tr className="bg-white border-b " key={item.subjectName}>
               <td className="px-6 py-4 font-medium text-gray-900  whitespace-nowrap">
                 {item.subjectName}
@@ -113,7 +115,9 @@ function Table() {
                 )}
               </td>
               <td className="px-6 py-4">
-                <Icon icon="ri:more-2-fill" />
+                <Link href={DASHBOARD_SUBJECT_INFO("slug")}>
+                  <Icon icon="ri:more-2-fill" />
+                </Link>
               </td>
             </tr>
           ))}
@@ -122,7 +126,7 @@ function Table() {
     </div>
   );
 }
-const gass = [
+const subjectInfo = [
   {
     subjectName: "Physics",
     subjectCode: "PHY",
