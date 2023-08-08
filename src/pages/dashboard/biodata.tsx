@@ -14,20 +14,6 @@ export default function Biodata() {
         <GuardianInformation />
         <MedicalInformation />
         <AdditionalInformation />
-        <div className="flex justify-end gap-6">
-          <Link
-            href="/dashboard/students"
-            className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg"
-          >
-            Cancel
-          </Link>
-          <Link
-            href="/dashboard/students"
-            className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg"
-          >
-            Save and continue
-          </Link>
-        </div>
       </div>
     </DatabaseStudentContainer>
   );

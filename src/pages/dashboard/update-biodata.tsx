@@ -1,4 +1,5 @@
 import { Icon } from "@iconify/react";
+import { Toast } from "flowbite-react";
 import Link from "next/link";
 import React from "react";
 
@@ -6,6 +7,13 @@ import { DashboardHeader } from "@/components/common";
 import { Sidebar } from "@/components/sidebar";
 
 export default function UpdateBiodata() {
+  const [showToast, setShowToast] = React.useState(false);
+
+  const handleShowToast = () => {
+    setTimeout(() => {
+      setShowToast(true);
+    }, 100); // 10000 milliseconds = 10 seconds
+  };
   return (
     <div className="grid font-inter grid-cols-9">
       <Sidebar />
@@ -14,7 +22,7 @@ export default function UpdateBiodata() {
         <main className="p-10">
           <Link href="/dashboard/biodata" className="flex items-center gap-2">
             <Icon icon="teenyicons:arrow-left-solid" />
-            Back to Students
+            Back to Biodata
           </Link>
           <StudentBiodataHeading />
           <PersonalInformation />
@@ -24,18 +32,32 @@ export default function UpdateBiodata() {
           <MedicalInformation />
           <AdditionalInformation />
           <div className="flex justify-end gap-6">
-            <Link
-              href="/dashboard/students"
-              className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg"
-            >
+            <button className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg">
               Cancel
-            </Link>
-            <Link
-              href="/dashboard/students"
+            </button>
+            <button
+              onClick={handleShowToast}
               className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg"
             >
               Save and continue
-            </Link>
+            </button>
+            {/* <div className="fixed bottom-5 right-5 bg-gray-800 text-white py-2 px-4 rounded-lg shadow-lg transform translate-y-full transition-transform duration-500">
+             */}
+            {showToast && (
+              <Toast
+                className={`fixed top-5 right-5 bg-gray-800 text-white py-2 px-4 rounded-lg shadow-lg ${
+                  showToast
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-full"
+                } transition-opacity duration-500`}
+              >
+                {/* <Toast className="fixed top-1 -translate-x-2/4 left-2/4 bg-success-main text-white rounded-none "> */}
+                <div className="ml-3 text-sm font-normal">
+                  Student registered successfully
+                </div>
+                <Toast.Toggle className="rounded-full flex justify-center items-center h-7 w-7" />
+              </Toast>
+            )}
           </div>
         </main>
       </div>
@@ -413,18 +435,12 @@ function PersonalInformation() {
               ></path>
             </svg>
           </div>
-          <Link
-            href="/dashboard/update-biodata"
-            className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg"
-          >
-            <span>Upload new</span>
-          </Link>
-          <Link
-            href="/dashboard/update-biodata"
-            className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg"
-          >
-            <span>Remove</span>
-          </Link>
+          <button className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg">
+            Upload new
+          </button>
+          <button className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg">
+            Remove
+          </button>
         </section>
         <div className="lg:min-w-[250px] flex-1">
           <label

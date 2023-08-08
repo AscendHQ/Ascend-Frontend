@@ -4,6 +4,7 @@ import React from "react";
 
 import { DashboardHeader } from "@/components/common";
 import { Sidebar } from "@/components/sidebar";
+import { STUDENT_ACADEMIC_INFORMATION } from "@/config/links";
 
 export default function UpdateAcademicInformation() {
   return (
@@ -12,17 +13,39 @@ export default function UpdateAcademicInformation() {
       <div className="col-[3/-1] 3xl:col-[2/-1] bg-white">
         <DashboardHeader />
         <main className="p-10">
-          <Link href="/dashboard/biodata" className="flex items-center gap-2">
+          <Link
+            href={STUDENT_ACADEMIC_INFORMATION}
+            className="flex items-center gap-2"
+          >
             <Icon icon="teenyicons:arrow-left-solid" />
-            Back to Students
+            Back to Academic information
           </Link>
           <AcademicInfoHeading />
           <AcademicDetails />
+          <SubjectsOffering />
+          <MedicalInformation />
+          <AdditionalInformation />
+          <HostelAccommodation />
+          <div className="flex justify-end gap-6">
+            <Link
+              href="/dashboard/students"
+              className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg"
+            >
+              Cancel
+            </Link>
+            <Link
+              href="/dashboard/students"
+              className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg"
+            >
+              Save and continue
+            </Link>
+          </div>
         </main>
       </div>
     </div>
   );
 }
+
 function AcademicInfoHeading() {
   return (
     <div className="flex justify-between gap-16 pb-4 my-8 border-b-2 border-border-colour-light">
@@ -37,9 +60,10 @@ function AcademicInfoHeading() {
     </div>
   );
 }
+
 function AcademicDetails() {
   return (
-    <div className="flex justify-between gap-10 pb-16 border-b-2 border-border-colour-light">
+    <div className="flex justify-between gap-10 pb-16 mb-8 border-b-2 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Academic Details
@@ -200,3 +224,229 @@ function AcademicDetails() {
     </div>
   );
 }
+
+function SubjectsOffering() {
+  return (
+    <div className="flex justify-between gap-16 pb-5 border-b-2 mb-5 border-border-colour-light">
+      <div className="w-96">
+        <h4 className="text-Text-high-emphasis font-semibold">
+          Subjects Offering
+        </h4>
+        <p className="text-sm tracking-tight text-gray-800">
+          This will be displayed on the student's profile.
+        </p>
+      </div>
+      <div className="flex-1 min-w-[60%] space-y-3">
+        <div className="flex justify-end flex-wrap gap-4 w-full">
+          <button className="flex gap-3 items-center bg-primary-purple-700 text-sm text-white px-6 py-3 rounded-lg">
+            <Icon icon="ph:plus-bold" />
+            <span>Add Subject</span>
+          </button>
+        </div>
+        <SubjectOfferingData />
+      </div>
+    </div>
+  );
+}
+
+function SubjectOfferingData() {
+  return (
+    <ul className="overflow-x-auto border border-border-colour-light rounded-lg">
+      {subjectOfferingList.map((item, index) => (
+        <li
+          className={`flex justify-between items-center px-3 py-2   ${
+            subjectOfferingList.length - 1 === index
+              ? ""
+              : "border-b border-border-colour-light"
+          }`}
+          key={item}
+        >
+          <span className="text-sm text-Text-high-emphasis font-semibold">
+            {item}
+          </span>
+          <div className="flex gap-2">
+            <button className="border-1.5 border-border-colour-light text-sm rounded-lg px-5 py-1">
+              Edit
+            </button>
+            <button className="border-1.5 border-border-colour-light text-sm rounded-lg px-4 py-2">
+              Remove
+            </button>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function HostelAccommodation() {
+  return (
+    <div className="flex justify-between gap-16 pb-10 border-b-2 mb-8 border-border-colour-light">
+      <div className="w-96">
+        <h4 className="text-Text-high-emphasis font-semibold">
+          Hostel / accommodation
+        </h4>
+        <p className="text-sm tracking-tight text-gray-800">
+          This will be displayed on your organization profile.
+        </p>
+      </div>
+      <div className="flex flex-1 flex-wrap gap-5">
+        <div className="lg:min-w-[250px] flex-1">
+          <label
+            htmlFor="hostel_block"
+            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
+          >
+            Block
+          </label>
+          <input
+            type="text"
+            id="hostel_block"
+            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+            required
+          />
+        </div>
+        <div className="lg:min-w-[250px] flex-1">
+          <label
+            htmlFor="hostel_room-number"
+            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
+          >
+            Room number
+          </label>
+          <input
+            type="text"
+            id="hostel_room-number"
+            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+            required
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AdditionalInformation() {
+  return (
+    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
+      <div className="w-96">
+        <h4 className="text-Text-high-emphasis font-semibold">
+          Additional information
+        </h4>
+        <p className="text-sm tracking-tight text-gray-800">
+          This will be displayed on your organization profile.
+        </p>
+      </div>
+      <div className="flex flex-1 flex-wrap gap-5">
+        <div className="lg:min-w-[250px] flex-1">
+          <label
+            htmlFor="special_needs/disabilities"
+            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
+          >
+            Any special needs / disabilities?
+          </label>
+          <input
+            type="text"
+            id="special_needs/disabilities"
+            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+            required
+          />
+        </div>
+        <div className="lg:min-w-[250px] flex-1">
+          <label
+            htmlFor="nature_of_disability"
+            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
+          >
+            Nature of disability
+          </label>
+          <input
+            type="text"
+            id="nature_of_disability"
+            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+            placeholder="(217) 555-0113"
+            required
+          />
+        </div>
+        <div className="lg:min-w-full flex-1">
+          <label
+            htmlFor="medication"
+            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
+          >
+            Medication
+          </label>
+          <textarea
+            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+            id="medication"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MedicalInformation() {
+  return (
+    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
+      <div className="w-96">
+        <h4 className="text-Text-high-emphasis font-semibold">
+          Medical information
+        </h4>
+        <p className="text-sm tracking-tight text-gray-800">
+          This will be displayed on your organization profile.
+        </p>
+      </div>
+      <div className="flex flex-1 flex-wrap gap-5">
+        <div className="lg:min-w-[250px] flex-1">
+          <label
+            htmlFor="allergies"
+            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
+          >
+            Allergies
+          </label>
+          <input
+            type="text"
+            id="allergies"
+            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+            placeholder="Any know allergies?"
+            required
+          />
+        </div>
+        <div className="lg:min-w-[250px] flex-1">
+          <label
+            htmlFor="emergency_contact"
+            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
+          >
+            Emergency Contact
+          </label>
+          <input
+            type="text"
+            id="emergency_contact"
+            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+            placeholder="(217) 555-0113"
+            required
+          />
+        </div>
+        <div className="lg:min-w-full flex-1">
+          <label
+            htmlFor="medication"
+            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
+          >
+            Medication
+          </label>
+          <textarea
+            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+            id="medication"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+const subjectOfferingList = [
+  "General Mathematics",
+  "Use of English Language",
+  "Chemistry",
+  "Further Mathematics",
+  "Biology",
+  "Physics",
+  "Economics",
+  "Civic Education",
+  "Data Processing",
+];
