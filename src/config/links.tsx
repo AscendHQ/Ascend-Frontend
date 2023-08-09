@@ -33,8 +33,14 @@ export const NEW_TEACHER_BIODATA = "/dashboard/teachers/new-teacher-biodata";
 export const NEW_TEACHER_PERMISSION =
   "/dashboard/teachers/new-teacher-permission";
 export const NEW_TEACHER_OFFICIAL_INFO =
-  "/dashboard/teachers/new-teacher-official-info";
-export const DASHBOARD_TEACHER_INFO = (slug: string) =>
-  `/dashboard/teachers/${slug}`;
+  "/dashboard/teachers/new-teacher-official-information";
+export const DASHBOARD_TEACHER_INFO_BIODATA = (slug: string) =>
+  `/dashboard/teachers/${slug}/biodata`;
+export const DASHBOARD_TEACHER_INFO_OFFICIAL_INFO = (slug: string) =>
+  `/dashboard/teachers/${slug}/official-information`;
+export const DASHBOARD_TEACHER_INFO_PERMISSION = (slug: string) =>
+  `/dashboard/teachers/${slug}/permission`;
+export const DASHBOARD_TEACHER_SECURITY_INFO = (slug: string) =>
+  `/dashboard/teachers/${slug}/security-information`;
 
 // export const BLOG_PAGE = (slug: string) => `/blog/${slug}`;

@@ -1,37 +1,39 @@
-import { Icon } from "@iconify/react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Link from "next/link";
 import React from "react";
 
-import { Container } from "@/components/layout/dashboard";
-import { NEW_TEACHER_BIODATA, NEW_TEACHER_PERMISSION } from "@/config/links";
+import DatabaseTeacherContainer from "@/components/layout/database-teacher/container";
 
-export default function NewTeacherOfficialInfo() {
+export default function DatabaseTeacherOfficialInfo() {
   return (
-    <Container>
-      <main className="p-10 bg-white h-full">
-        <Link href={NEW_TEACHER_BIODATA} className="flex items-center gap-2">
-          <Icon icon="teenyicons:arrow-left-solid" />
-          Back
-        </Link>
-        <TeacherdataHeading />
+    <DatabaseTeacherContainer>
+      <main className="h-full">
+        <TeacherOfficialInfo />
         <PersonalInformation />
-        <Password />
-        <div className="flex justify-end gap-6">
-          <button className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg">
-            Cancel
-          </button>
-          <Link
-            href={NEW_TEACHER_PERMISSION}
-            className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg"
-          >
-            Save and continue
-          </Link>
-        </div>
       </main>
-    </Container>
+    </DatabaseTeacherContainer>
   );
 }
-
+function TeacherOfficialInfo() {
+  return (
+    <div className="flex justify-between items-center gap-16 py-8 mb-8 border-b-2 border-border-colour-light">
+      <div className="w-96">
+        <h4 className="text-Text-high-emphasis font-semibold">
+          Official information
+        </h4>
+        <p className="text-sm tracking-tight max-w-xs text-gray-800">
+          Update your teacher infromation here
+        </p>
+      </div>
+      <Link
+        href="/dashboard/update-academic-information"
+        className="ml-auto flex gap-3 items-center bg-primary-purple-700 text-sm text-white px-6 py-3 rounded-lg"
+      >
+        <span>Save Changes</span>
+      </Link>
+    </div>
+  );
+}
 function PersonalInformation() {
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
@@ -135,7 +137,7 @@ function PersonalInformation() {
             htmlFor="department"
             className="block mb-2 text-sm font-medium text-Text-high-emphasis"
           >
-            Department <small>(Optional)</small>
+            Department
           </label>
           <input
             type="email"
@@ -162,60 +164,6 @@ function PersonalInformation() {
             <option value="OND">OND</option>
           </select>
         </div>
-      </div>
-    </div>
-  );
-}
-function Password() {
-  return (
-    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
-      <div className="w-96">
-        <h4 className="text-Text-high-emphasis font-semibold">Password</h4>
-        <p className="text-sm tracking-tight text-gray-800">
-          This will be displayed on your organization profile.
-        </p>
-      </div>
-      <div className="space-y-3 flex-1">
-        <div className="flex bg-warning-light items-start relative p-4 pl-12 max-w-[500px] rounded-lg">
-          <Icon
-            icon="la:lightbulb-solid"
-            fontSize={25}
-            className="absolute top-4 text-warning-main left-4"
-          />
-          <p className="text-xs text-Text-high-emphasis">
-            This password with the staff ID would be sent to the user upon
-            invite as login credentials. Note that the user would be able to
-            change this password after logging into thier account.
-          </p>
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="staff_password"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Staff password
-          </label>
-          <input
-            type="password"
-            id="staff_password"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="******"
-            required
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function TeacherdataHeading() {
-  return (
-    <div className="flex justify-between gap-16 pb-4 my-8 border-b-2 border-border-colour-light">
-      <div className="w-96">
-        <span className=" text-sm font-medium text-gray-800">STEP 2 of 3</span>
-        <p className="text-2xl font-bold tracking-tight text-Text-high-emphasis ">
-          Official Information
-        </p>
       </div>
     </div>
   );

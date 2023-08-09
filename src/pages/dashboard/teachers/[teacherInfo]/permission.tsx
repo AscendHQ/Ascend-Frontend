@@ -1,138 +1,42 @@
-import { Icon } from "@iconify/react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Link from "next/link";
 import React from "react";
 
-import { Container } from "@/components/layout/dashboard";
-import {
-  DASHBOARD_TEACHER_INFO_BIODATA,
-  NEW_TEACHER_OFFICIAL_INFO,
-} from "@/config/links";
+import DatabaseTeacherContainer from "@/components/layout/database-teacher/container";
 
-export default function NewTeacherPermissions() {
-  const [isModalOpenSendInvite, setIsModalOpenSendInvite] =
-    React.useState(false);
-  const [isModalOpenInviteSent, setIsModalOpenInviteSent] =
-    React.useState(false);
-
-  const handleOpenModalSendInvite = () => {
-    setIsModalOpenSendInvite(true);
-  };
-
-  const handleCloseModalSendInvite = () => {
-    setIsModalOpenSendInvite(false);
-  };
-  const handleOpenModalInviteSent = () => {
-    setIsModalOpenInviteSent(true);
-  };
-
-  const handleCloseModalInviteSent = () => {
-    setIsModalOpenInviteSent(false);
-  };
+export default function DatabaseTeacherPermission() {
   return (
-    <div>
-      <Container>
-        <main className="p-10 bg-white h-full">
-          <Link
-            href={NEW_TEACHER_OFFICIAL_INFO}
-            className="flex items-center gap-2"
-          >
-            <Icon icon="teenyicons:arrow-left-solid" />
-            Back
-          </Link>
-          <TeacherdataHeading />
-          <Dashboard />
-          <Database />
-          <LessonPlan />
-          <Timetable />
-          <Results />
-          <Administration />
-          <Payroll />
-          <div className="flex justify-end gap-6">
-            <button className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg">
-              Discard
-            </button>
-            <button
-              onClick={handleOpenModalSendInvite}
-              className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg"
-            >
-              Save and continue
-            </button>
-          </div>
-        </main>
-      </Container>
-      <Modal open={isModalOpenSendInvite} onClose={handleCloseModalSendInvite}>
-        <div className="text-center">
-          <h2 className="text-lg font-semibold mb-2 mt-4 text-Text-high-emphasis">
-            Send Invite
-          </h2>
-          <p className="text-gray-700 text-sm">
-            An invite for{" "}
-            <span className="text-Text-high-emphasis font-semibold">
-              Kolade Adesola
-            </span>{" "}
-            would be sent to the provided email address and phone number. Note
-            that this invite will contain the{" "}
-            <span className="text-Text-high-emphasis font-semibold">
-              generated staff ID
-            </span>{" "}
-            and{" "}
-            <span className="text-Text-high-emphasis font-semibold">
-              password
-            </span>
-            .
-          </p>
-          <div className="flex gap-6 mt-5">
-            <button className="text-center flex-1 font-semibold  border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg">
-              Go back
-            </button>
-            <button
-              onClick={handleOpenModalInviteSent}
-              className="flex flex-1 gap-2 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg text-center justify-center"
-            >
-              <Icon icon="lucide:send" />
-              <span>Send invite</span>
-            </button>
-          </div>
-        </div>
-      </Modal>
-      <Modal open={isModalOpenInviteSent} onClose={handleCloseModalInviteSent}>
-        <div className="text-center">
-          <div className="flex justify-center items-center rounded-lg bg-success-light py-6">
-            <Icon
-              icon="zondicons:checkmark-outline"
-              className="bg-success-light text-success-dark"
-              fontSize={40}
-            />
-          </div>
-          <h2 className="text-lg font-semibold mb-2 mt-4 text-Text-high-emphasis">
-            Invite Has Been Sent Successfully
-          </h2>
-          <p className="text-gray-700 text-sm">
-            You have sent an invite. The person you invited would have access to
-            your staff dashboard as soon as they accept the invite and can help
-            you manage your account
-          </p>
-          <Link
-            href={DASHBOARD_TEACHER_INFO_BIODATA("Kolade-Adesola")}
-            className="text-white bg-primary-purple-700 mt-5 block w-full rounded-lg py-3 px-6 font-semibold text-sm"
-          >
-            View Staff
-          </Link>
-        </div>
-      </Modal>
-    </div>
+    <DatabaseTeacherContainer>
+      <main className="h-full">
+        <TeacherAccessPermissions />
+        <Dashboard />
+        <Database />
+        <LessonPlan />
+        <Timetable />
+        <Results />
+        <Administration />
+        <Payroll />
+      </main>
+    </DatabaseTeacherContainer>
   );
 }
-
-function TeacherdataHeading() {
+function TeacherAccessPermissions() {
   return (
-    <div className="flex justify-between gap-16 pb-4 my-8 border-b-2 border-border-colour-light">
+    <div className="flex justify-between items-center gap-16 py-8 mb-8 border-b-2 border-border-colour-light">
       <div className="w-96">
-        <span className=" text-sm font-medium text-gray-800">STEP 3 of 3</span>
-        <p className="text-2xl font-bold tracking-tight text-Text-high-emphasis ">
+        <h4 className="text-Text-high-emphasis font-semibold">
           Access & Permissions
+        </h4>
+        <p className="text-sm tracking-tight max-w-xs text-gray-800">
+          Update your teacher permissions here
         </p>
       </div>
+      <Link
+        href="/dashboard/update-academic-information"
+        className="ml-auto flex gap-3 items-center bg-primary-purple-700 text-sm text-white px-6 py-3 rounded-lg"
+      >
+        <span>Save Changes</span>
+      </Link>
     </div>
   );
 }
@@ -510,48 +414,3 @@ function Payroll() {
     </div>
   );
 }
-interface ModalProps {
-  open: boolean;
-  onClose: () => void;
-  children: JSX.Element;
-}
-
-const Modal: React.FC<ModalProps> = ({ open, onClose, children }) => {
-  const modalRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    const handleOutsideClick = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        onClose();
-      }
-    };
-
-    if (open) {
-      document.addEventListener("mousedown", handleOutsideClick);
-    } else {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, [open, onClose]);
-
-  return (
-    <div
-      className={`fixed inset-0 flex items-center justify-center z-50  ${
-        open
-          ? "opacity-100 pointer-events-auto"
-          : "opacity-0 pointer-events-none"
-      }`}
-    >
-      <div className="absolute inset-0 bg-gray-800 opacity-75"></div>
-      <div
-        ref={modalRef}
-        className="bg-white rounded-xl relative z-50 p-6 max-w-[422px]"
-      >
-        {children}
-      </div>
-    </div>
-  );
-};
