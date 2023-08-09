@@ -109,6 +109,7 @@ function HostelAccommodation() {
     </div>
   );
 }
+
 function AdditionalInformation() {
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
