@@ -13,6 +13,11 @@ const ApexChart = () => {
     </div>
   );
 };
+const customColors = {
+  "purple-200": "#C9C1FF",
+  "grey-500": "#C2C2C2",
+  "purple-500": "#7864FF",
+};
 const options = {
   dataLabels: {
     enabled: false,
@@ -25,19 +30,19 @@ const options = {
           {
             from: 0,
             to: 2,
-            color: "#7864FF",
+            color: customColors["purple-500"],
             name: "Attended",
           },
           {
             from: 3,
             to: 4,
-            color: "#C7D2FE",
+            color: customColors["purple-200"],
             name: "Not Attended",
           },
           {
             from: 5,
             to: 7,
-            color: "#808080",
+            color: customColors["grey-500"],
             name: "Impending",
           },
         ],

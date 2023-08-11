@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 
+import { STUDENT_BIODATA } from "@/config/links";
+
 const StudentTable: React.FC = () => {
   return (
     <div className="sm:rounded-lg border overflow-x-auto border-border-colour-light relative overflow-scroll">
@@ -56,7 +58,7 @@ const StudentTable: React.FC = () => {
                 </button>
               </td>
               <td>
-                <Link href="/dashboard/biodata">
+                <Link href={STUDENT_BIODATA}>
                   <Icon
                     icon="icon-park-outline:more-one"
                     fontSize={25}

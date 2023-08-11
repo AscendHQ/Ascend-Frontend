@@ -1,5 +1,5 @@
-import commentData from "./comment.config.tsx";
-import menuData from "./menu.config.tsx";
-import whyAscendData from "./whyascend.config.tsx";
+import commentData from "./comment";
+import menuData from "./menu";
+import whyAscendData from "./whyascend";
 
 export { commentData, menuData, whyAscendData };

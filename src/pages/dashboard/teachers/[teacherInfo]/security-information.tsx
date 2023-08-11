@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 
 import DatabaseTeacherContainer from "@/components/layout/database-teacher/container";
+import { STUDENT_ACADEMIC_INFORMATION_UPDATE } from "@/config/links";
 
 export default function DatabaseTeacherSecurityInfo() {
   return (
@@ -27,7 +28,7 @@ function TeacherOfficialInfo() {
         </p>
       </div>
       <Link
-        href="/dashboard/update-academic-information"
+        href={STUDENT_ACADEMIC_INFORMATION_UPDATE}
         className="ml-auto flex gap-3 items-center bg-primary-purple-700 text-sm text-white px-6 py-3 rounded-lg"
       >
         <span>Save Changes</span>

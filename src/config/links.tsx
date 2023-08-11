@@ -4,19 +4,22 @@ export const ABOUT_US_PAGE = "/about-us";
 export const CONTACT_PAGE = "/";
 export const SIGN_UP_PAGE = "/";
 export const LOGIN_PAGE = "/auth/login";
-export const DEMO_PAGE = "/";
-export const ACCOUNT_SETTING_DETAILS = "/dashboard/details";
-export const ACCOUNT_SETTING_SCHOOLINFO = "/dashboard/school-information";
-export const ACCOUNT_SETTING_GENERALSETTING = "/dashboard/general-settings";
-export const DASHBOARD_LESSON = "/dashboard/lesson";
-export const DASHBOARD_TIMETABLE = "/dashboard/timetable";
-export const DASHBOARD_RESULT = "/dashboard/result";
-export const STUDENT_BIODATA = "/dashboard/biodata";
+
+export const ACCOUNT_SETTING_DETAILS = "/dashboard/settings/details";
+export const ACCOUNT_SETTING_SCHOOLINFO =
+  "/dashboard/settings/school-information";
+export const ACCOUNT_SETTING_GENERALSETTING =
+  "/dashboard/settings/general-settings";
+
+export const DASHBOARD_OVERVIEW = "/dashboard";
+
 export const DASHBOARD_STUDENT = "/dashboard/students";
-export const STUDENT_ACADEMIC_INFORMATION = "/dashboard/academic-information";
-export const STUDENT_BIODATA_UPDATE = "/dashboard/update-biodata";
+export const STUDENT_ACADEMIC_INFORMATION =
+  "/dashboard/students/academic-information";
+export const STUDENT_BIODATA = "/dashboard/students/biodata";
+export const STUDENT_BIODATA_UPDATE = "/dashboard/students/update-biodata";
 export const STUDENT_ACADEMIC_INFORMATION_UPDATE =
-  "/dashboard/update-academic-information";
+  "/dashboard/students/update-academic-information";
 
 export const DASHBOARD_SUBJECT = "/dashboard/subjects";
 export const NEW_SUBJECT = "/dashboard/subjects/new-subject";
@@ -43,4 +46,6 @@ export const DASHBOARD_TEACHER_INFO_PERMISSION = (slug: string) =>
 export const DASHBOARD_TEACHER_SECURITY_INFO = (slug: string) =>
   `/dashboard/teachers/${slug}/security-information`;
 
-// export const BLOG_PAGE = (slug: string) => `/blog/${slug}`;
+export const DASHBOARD_LESSON = "/dashboard/lesson";
+export const DASHBOARD_TIMETABLE = "/dashboard/timetable";
+export const DASHBOARD_RESULT = "/dashboard/result";

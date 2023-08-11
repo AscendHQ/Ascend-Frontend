@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 
 import DatabaseStudentContainer from "@/components/layout/database-student/container";
+import { STUDENT_BIODATA_UPDATE } from "@/config/links";
 
 export default function Biodata() {
   return (
@@ -360,7 +361,7 @@ function BioUpdate() {
         </p>
       </div>
       <Link
-        href="/dashboard/update-biodata"
+        href={STUDENT_BIODATA_UPDATE}
         className="ml-auto flex gap-3 items-center bg-primary-purple-700 text-sm text-white px-6 py-3 rounded-lg"
       >
         <span>Update</span>

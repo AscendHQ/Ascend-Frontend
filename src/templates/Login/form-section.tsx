@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 
 import { Button } from "@/components/ui/button";
+import { HOME_PAGE } from "@/config/links";
 
 export default function FormSection() {
   type UserRole = "staff" | "admin";
@@ -11,7 +12,7 @@ export default function FormSection() {
 
   return (
     <section className="mx-auto space-y-7 max-w-[450px]">
-      <Link href="/">
+      <Link href={HOME_PAGE}>
         <Image
           src="/Ascend-Logo.svg"
           alt="Ascend Logo"
@@ -112,7 +113,7 @@ function NewFunction({ whoIsLoggingIn }: { whoIsLoggingIn: string }) {
           <input type="checkbox" name="check" id="check" />
           <label htmlFor="check">Remember me for this device</label>
         </div>
-        <Link href="/" className="text-primary-purple-600 text-sm">
+        <Link href={HOME_PAGE} className="text-primary-purple-600 text-sm">
           Forgot Password?
         </Link>
       </div>

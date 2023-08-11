@@ -2,6 +2,8 @@ import { Icon } from "@iconify/react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { HOME_PAGE } from "@/config/links";
+
 import { Button } from "../ui/button";
 import { Container } from "../ui/container";
 
@@ -30,10 +32,10 @@ export default function Footer() {
               <h4 className="text-gray-500 mb-3">Company</h4>
               <ul>
                 {[
-                  { title: "About us", url: "/" },
-                  { title: "Careers", url: "/" },
-                  { title: "Solutions", url: "/" },
-                  { title: "Contact", url: "/" },
+                  { title: "About us", url: HOME_PAGE },
+                  { title: "Careers", url: HOME_PAGE },
+                  { title: "Solutions", url: HOME_PAGE },
+                  { title: "Contact", url: HOME_PAGE },
                 ].map(item => (
                   <li key={item.title} className="text-gray-600">
                     <Link href={item.url}>{item.title}</Link>
@@ -46,9 +48,9 @@ export default function Footer() {
               <h4 className="text-gray-500 mb-3">Legal</h4>
               <ul>
                 {[
-                  { title: "Terms", url: "/" },
-                  { title: "Privacy", url: "/" },
-                  { title: "Media kit", url: "/" },
+                  { title: "Terms", url: HOME_PAGE },
+                  { title: "Privacy", url: HOME_PAGE },
+                  { title: "Media kit", url: HOME_PAGE },
                 ].map(item => (
                   <li key={item.title} className="text-gray-600">
                     <Link href={item.url}>{item.title}</Link>

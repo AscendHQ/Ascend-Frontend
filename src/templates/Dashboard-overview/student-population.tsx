@@ -3,6 +3,11 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 
 export default function StudentPopulation() {
+  const customColors = {
+    "purple-600": "#6050CC",
+    "purple-700": "#483C99",
+    "purple-800": "#302866",
+  };
   const chartData = {
     series: [
       {
@@ -46,7 +51,11 @@ export default function StudentPopulation() {
           text: "Students",
         },
       },
-      colors: ["#302866", "#483C99", "#6050CC"],
+      colors: [
+        customColors["purple-800"],
+        customColors["purple-700"],
+        customColors["purple-600"],
+      ],
       fill: {
         opacity: 1,
       },

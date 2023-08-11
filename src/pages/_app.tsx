@@ -7,6 +7,8 @@ import NextNprogress from "nextjs-progressbar";
 import { GTWalsheimPro, InterFont } from "@/assets/fonts";
 
 export default function App({ Component, pageProps }: AppProps) {
+  const TuftsBlue = "#3498DB";
+
   return (
     <>
       <style jsx global>
@@ -18,7 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
         `}
       </style>
       <NextNprogress
-        color="#3498db"
+        color={TuftsBlue}
         startPosition={0.3}
         stopDelayMs={200}
         height={3}

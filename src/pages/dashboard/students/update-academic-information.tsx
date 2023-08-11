@@ -4,7 +4,10 @@ import React from "react";
 
 import { DashboardHeader } from "@/components/common";
 import { Sidebar } from "@/components/sidebar";
-import { STUDENT_ACADEMIC_INFORMATION } from "@/config/links";
+import {
+  DASHBOARD_STUDENT,
+  STUDENT_ACADEMIC_INFORMATION,
+} from "@/config/links";
 
 export default function UpdateAcademicInformation() {
   return (
@@ -28,13 +31,13 @@ export default function UpdateAcademicInformation() {
           <HostelAccommodation />
           <div className="flex justify-end gap-6">
             <Link
-              href="/dashboard/students"
+              href={DASHBOARD_STUDENT}
               className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg"
             >
               Cancel
             </Link>
             <Link
-              href="/dashboard/students"
+              href={DASHBOARD_STUDENT}
               className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg"
             >
               Save and continue
