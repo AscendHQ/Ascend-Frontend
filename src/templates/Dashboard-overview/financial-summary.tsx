@@ -3,6 +3,11 @@ import React, { ReactNode } from "react";
 import ReactApexChart from "react-apexcharts";
 
 export default function FinancialSummary(): ReactNode {
+  const customColors = {
+    "purple-600": "#6050CC",
+    "purple-700": "#483C99",
+    "purple-800": "#302866",
+  };
   const chartData = {
     series: [94, 35, 21],
     options: {
@@ -31,7 +36,11 @@ export default function FinancialSummary(): ReactNode {
           },
         },
       },
-      colors: ["#302866", "#483C99", "#6050CC"],
+      colors: [
+        customColors["purple-800"],
+        customColors["purple-700"],
+        customColors["purple-600"],
+      ],
       labels: ["School Fees", "Social Media", "Referrals"],
       legend: {
         position: "bottom",

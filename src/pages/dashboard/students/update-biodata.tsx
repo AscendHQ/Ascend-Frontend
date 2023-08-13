@@ -5,6 +5,7 @@ import React from "react";
 
 import { DashboardHeader } from "@/components/common";
 import { Sidebar } from "@/components/sidebar";
+import { STUDENT_BIODATA } from "@/config/links";
 
 export default function UpdateBiodata() {
   const [showToast, setShowToast] = React.useState(false);
@@ -12,7 +13,7 @@ export default function UpdateBiodata() {
   const handleShowToast = () => {
     setTimeout(() => {
       setShowToast(true);
-    }, 100); // 10000 milliseconds = 10 seconds
+    }, 100);
   };
   return (
     <div className="grid font-inter grid-cols-9">
@@ -20,7 +21,7 @@ export default function UpdateBiodata() {
       <div className="col-[3/-1] 3xl:col-[2/-1] bg-white">
         <DashboardHeader />
         <main className="p-10">
-          <Link href="/dashboard/biodata" className="flex items-center gap-2">
+          <Link href={STUDENT_BIODATA} className="flex items-center gap-2">
             <Icon icon="teenyicons:arrow-left-solid" />
             Back to Biodata
           </Link>

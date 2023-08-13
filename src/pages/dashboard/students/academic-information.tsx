@@ -5,9 +5,10 @@ import Link from "next/link";
 import React from "react";
 
 import DatabaseStudentContainer from "@/components/layout/database-student/container";
+import { STUDENT_ACADEMIC_INFORMATION_UPDATE } from "@/config/links";
 
 const AttendanceHeatMap = dynamic(
-  () => import("../../templates/Database/heatmap"),
+  () => import("../../../templates/Database/heatmap"),
   {
     ssr: false,
   }
@@ -183,7 +184,7 @@ function AcademicInfoUpdate() {
         </p>
       </div>
       <Link
-        href="/dashboard/update-academic-information"
+        href={STUDENT_ACADEMIC_INFORMATION_UPDATE}
         className="ml-auto flex gap-3 items-center bg-primary-purple-700 text-sm text-white px-6 py-3 rounded-lg"
       >
         <span>Update</span>

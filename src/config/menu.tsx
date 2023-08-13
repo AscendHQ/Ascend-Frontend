@@ -1,7 +1,6 @@
 import {
   ABOUT_US_PAGE,
   CONTACT_PAGE,
-  DEMO_PAGE,
   HOME_PAGE,
   LOGIN_PAGE,
   SOLUTION_PAGE,
@@ -30,7 +29,7 @@ const menuData = [
   },
   {
     title: "Book a Demo",
-    to: DEMO_PAGE,
+    to: HOME_PAGE,
   },
 ];
 export default menuData;
