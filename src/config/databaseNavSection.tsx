@@ -2,6 +2,7 @@
 import {
   DASHBOARD_CLASS,
   DASHBOARD_CLASS_INFO,
+  DASHBOARD_HOSTEL,
   DASHBOARD_STUDENT,
   DASHBOARD_SUBJECT,
   DASHBOARD_SUBJECT_INFO,
@@ -67,8 +68,8 @@ const databaseNavSection = [
   },
   {
     title: "Hostels",
-    path: "/dashboard/hostels",
-    isActivepath: ["/dashboard/hostels"],
+    path: DASHBOARD_HOSTEL,
+    isActivepath: [DASHBOARD_HOSTEL],
   },
 ];
 

@@ -22,6 +22,7 @@ export default function NewTeacherPermissions() {
     setIsModalOpenSendInvite(false);
   };
   const handleOpenModalInviteSent = () => {
+    setIsModalOpenSendInvite(false);
     setIsModalOpenInviteSent(true);
   };
 

@@ -5,7 +5,10 @@ import Link from "next/link";
 import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
-import { DASHBOARD_SUBJECT_INFO, NEW_TEACHER_BIODATA } from "@/config/links";
+import {
+  DASHBOARD_TEACHER_INFO_BIODATA,
+  NEW_TEACHER_BIODATA,
+} from "@/config/links";
 
 export default function Teachers() {
   const [viewStudent, setviewStudent] = React.useState<
@@ -19,8 +22,8 @@ export default function Teachers() {
     }[]
   >([
     { name: "All", number: 80 },
-    { name: "Inactive", number: 1 },
     { name: "Active", number: 79 },
+    { name: "Inactive", number: 1 },
   ]);
   return (
     <Container>
@@ -101,7 +104,11 @@ function Table() {
                 <span>{item.dateAdded}</span>
               </td>
               <td className="px-6 py-4">
-                <Link href={DASHBOARD_SUBJECT_INFO("slug")}>
+                <Link
+                  href={DASHBOARD_TEACHER_INFO_BIODATA(
+                    item.teacherName.split(" ").join("-").toLowerCase()
+                  )}
+                >
                   <Icon icon="ri:more-2-fill" />
                 </Link>
               </td>

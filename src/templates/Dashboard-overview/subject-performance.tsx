@@ -32,7 +32,7 @@ export default function SubjectPerformance() {
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2.5 mt-3 dark:bg-gray-700">
               <div
-                className="bg-primary-purple-500 h-2.5 rounded-full"
+                className="bg-primary-purple-600 h-2.5 rounded-full"
                 style={{ width: `75%` }}
               ></div>
             </div>

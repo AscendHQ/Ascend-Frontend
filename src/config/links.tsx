@@ -46,6 +46,11 @@ export const DASHBOARD_TEACHER_INFO_PERMISSION = (slug: string) =>
 export const DASHBOARD_TEACHER_SECURITY_INFO = (slug: string) =>
   `/dashboard/teachers/${slug}/security-information`;
 
+export const DASHBOARD_HOSTEL = "/dashboard/hostels";
+export const NEW_HOSTEL = "/dashboard/hostels/new-hostel";
+export const DASHBOARD_HOSTEL_INFO = (slug: string) =>
+  `/dashboard/hostels/${slug}`;
+
 export const DASHBOARD_LESSON = "/dashboard/lesson";
 export const DASHBOARD_TIMETABLE = "/dashboard/timetable";
 export const DASHBOARD_RESULT = "/dashboard/result";
