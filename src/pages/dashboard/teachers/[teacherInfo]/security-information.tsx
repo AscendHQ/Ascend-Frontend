@@ -14,6 +14,7 @@ export default function DatabaseTeacherSecurityInfo() {
   return (
     <DatabaseTeacherContainer
       headerTitle={id?.split("-")?.join(" ")?.toUpperCase()}
+      teacherInfo={id}
     >
       <main className="h-full">
         <TeacherOfficialInfo />

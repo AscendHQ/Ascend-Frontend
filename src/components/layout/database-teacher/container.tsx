@@ -15,10 +15,12 @@ import { Container } from "../dashboard";
 type Props = {
   children: JSX.Element;
   headerTitle: string;
+  teacherInfo: string;
 };
 export default function DatabaseTeacherContainer({
   children,
   headerTitle,
+  teacherInfo,
 }: Props) {
   const router = useRouter();
   console.log(router.pathname);
@@ -47,23 +49,23 @@ export default function DatabaseTeacherContainer({
             {[
               {
                 title: "Biodata",
-                url: DASHBOARD_TEACHER_INFO_BIODATA("Kolade-Adesola"),
+                url: DASHBOARD_TEACHER_INFO_BIODATA(teacherInfo),
                 activePath: DASHBOARD_TEACHER_INFO_BIODATA("[teacherInfo]"),
               },
               {
                 title: "Official information",
-                url: DASHBOARD_TEACHER_INFO_OFFICIAL_INFO("Kolade-Adesola"),
+                url: DASHBOARD_TEACHER_INFO_OFFICIAL_INFO(teacherInfo),
                 activePath:
                   DASHBOARD_TEACHER_INFO_OFFICIAL_INFO("[teacherInfo]"),
               },
               {
                 title: "Access & Permissions",
-                url: DASHBOARD_TEACHER_INFO_PERMISSION("Kolade-Adesola"),
+                url: DASHBOARD_TEACHER_INFO_PERMISSION(teacherInfo),
                 activePath: DASHBOARD_TEACHER_INFO_PERMISSION("[teacherInfo]"),
               },
               {
                 title: "Security information",
-                url: DASHBOARD_TEACHER_SECURITY_INFO("Kolade-Adesola"),
+                url: DASHBOARD_TEACHER_SECURITY_INFO(teacherInfo),
                 activePath: DASHBOARD_TEACHER_SECURITY_INFO("[teacherInfo]"),
               },
             ].map(each => (
