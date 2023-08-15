@@ -27,7 +27,7 @@ export default function Classes() {
     { name: "Active", number: 79 },
   ]);
   return (
-    <Container>
+    <Container headerTitle="Classes">
       <main className="px-10 py-5 h-full bg-white">
         <div className="flex">
           <Link

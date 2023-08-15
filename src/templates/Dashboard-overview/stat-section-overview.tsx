@@ -21,17 +21,17 @@ export default function StatSectionOverview() {
         percent="+ 36%"
         performance="increase"
       />
-      <div className="bg-white min-w-[330px] 2xl:flex-1 2xl:min-w-fit border-2 rounded-xl border-border-colour-light p-4 space-y-2">
+      <div className="bg-white min-w-[330px] 2xl:flex-1 2xl:min-w-fit border rounded-xl border-border-colour-light p-4 space-y-2">
         <h5 className="text-sm text-gray-800 font-medium">
           GENDER DEMOGRAPHICS
         </h5>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <p className="text-lg font-medium">MALE</p>
+            <p className="text-base font-medium">MALE</p>
             <span className="text-2xl font-bold">68%</span>
           </div>
           <div className="flex items-center gap-2">
-            <p className="text-lg font-medium">FEMALE</p>
+            <p className="text-base font-medium">FEMALE</p>
             <span className="text-2xl font-bold">32%</span>
           </div>
         </div>
@@ -51,10 +51,10 @@ function StatCard({
   performance: "increase" | "decrease";
 }) {
   return (
-    <div className="bg-white min-w-[330px] xl:flex-1 xl:min-w-fit border-2 rounded-xl border-border-colour-light p-4 space-y-2">
+    <div className="bg-white min-w-[330px] xl:flex-1 xl:min-w-fit border rounded-xl border-border-colour-light p-4 space-y-2">
       <h5 className="text-sm text-gray-800 font-medium">{heading}</h5>
       <div className="flex items-end justify-between">
-        <p className="text-Text-high-emphasis text-3xl font-bold">{number}</p>
+        <p className="text-Text-high-emphasis text-2xl font-bold">{number}</p>
         <div
           className={`flex items-center ${
             performance === "increase"

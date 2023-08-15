@@ -31,7 +31,7 @@ export default function NewTeacherPermissions() {
   };
   return (
     <div>
-      <Container>
+      <Container headerTitle="New Teacher">
         <main className="p-10 bg-white h-full">
           <Link
             href={NEW_TEACHER_OFFICIAL_INFO}

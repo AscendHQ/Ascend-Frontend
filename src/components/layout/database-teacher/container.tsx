@@ -14,13 +14,17 @@ import { Container } from "../dashboard";
 
 type Props = {
   children: JSX.Element;
+  headerTitle: string;
 };
-export default function DatabaseTeacherContainer({ children }: Props) {
+export default function DatabaseTeacherContainer({
+  children,
+  headerTitle,
+}: Props) {
   const router = useRouter();
   console.log(router.pathname);
 
   return (
-    <Container>
+    <Container headerTitle={headerTitle}>
       <div className="bg-white p-10 h-full">
         <div className="flex gap-4">
           <Image

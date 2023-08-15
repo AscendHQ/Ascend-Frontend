@@ -26,7 +26,7 @@ export default function Teachers() {
     { name: "Inactive", number: 1 },
   ]);
   return (
-    <Container>
+    <Container headerTitle="Teachers">
       <main className="px-10 py-5 h-full bg-white">
         <div className="flex">
           <Link

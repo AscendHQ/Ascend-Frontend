@@ -5,6 +5,7 @@ import Link from "next/link";
 import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
+import { DashboardButton } from "@/components/ui/button/button";
 import { DASHBOARD_SUBJECT_INFO, NEW_SUBJECT } from "@/config/links";
 
 export default function Subjects() {
@@ -23,16 +24,17 @@ export default function Subjects() {
     { name: "Active", number: 79 },
   ]);
   return (
-    <Container>
+    <Container headerTitle="Subjects">
       <main className="px-10 py-5 h-full bg-white">
         <div className="flex">
-          <Link
-            href={NEW_SUBJECT}
-            className="ml-auto flex gap-3 items-center bg-primary-purple-700 text-white px-4 py-3 rounded-lg"
+          <DashboardButton
+            variant="primary"
+            leftElement={<Icon icon="tabler:plus" />}
+            isLink={true}
+            path={NEW_SUBJECT}
           >
-            <Icon icon="tabler:plus" />
-            <span>Add Subject</span>
-          </Link>
+            Add Subject
+          </DashboardButton>
         </div>
         <ul className="flex bg-neutral-300 border-1.5 items-center w-fit my-2 border-border-colour-light rounded px-2 py-1 gap-2 mt-10">
           {studentDemographics.map(each => (
@@ -115,7 +117,7 @@ function Table() {
                 )}
               </td>
               <td className="px-6 py-4">
-                <Link href={DASHBOARD_SUBJECT_INFO("slug")}>
+                <Link href={DASHBOARD_SUBJECT_INFO("Chemistry")}>
                   <Icon icon="ri:more-2-fill" />
                 </Link>
               </td>

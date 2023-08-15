@@ -3,6 +3,8 @@ import { Icon } from "@iconify/react";
 import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
+import { DashboardButton } from "@/components/ui/button/button";
+import { STUDENT_BIODATA } from "@/config/links";
 import StatOverview from "@/templates/Database/stat-overview";
 import TabNav from "@/templates/Database/tab-nav";
 import StudentTable from "@/templates/Database/table";
@@ -24,17 +26,17 @@ export default function DatabaseStudents() {
   ]);
 
   return (
-    <Container>
+    <Container headerTitle="Students">
       <div className="bg-white p-10">
-        <button className="flex items-center gap-3 text-sm">
-          <Icon icon="teenyicons:arrow-left-solid" />
-          <span>Back to dashboard</span>
-        </button>
         <StatOverview />
-        <button className="ml-auto flex gap-3 items-center bg-primary-purple-700 text-white px-4 py-3 rounded-lg">
-          <Icon icon="tabler:plus" />
-          <span>Register student</span>
-        </button>
+        <DashboardButton
+          variant="primary"
+          leftElement={<Icon icon="tabler:plus" />}
+          isLink={true}
+          path={STUDENT_BIODATA}
+        >
+          Register student
+        </DashboardButton>
         <TabNav
           studentDemographics={studentDemographics}
           viewStudent={viewStudent}

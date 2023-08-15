@@ -1,14 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 
 import DatabaseTeacherContainer from "@/components/layout/database-teacher/container";
 import { STUDENT_ACADEMIC_INFORMATION_UPDATE } from "@/config/links";
 
 export default function DatabaseTeacherSecurityInfo() {
+  const router = useRouter();
+  const id = router.query.teacherInfo as string;
+
   return (
-    <DatabaseTeacherContainer>
+    <DatabaseTeacherContainer
+      headerTitle={id.split("-").join(" ").toUpperCase()}
+    >
       <main className="h-full">
         <TeacherOfficialInfo />
         <PersonalInformation />

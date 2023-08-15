@@ -41,7 +41,7 @@ export default function SidebarMenu({
         />
       </button>
       <div
-        className={`pl-10 overflow-hidden transition-all duration-500 ml-8 before:w-[1px] before:h-[90%] before:top-0 before:left-0 before:bg-Text-high-emphasis before:absolute relative ${
+        className={`pl-10 overflow-hidden transition-all duration-500 ml-8 before:w-[1px] before:h-[90%] before:top-0 before:left-0 before:bg-Text-meduim-emphasis before:absolute relative ${
           collapseAction ? "h-0 hidden" : "h-auto"
         }`}
       >

@@ -14,7 +14,7 @@ export default function UpdateAcademicInformation() {
     <div className="grid font-inter grid-cols-9">
       <Sidebar />
       <div className="col-[3/-1] 3xl:col-[2/-1] bg-white">
-        <DashboardHeader />
+        <DashboardHeader headerTitle="Student Academic Information" />
         <main className="p-10">
           <Link
             href={STUDENT_ACADEMIC_INFORMATION}

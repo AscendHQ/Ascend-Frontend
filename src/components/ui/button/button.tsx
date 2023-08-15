@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -40,3 +41,53 @@ export default function Button({
     </button>
   );
 }
+
+export function DashboardButton({
+  isLink = false,
+  leftElement,
+  rightElement,
+  path,
+  variant,
+  className,
+  children,
+}: {
+  isLink?: boolean;
+  leftElement?: JSX.Element;
+  rightElement?: JSX.Element;
+  path?: string;
+  className?: string;
+  children: ReactNode;
+  variant: "primary" | "secondary";
+}) {
+  if (isLink && !path) {
+    throw new Error("Path is required when isLink is set to true");
+  }
+  if (isLink && path) {
+    return (
+      <Link
+        href={path}
+        className={`${twMerge(variantStyle[variant], className)}`}
+      >
+        {leftElement}
+        {children}
+        {rightElement}
+      </Link>
+    );
+  }
+  if (!isLink) {
+    return (
+      <button className={`${twMerge(variantStyle[variant], className)}`}>
+        {leftElement}
+        {children}
+        {rightElement}
+      </button>
+    );
+  }
+}
+
+const variantStyle = {
+  primary:
+    "ml-auto w-fit text-sm flex gap-2 items-center bg-primary-purple-700 text-white px-5 py-3 rounded-lg",
+  secondary:
+    "text-Text-high-emphasis border-1.5 border-border-colour-light rounded-lg py-3 px-6 font-semibold text-sm",
+};

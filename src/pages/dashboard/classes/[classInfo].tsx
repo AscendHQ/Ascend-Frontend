@@ -1,19 +1,23 @@
 /* eslint-disable react/no-array-index-key */
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
-import { DASHBOARD_SUBJECT } from "@/config/links";
+import { DASHBOARD_CLASS } from "@/config/links";
 
 export default function ClassInfo() {
+  const router = useRouter();
+  const id = router.query.classInfo as string;
+
   return (
     <div>
-      <Container>
+      <Container headerTitle={id}>
         <main className="bg-white px-10 pt-7 h-full">
           <div className="flex justify-between">
             <Link
-              href={DASHBOARD_SUBJECT}
+              href={DASHBOARD_CLASS}
               className="flex items-center gap-3 text-sm"
             >
               <Icon icon="teenyicons:arrow-left-solid" />

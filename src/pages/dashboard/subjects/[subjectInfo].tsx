@@ -1,15 +1,20 @@
 /* eslint-disable react/no-array-index-key */
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
+import { DashboardButton } from "@/components/ui/button/button";
 import { DASHBOARD_SUBJECT } from "@/config/links";
 
 export default function SubjectInfo() {
+  const router = useRouter();
+  const id = router.query.subjectInfo as string;
+
   return (
     <div>
-      <Container>
+      <Container headerTitle={id}>
         <main className="bg-white px-10 pt-7 h-full">
           <div className="flex justify-between">
             <Link
@@ -21,14 +26,12 @@ export default function SubjectInfo() {
             </Link>
             <ul className="flex gap-2">
               <li>
-                <button className="text-Text-high-emphasis border-1.5 border-border-colour-light rounded-lg py-3 px-6 font-semibold text-sm">
-                  Cancel
-                </button>
+                <DashboardButton variant={"secondary"}>Cancel</DashboardButton>
               </li>
               <li>
-                <button className="text-white bg-primary-purple-700 rounded-lg py-3 px-6 font-semibold text-sm">
+                <DashboardButton variant={"primary"}>
                   Save changes
-                </button>
+                </DashboardButton>
               </li>
             </ul>
           </div>

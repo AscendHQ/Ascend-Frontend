@@ -23,7 +23,7 @@ export default function Hostels() {
     { name: "Female Hostel", number: 3 },
   ]);
   return (
-    <Container>
+    <Container headerTitle="Hostel">
       <main className="bg-white p-10 h-full">
         {/* TODO: make all related look like this */}
         <Link

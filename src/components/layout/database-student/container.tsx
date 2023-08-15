@@ -14,15 +14,19 @@ import {
 
 type Props = {
   children: JSX.Element;
+  headerTitle: string;
 };
-export default function DatabaseStudentContainer({ children }: Props) {
+export default function DatabaseStudentContainer({
+  children,
+  headerTitle,
+}: Props) {
   const router = useRouter();
 
   return (
     <div className="grid font-inter grid-cols-9">
       <Sidebar />
       <div className="col-[3/-1] 3xl:col-[2/-1] bg-neutral-300">
-        <DashboardHeader />
+        <DashboardHeader headerTitle={headerTitle} />
         <div className="bg-white p-10">
           <div className="flex gap-4">
             <Image

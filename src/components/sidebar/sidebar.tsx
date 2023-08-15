@@ -18,7 +18,7 @@ export default function Sidebar() {
   const router = useRouter();
 
   const [showCollapsibleSideNav, setshowCollapsibleSideNav] =
-    React.useState(true);
+    React.useState(false);
 
   return (
     <aside className="col-span-2 3xl:col-span-1 border-r border-neutral-200 py-6 px-4 bg-white relative">

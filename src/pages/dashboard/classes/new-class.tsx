@@ -23,7 +23,7 @@ export default function NewClass() {
   };
   return (
     <div>
-      <Container>
+      <Container headerTitle="New Class">
         <main className="px-10 py-5 bg-white h-full">
           <Link
             href={DASHBOARD_CLASS}

@@ -16,7 +16,7 @@ const AttendanceHeatMap = dynamic(
 
 export default function AcademicInformation() {
   return (
-    <DatabaseStudentContainer>
+    <DatabaseStudentContainer headerTitle="New Student">
       <div>
         <AcademicInfoUpdate />
         <AttendanceInformation />
