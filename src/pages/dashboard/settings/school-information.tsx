@@ -6,7 +6,7 @@ import AccountSettingContainer from "@/components/layout/account-setting/contain
 
 export default function AccountSettingSchoolInfo() {
   return (
-    <AccountSettingContainer>
+    <AccountSettingContainer headerTitle="Account Setting">
       <div className="mt-8">
         <SchoolInformation />
         <AcademicYear />

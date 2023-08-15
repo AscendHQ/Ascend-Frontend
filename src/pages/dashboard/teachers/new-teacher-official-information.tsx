@@ -7,7 +7,7 @@ import { NEW_TEACHER_BIODATA, NEW_TEACHER_PERMISSION } from "@/config/links";
 
 export default function NewTeacherOfficialInfo() {
   return (
-    <Container>
+    <Container headerTitle="New Teacher">
       <main className="p-10 bg-white h-full">
         <Link href={NEW_TEACHER_BIODATA} className="flex items-center gap-2">
           <Icon icon="teenyicons:arrow-left-solid" />

@@ -7,7 +7,7 @@ import { DASHBOARD_TEACHER, NEW_TEACHER_OFFICIAL_INFO } from "@/config/links";
 
 export default function NewTeacherBiodata() {
   return (
-    <Container>
+    <Container headerTitle="New Teacher">
       <main className="p-10 bg-white h-full">
         <Link href={DASHBOARD_TEACHER} className="flex items-center gap-2">
           <Icon icon="teenyicons:arrow-left-solid" />

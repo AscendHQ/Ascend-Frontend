@@ -17,7 +17,7 @@ const TabNav: React.FC<TabNavProps> = ({
   setviewStudent,
 }) => {
   return (
-    <ul className="flex bg-neutral-300 border-1.5 items-center w-fit my-2 border-border-colour-light rounded px-2 py-1 gap-2">
+    <ul className="flex bg-neutral-300 border-1.5 items-center w-fit mb-3 mt-6 border-border-colour-light rounded px-2 py-1 gap-2">
       {studentDemographics.map(each => (
         <li key={each.name}>
           <button

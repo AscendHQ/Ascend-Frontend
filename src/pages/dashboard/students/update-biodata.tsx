@@ -19,7 +19,7 @@ export default function UpdateBiodata() {
     <div className="grid font-inter grid-cols-9">
       <Sidebar />
       <div className="col-[3/-1] 3xl:col-[2/-1] bg-white">
-        <DashboardHeader />
+        <DashboardHeader headerTitle="Student Biodata" />
         <main className="p-10">
           <Link href={STUDENT_BIODATA} className="flex items-center gap-2">
             <Icon icon="teenyicons:arrow-left-solid" />

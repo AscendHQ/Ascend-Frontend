@@ -6,7 +6,7 @@ import AccountSettingContainer from "@/components/layout/account-setting/contain
 
 export default function AccountSettingGeneralSettings() {
   return (
-    <AccountSettingContainer>
+    <AccountSettingContainer headerTitle="Account Setting">
       <div className="mt-8">
         <AcademicTimeline />
         <AssessmentStyle />

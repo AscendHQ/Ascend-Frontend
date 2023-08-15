@@ -67,9 +67,11 @@ export default function StudentPopulation() {
     },
   };
   return (
-    <div className="w-full xl:w-[60%] border-2 rounded-lg p-5 bg-white ">
+    <div className="w-full xl:w-[60%] border rounded-lg p-5 bg-white ">
       <div className="flex gap-5 mb-7 flex-wrap justify-between items-center">
-        <h4>Student Population Statistics</h4>
+        <h4 className="text-Text-high-emphasis text-lg font-semibold ">
+          Student Population Statistics
+        </h4>
         <select className="rounded-lg text-xs">
           <option value="4 Months">1 Year</option>
           <option value="4 Months">10 Months</option>

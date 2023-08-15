@@ -9,7 +9,7 @@ import { STUDENT_BIODATA } from "@/config/links";
 
 const StudentTable: React.FC = () => {
   return (
-    <div className="sm:rounded-lg border overflow-x-auto border-border-colour-light relative overflow-scroll">
+    <div className="sm:rounded-lg border overflow-x-auto border-border-colour-light relative ">
       <table className="text-sm text-left w-full text-gray-500">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b border-border-colour-light">
           <tr>

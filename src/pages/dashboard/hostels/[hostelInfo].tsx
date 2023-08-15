@@ -1,14 +1,18 @@
 /* eslint-disable react/no-array-index-key */
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
 import { DASHBOARD_HOSTEL } from "@/config/links";
 
 export default function HostelInfo() {
+  const router = useRouter();
+  const id = router.query.hostelInfo as string;
+
   return (
-    <Container>
+    <Container headerTitle={id}>
       <main className="p-10 bg-white h-full">
         <Link href={DASHBOARD_HOSTEL} className="flex items-center gap-2">
           <Icon icon="teenyicons:arrow-left-solid" />

@@ -6,7 +6,7 @@ import { STUDENT_BIODATA_UPDATE } from "@/config/links";
 
 export default function Biodata() {
   return (
-    <DatabaseStudentContainer>
+    <DatabaseStudentContainer headerTitle="New Student">
       <div>
         <BioUpdate />
         <PersonalInformation />

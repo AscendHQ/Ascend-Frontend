@@ -5,7 +5,11 @@ import React from "react";
 
 import { ACCOUNT_SETTING_DETAILS } from "@/config/links";
 
-export default function DashboardHeader() {
+export default function DashboardHeader({
+  headerTitle,
+}: {
+  headerTitle: string;
+}) {
   const [accountDropDown, setAccountDropDown] = React.useState(false);
   const [notificationDropDown, setNotificationDropDown] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState("All");
@@ -17,9 +21,10 @@ export default function DashboardHeader() {
   return (
     <header className="flex justify-between max-h-[80px] bg-white items-center p-10 relative">
       <h2 className="text-Text-high-emphasis text-2xl font-bold tracking-tight">
-        Overview
+        {/* Overview */}
+        {headerTitle}
       </h2>
-      <div className="flex items-center gap-10">
+      <div className="flex items-center gap-11">
         <button onClick={() => setNotificationDropDown(prev => !prev)}>
           <Icon
             icon="mi:notification"
@@ -37,9 +42,6 @@ export default function DashboardHeader() {
             width={35}
             height={40}
           />
-          <p className="text-Text-high-emphasis text-lg font-medium tracking-tight">
-            Blessing Okowah
-          </p>
           <Icon icon="tabler:chevron-down" fontSize={22} />
         </button>
         <AccountDropDownSection dropDown={accountDropDown} />
@@ -72,7 +74,7 @@ function NotificationDropDownSection({
     <section
       className={`absolute ${
         dropDown ? "block" : "hidden"
-      } bg-white top-[115%] right-64 rounded-2xl min-w-[500px] shadow-xl z-50`}
+      } bg-white top-[115%] right-28 rounded-2xl min-w-[500px] shadow-xl z-50`}
     >
       <Icon
         icon="teenyicons:up-solid"

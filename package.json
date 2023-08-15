@@ -44,6 +44,7 @@
     "eslint-config-next": "13.4.9",
     "flowbite": "^1.7.0",
     "flowbite-react": "^0.4.11",
+    "framer-motion": "^10.15.2",
     "lint-staged": "^13.2.3",
     "next": "13.4.9",
     "nextjs-progressbar": "^0.0.16",
