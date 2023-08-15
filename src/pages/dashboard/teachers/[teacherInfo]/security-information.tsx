@@ -13,7 +13,7 @@ export default function DatabaseTeacherSecurityInfo() {
 
   return (
     <DatabaseTeacherContainer
-      headerTitle={id.split("-").join(" ").toUpperCase()}
+      headerTitle={id?.split("-")?.join(" ")?.toUpperCase()}
     >
       <main className="h-full">
         <TeacherOfficialInfo />

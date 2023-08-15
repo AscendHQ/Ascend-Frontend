@@ -12,7 +12,7 @@ export default function DatabaseTeacherBiodata() {
 
   return (
     <DatabaseTeacherContainer
-      headerTitle={id.split("-").join(" ").toUpperCase()}
+      headerTitle={id?.split("-")?.join(" ")?.toUpperCase()}
     >
       <main className="h-full">
         <TeacherBiodata />
