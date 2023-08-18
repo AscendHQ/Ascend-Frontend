@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import React from "react";
 
 import DatabaseTeacherContainer from "@/components/layout/database-teacher/container";
+import { DashboardButton } from "@/components/ui/button/button";
 import { STUDENT_ACADEMIC_INFORMATION_UPDATE } from "@/config/links";
 
 export default function DatabaseTeacherPermission() {
@@ -39,12 +40,7 @@ function TeacherAccessPermissions() {
           Update your teacher permissions here
         </p>
       </div>
-      <Link
-        href={STUDENT_ACADEMIC_INFORMATION_UPDATE}
-        className="ml-auto flex gap-3 items-center bg-primary-purple-700 text-sm text-white px-6 py-3 rounded-lg"
-      >
-        <span>Save Changes</span>
-      </Link>
+      <DashboardButton variant="primary">Save Changes</DashboardButton>
     </div>
   );
 }

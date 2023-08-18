@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import { Icon } from "@iconify/react";
-import Image from "next/image";
+import { motion } from "framer-motion";
+import { ReactNode } from "react";
 
 export default function ContentSection({
   direction = "right",
@@ -8,20 +9,26 @@ export default function ContentSection({
   button,
   // subHeading,
   outlines,
+  children,
 }: {
   direction?: "right" | "left";
   heading: string;
   button?: JSX.Element;
+  children: ReactNode;
   subHeading?: string;
   outlines: string[];
 }) {
   return (
-    <div
+    <motion.div
       className={`flex gap-5 flex-col ${
         direction === "right" ? "lg:flex-row" : "lg:flex-row-reverse"
-      }  justify-between mt-20 items-center`}
+      }  justify-between mt-44 items-center`}
+      initial={{ opacity: 0, y: 150 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ ease: [0.17, 0.67, 1, 1.23], duration: 0.6 }}
+      viewport={{ once: true }}
     >
-      <div className="bg-warning-main relative h-[350px] md:h-[650px] w-full lg:w-[520px] overflow-hidden rounded-lg border-2 border-black">
+      {/* <div className="bg-warning-main relative h-[350px] md:h-[650px] w-full lg:w-[520px] overflow-hidden rounded-lg border-2 border-black">
         <Image
           src="/Database __ Students.png"
           alt="Vercel Logo"
@@ -30,7 +37,8 @@ export default function ContentSection({
             transform: "translateX(60px) translateY(150px)",
           }}
         />
-      </div>
+      </div> */}
+      {children}
       <div className="text-left space-y-8 w-full lg:max-w-[31rem]">
         <h4 className="text-step-3 font-bold tracking-tighter text-accent-200">
           {heading}
@@ -57,6 +65,6 @@ export default function ContentSection({
         </ul>
         {button}
       </div>
-    </div>
+    </motion.div>
   );
 }

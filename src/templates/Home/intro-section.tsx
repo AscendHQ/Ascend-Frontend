@@ -11,7 +11,7 @@ export default function IntroSection() {
         <h2 className="text-step-4 font-bold max-w-[67rem] mx-auto tracking-tighter">
           Streamlining School Administration, Management, and Payroll Processes.
         </h2>
-        <p className="max-w-[53rem] mx-auto text-step-1 !leading-none font-normal text-accent-300 text-opacity-60">
+        <p className="max-w-[53rem] mx-auto text-step-1 !leading-7 font-normal text-accent-300 text-opacity-60">
           With our complete platform, you can quickly manage your school's
           administrative responsibilities, automate payroll processes and
           streamline communication—all in one place.
@@ -32,9 +32,10 @@ export default function IntroSection() {
             </Button>
           </li>
         </ul>
-        <div className="relative w-full h-[13rem] sm:h-[18rem] md:h-[25rem] lg:h-[35.5rem]">
+        <div className="relative w-full h-[17rem] sm:h-[36rem] md:h-[44rem] lg:h-[61rem]">
           <Image
-            src="/dashboard-img.avif"
+            src="/Dashboard.png"
+            // src="/dashboard-img.avif"
             alt="dashboard-img"
             fill
             sizes="(max-width: 767px) 100vw, (max-width: 1200px) 50vw, 800px"

@@ -1,7 +1,7 @@
-import Link from "next/link";
 import React from "react";
 
 import DatabaseStudentContainer from "@/components/layout/database-student/container";
+import { DashboardButton } from "@/components/ui/button/button";
 import { STUDENT_BIODATA_UPDATE } from "@/config/links";
 
 export default function Biodata() {
@@ -360,12 +360,14 @@ function BioUpdate() {
           Update key information and details about the students in our database.
         </p>
       </div>
-      <Link
-        href={STUDENT_BIODATA_UPDATE}
-        className="ml-auto flex gap-3 items-center bg-primary-purple-700 text-sm text-white px-6 py-3 rounded-lg"
+
+      <DashboardButton
+        variant="primary"
+        isLink={true}
+        path={STUDENT_BIODATA_UPDATE}
       >
-        <span>Update</span>
-      </Link>
+        Update
+      </DashboardButton>
     </div>
   );
 }

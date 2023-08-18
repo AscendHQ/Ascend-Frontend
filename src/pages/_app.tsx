@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import "@/styles/loading.module.css";
 
+import { AnimatePresence } from "framer-motion";
 import type { AppProps } from "next/app";
 import NextNprogress from "nextjs-progressbar";
 
@@ -25,8 +26,9 @@ export default function App({ Component, pageProps }: AppProps) {
         stopDelayMs={200}
         height={3}
       />
-
-      <Component {...pageProps} />
+      <AnimatePresence>
+        <Component {...pageProps} />
+      </AnimatePresence>
     </>
   );
 }

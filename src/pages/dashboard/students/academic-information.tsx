@@ -1,10 +1,10 @@
 /* eslint-disable react/no-array-index-key */
 import { Icon } from "@iconify/react";
 import dynamic from "next/dynamic";
-import Link from "next/link";
 import React from "react";
 
 import DatabaseStudentContainer from "@/components/layout/database-student/container";
+import { DashboardButton } from "@/components/ui/button/button";
 import { STUDENT_ACADEMIC_INFORMATION_UPDATE } from "@/config/links";
 
 const AttendanceHeatMap = dynamic(
@@ -183,12 +183,14 @@ function AcademicInfoUpdate() {
           Update the academic performance and achievements of students.
         </p>
       </div>
-      <Link
-        href={STUDENT_ACADEMIC_INFORMATION_UPDATE}
-        className="ml-auto flex gap-3 items-center bg-primary-purple-700 text-sm text-white px-6 py-3 rounded-lg"
+
+      <DashboardButton
+        variant="primary"
+        isLink={true}
+        path={STUDENT_ACADEMIC_INFORMATION_UPDATE}
       >
-        <span>Update</span>
-      </Link>
+        Update
+      </DashboardButton>
     </div>
   );
 }
