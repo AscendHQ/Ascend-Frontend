@@ -20,7 +20,9 @@ export default function MainSection() {
               "Lorem ipsum dolor sit amet, adipiscing consectetur elit bibendum viverra.",
               "Lorem ipsum dolor sit amet, consectetur elit adipiscing bibendum viverra.",
             ]}
-          />
+          >
+            <div className="bg-warning-main relative h-[350px] md:h-[600px] w-full lg:w-[520px] overflow-hidden rounded-3xl bg-[url('/group-of-people-smiling.png')] bg-cover"></div>
+          </ContentSection>
           <ContentSection
             heading="Staff Management"
             direction="left"
@@ -29,7 +31,9 @@ export default function MainSection() {
               "Lorem ipsum dolor sit amet, adipiscing consectetur elit bibendum viverra.",
               "Lorem ipsum dolor sit amet, consectetur elit adipiscing bibendum viverra.",
             ]}
-          />
+          >
+            <div className="bg-warning-main relative h-[350px] md:h-[600px] w-full lg:w-[520px] overflow-hidden rounded-3xl bg-[url('/group-of-people-smiling.png')] bg-cover"></div>
+          </ContentSection>
           <ContentSection
             heading="Automated Payroll System"
             direction="left"
@@ -38,7 +42,10 @@ export default function MainSection() {
               "Lorem ipsum dolor sit amet, adipiscing consectetur elit bibendum viverra.",
               "Lorem ipsum dolor sit amet, consectetur elit adipiscing bibendum viverra.",
             ]}
-          />
+          >
+            {" "}
+            <div className="bg-warning-main relative h-[350px] md:h-[600px] w-full lg:w-[520px] overflow-hidden rounded-3xl bg-[url('/group-of-people-smiling.png')] bg-cover"></div>
+          </ContentSection>
           <div className="mt-32">
             <SchoolStat />
           </div>
