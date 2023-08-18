@@ -50,6 +50,7 @@ export function DashboardButton({
   variant,
   className,
   children,
+  onClick,
 }: {
   isLink?: boolean;
   leftElement?: JSX.Element;
@@ -58,6 +59,7 @@ export function DashboardButton({
   className?: string;
   children: ReactNode;
   variant: "primary" | "secondary";
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }) {
   if (isLink && !path) {
     throw new Error("Path is required when isLink is set to true");
@@ -76,7 +78,10 @@ export function DashboardButton({
   }
   if (!isLink) {
     return (
-      <button className={`${twMerge(variantStyle[variant], className)}`}>
+      <button
+        className={`${twMerge(variantStyle[variant], className)}`}
+        onClick={onClick}
+      >
         {leftElement}
         {children}
         {rightElement}

@@ -2,7 +2,7 @@
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 
-export default function TeacherPerformance() {
+export default function StudentPerformance() {
   return (
     <div className="bg-white py-4 rounded-lg grid px-6 w-full xl:w-[60%] border border-border-colour-light">
       <div className="flex justify-between items-center">
@@ -15,13 +15,9 @@ export default function TeacherPerformance() {
           </p>
         </div>
         <select className="rounded-lg text-xs">
-          <option>--Select Class--</option>
-          <option value="SS3 B">SS3 B</option>
-          <option value="SS3 A">SS3 A</option>
-          <option value="SS2 B">SS2 B</option>
-          <option value="SS2 A">SS2 A</option>
-          <option value="SS1 B">SS1 B</option>
-          <option value="SS1 A">SS1 A</option>
+          <option value="SS3">SS3</option>
+          <option value="SS2">SS2</option>
+          <option value="SS1">SS1</option>
         </select>
       </div>
       <div className="max-h-64 overflow-scroll pr-2">

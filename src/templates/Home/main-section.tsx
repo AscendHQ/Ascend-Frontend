@@ -34,7 +34,9 @@ export default function MainSection() {
               "Lorem ipsum dolor sit amet, adipiscing consectetur elit bibendum viverra.",
               "Lorem ipsum dolor sit amet, consectetur elit adipiscing bibendum viverra.",
             ]}
-          />
+          >
+            <div className="bg-warning-main relative h-[350px] md:h-[600px] w-full lg:w-[520px] overflow-hidden rounded-3xl bg-[url('/a-boy-writing.png')] bg-contain"></div>
+          </ContentSection>
 
           <div className="space-y-10 mt-32">
             <h4 className="text-step-3 font-bold tracking-tighter text-accent-200">

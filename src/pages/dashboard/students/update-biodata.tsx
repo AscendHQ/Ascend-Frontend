@@ -5,6 +5,7 @@ import React from "react";
 
 import { DashboardHeader } from "@/components/common";
 import { Sidebar } from "@/components/sidebar";
+import { DashboardButton } from "@/components/ui/button/button";
 import { STUDENT_BIODATA } from "@/config/links";
 
 export default function UpdateBiodata() {
@@ -33,15 +34,17 @@ export default function UpdateBiodata() {
           <MedicalInformation />
           <AdditionalInformation />
           <div className="flex justify-end gap-6">
-            <button className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg">
+            <DashboardButton variant="secondary" className="font-semibold px-7">
               Cancel
-            </button>
-            <button
+            </DashboardButton>
+            <DashboardButton
+              variant="primary"
+              className="font-semibold px-7 ml-0"
               onClick={handleShowToast}
-              className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg"
             >
               Save and continue
-            </button>
+            </DashboardButton>
+
             {/* <div className="fixed bottom-5 right-5 bg-gray-800 text-white py-2 px-4 rounded-lg shadow-lg transform translate-y-full transition-transform duration-500">
              */}
             {showToast && (

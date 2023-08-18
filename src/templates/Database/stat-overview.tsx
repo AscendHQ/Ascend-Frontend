@@ -6,7 +6,7 @@ export default function StatOverview() {
     <div className="flex justify-center xl:justify-between my-9 flex-wrap gap-5 2xl:gap-10 xl:gap-2 xl:flex-nowrap">
       {statDetails.map(item => (
         <section
-          className="flex flex-1 border border-border-colour-light gap-4 p-3 rounded"
+          className="flex min-w-[300px] xl:flex-1 border border-border-colour-light gap-4 p-3 rounded"
           key={item.title}
         >
           <Icon

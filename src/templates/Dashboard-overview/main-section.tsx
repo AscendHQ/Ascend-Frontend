@@ -3,8 +3,8 @@ import dynamic from "next/dynamic";
 import React from "react";
 
 import StatSectionOverview from "./stat-section-overview";
+import StudentPerformance from "./student-performance";
 import SubjectPerformance from "./subject-performance";
-import TeacherPerformance from "./teacher-performance";
 
 const StudentPopulationChart = dynamic(
   () => import("../../templates/Dashboard-overview/student-population"),
@@ -48,7 +48,7 @@ export default function MainSection() {
         <FinancialSummaryChart />
       </div>
       <div className="mt-6 flex flex-col xl:flex-row gap-2">
-        <TeacherPerformance />
+        <StudentPerformance />
         <SubjectPerformance />
       </div>
     </main>

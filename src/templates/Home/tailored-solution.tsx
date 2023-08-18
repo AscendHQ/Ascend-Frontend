@@ -1,4 +1,5 @@
 import { Icon } from "@iconify/react";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -13,7 +14,13 @@ export default function TailoredSolutions() {
         Explore our tailored solutions
       </h4>
       <Container>
-        <div className="flex flex-wrap justify-center xl:justify-between  gap-3 mt-10">
+        <motion.div
+          className="flex flex-wrap justify-center 2xl:justify-between  gap-3 mt-10"
+          initial={{ opacity: 0, y: 200 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ ease: [0.17, 0.67, 1, 1.23], duration: 0.6 }}
+          viewport={{ once: true }}
+        >
           {[
             {
               displayImg: "/school-management-solution.avif",
@@ -50,7 +57,7 @@ export default function TailoredSolutions() {
               <p className="bg-bgColour-variant-1 w-full p-5 relative text-Text-high-emphasis font-bold text-step-1">
                 {item.title}
               </p>
-              <div className="absolute inset-0 flex flex-col justify-between bg-primary-purple-500 text-white px-6 py-10 translate-y-full group-hover:translate-y-0 transition-all">
+              <div className="absolute inset-0 flex flex-col justify-between bg-primary-purple-500 text-white px-6 py-10 translate-y-full group-hover:translate-y-0 ease-out duration-300 ">
                 <div className="flex justify-between items-center">
                   <h4>Solutions</h4>
                   <Link
@@ -71,7 +78,7 @@ export default function TailoredSolutions() {
               </div>
             </div>
           ))}
-        </div>
+        </motion.div>
       </Container>
     </section>
   );

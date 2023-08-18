@@ -1,5 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { Icon } from "@iconify/react";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -8,9 +9,10 @@ import { ContentSection } from "@/components/common";
 import { Container } from "@/components/ui/container";
 import { whyAscendData } from "@/config";
 import { SOLUTION_PAGE } from "@/config/links";
+
 export function SchoolStat() {
   return (
-    <section className="flex border flex-col lg:flex-row gap-6 border-accent-300 justify-between p-10 items-center rounded-lg mt-10 max-w-[70rem] mx-auto">
+    <section className="flex border flex-col lg:flex-row gap-6 border-accent-300 justify-between p-10 items-center rounded-lg mt-44 mb-20 max-w-[70rem] mx-auto">
       <div className="text-center lg:text-left">
         <h4 className="text-step-2 font-black max-w-[37rem] text-accent-200">
           More than 1,200 schools use Ascend for administration
@@ -56,7 +58,13 @@ export function SchoolStat() {
 function WhyUs() {
   return (
     <Container>
-      <div className="text-center">
+      <motion.div
+        className="text-center"
+        initial={{ opacity: 0, y: 150 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ ease: [0.17, 0.67, 1, 1.23], duration: 0.6 }}
+        viewport={{ once: true }}
+      >
         <h3 className="text-step-4 font-bold tracking-tighter text-accent-200">
           Why our clients choose Ascend
         </h3>
@@ -100,7 +108,16 @@ function WhyUs() {
             "Lorem ipsum dolor sit amet, adipiscing consectetur elit bibendum viverra.",
             "Lorem ipsum dolor sit amet, consectetur elit adipiscing bibendum viverra.",
           ]}
-        />
+        >
+          <div className="bg-warning-main relative h-[350px] md:h-[650px] w-full lg:w-[520px] overflow-hidden rounded-3xl border-2 border-black">
+            <Image
+              src="/Database __ Students.png"
+              alt="Database __ Students"
+              fill
+              className="transform translate-x-16 translate-y-14 lg:translate-y-40"
+            />
+          </div>
+        </ContentSection>
         <ContentSection
           direction="left"
           heading="Disburse staff payment effectively"
@@ -117,9 +134,28 @@ function WhyUs() {
             "Lorem ipsum dolor sit amet, adipiscing consectetur elit bibendum viverra.",
             "Lorem ipsum dolor sit amet, consectetur elit adipiscing bibendum viverra.",
           ]}
-        />
+        >
+          <div className="bg-secondary-green-500 h-[350px] relative md:h-[650px] w-full lg:w-[520px] overflow-hidden rounded-3xl border-2 border-black grid place-content-center">
+            <div className="w-96 h-[271px] md:h-[421px] relative -translate-x-6 -translate-y-10 z-50">
+              <Image
+                src="/salary-chart.png"
+                alt="Salary chart"
+                fill
+                className="object-contain"
+              />
+            </div>
+            <div className="h-[162px] md:h-[232px] w-[628px] absolute bottom-0 left-0 md:left-72 lg:left-5 translate-x-6 md:translate-x-0">
+              <Image
+                src="/salary-table.png"
+                alt="Salary table"
+                fill
+                className="object-contain"
+              />
+            </div>
+          </div>
+        </ContentSection>
         <SchoolStat />
-      </div>
+      </motion.div>
     </Container>
   );
 }
