@@ -32,13 +32,14 @@ const StudentTable: React.FC = () => {
         </thead>
         <tbody>
           {Array.from({ length: 10 }).map((_, i) => (
-            <TableRow key={i} index={i} />
+            <TableRow key={i} />
           ))}
         </tbody>
       </table>
     </div>
   );
-  function TableRow({ index }: { index: number }) {
+  function TableRow() {
+    // function TableRow({ index }: { index: number }) {
     const [expanded, setExpanded] = React.useState(false);
     const toggleRow = () => {
       setExpanded(!expanded);
