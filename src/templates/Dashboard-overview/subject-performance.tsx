@@ -15,7 +15,7 @@ export default function SubjectPerformance() {
         </div>
         <select
           id="term"
-          className="text-sm rounded-lg"
+          className="text-sm rounded-lg p-3 bg-white border"
           defaultValue={"First Term"}
         >
           <option value="Third Term">Third Term</option>

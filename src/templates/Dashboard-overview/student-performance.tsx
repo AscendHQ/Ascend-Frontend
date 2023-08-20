@@ -14,7 +14,7 @@ export default function StudentPerformance() {
             Ratings of student's performance
           </p>
         </div>
-        <select className="rounded-lg text-xs">
+        <select className="rounded-lg text-xs p-2 bg-white border">
           <option value="SS3">SS3</option>
           <option value="SS2">SS2</option>
           <option value="SS1">SS1</option>

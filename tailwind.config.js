@@ -80,6 +80,7 @@ module.exports = {
         400: "#F4F4F5",
         500: "#A1A1AA",
       },
+      white: "#ffffff",
       "default-black": "#333333",
       "default-link-color": "#3D5CFF",
       bgColour: {
@@ -125,5 +126,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("flowbite/plugin")],
+  plugins: [],
 };
