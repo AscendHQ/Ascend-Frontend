@@ -44,6 +44,13 @@ const StudentTable: React.FC = () => {
     const toggleRow = () => {
       setExpanded(!expanded);
     };
+    const handleClickOutside = (event: {
+      target: { closest: (arg0: string) => any };
+    }) => {
+      if (!event.target.closest(".table-row")) {
+        setExpanded(false);
+      }
+    };
     return (
       <tr className={`bg-white border-b hover:bg-gray-50 relative`}>
         <TableBodyText title="DEMO/2022/120" styles="text-left" />
@@ -74,21 +81,27 @@ const StudentTable: React.FC = () => {
           <Icon
             icon="icon-park-outline:more-one"
             fontSize={25}
-            className=" mx-auto"
+            className="mx-auto"
             onClick={toggleRow}
+            onBlur={handleClickOutside}
           />
         </td>
         {expanded && (
-          <td>
-            <section className="absolute right-10 bg-white z-50 shadow-md p-2 rounded-lg">
-              <ul>
-                <li>
-                  <Link href={STUDENT_BIODATA}>View profile</Link>
-                </li>
-                <li>Edit details</li>
-                <li>Remove</li>
-              </ul>
-            </section>
+          <td className="absolute right-10 bg-white text-default-black font-medium z-50 shadow-md p-2 rounded-lg">
+            <ul className="space-y-2 pr-4 pl-1 py-2">
+              <li className="flex items-center gap-1">
+                <Icon icon="octicon:person-24" fontSize={20} />
+                <Link href={STUDENT_BIODATA}>View profile</Link>
+              </li>
+              <li className="flex items-center gap-1">
+                <Icon icon="carbon:edit" fontSize={20} />
+                <Link href={STUDENT_BIODATA}>Edit details</Link>
+              </li>
+              <li className="flex items-center gap-1">
+                <Icon icon="solar:trash-bin-2-broken" fontSize={20} />
+                <Link href={STUDENT_BIODATA}>Remove</Link>
+              </li>
+            </ul>
           </td>
         )}
       </tr>
