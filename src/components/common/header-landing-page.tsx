@@ -17,7 +17,7 @@ function Header({
   const [isScrolled, setIsScrolled] = React.useState(false);
 
   const genericHamburgerLine =
-    "h-1 w-full my-1 rounded-full bg-black transition ease transform duration-300";
+    "h-[3px] w-full rounded-full bg-black transition ease transform duration-300";
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -36,9 +36,19 @@ function Header({
   };
 
   React.useEffect(() => {
+    handleScroll();
+
     window.addEventListener("scroll", handleScroll);
 
     document.body.classList.remove("disable-scroll");
+
+    window.addEventListener("resize", function () {
+      const windowWidth = window.innerWidth;
+
+      if (windowWidth > 700) {
+        document.body.classList.remove("disable-scroll");
+      }
+    });
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -62,26 +72,26 @@ function Header({
           />
           <nav
             className={classNames(
-              "fixed inset-0 z-40 bg-white lg:bg-transparent lg:w-[65%] lg:relative px-10 pt-24 lg:p-0 items-center flex flex-col-reverse lg:flex-row justify-end lg:justify-between gap-5 transition-all duration-300",
+              "fixed inset-0 z-40 bg-white lg:bg-transparent h-[100vh] lg:h-auto lg:w-[65%] lg:relative px-10 pt-32 lg:p-0 items-center flex flex-col-reverse lg:flex-row justify-end lg:justify-between gap-5 transition-all duration-300",
               { "move-out": isOpen },
               { "move-in": !isOpen }
             )}
           >
-            <ul className="flex flex-col w-full lg:flex-row lg:items-center gap-9">
+            <ul className="flex order-2 lg:order-1 flex-col w-full lg:flex-row lg:items-center gap-9">
               {menuData.slice(0, -2).map(item => (
                 <li key={item.title} className="font-medium whitespace-nowrap">
                   <Link href={item.to}>{item.title}</Link>
                 </li>
               ))}
             </ul>
-            <ul className="flex flex-col-reverse w-full lg:flex-row lg:items-center justify-end gap-9">
+            <ul className="flex order-1 mt-3 lg:mt-0 lg:order-2 flex-col w-full lg:flex-row lg:items-center justify-end gap-9">
               {menuData.slice(-2).map((item, index) => (
                 <li key={item.title} className="font-medium">
                   <Link
                     href={item.to}
                     className={`${
                       index === 1
-                        ? "bg-primary-purple-500 text-white  lg:bg-grey-100 lg:text-accent-300 border-2 px-4 py-2 border-accent-300 lg:border-border-colour-light rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all flex items-center gap-2"
+                        ? "bg-primary-purple-500 text-white  lg:bg-grey-100 lg:text-accent-300 border-2 px-4 py-2 border-accent-300 lg:border-border-colour-light rounded-md hover:shadow-[4px_4px_0px_0px_#000000] transition-all flex items-center gap-2"
                         : ""
                     }`}
                   >
@@ -92,13 +102,13 @@ function Header({
             </ul>
           </nav>
           <button
-            className=" flex flex-col h-10 w-8 rounded justify-center relative z-50 items-center group lg:hidden"
+            className=" flex flex-col h-10 w-8 gap-[5px] rounded justify-center relative z-50 items-center group lg:hidden"
             onClick={toggleMenu}
           >
             <span
               className={`${genericHamburgerLine} ${
                 isOpen
-                  ? "rotate-45 translate-y-3 group-hover:opacity-100"
+                  ? "rotate-45 translate-y-[7px] group-hover:opacity-100"
                   : "group-hover:opacity-100"
               }`}
             />
@@ -110,7 +120,7 @@ function Header({
             <span
               className={`${genericHamburgerLine} ${
                 isOpen
-                  ? "-rotate-45 -translate-y-3 group-hover:opacity-100"
+                  ? "-rotate-45 -translate-y-[9px] group-hover:opacity-100"
                   : "group-hover:opacity-100"
               }`}
             />

@@ -23,7 +23,7 @@ export default function ContentSection({
       className={`flex gap-5 flex-col ${
         direction === "right" ? "lg:flex-row" : "lg:flex-row-reverse"
       }  justify-between mt-44 items-center`}
-      initial={{ opacity: 0, y: 150 }}
+      initial={{ opacity: 0, y: 100 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ ease: [0.17, 0.67, 1, 1.23], duration: 0.6 }}
       viewport={{ once: true }}

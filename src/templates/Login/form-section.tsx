@@ -25,7 +25,7 @@ export default function FormSection() {
         />
       </Link>
       <div>
-        <h2 className="text-step-2 font-bold">Welcome Back 👋</h2>
+        <h2 className="text-step-2 font-bold mt-14">Welcome Back 👋</h2>
         <p className="text-step--2 !leading-tight mt-3">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis morbi
           pulvinar venenatis non.
@@ -48,31 +48,35 @@ export default function FormSection() {
           htmlFor="personal-id"
           className="text-step--2 text-Text-high-emphasis font-semibold"
         >
-          ID
+          Staff ID
         </label>
         <div className="relative">
-          <Icon
-            icon="fa-solid:id-card"
-            fontSize={25}
+          <Image
+            src="/password-check.svg"
+            alt="password-check"
+            width={25}
+            height={25}
             className="absolute top-3 left-2 text-Text-high-emphasis"
           />
           <input
             type="text"
             placeholder="Your personal ID"
-            className="pl-11 border-border-colour-light py-3 border w-full rounded-md"
+            className="pl-11 border-border-colour-light placeholder:text-Text-meduim-emphasis py-3 border w-full rounded-md"
             id="personal-id"
           />
         </div>
         <label
           htmlFor="password"
-          className="text-step--2 text-Text-high-emphasis  mt-5 font-semibold"
+          className="text-step--2 text-Text-high-emphasis placeholder:text-Text-meduim-emphasis  mt-5 font-semibold"
         >
           Password
         </label>
         <div className="relative">
-          <Icon
-            icon="mdi:password-outline"
-            fontSize={25}
+          <Image
+            src="/lock.svg"
+            alt="lock"
+            width={25}
+            height={25}
             className="absolute top-3 left-2 text-Text-high-emphasis"
           />
           <input
@@ -82,7 +86,7 @@ export default function FormSection() {
             id="password"
           />
         </div>
-        <div className="flex justify-between mt-7">
+        <div className="flex justify-between mt-7 flex-wrap gap-2">
           <div className="flex items-center gap-2 text-sm">
             <input type="checkbox" name="check" id="check" />
             <label htmlFor="check">Remember me for this device</label>
