@@ -32,14 +32,13 @@ export default function IntroSection() {
             </Button>
           </li>
         </ul>
-        <div className="relative w-full h-[17rem] sm:h-[36rem] md:h-[44rem] lg:h-[61rem]">
+        <div className="relative w-full h-[21rem] sm:h-[36rem] md:h-[44rem] lg:h-[61rem]">
           <Image
             src="/Dashboard.png"
             // src="/dashboard-img.avif"
             alt="dashboard-img"
             fill
             sizes="(max-width: 767px) 100vw, (max-width: 1200px) 50vw, 800px"
-            // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>
       </section>

@@ -18,6 +18,13 @@ export default function DashboardHeader({
     setActiveTab(tabId);
   };
 
+  const handleClickOutside = (event: {
+    target: { closest: (arg0: string) => unknown };
+  }) => {
+    if (!event.target.closest(".click-elsewhere")) {
+      setAccountDropDown(false);
+    }
+  };
   return (
     <header className="flex justify-between max-h-[80px] bg-white items-center p-10 relative">
       <h2 className="text-Text-high-emphasis text-2xl font-bold tracking-tight">
@@ -35,6 +42,7 @@ export default function DashboardHeader({
         <button
           className="flex items-center gap-3"
           onClick={() => setAccountDropDown(prev => !prev)}
+          onBlur={handleClickOutside}
         >
           <Image
             src="/joebrendan.png"

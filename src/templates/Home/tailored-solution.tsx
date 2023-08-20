@@ -16,7 +16,7 @@ export default function TailoredSolutions() {
       <Container>
         <motion.div
           className="flex flex-wrap justify-center 2xl:justify-between  gap-3 mt-10"
-          initial={{ opacity: 0, y: 200 }}
+          initial={{ opacity: 0, y: 100 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ ease: [0.17, 0.67, 1, 1.23], duration: 0.6 }}
           viewport={{ once: true }}

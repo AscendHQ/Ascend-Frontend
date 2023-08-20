@@ -99,7 +99,7 @@ function WhyUs() {
         <ContentSection
           heading="Effortlessly handle school administration"
           button={
-            <button className="bg-primary-purple-500 text-grey-100 border-2 px-14 py-2 border-accent-300 rounded-md shadow-[4px_4px_0px_0px_#000000] hover:shadow-none transition-all">
+            <button className="bg-primary-purple-500 text-grey-100 border-2 px-14 py-2 border-accent-300 rounded-md hover:shadow-[4px_4px_0px_0px_#000000] transition-all">
               Book a free demo
             </button>
           }
@@ -124,7 +124,7 @@ function WhyUs() {
           button={
             <Link
               href={SOLUTION_PAGE}
-              className="bg-primary-purple-500 text-step--2 text-grey-100 border-2 px-14 py-2 border-accent-300 rounded-md shadow-[4px_4px_0px_0px_#000000] block w-fit hover:shadow-none transition-all"
+              className="bg-primary-purple-500 text-step--2 text-grey-100 border-2 px-14 py-2 border-accent-300 rounded-md hover:shadow-[4px_4px_0px_0px_#000000] block w-fit  transition-all"
             >
               Explore our solutions
             </Link>
