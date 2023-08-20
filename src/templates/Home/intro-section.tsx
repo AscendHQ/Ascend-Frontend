@@ -11,7 +11,7 @@ export default function IntroSection() {
         <h2 className="text-step-4 font-bold max-w-[67rem] mx-auto tracking-tighter">
           Streamlining School Administration, Management, and Payroll Processes.
         </h2>
-        <p className="max-w-[53rem] mx-auto text-step-1 !leading-7 font-normal text-accent-300 text-opacity-60">
+        <p className="max-w-[53rem] mx-auto text-step-0 lg:text-step-1 !leading-6 lg:!leading-7 font-normal text-accent-300 text-opacity-60">
           With our complete platform, you can quickly manage your school's
           administrative responsibilities, automate payroll processes and
           streamline communication—all in one place.
