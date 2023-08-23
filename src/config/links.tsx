@@ -53,4 +53,4 @@ export const DASHBOARD_HOSTEL_INFO = (slug: string) =>
 
 export const DASHBOARD_LESSON = "/dashboard/lesson";
 export const DASHBOARD_TIMETABLE = "/dashboard/timetable";
-export const DASHBOARD_RESULT = "/dashboard/result";
+export const DASHBOARD_RESULT = "/dashboard/results";

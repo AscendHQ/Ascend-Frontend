@@ -1,8 +1,15 @@
 /* eslint-disable react/no-array-index-key */
 import { Icon } from "@iconify/react";
+import { Select } from "antd";
 import Image from "next/image";
+import Link from "next/link";
+
+import { DASHBOARD_STUDENT } from "@/config/links";
 
 export default function StudentPerformance() {
+  const handleChange = (value: string | string[]) => {
+    console.log(`Selected: ${value}`);
+  };
   return (
     <div className="bg-white py-4 rounded-lg grid px-6 w-full xl:w-[60%] border border-border-colour-light">
       <div className="flex justify-between items-center">
@@ -14,11 +21,26 @@ export default function StudentPerformance() {
             Ratings of student's performance
           </p>
         </div>
-        <select className="rounded-lg text-xs p-2 bg-white border">
-          <option value="SS3">SS3</option>
-          <option value="SS2">SS2</option>
-          <option value="SS1">SS1</option>
-        </select>
+
+        <Select
+          defaultValue="SS3"
+          style={{
+            width: 120,
+            fontSize: 14,
+            border: "1px solid",
+            borderRadius: 5,
+          }}
+          onChange={handleChange}
+          className="[&>*]:!text-sm"
+          options={[
+            { value: "SS3", label: "SS3" },
+            { value: "SS2", label: "SS2" },
+            { value: "SS1", label: "SS1" },
+            { value: "JSS3", label: "JSS3" },
+            { value: "JSS2", label: "JSS2" },
+            { value: "JSS1", label: "JSS1" },
+          ]}
+        />
       </div>
       <div className="max-h-64 overflow-scroll pr-2">
         {Array.from({ length: 5 }).map((_, i) => (
@@ -47,10 +69,13 @@ export default function StudentPerformance() {
           </div>
         ))}
       </div>
-      <button className="text-gray-800 font-semibold gap-4 flex items-center pt-2">
+      <Link
+        href={DASHBOARD_STUDENT}
+        className="text-gray-800 font-semibold gap-4 flex items-center pt-2"
+      >
         <span>SEE ALL STUDENTS</span>
         <Icon icon="material-symbols:arrow-forward-ios" />
-      </button>
+      </Link>
     </div>
   );
 }

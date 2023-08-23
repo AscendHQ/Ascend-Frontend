@@ -1,3 +1,4 @@
+import { Input } from "antd";
 import React from "react";
 
 import DatabaseStudentContainer from "@/components/layout/database-student/container";
@@ -306,6 +307,7 @@ function ContactInformation() {
           >
             Contact Details
           </label>
+          <Input placeholder="(217) 555-0113" />
           <input
             type="text"
             id="contact_details"

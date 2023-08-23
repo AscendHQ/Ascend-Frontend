@@ -1,8 +1,13 @@
+import { Select } from "antd";
 import { ApexOptions } from "apexcharts";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
 export default function StudentPopulation() {
+  const handleChange = (value: string | string[]) => {
+    console.log(`Selected: ${value}`);
+  };
+
   const customColors = {
     "purple-600": "#6050CC",
     "purple-700": "#483C99",
@@ -72,14 +77,25 @@ export default function StudentPopulation() {
         <h4 className="text-Text-high-emphasis text-lg font-semibold ">
           Student Population Statistics
         </h4>
-        <select className="rounded-lg text-xs p-3 bg-white border">
-          <option value="4 Months">1 Year</option>
-          <option value="4 Months">10 Months</option>
-          <option value="4 Months">8 Months</option>
-          <option value="4 Months">4 Months</option>
-          <option value="4 Months">2 Months</option>
-          <option value="1 Month">1 Month</option>
-        </select>
+        <Select
+          defaultValue="1 Year"
+          style={{
+            width: 120,
+            fontSize: 14,
+            border: "1px solid",
+            borderRadius: 5,
+          }}
+          onChange={handleChange}
+          className="[&>*]:!text-sm"
+          options={[
+            { value: "1 Year", label: "1 Year" },
+            { value: "10 Months", label: "10 Months" },
+            { value: "8 Months", label: "8 Months" },
+            { value: "4 Months", label: "4 Months" },
+            { value: "2 Months", label: "2 Months" },
+            { value: "1 Months", label: "1 Months" },
+          ]}
+        />
       </div>
       <div id="chart">
         <ReactApexChart

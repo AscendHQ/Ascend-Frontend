@@ -1,11 +1,14 @@
 import "@/styles/globals.css";
 import "@/styles/loading.module.css";
 
+import { ConfigProvider } from "antd";
 import { AnimatePresence } from "framer-motion";
 import type { AppProps } from "next/app";
 import NextNprogress from "nextjs-progressbar";
 
 import { GTWalsheimPro, InterFont } from "@/assets/fonts";
+
+import theme from "../styles/themeConfig";
 
 export default function App({ Component, pageProps }: AppProps) {
   const TuftsBlue = "#3498DB";
@@ -27,7 +30,9 @@ export default function App({ Component, pageProps }: AppProps) {
         height={3}
       />
       <AnimatePresence>
-        <Component {...pageProps} />
+        <ConfigProvider theme={theme}>
+          <Component {...pageProps} />
+        </ConfigProvider>
       </AnimatePresence>
     </>
   );
