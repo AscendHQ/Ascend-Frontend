@@ -21,7 +21,7 @@ export default function DashboardHeader({
 
   return (
     <header className="flex justify-between max-h-[80px] bg-white items-center p-10 relative">
-      <h2 className="text-Text-high-emphasis text-2xl font-bold tracking-tight">
+      <h2 className="text-Text-high-emphasis text-2xl font-bold tracking-tight capitalize">
         {/* Overview */}
         {headerTitle}
       </h2>

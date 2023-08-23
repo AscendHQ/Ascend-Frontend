@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/no-array-index-key */
 import { Icon } from "@iconify/react";
+import { Dropdown, MenuProps } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -38,19 +39,33 @@ const StudentTable: React.FC = () => {
       </table>
     </div>
   );
+
   function TableRow() {
     // function TableRow({ index }: { index: number }) {
-    const [expanded, setExpanded] = React.useState(false);
-    const toggleRow = () => {
-      setExpanded(!expanded);
-    };
-    // const handleClickOutside = (event: {
-    //   target: { closest: (arg0: string) => any };
-    // }) => {
-    //   if (!event.target.closest(".click-elsewhere")) {
-    //     setExpanded(false);
-    //   }
-    // };
+
+    const items: MenuProps["items"] = [
+      {
+        label: (
+          <Link
+            href={STUDENT_BIODATA}
+            className="flex gap-2 w-full transition-all py-1 rounded-sm items-center"
+          >
+            <Icon icon="octicon:person-24" fontSize={20} />
+            <span className="text-sm">View profile</span>
+          </Link>
+        ),
+        key: "0",
+      },
+      {
+        label: (
+          <button className="flex gap-2 w-full transition-all py-1 rounded-sm">
+            <Icon icon="solar:trash-bin-2-broken" fontSize={20} />
+            <span className="text-sm">Remove</span>
+          </button>
+        ),
+        key: "1",
+      },
+    ];
     return (
       <tr className={`bg-white border-b hover:bg-gray-50 relative`}>
         <TableBodyText title="DEMO/2022/120" styles="text-left" />
@@ -78,43 +93,22 @@ const StudentTable: React.FC = () => {
           </button>
         </td>
         <td>
-          <button onClick={toggleRow} className="mx-auto block">
-            <Icon icon="icon-park-outline:more-one" fontSize={25} />
-          </button>
+          <Dropdown
+            menu={{ items }}
+            trigger={["click"]}
+            onOpenChange={() =>
+              // setCurrentStudent({
+              //   name: item.studentName,
+              //   activeStatus: item.statusIsActive,
+              // })
+              console.log("gdhdh")
+            }
+          >
+            <button className="mx-auto block">
+              <Icon icon="icon-park-outline:more-one" fontSize={25} />
+            </button>
+          </Dropdown>
         </td>
-        {expanded && (
-          <td className="absolute right-10 bg-white text-default-black font-medium z-50 shadow-md rounded-lg">
-            <ul className="p-2">
-              <li>
-                <Link
-                  href={STUDENT_BIODATA}
-                  className="flex items-center gap-1 hover:bg-primary-purple-100 transition-all py-2 pl-1 rounded pr-4"
-                >
-                  <Icon icon="octicon:person-24" fontSize={20} />
-                  <span>View profile</span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={STUDENT_BIODATA}
-                  className="flex items-center gap-1 hover:bg-primary-purple-100 transition-all py-2 pl-1 rounded-sm pr-4"
-                >
-                  <Icon icon="carbon:edit" fontSize={20} />
-                  <span>Edit details</span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={STUDENT_BIODATA}
-                  className="flex items-center gap-1 hover:bg-primary-purple-100 transition-all py-2 pl-1 rounded-sm pr-4"
-                >
-                  <Icon icon="solar:trash-bin-2-broken" fontSize={20} />
-                  <span>Remove</span>
-                </Link>
-              </li>
-            </ul>
-          </td>
-        )}
       </tr>
     );
   }

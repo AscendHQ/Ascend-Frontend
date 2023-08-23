@@ -16,7 +16,7 @@ const AttendanceHeatMap = dynamic(
 
 export default function AcademicInformation() {
   return (
-    <DatabaseStudentContainer headerTitle="New Student">
+    <DatabaseStudentContainer headerTitle="Student">
       <div>
         <AcademicInfoUpdate />
         <AttendanceInformation />
@@ -219,10 +219,6 @@ function Table() {
             <th scope="col" className="px-6 py-3">
               Grade
             </th>
-
-            <th scope="col" className="px-6 py-3">
-              <Icon icon="ion:filter" />
-            </th>
           </tr>
         </thead>
         <tbody>
@@ -267,9 +263,6 @@ function Table() {
               </td>
               <td className="px-6 py-4">
                 <span>N/A</span>
-              </td>
-              <td className="px-6 py-4">
-                <Icon icon="ri:more-2-fill" />
               </td>
             </tr>
           ))}

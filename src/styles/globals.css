@@ -74,6 +74,24 @@ body.disable-scroll {
 input[type="date"]::-webkit-calendar-picker-indicator {
   display: none;
 }
+.ant-modal-footer {
+  display: flex;
+}
+.ant-btn.css-dev-only-do-not-override-1qkktmc.ant-btn-primary,
+.ant-btn.css-dev-only-do-not-override-1qkktmc.ant-btn-primary:hover {
+  background-color: #7864ff;
+  flex: 1;
+  color: white;
+  min-height: 48px;
+}
+.ant-btn.css-dev-only-do-not-override-1qkktmc.ant-btn-default,
+.ant-btn.css-dev-only-do-not-override-1qkktmc.ant-btn-default:hover {
+  background-color: #fff;
+  border: 1px solid rgb(183, 182, 182);
+  flex: 1;
+  color: black;
+  min-height: 48px;
+}
 @media (max-width: 1024px) {
   .move-in {
     transform: translateX(100vw);

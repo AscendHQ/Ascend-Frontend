@@ -5,7 +5,7 @@ import React from "react";
 import { DashboardHeader } from "@/components/common";
 import { Sidebar } from "@/components/sidebar";
 import { DashboardButton } from "@/components/ui/button/button";
-import { STUDENT_BIODATA } from "@/config/links";
+import { DASHBOARD_STUDENT } from "@/config/links";
 
 export default function UpdateBiodata() {
   // const [showToast, setShowToast] = React.useState(false);
@@ -21,7 +21,7 @@ export default function UpdateBiodata() {
       <div className="col-[3/-1] 3xl:col-[2/-1] bg-white">
         <DashboardHeader headerTitle="Student Biodata" />
         <main className="p-10">
-          <Link href={STUDENT_BIODATA} className="flex items-center gap-2">
+          <Link href={DASHBOARD_STUDENT} className="flex items-center gap-2">
             <Icon icon="teenyicons:arrow-left-solid" />
             Back to Biodata
           </Link>

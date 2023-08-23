@@ -8,6 +8,7 @@ import {
   DASHBOARD_LESSON,
   DASHBOARD_OVERVIEW,
   DASHBOARD_RESULT,
+  DASHBOARD_RESULT_INFO,
   DASHBOARD_TIMETABLE,
 } from "@/config/links";
 
@@ -75,7 +76,11 @@ export default function Sidebar() {
         <SideBarItem
           title={"Results"}
           icon="fluent:trophy-16-regular"
-          isActive={router.pathname === DASHBOARD_RESULT}
+          isActive={[
+            DASHBOARD_RESULT,
+            DASHBOARD_RESULT_INFO("[resultInfo]"),
+          ].some(path => router.pathname === path)}
+          // isActive={router.pathname === DASHBOARD_RESULT}
           urlPath={DASHBOARD_RESULT}
         />
       </div>
@@ -100,7 +105,7 @@ export default function Sidebar() {
           urlPath="/dashboard/staff"
         />
       </div>
-      <span className="text-primary-purple-200 absolute bottom-0">
+      <span className="text-primary-purple-600 absolute bottom-0">
         ©product of Ascend
       </span>
     </aside>
