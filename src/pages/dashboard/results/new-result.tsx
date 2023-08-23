@@ -45,6 +45,23 @@ function ResultInformation() {
             )
           )
         }
+        okButtonProps={{
+          style: {
+            color: "#ffffff",
+            minHeight: "48px",
+            backgroundColor: "#7864ff",
+            width: "48%",
+          },
+        }}
+        cancelButtonProps={{
+          style: {
+            backgroundColor: "#fff",
+            border: "1px solid #b7b6b6",
+            color: "black",
+            width: "48%",
+            minHeight: "48px",
+          },
+        }}
         onCancel={() => setOpen(false)}
         width={400}
         cancelText={"Undo"}
