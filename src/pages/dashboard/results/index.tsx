@@ -172,6 +172,23 @@ function Table() {
         cancelText={"Undo"}
         okText={"View Results"}
         closeIcon={false}
+        okButtonProps={{
+          style: {
+            color: "#ffffff",
+            minHeight: "48px",
+            backgroundColor: "#7864ff",
+            width: "48%",
+          },
+        }}
+        cancelButtonProps={{
+          style: {
+            backgroundColor: "#fff",
+            border: "1px solid #b7b6b6",
+            color: "black",
+            width: "48%",
+            minHeight: "48px",
+          },
+        }}
       >
         <section className="text-center">
           <div className="flex justify-center items-center rounded-lg bg-success-light py-6">
@@ -199,6 +216,23 @@ function Table() {
         cancelText={"Undo"}
         okText={"View Results"}
         closeIcon={false}
+        okButtonProps={{
+          style: {
+            color: "#ffffff",
+            minHeight: "48px",
+            backgroundColor: "#7864ff",
+            width: "48%",
+          },
+        }}
+        cancelButtonProps={{
+          style: {
+            backgroundColor: "#fff",
+            border: "1px solid #b7b6b6",
+            color: "black",
+            width: "48%",
+            minHeight: "48px",
+          },
+        }}
       >
         <section className="text-center">
           <div className="flex justify-center items-center rounded-lg bg-gray-300 py-6">
