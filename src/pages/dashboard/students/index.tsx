@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { Icon } from "@iconify/react";
+import type { MenuProps } from "antd";
+import { Dropdown } from "antd";
+import Link from "next/link";
 import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
@@ -29,14 +33,18 @@ export default function DatabaseStudents() {
     <Container headerTitle="Students">
       <div className="bg-white p-10">
         <StatOverview />
-        <DashboardButton
-          variant="primary"
-          leftElement={<Icon icon="tabler:plus" />}
-          isLink={true}
-          path={STUDENT_BIODATA}
-        >
-          Register student
-        </DashboardButton>
+        <div className="relative">
+          <Dropdown menu={{ items }} trigger={["click"]}>
+            <DashboardButton
+              variant="primary"
+              leftElement={<Icon icon="tabler:plus" />}
+              onClick={e => e.preventDefault()}
+            >
+              Register student
+            </DashboardButton>
+          </Dropdown>
+        </div>
+
         <TabNav
           studentDemographics={studentDemographics}
           viewStudent={viewStudent}
@@ -47,3 +55,27 @@ export default function DatabaseStudents() {
     </Container>
   );
 }
+
+const items: MenuProps["items"] = [
+  {
+    label: (
+      <button className="flex gap-1 w-full transition-all p-1 rounded-sm">
+        <Icon icon="bx:data" fontSize={25} />
+        <span>Bulk Upload</span>
+      </button>
+    ),
+    key: "0",
+  },
+  {
+    label: (
+      <Link
+        href={STUDENT_BIODATA}
+        className="flex gap-1 w-full transition-all p-1 rounded-sm"
+      >
+        <Icon icon="grommet-icons:form-edit" fontSize={25} />
+        <span>Single Upload</span>
+      </Link>
+    ),
+    key: "1",
+  },
+];

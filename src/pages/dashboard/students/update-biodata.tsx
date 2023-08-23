@@ -1,5 +1,4 @@
 import { Icon } from "@iconify/react";
-import { Toast } from "flowbite-react";
 import Link from "next/link";
 import React from "react";
 
@@ -9,12 +8,12 @@ import { DashboardButton } from "@/components/ui/button/button";
 import { STUDENT_BIODATA } from "@/config/links";
 
 export default function UpdateBiodata() {
-  const [showToast, setShowToast] = React.useState(false);
+  // const [showToast, setShowToast] = React.useState(false);
 
   const handleShowToast = () => {
-    setTimeout(() => {
-      setShowToast(true);
-    }, 100);
+    // setTimeout(() => {
+    //   setShowToast(true);
+    // }, 100);
   };
   return (
     <div className="grid font-inter grid-cols-9">
@@ -47,21 +46,6 @@ export default function UpdateBiodata() {
 
             {/* <div className="fixed bottom-5 right-5 bg-gray-800 text-white py-2 px-4 rounded-lg shadow-lg transform translate-y-full transition-transform duration-500">
              */}
-            {showToast && (
-              <Toast
-                className={`fixed top-5 right-5 bg-gray-800 text-white py-2 px-4 rounded-lg shadow-lg ${
-                  showToast
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-full"
-                } transition-opacity duration-500`}
-              >
-                {/* <Toast className="fixed top-1 -translate-x-2/4 left-2/4 bg-success-main text-white rounded-none "> */}
-                <div className="ml-3 text-sm font-normal">
-                  Student registered successfully
-                </div>
-                <Toast.Toggle className="rounded-full flex justify-center items-center h-7 w-7" />
-              </Toast>
-            )}
           </div>
         </main>
       </div>
@@ -606,3 +590,20 @@ function PersonalInformation() {
     </div>
   );
 }
+/* 
+{showToast && (
+              <Toast
+                className={`fixed top-5 right-5 bg-gray-800 text-white py-2 px-4 rounded-lg shadow-lg ${
+                  showToast
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-full"
+                } transition-opacity duration-500`}
+              >
+                {/* <Toast className="fixed top-1 -translate-x-2/4 left-2/4 bg-success-main text-white rounded-none "> 
+                // <div className="ml-3 text-sm font-normal">
+                  // Student registered successfully
+                // </div>
+                // <Toast.Toggle className="rounded-full flex justify-center items-center h-7 w-7" />
+              // </Toast>
+            // )}
+*/

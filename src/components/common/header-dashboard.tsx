@@ -1,4 +1,5 @@
 import { Icon } from "@iconify/react";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -18,13 +19,6 @@ export default function DashboardHeader({
     setActiveTab(tabId);
   };
 
-  const handleClickOutside = (event: {
-    target: { closest: (arg0: string) => unknown };
-  }) => {
-    if (!event.target.closest(".click-elsewhere")) {
-      setAccountDropDown(false);
-    }
-  };
   return (
     <header className="flex justify-between max-h-[80px] bg-white items-center p-10 relative">
       <h2 className="text-Text-high-emphasis text-2xl font-bold tracking-tight">
@@ -42,7 +36,6 @@ export default function DashboardHeader({
         <button
           className="flex items-center gap-3"
           onClick={() => setAccountDropDown(prev => !prev)}
-          onBlur={handleClickOutside}
         >
           <Image
             src="/joebrendan.png"
@@ -79,7 +72,14 @@ function NotificationDropDownSection({
       ? "bg-info-main text-white"
       : "bg-grey-200 text-Text-meduim-emphasis";
   return (
-    <section
+    <motion.section
+      initial={{
+        opacity: 0,
+      }}
+      animate={{
+        opacity: dropDown ? 1 : 0,
+        y: dropDown ? 0 : 100,
+      }}
       className={`absolute ${
         dropDown ? "block" : "hidden"
       } bg-white top-[115%] right-28 rounded-2xl min-w-[500px] shadow-xl z-50`}
@@ -378,14 +378,21 @@ function NotificationDropDownSection({
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
 
 function AccountDropDownSection({ dropDown }: { dropDown: boolean }) {
   return (
-    <section
-      className={`absolute bg-white top-full right-10 p-4 flex flex-col items-center justify-center rounded-md shadow-lg transition-all origin-top duration-500 z-50 ${
+    <motion.section
+      initial={{
+        opacity: 0,
+      }}
+      animate={{
+        opacity: dropDown ? 1 : 0,
+        y: dropDown ? 0 : 50,
+      }}
+      className={`absolute bg-white top-full right-10 p-4 flex flex-col items-center justify-center rounded-md shadow-lg  z-50 ${
         dropDown ? "block" : "hidden"
       }`}
     >
@@ -418,6 +425,6 @@ function AccountDropDownSection({ dropDown }: { dropDown: boolean }) {
           </button>
         </li>
       </ul>
-    </section>
+    </motion.section>
   );
 }
