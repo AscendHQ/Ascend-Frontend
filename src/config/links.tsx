@@ -53,4 +53,10 @@ export const DASHBOARD_HOSTEL_INFO = (slug: string) =>
 
 export const DASHBOARD_LESSON = "/dashboard/lesson";
 export const DASHBOARD_TIMETABLE = "/dashboard/timetable";
+
 export const DASHBOARD_RESULT = "/dashboard/results";
+export const NEW_RESULT = "/dashboard/results/new-result";
+export const DASHBOARD_RESULT_INFO = (slug: string) =>
+  `/dashboard/results/${slug}`;
+
+export const BOOK_A_DEMO = "https://calendly.com/ascendafrica/30min";

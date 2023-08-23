@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { MenuProps, Select } from "antd";
+import { MenuProps, Modal, Select } from "antd";
 import { Dropdown } from "antd";
 import Link from "next/link";
 import React from "react";
@@ -7,6 +7,7 @@ import { twMerge } from "tailwind-merge";
 
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
+import { DASHBOARD_RESULT_INFO, NEW_RESULT } from "@/config/links";
 
 export default function Results() {
   const handleChange = (value: string | string[]) => {
@@ -26,7 +27,7 @@ export default function Results() {
     {
       label: (
         <Link
-          href={"/"}
+          href={NEW_RESULT}
           className="flex gap-1 w-full transition-all py-1 rounded-sm"
         >
           <Icon icon="grommet-icons:form-edit" fontSize={25} />
@@ -123,6 +124,9 @@ export default function Results() {
   );
 }
 function Table() {
+  const [openResultApproved, setOpenResultApproved] = React.useState(false);
+  const [openResultRejected, setOpenResultRejected] = React.useState(false);
+
   const [currentStudent, setCurrentStudent] = React.useState({
     name: "",
     activeStatus: 0,
@@ -131,46 +135,87 @@ function Table() {
   const items: MenuProps["items"] = [
     {
       label: (
-        <button
+        <Link
+          href={DASHBOARD_RESULT_INFO(
+            currentStudent.name.split(" ").join("-").toLowerCase()
+          )}
           className="flex gap-2 w-full transition-all py-1 rounded-sm items-center"
           onClick={() => console.log(currentStudent)}
         >
           <Icon icon="ep:more" fontSize={20} />
           <span className="text-sm">View details</span>
-        </button>
+        </Link>
       ),
       key: "0",
     },
     {
       label: (
-        <Link
-          href={"/"}
-          className="flex gap-1 w-full transition-all py-1 rounded-sm"
-        >
-          <Icon icon="carbon:edit" fontSize={20} />
-          <span className="text-sm">Edit details</span>
-        </Link>
+        <button className="flex gap-2 w-full transition-all py-1 rounded-sm">
+          <Icon icon="solar:trash-bin-2-broken" fontSize={20} />
+          <span className="text-sm">Remove</span>
+        </button>
       ),
       key: "1",
-      disabled: currentStudent.activeStatus !== 0 ? true : false,
-    },
-    {
-      label: (
-        <Link
-          href={"/"}
-          className="flex gap-1 w-full transition-all py-1 rounded-sm"
-        >
-          <Icon icon="solar:trash-bin-minimalistic-broken" fontSize={20} />
-          <span className="text-sm">Remove</span>
-        </Link>
-      ),
-      key: "2",
       disabled: currentStudent.activeStatus !== 0 ? true : false,
     },
   ];
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
+      <Modal
+        title=""
+        centered
+        open={openResultApproved}
+        onOk={() => setOpenResultApproved(false)}
+        onCancel={() => setOpenResultApproved(false)}
+        width={400}
+        cancelText={"Undo"}
+        okText={"View Results"}
+        closeIcon={false}
+      >
+        <section className="text-center">
+          <div className="flex justify-center items-center rounded-lg bg-success-light py-6">
+            <Icon
+              icon="zondicons:checkmark-outline"
+              className="bg-success-light text-success-dark"
+              fontSize={40}
+            />
+          </div>
+          <h2 className="text-2xl font-semibold mb-2 mt-4 text-Text-high-emphasis">
+            Results approved!
+          </h2>
+          <p className="text-gray-700 font-medium px-5">
+            You have successfully approved a result for Igeh Rehoboth
+          </p>
+        </section>
+      </Modal>
+      <Modal
+        title=""
+        centered
+        open={openResultRejected}
+        onOk={() => setOpenResultRejected(false)}
+        onCancel={() => setOpenResultRejected(false)}
+        width={400}
+        cancelText={"Undo"}
+        okText={"View Results"}
+        closeIcon={false}
+      >
+        <section className="text-center">
+          <div className="flex justify-center items-center rounded-lg bg-gray-300 py-6">
+            <Icon
+              icon="ic:round-cancel"
+              className="text-gray-300 bg-secondary-red-600 rounded-full"
+              fontSize={40}
+            />
+          </div>
+          <h2 className="text-2xl font-semibold mb-2 mt-4 text-Text-high-emphasis">
+            Results rejected!
+          </h2>
+          <p className="text-gray-700 font-medium px-5">
+            You have successfully approved a lesson plan from Kevin Momusa
+          </p>
+        </section>
+      </Modal>
       <table className="w-full text-sm text-left text-gray-500">
         <thead className="text-xs text-gray-700 normal-case border-b border-grey-300 bg-gray-50 ">
           <tr>
@@ -211,22 +256,28 @@ function Table() {
               <td className="px-1 py-4 text-center">
                 {item.statusIsActive === 0 && (
                   <div className="flex gap-1">
-                    <button className="bg-primary-purple-700 text-white flex-1 rounded-full px-3 py-2 ">
+                    <button
+                      className="bg-primary-purple-700 text-white flex-1 rounded-full px-3 py-2 "
+                      onClick={() => setOpenResultApproved(true)}
+                    >
                       Approve
                     </button>
-                    <button className="bg-secondary-red-600 text-white flex-1 rounded-full px-3 py-2 ">
+                    <button
+                      className="bg-secondary-red-600 text-white flex-1 rounded-full px-3 py-2 "
+                      onClick={() => setOpenResultRejected(true)}
+                    >
                       Reject
                     </button>
                   </div>
                 )}
                 {item.statusIsActive === 1 && (
-                  <span className="bg-transparent border-Text-high-emphasis cursor-not-allowed border block w-full rounded-full px-3 py-2 text-Text-meduim-emphasis">
+                  <span className="bg-transparent border-Text-high-emphasis border block w-full rounded-full px-3 py-2 text-Text-meduim-emphasis">
                     Approved
                   </span>
                 )}
 
                 {item.statusIsActive === 2 && (
-                  <span className="bg-transparent  cursor-not-allowed border border-red-700 block w-full rounded-full px-3 py-2 text-red-400">
+                  <span className="bg-transparent border border-red-700 block w-full rounded-full px-3 py-2 text-red-400">
                     Rejected
                   </span>
                 )}

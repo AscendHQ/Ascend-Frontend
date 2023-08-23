@@ -9,6 +9,8 @@ const theme: ThemeConfig = {
     Button: {
       colorBgContainer: "#3c3c3c",
       //   colorPrimary: "#000000",
+      colorPrimary: "#FFFFFF",
+      colorPrimaryBg: "#7864FF",
     },
     Input: {
       colorPrimary: "#eb2f96",

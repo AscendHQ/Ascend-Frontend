@@ -8,7 +8,7 @@ import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
-import { STUDENT_BIODATA } from "@/config/links";
+import { STUDENT_BIODATA_UPDATE } from "@/config/links";
 import StatOverview from "@/templates/Database/stat-overview";
 import TabNav from "@/templates/Database/tab-nav";
 import StudentTable from "@/templates/Database/table";
@@ -69,7 +69,7 @@ const items: MenuProps["items"] = [
   {
     label: (
       <Link
-        href={STUDENT_BIODATA}
+        href={STUDENT_BIODATA_UPDATE}
         className="flex gap-1 w-full transition-all p-1 rounded-sm"
       >
         <Icon icon="grommet-icons:form-edit" fontSize={25} />

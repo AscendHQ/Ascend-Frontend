@@ -45,10 +45,10 @@ export default function FormSection() {
 
       <div className="grid">
         <label
-          htmlFor="personal-id"
-          className="text-step--2 text-Text-high-emphasis font-semibold"
+          htmlFor="email_address"
+          className="text-step--2 text-Text-high-emphasis mb-1.5 font-semibold"
         >
-          Staff ID
+          Email Address
         </label>
         <div className="relative">
           <Image
@@ -59,15 +59,15 @@ export default function FormSection() {
             className="absolute top-3 left-2 text-Text-high-emphasis"
           />
           <input
-            type="text"
-            placeholder="Your personal ID"
+            type="email"
+            placeholder="Your email address"
             className="pl-11 border-border-colour-light placeholder:text-Text-meduim-emphasis py-3 border w-full rounded-md"
-            id="personal-id"
+            id="email_address"
           />
         </div>
         <label
           htmlFor="password"
-          className="text-step--2 text-Text-high-emphasis placeholder:text-Text-meduim-emphasis  mt-5 font-semibold"
+          className="text-step--2 text-Text-high-emphasis placeholder:text-Text-meduim-emphasis mb-1.5 mt-5 font-semibold"
         >
           Password
         </label>
@@ -91,13 +91,13 @@ export default function FormSection() {
             <input type="checkbox" name="check" id="check" />
             <label htmlFor="check">Remember me for this device</label>
           </div>
-          <Link href={HOME_PAGE} className="text-primary-purple-600 text-sm">
+          <Link href={HOME_PAGE} className="text-primary-purple-700 text-sm">
             Forgot Password?
           </Link>
         </div>
         <button
           onClick={goToDashboard}
-          className="bg-primary-purple-500 py-4 text-white rounded-lg mt-4 active:scale-90 transition-all"
+          className="bg-primary-purple-700 py-4 text-white rounded-lg mt-4 active:scale-90 transition-all"
         >
           Sign in
         </button>
