@@ -13,7 +13,7 @@ export default function ResultInfo() {
 
   return (
     <div>
-      <Container headerTitle={id.split("-").join(" ")}>
+      <Container headerTitle={id?.split("-")?.join(" ")}>
         <main className="bg-white px-10 pt-7 h-full">
           <div className="flex justify-between">
             <Link
