@@ -1,4 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
@@ -7,6 +6,7 @@ import databaseNavSection from "@/config/databaseNavSection";
 import {
   DASHBOARD_LESSON,
   DASHBOARD_OVERVIEW,
+  DASHBOARD_PAYROLL,
   DASHBOARD_RESULT,
   DASHBOARD_RESULT_INFO,
   DASHBOARD_TIMETABLE,
@@ -80,7 +80,6 @@ export default function Sidebar() {
             DASHBOARD_RESULT,
             DASHBOARD_RESULT_INFO("[resultInfo]"),
           ].some(path => router.pathname === path)}
-          // isActive={router.pathname === DASHBOARD_RESULT}
           urlPath={DASHBOARD_RESULT}
         />
       </div>
@@ -89,8 +88,8 @@ export default function Sidebar() {
         <SideBarItem
           title={"Payroll"}
           icon="icon-park-outline:transaction-order"
-          isActive={router.pathname === "/dashboard/payroll"}
-          urlPath="/dashboard/payroll"
+          isActive={[DASHBOARD_PAYROLL].some(path => router.pathname === path)}
+          urlPath={DASHBOARD_PAYROLL}
         />
         <SideBarItem
           title={"Roles"}
