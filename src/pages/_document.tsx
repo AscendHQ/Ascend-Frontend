@@ -5,7 +5,46 @@ import React from "react";
 
 const MyDocument = () => (
   <Html lang="en">
-    <Head />
+    <Head>
+      <title>School Management System Dashboard</title>
+      <meta
+        name="description"
+        content="This is the school management system dashboard."
+      />
+      <meta name="keywords" content="school, management, system, dashboard" />
+      <meta name="robots" content="index, follow" />
+      <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href="/apple-touch-icon.png"
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="/favicon-32x32.png"
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="16x16"
+        href="/favicon-16x16.png"
+      />
+      <meta property="og:title" content="Ascend - School Management System" />
+      <meta
+        property="og:description"
+        content="This is the school management system dashboard."
+      />
+      <meta
+        property="og:image"
+        content="https://www.example.com/images/school-management-system.png"
+      />
+      <meta
+        property="og:url"
+        content="https://www.school-management-gules.vercel.app/"
+      />
+      <meta property="og:type" content="website" />
+    </Head>
     <body>
       <Main />
       <NextScript />

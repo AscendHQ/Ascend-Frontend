@@ -59,4 +59,9 @@ export const NEW_RESULT = "/dashboard/results/new-result";
 export const DASHBOARD_RESULT_INFO = (slug: string) =>
   `/dashboard/results/${slug}`;
 
+export const DASHBOARD_PAYROLL = "/dashboard/payroll";
+export const GENERATE_PAYROLL = "/dashboard/payroll/generate-payroll";
+export const DASHBOARD_PAYROLL_INFO = (slug: string) =>
+  `/dashboard/payroll/${slug}`;
+
 export const BOOK_A_DEMO = "https://calendly.com/ascendafrica/30min";

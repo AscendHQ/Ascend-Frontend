@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -60,6 +61,14 @@ function Header({
         isScrolled ? "bg-opacity-80 shadow-lg backdrop-blur" : "bg-opacity-0"
       } transition-all`}
     >
+      <Head>
+        <title>School Management System Dashboard</title>
+
+        <meta
+          property="og:title"
+          content="School Management System Dashboard"
+        />
+      </Head>
       <Container>
         <header className="flex items-center justify-between gap-3 py-7">
           <Image
