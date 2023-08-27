@@ -10,7 +10,7 @@ export default function Home() {
     <div className="font-GTWalsheimPro">
       <div className="bg-accent-100">
         <Header isOpen={isOpen} setIsOpen={setIsOpen} />
-        <IntroSection /
+        <IntroSection />
       </div>
       <MainSection />
       <Footer />

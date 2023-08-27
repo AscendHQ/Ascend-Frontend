@@ -7,9 +7,11 @@ import {
   DASHBOARD_LESSON,
   DASHBOARD_OVERVIEW,
   DASHBOARD_PAYROLL,
+  DASHBOARD_PAYROLL_INFO,
   DASHBOARD_RESULT,
   DASHBOARD_RESULT_INFO,
   DASHBOARD_TIMETABLE,
+  GENERATE_PAYROLL,
 } from "@/config/links";
 
 import SideBarItem from "./sidebar-item";
@@ -88,7 +90,11 @@ export default function Sidebar() {
         <SideBarItem
           title={"Payroll"}
           icon="icon-park-outline:transaction-order"
-          isActive={[DASHBOARD_PAYROLL].some(path => router.pathname === path)}
+          isActive={[
+            DASHBOARD_PAYROLL,
+            GENERATE_PAYROLL,
+            DASHBOARD_PAYROLL_INFO("[payrollInfo]"),
+          ].some(path => router.pathname === path)}
           urlPath={DASHBOARD_PAYROLL}
         />
         <SideBarItem

@@ -1,5 +1,6 @@
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -21,8 +22,15 @@ export default function DashboardHeader({
 
   return (
     <header className="flex justify-between max-h-[80px] bg-white items-center p-10 relative">
+      <Head>
+        <title>School Management System Dashboard</title>
+
+        <meta
+          property="og:title"
+          content="School Management System Dashboard"
+        />
+      </Head>
       <h2 className="text-Text-high-emphasis text-2xl font-bold tracking-tight capitalize">
-        {/* Overview */}
         {headerTitle}
       </h2>
       <div className="flex items-center gap-11">
