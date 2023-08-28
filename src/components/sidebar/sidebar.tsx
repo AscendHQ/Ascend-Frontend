@@ -14,6 +14,7 @@ import {
   DASHBOARD_TIMETABLE,
   GENERATE_PAYROLL,
   NEW_LESSON_PLAN,
+  NEW_TIMETABLE,
 } from "@/config/links";
 
 import SideBarItem from "./sidebar-item";
@@ -78,8 +79,10 @@ export default function Sidebar() {
         <SideBarItem
           title={"Timetable"}
           icon="solar:calendar-linear"
-          isActive={router.pathname === DASHBOARD_TIMETABLE}
           urlPath={DASHBOARD_TIMETABLE}
+          isActive={[NEW_TIMETABLE, DASHBOARD_TIMETABLE].some(
+            path => router.pathname === path
+          )}
         />
         <SideBarItem
           title={"Results"}

@@ -67,5 +67,6 @@ export const DASHBOARD_LESSON_PLAN_INFO = (slug: string) =>
   `/dashboard/lesson-plan/${slug}`;
 
 export const DASHBOARD_TIMETABLE = "/dashboard/timetable";
+export const NEW_TIMETABLE = "/dashboard/timetable/new-timetable";
 
 export const BOOK_A_DEMO = "https://calendly.com/ascendafrica/30min";
