@@ -25,19 +25,22 @@ export default function Timetable() {
           {Array.from({ length: 50 }).map((_, i) => {
             return (
               <div
-                className="bg-pink-100 grid grid-rows-5 items-center justify-center"
+                className="bg-pink-100 grid py-2 [&>span]:border-b [&>span]:border-black grid-rows-6 text-xs items-center [&>span]:text-center"
                 key={i}
               >
                 {(i + 1).toString().at(-1) === "6" ? (
-                  <span>Break</span>
+                  <span className="border-none -rotate-90 col-span-full row-span-full text-lg font-semibold">
+                    Break
+                  </span>
                 ) : (
-                  <>
-                    <span>{i + 1}</span>
-                    <span>{i + 1}</span>
-                    <span>{i + 1}</span>
-                    <span>{i + 1}</span>
-                    <span>{i + 1}</span>
-                  </>
+                  <React.Fragment>
+                    <span>MATH</span>
+                    <span>ENG</span>
+                    <span>HISTORY</span>
+                    <span>ICT</span>
+                    <span>GOVT</span>
+                    <span>AGRIC</span>
+                  </React.Fragment>
                 )}
               </div>
             );
