@@ -51,9 +51,6 @@ export const NEW_HOSTEL = "/dashboard/hostels/new-hostel";
 export const DASHBOARD_HOSTEL_INFO = (slug: string) =>
   `/dashboard/hostels/${slug}`;
 
-export const DASHBOARD_LESSON = "/dashboard/lesson";
-export const DASHBOARD_TIMETABLE = "/dashboard/timetable";
-
 export const DASHBOARD_RESULT = "/dashboard/results";
 export const NEW_RESULT = "/dashboard/results/new-result";
 export const DASHBOARD_RESULT_INFO = (slug: string) =>
@@ -63,5 +60,13 @@ export const DASHBOARD_PAYROLL = "/dashboard/payroll";
 export const GENERATE_PAYROLL = "/dashboard/payroll/generate-payroll";
 export const DASHBOARD_PAYROLL_INFO = (slug: string) =>
   `/dashboard/payroll/${slug}`;
+
+export const DASHBOARD_LESSON_PLAN = "/dashboard/lesson-plan";
+export const NEW_LESSON_PLAN = "/dashboard/lesson-plan/new-lesson-plan";
+export const DASHBOARD_LESSON_PLAN_INFO = (slug: string) =>
+  `/dashboard/lesson-plan/${slug}`;
+
+export const DASHBOARD_TIMETABLE = "/dashboard/timetable";
+export const NEW_TIMETABLE = "/dashboard/timetable/new-timetable";
 
 export const BOOK_A_DEMO = "https://calendly.com/ascendafrica/30min";

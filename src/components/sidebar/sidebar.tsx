@@ -4,7 +4,8 @@ import React from "react";
 
 import databaseNavSection from "@/config/databaseNavSection";
 import {
-  DASHBOARD_LESSON,
+  DASHBOARD_LESSON_PLAN,
+  DASHBOARD_LESSON_PLAN_INFO,
   DASHBOARD_OVERVIEW,
   DASHBOARD_PAYROLL,
   DASHBOARD_PAYROLL_INFO,
@@ -12,6 +13,8 @@ import {
   DASHBOARD_RESULT_INFO,
   DASHBOARD_TIMETABLE,
   GENERATE_PAYROLL,
+  NEW_LESSON_PLAN,
+  NEW_TIMETABLE,
 } from "@/config/links";
 
 import SideBarItem from "./sidebar-item";
@@ -66,14 +69,20 @@ export default function Sidebar() {
         <SideBarItem
           title={"Lesson plan"}
           icon="material-symbols:menu-book-outline"
-          isActive={router.pathname === DASHBOARD_LESSON}
-          urlPath={DASHBOARD_LESSON}
+          isActive={[
+            DASHBOARD_LESSON_PLAN,
+            NEW_LESSON_PLAN,
+            DASHBOARD_LESSON_PLAN_INFO("[lessonPlanInfo]"),
+          ].some(path => router.pathname === path)}
+          urlPath={DASHBOARD_LESSON_PLAN}
         />
         <SideBarItem
           title={"Timetable"}
           icon="solar:calendar-linear"
-          isActive={router.pathname === DASHBOARD_TIMETABLE}
           urlPath={DASHBOARD_TIMETABLE}
+          isActive={[NEW_TIMETABLE, DASHBOARD_TIMETABLE].some(
+            path => router.pathname === path
+          )}
         />
         <SideBarItem
           title={"Results"}
