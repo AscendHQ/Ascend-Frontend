@@ -1,6 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Icon } from "@iconify/react";
+import { Dropdown, MenuProps } from "antd";
 import Link from "next/link";
 import React from "react";
 
@@ -27,14 +28,15 @@ export default function Subjects() {
     <Container headerTitle="Subjects">
       <main className="px-10 py-5 h-full bg-white">
         <div className="flex">
-          <DashboardButton
-            variant="primary"
-            leftElement={<Icon icon="tabler:plus" />}
-            isLink={true}
-            path={NEW_SUBJECT}
-          >
-            Add Subject
-          </DashboardButton>
+          <Dropdown menu={{ items }} trigger={["click"]}>
+            <DashboardButton
+              variant="primary"
+              leftElement={<Icon icon="tabler:plus" />}
+              onClick={e => e.preventDefault()}
+            >
+              Add Subject
+            </DashboardButton>
+          </Dropdown>
         </div>
         <ul className="flex bg-neutral-300 border-1.5 items-center w-fit my-2 border-border-colour-light rounded px-2 py-1 gap-2 mt-10">
           {studentDemographics.map(each => (
@@ -58,6 +60,29 @@ export default function Subjects() {
   );
 }
 function Table() {
+  const items: MenuProps["items"] = [
+    {
+      label: (
+        <Link
+          href={DASHBOARD_SUBJECT_INFO("Chemistry")}
+          className="flex gap-2 w-full transition-all py-1 rounded-sm items-center"
+        >
+          <Icon icon="ep:more" fontSize={20} />
+          <span className="text-sm">View details</span>
+        </Link>
+      ),
+      key: "0",
+    },
+    {
+      label: (
+        <button className="flex gap-2 w-full transition-all py-1 rounded-sm">
+          <Icon icon="solar:trash-bin-2-broken" fontSize={20} />
+          <span className="text-sm">Remove</span>
+        </button>
+      ),
+      key: "1",
+    },
+  ];
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
       <table className="w-full text-sm text-left text-gray-500">
@@ -117,9 +142,18 @@ function Table() {
                 )}
               </td>
               <td className="px-6 py-4">
-                <Link href={DASHBOARD_SUBJECT_INFO("Chemistry")}>
+                {/* <Link href={DASHBOARD_SUBJECT_INFO("Chemistry")}>
                   <Icon icon="ri:more-2-fill" />
-                </Link>
+                </Link> */}
+                <Dropdown
+                  menu={{ items }}
+                  trigger={["click"]}
+                  onOpenChange={() => console.log("gdhdh")}
+                >
+                  <button className="mx-auto block">
+                    <Icon icon="ri:more-2-fill" />
+                  </button>
+                </Dropdown>
               </td>
             </tr>
           ))}
@@ -184,5 +218,28 @@ const subjectInfo = [
     class: "Grade 4",
     studentsOffering: "12",
     statusIsActive: true,
+  },
+];
+const items: MenuProps["items"] = [
+  {
+    label: (
+      <button className="flex gap-1 w-full transition-all p-1 rounded-sm">
+        <Icon icon="bx:data" fontSize={25} />
+        <span>Bulk Upload</span>
+      </button>
+    ),
+    key: "0",
+  },
+  {
+    label: (
+      <Link
+        href={NEW_SUBJECT}
+        className="flex gap-1 w-full transition-all p-1 rounded-sm"
+      >
+        <Icon icon="grommet-icons:form-edit" fontSize={25} />
+        <span>Single Upload</span>
+      </Link>
+    ),
+    key: "1",
   },
 ];

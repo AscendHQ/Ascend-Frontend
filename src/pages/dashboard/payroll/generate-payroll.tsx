@@ -10,19 +10,6 @@ import { DASHBOARD_PAYROLL } from "@/config/links";
 export default function GeneratePayroll() {
   const today = new Date();
 
-  const nextMonday = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate()
-  );
-
-  const formattedDate = nextMonday.toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-  console.log(formattedDate);
-
   return (
     <div>
       <Container headerTitle={"Generate Payroll"}>
@@ -35,7 +22,7 @@ export default function GeneratePayroll() {
               <Icon icon="teenyicons:arrow-left-solid" />
               <span>Back</span>
             </Link>
-            <p className="uppercase">{formattedDate}</p>
+            <p className="capitalize">{today.toDateString()}</p>
           </div>
           <PayrollInformation />
         </main>
