@@ -8,27 +8,30 @@ import { twMerge } from "tailwind-merge";
 
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
+import { TableCell } from "@/components/ui/table";
 import { DASHBOARD_LESSON_PLAN_INFO, NEW_LESSON_PLAN } from "@/config/links";
+import { LessonPlanState, LessonPlanTableRowProps } from "@/types";
 
 export default function LessonPlan() {
   const handleChange = (value: string | string[]) => {
     console.log(`Selected: ${value}`);
   };
 
-  const [viewStudent, setviewStudent] = React.useState<
-    "All" | "Approved" | "Rejected"
-  >("All");
+  const initialState: LessonPlanState = {
+    viewStudent: "All",
+    LessonPlans: [
+      { name: "All", number: 80 },
+      { name: "Approved", number: 79 },
+      { name: "Rejected", number: 1 },
+    ],
+  };
 
-  const [studentDemographics, setstudentDemographics] = React.useState<
-    {
-      name: "All" | "Rejected" | "Approved";
-      number: number;
-    }[]
-  >([
-    { name: "All", number: 80 },
-    { name: "Approved", number: 79 },
-    { name: "Rejected", number: 1 },
-  ]);
+  const [viewStudent, setViewStudent] = React.useState(
+    initialState.viewStudent
+  );
+  const [lessonPlans, setLessonPlans] = React.useState(
+    initialState.LessonPlans
+  );
 
   const items: MenuProps["items"] = [
     {
@@ -114,7 +117,7 @@ export default function LessonPlan() {
           </div>
         </div>
         <ul className="flex bg-neutral-300 border-1.5 items-center w-fit my-2 border-border-colour-light rounded px-2 py-1 gap-2 mt-10">
-          {studentDemographics.map(each => (
+          {lessonPlans.map(each => (
             <li key={each.name}>
               <button
                 className={`px-3 py-2 ${
@@ -122,7 +125,7 @@ export default function LessonPlan() {
                     ? "shadow-[0px_2px_12px_0px_#18181B36] text-primary-purple-700 bg-white rounded"
                     : " text-gray-800"
                 } font-medium tracking-tight`}
-                onClick={() => setviewStudent(each.name)}
+                onClick={() => setViewStudent(each.name)}
               >
                 {each.name} ({each.number.toLocaleString()})
               </button>
@@ -139,37 +142,8 @@ function Table() {
   const [openResultRejected, setOpenResultRejected] = React.useState(false);
 
   const [currentStudent, setCurrentStudent] = React.useState({
-    subject: "",
     activeStatus: 0,
   });
-
-  const items: MenuProps["items"] = [
-    {
-      label: (
-        <Link
-          href={DASHBOARD_LESSON_PLAN_INFO(
-            currentStudent.subject.split(" ").join("-").toLowerCase()
-          )}
-          className="flex gap-2 w-full transition-all py-1 rounded-sm items-center"
-          onClick={() => console.log(currentStudent)}
-        >
-          <Icon icon="ep:more" fontSize={20} />
-          <span className="text-sm">View details</span>
-        </Link>
-      ),
-      key: "0",
-    },
-    {
-      label: (
-        <button className="flex gap-2 w-full transition-all py-1 rounded-sm">
-          <Icon icon="solar:trash-bin-2-broken" fontSize={20} />
-          <span className="text-sm">Remove</span>
-        </button>
-      ),
-      key: "1",
-      disabled: currentStudent.activeStatus !== 0 ? true : false,
-    },
-  ];
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
@@ -257,84 +231,17 @@ function Table() {
         </section>
       </Modal>
       <table className="w-full text-sm text-left text-gray-500">
-        <thead className="text-xs text-gray-700 normal-case border-b border-grey-300 bg-gray-50 ">
-          <tr>
-            <TableHeadingText title="S/N" />
-            <TableHeadingText title="Subject" />
-            <TableHeadingText title="Staff" />
-            <TableHeadingText title="Class" />
-            <TableHeadingText title="Date added" />
-            <TableHeadingText title="Action" />
-            <th scope="col" className="px-6 py-3">
-              <Icon icon="ion:filter" />
-            </th>
-          </tr>
-        </thead>
+        <TableHeaders />
         <tbody>
           {resultInfo.map((item, index) => (
-            <tr className="bg-white border-b " key={item.staffName}>
-              <TableBodyText
-                title={(index + 1).toString()}
-                styles="text-center"
-              />
-              <TableBodyText title={item.subject} styles="whitespace-nowrap" />
-              <TableBodyText
-                title={item.staffName}
-                styles="whitespace-nowrap"
-              />
-
-              <TableBodyText title={item.class} styles="whitespace-nowrap" />
-
-              <TableBodyText
-                title={"12 May, 2023"}
-                styles="whitespace-nowrap"
-              />
-              <td className="px-1 py-4 text-center">
-                {item.statusIsActive === 0 && (
-                  <div className="flex gap-1">
-                    <button
-                      className="bg-primary-purple-700 text-white flex-1 rounded-full px-3 py-2 "
-                      onClick={() => setOpenResultApproved(true)}
-                    >
-                      Approve
-                    </button>
-                    <button
-                      className="bg-secondary-red-600 text-white flex-1 rounded-full px-3 py-2 "
-                      onClick={() => setOpenResultRejected(true)}
-                    >
-                      Reject
-                    </button>
-                  </div>
-                )}
-                {item.statusIsActive === 1 && (
-                  <span className="bg-transparent border-Text-high-emphasis border block w-full rounded-full px-3 py-2 text-Text-meduim-emphasis">
-                    Approved
-                  </span>
-                )}
-
-                {item.statusIsActive === 2 && (
-                  <span className="bg-transparent border border-red-700 block w-full rounded-full px-3 py-2 text-red-400">
-                    Rejected
-                  </span>
-                )}
-              </td>
-              <td className="px-6 py-4">
-                <Dropdown
-                  menu={{ items }}
-                  trigger={["click"]}
-                  onOpenChange={() =>
-                    setCurrentStudent({
-                      subject: item.subject,
-                      activeStatus: item.statusIsActive,
-                    })
-                  }
-                >
-                  <button>
-                    <Icon icon="ri:more-2-fill" />
-                  </button>
-                </Dropdown>
-              </td>
-            </tr>
+            <LessonPlanTableRow
+              key={item.staffName}
+              item={item}
+              setOpenResultApproved={setOpenResultApproved}
+              setCurrentStudent={setCurrentStudent}
+              setOpenResultRejected={setOpenResultRejected}
+              index={index}
+            />
           ))}
         </tbody>
       </table>
@@ -342,20 +249,111 @@ function Table() {
   );
 }
 
-function TableBodyText({
-  title,
-  styles,
-  leftElement,
-}: {
-  title: string;
-  styles?: string;
-  leftElement?: JSX.Element;
-}) {
+function LessonPlanTableRow({
+  item,
+  index,
+  setOpenResultApproved,
+  setOpenResultRejected,
+  setCurrentStudent,
+}: LessonPlanTableRowProps) {
+  const items: MenuProps["items"] = [
+    {
+      label: (
+        <Link
+          href={DASHBOARD_LESSON_PLAN_INFO(
+            item.subject.split(" ").join("-").toLowerCase()
+          )}
+          className="flex gap-2 w-full transition-all py-1 rounded-sm items-center"
+          // onClick={() => console.log(currentStudent)}
+        >
+          <Icon icon="ep:more" fontSize={20} />
+          <span className="text-sm">View details</span>
+        </Link>
+      ),
+      key: "0",
+    },
+    {
+      label: (
+        <button className="flex gap-2 w-full transition-all py-1 rounded-sm">
+          <Icon icon="solar:trash-bin-2-broken" fontSize={20} />
+          <span className="text-sm">Remove</span>
+        </button>
+      ),
+      key: "1",
+      disabled: item.statusIsActive !== 0 ? true : false,
+    },
+  ];
+
   return (
-    <td className={twMerge("px-4 py-1 font-medium text-gray-900", styles)}>
-      {leftElement}
-      {title}
-    </td>
+    <tr className="bg-white border-b" key={item.staffName}>
+      <TableCell content={index + 1} styles="text-center" />
+      <TableCell content={item.subject} styles="whitespace-nowrap" />
+      <TableCell content={item.staffName} styles="whitespace-nowrap" />
+      <TableCell content={item.class} styles="whitespace-nowrap" />
+      <TableCell content={"12 May, 2023"} styles="whitespace-nowrap" />
+      <td className="px-1 py-4 text-center">
+        {item.statusIsActive === 0 && (
+          <div className="flex gap-1">
+            <button
+              className="bg-primary-purple-700 text-white flex-1 rounded-full px-3 py-2 "
+              onClick={() => setOpenResultApproved(true)}
+            >
+              Approve
+            </button>
+            <button
+              className="bg-secondary-red-600 text-white flex-1 rounded-full px-3 py-2 "
+              onClick={() => setOpenResultRejected(true)}
+            >
+              Reject
+            </button>
+          </div>
+        )}
+        {item.statusIsActive === 1 && (
+          <span className="bg-transparent border-Text-high-emphasis border block w-full rounded-full px-3 py-2 text-Text-meduim-emphasis">
+            Approved
+          </span>
+        )}
+
+        {item.statusIsActive === 2 && (
+          <span className="bg-transparent border border-red-700 block w-full rounded-full px-3 py-2 text-red-400">
+            Rejected
+          </span>
+        )}
+      </td>
+      <td className="px-6 py-4">
+        <Dropdown
+          menu={{ items }}
+          trigger={["click"]}
+          onOpenChange={() =>
+            setCurrentStudent({
+              activeStatus: item.statusIsActive,
+            })
+          }
+        >
+          <button>
+            <Icon icon="ri:more-2-fill" />
+          </button>
+        </Dropdown>
+      </td>
+    </tr>
+  );
+}
+
+function TableHeaders() {
+  return (
+    <thead className="text-xs text-gray-700 normal-case border-b border-grey-300 bg-gray-50 ">
+      <tr>
+        <TableHeadingText title="S/N" />
+        <TableHeadingText title="Subject" />
+        <TableHeadingText title="Staff" />
+        <TableHeadingText title="Class" />
+        <TableHeadingText title="Date added" />
+        <TableHeadingText title="Action" />
+        <th scope="col" className="px-6 py-3">
+          <Icon icon="ion:filter" />
+        </th>
+      </tr>
+    </thead>
   );
 }
 

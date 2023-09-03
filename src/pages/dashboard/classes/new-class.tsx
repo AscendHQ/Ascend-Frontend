@@ -3,13 +3,11 @@ import Link from "next/link";
 import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
+import SelectField from "@/components/ui/form/selectfield";
+import TextAreaWithLabelAndCount from "@/components/ui/form/textarea";
+import TextField from "@/components/ui/form/textfield";
 import { DASHBOARD_CLASS } from "@/config/links";
-
-interface ModalProps {
-  open: boolean;
-  onClose: () => void;
-  children: JSX.Element;
-}
+import { ModalProps } from "@/types";
 
 export default function NewClass() {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -89,118 +87,54 @@ function ClassInformation() {
         </p>
       </div>
       <div className="flex flex-1 flex-wrap gap-5">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="class_name"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Class name
-          </label>
-          <input
-            type="text"
-            id="class_name"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Enter a class name"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="academic_year"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Academic year
-          </label>
-          <select
-            name="academic_year"
-            id="academic_year"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="2022/2023">2022/2023</option>
-            <option value="2021/2022">2021/2022</option>
-            <option value="2020/2021">2020/2021</option>
-          </select>
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="class_teacher"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Class teacher
-          </label>
-          <input
-            type="text"
-            id="class_teacher"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Myrtle Rios"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="class_teacher_contact"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Class teacher contact
-          </label>
-          <input
-            type="text"
-            id="class_teacher_contact"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="(234)81 0000 0000"
-            required
-          />
-        </div>
-        <div className="lg:min-w-full flex-1 ">
-          <label
-            htmlFor="students"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Students
-          </label>
-          <select
-            name="students"
-            id="students"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option>Select students for this class</option>
-            <option value="Tyler Steele">Tyler Steele</option>
-            <option value="Gilbert Greene">Gilbert Greene</option>
-            <option value="Kevin Thompson">Kevin Thompson</option>
-          </select>
-        </div>{" "}
-        <div className="lg:min-w-full flex-1 ">
-          <label
-            htmlFor="status"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Status
-          </label>
-          <select
-            name="status"
-            id="status"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option>Select an option</option>
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-          </select>
-        </div>
-        <div className="lg:min-w-full flex-1 ">
-          <label
-            htmlFor="additional_notes"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Additional notes
-          </label>
-          <textarea
-            name="additional_notes"
-            id="additional_notes"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis h-28"
-            placeholder="Add additional notes"
-          />
-          <span className="text-gray-800">0/40 characters remaining</span>
-        </div>
+        <TextField
+          id="class_name"
+          label="Class name"
+          placeholder="Enter a class name"
+          required
+        />
+        <SelectField
+          id="academic_year"
+          label="Academic year"
+          options={["2022/2023", "2021/2022", "2020/2021"]}
+        />
+        <TextField
+          id="class_teacher"
+          label="Class teacher"
+          placeholder="Myrtle Rios"
+          required
+        />
+        <TextField
+          id="class_teacher_contact"
+          label="Class teacher contact"
+          placeholder="(234)81 0000 0000"
+          required
+        />
+        <SelectField
+          id="students"
+          label="Students"
+          options={[
+            "Select students for this class",
+            "Tyler Steele",
+            "Gilbert Greene",
+            "Kevin Thompson",
+          ]}
+          isFullWidth
+        />
+        <SelectField
+          id="status"
+          label="Status"
+          options={["Select an option", "Active", "Inactive"]}
+          isFullWidth
+        />
+        <TextAreaWithLabelAndCount
+          id="additional_notes"
+          label="Additional notes"
+          placeholder="Add additional notes"
+          maxLength={40}
+          showCharacterCount={true}
+          isFullWidth
+        />
       </div>
     </div>
   );
