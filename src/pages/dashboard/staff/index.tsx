@@ -6,6 +6,7 @@ import { twMerge } from "tailwind-merge";
 
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
+import { staffInfo } from "@/config/dummyInfo";
 
 export default function Staff() {
   return (
@@ -66,7 +67,7 @@ function Table() {
           </tr>
         </thead>
         <tbody className="text-xs">
-          {resultInfo.map((item, index) => (
+          {staffInfo.map((item, index) => (
             <tr className="bg-white border-b " key={item.roleName}>
               <TableBodyText
                 title={(index + 1).toString()}
@@ -148,27 +149,3 @@ function TableHeadingText({
     </th>
   );
 }
-
-const resultInfo = [
-  {
-    roleName: "Admin",
-    staffName: "Rhoda Sherman",
-    jobTitle: "Bursar",
-    phoneNumber: "08098586317",
-    emailAddress: "rhoda@gmail.com",
-  },
-  {
-    roleName: "Staff",
-    jobTitle: "Head Teacher",
-    staffName: "Wayne Martinez",
-    phoneNumber: "07039051905",
-    emailAddress: "wayne@gmail.com",
-  },
-  {
-    roleName: "Bursary",
-    jobTitle: "Class Teacher",
-    phoneNumber: "08056352433",
-    staffName: "Georgia Collins",
-    emailAddress: "georgia@gmail.com",
-  },
-];

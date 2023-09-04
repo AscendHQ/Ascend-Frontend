@@ -1,23 +1,24 @@
 import { Icon } from "@iconify/react";
+import { Modal } from "antd";
 import Link from "next/link";
 import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
+import { DashboardButton } from "@/components/ui/button/button";
 import SelectField from "@/components/ui/form/selectfield";
 import TextAreaWithLabelAndCount from "@/components/ui/form/textarea";
 import TextField from "@/components/ui/form/textfield";
 import { DASHBOARD_CLASS } from "@/config/links";
-import { ModalProps } from "@/types";
 
 export default function NewClass() {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
   const handleOpenModal = () => {
-    setIsModalOpen(true);
+    return () => setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false);
+    return () => setIsModalOpen(false);
   };
   return (
     <div>
@@ -31,50 +32,71 @@ export default function NewClass() {
             <span>Back</span>
           </Link>
           <ClassInformation />
-          <ul className="flex gap-2 justify-end">
-            <li>
-              <button className="text-Text-high-emphasis border-1.5 border-border-colour-light rounded-lg py-3 px-6 font-semibold text-sm">
-                Cancel
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={handleOpenModal}
-                className="text-white bg-primary-purple-700 rounded-lg py-3 px-6 font-semibold text-sm"
-              >
-                Save changes
-              </button>
-            </li>
-          </ul>
+
+          <DashboardButton
+            variant="primary"
+            onClick={handleOpenModal()}
+            className="text-base px-7"
+          >
+            Save Class
+          </DashboardButton>
         </main>
       </Container>
-      <Modal open={isModalOpen} onClose={handleCloseModal}>
-        <div className="text-center">
-          <div className="flex justify-center items-center rounded-lg bg-success-light py-6">
+
+      <Modal
+        centered
+        open={isModalOpen}
+        onOk={handleCloseModal()}
+        width={400}
+        okText={
+          <button
+            onClick={handleCloseModal()}
+            className="text-white bg-primary-purple-700  w-full rounded-lg py-3 px-6 font-semibold text-sm"
+          >
+            View class
+          </button>
+        }
+        closeIcon={
+          <button onClick={handleCloseModal()} className="">
+            <Icon icon="carbon:close-outline" className="text-black" />
+          </button>
+        }
+        okButtonProps={{
+          style: {
+            color: "#ffffff",
+            width: "100%",
+            background: "#fff",
+            margin: 0,
+            marginBottom: 20,
+          },
+        }}
+        cancelButtonProps={{
+          style: {
+            display: "none",
+          },
+        }}
+      >
+        <div className="text-center pt-6 w-[95%] mx-auto">
+          <div className="flex justify-center items-center rounded-lg bg-success-light  py-6">
             <Icon
               icon="zondicons:checkmark-outline"
               className="bg-success-light text-success-dark"
               fontSize={40}
             />
           </div>
-          <h2 className="text-2xl font-semibold mb-2 mt-4 text-Text-high-emphasis">
+          <h2 className="text-2xl font-semibold mb-1 mt-4 text-Text-high-emphasis">
             New class created
           </h2>
-          <p className="text-gray-700 font-semibold">
+          <p className="text-gray-700 font-medium">
             You have successfully created a class named SS2B with 50 students
             added to this class.
           </p>
-          <button
-            onClick={handleCloseModal}
-            className="text-white bg-primary-purple-700 mt-7 w-full rounded-lg py-3 px-6 font-semibold text-sm"
-          >
-            View class
-          </button>
         </div>
       </Modal>
     </div>
   );
 }
+
 function ClassInformation() {
   return (
     <div className="flex justify-between gap-16 pb-16 mt-14 mb-8 border-b-2 border-border-colour-light">
@@ -139,43 +161,3 @@ function ClassInformation() {
     </div>
   );
 }
-
-const Modal: React.FC<ModalProps> = ({ open, onClose, children }) => {
-  const modalRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    const handleOutsideClick = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        onClose();
-      }
-    };
-
-    if (open) {
-      document.addEventListener("mousedown", handleOutsideClick);
-    } else {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, [open, onClose]);
-
-  return (
-    <div
-      className={`fixed inset-0 flex items-center justify-center z-50  ${
-        open
-          ? "opacity-100 pointer-events-auto"
-          : "opacity-0 pointer-events-none"
-      }`}
-    >
-      <div className="absolute inset-0 bg-gray-800 opacity-75"></div>
-      <div
-        ref={modalRef}
-        className="bg-white rounded-xl relative z-50 p-8 max-w-[469px]"
-      >
-        {children}
-      </div>
-    </div>
-  );
-};

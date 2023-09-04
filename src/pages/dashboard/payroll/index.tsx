@@ -8,6 +8,7 @@ import { twMerge } from "tailwind-merge";
 
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
+import { payrollInfo } from "@/config/dummyInfo";
 import { DASHBOARD_PAYROLL_INFO, GENERATE_PAYROLL } from "@/config/links";
 
 export default function Payroll() {
@@ -180,7 +181,7 @@ function Table() {
           </tr>
         </thead>
         <tbody className="text-xs">
-          {resultInfo.map((item, index) => (
+          {payrollInfo.map((item, index) => (
             <tr className="bg-white border-b " key={item.staffName}>
               <TableBodyText
                 title={(index + 1).toString()}
@@ -268,76 +269,3 @@ function TableHeadingText({
     </th>
   );
 }
-
-const resultInfo = [
-  {
-    staffName: "Fred Swanson",
-    class: "Grade 4",
-    jobTitle: "Class Teacher",
-
-    basicSalary: 32000,
-    deductions: 3100,
-    accountNumberDetails: "51121375105",
-    bankAccountDetails: "Access Diamond Bank",
-  },
-  {
-    staffName: "Luella Wood",
-    class: "Grade 4",
-    jobTitle: "Head Teacher",
-
-    deductions: 2000,
-    basicSalary: 24700,
-    accountNumberDetails: "30357306841",
-    bankAccountDetails: "Guarantee Trust Bank",
-  },
-  {
-    staffName: "Jim Johnston",
-    class: "Grade 4",
-    jobTitle: "Class Teacher",
-    deductions: 3600,
-    basicSalary: 53700,
-
-    accountNumberDetails: "50173652452",
-    bankAccountDetails: "Access Bank",
-  },
-  {
-    staffName: "Lottie Brewer",
-    class: "Grade 4",
-    deductions: 4800,
-    basicSalary: 72700,
-    jobTitle: "Class Teacher",
-
-    accountNumberDetails: "47084389455",
-    bankAccountDetails: "United Bank of Africa",
-  },
-  {
-    staffName: "Edwin Elliott",
-    class: "Grade 4",
-    deductions: 4000,
-    basicSalary: 78400,
-    jobTitle: "Class Teacher",
-
-    accountNumberDetails: "78735530203",
-    bankAccountDetails: "Union Bank",
-  },
-  {
-    staffName: "Charles Patterson",
-    basicSalary: 21800,
-    class: "Grade 4",
-    deductions: 4300,
-    jobTitle: "Class Teacher",
-
-    accountNumberDetails: "52255181577",
-    bankAccountDetails: "Polaris Bank",
-  },
-  {
-    staffName: "Calvin Brown",
-    class: "Grade 4",
-    basicSalary: 36300,
-    deductions: 900,
-    jobTitle: "Class Teacher",
-
-    accountNumberDetails: "68030027884",
-    bankAccountDetails: "First Bank",
-  },
-];

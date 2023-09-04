@@ -1,11 +1,14 @@
+import React from "react";
+
 import { SelectFieldProps } from "@/types";
 
-const SelectField: React.FC<SelectFieldProps> = ({
+function SelectField({
   id,
   label,
   options,
-  isFullWidth,
-}) => {
+  isFullWidth = false,
+  ...selectProps
+}: SelectFieldProps) {
   const containerClassName = isFullWidth ? "lg:min-w-full" : "lg:min-w-[250px]";
 
   return (
@@ -20,6 +23,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
         name={id}
         id={id}
         className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+        {...selectProps}
       >
         {options.map(option => (
           <option key={option} value={option}>
@@ -29,6 +33,6 @@ const SelectField: React.FC<SelectFieldProps> = ({
       </select>
     </div>
   );
-};
+}
 
 export default SelectField;

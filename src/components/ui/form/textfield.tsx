@@ -12,14 +12,15 @@ function TextField({
 }: TextFieldProps) {
   const containerClassName = isFullWidth ? "lg:min-w-full" : "lg:min-w-[250px]";
 
-  const [value, setValue] = React.useState<string>(inputProps.value || "");
+  const [value, setValue] = React.useState<string | number | readonly string[]>(
+    inputProps.defaultValue || ""
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
 
-    // Check if the default value has been changed
     if (inputProps.value !== undefined) {
-      inputProps.onChange?.(e); // Call the onChange handler if provided
+      inputProps.onChange?.(e);
     }
   };
 
@@ -37,7 +38,7 @@ function TextField({
         className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
         placeholder={placeholder}
         required={required}
-        value={value}
+        defaultValue={value}
         onChange={handleChange}
         {...inputProps}
       />

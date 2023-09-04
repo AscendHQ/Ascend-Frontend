@@ -7,6 +7,7 @@ import React from "react";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
 import { TableCell, TableHeader } from "@/components/ui/table";
+import { hostelInfo } from "@/config/dummyInfo";
 import { DASHBOARD_HOSTEL_INFO, NEW_HOSTEL } from "@/config/links";
 import {
   FilterButtonsProps,
@@ -153,72 +154,6 @@ function HostelRow({ item, index }: { item: HostelItem; index: number }) {
     </tr>
   );
 }
-
-const hostelInfo = [
-  {
-    hostelName: "Hostel Lucille",
-    staffName: "Johnny White",
-    capacity: 961,
-    numberOfStudents: 878,
-    gender: 0,
-    dateAdded: "12 May, 2023",
-    classes: "Grade 4,Grade 5,Grade 6",
-  },
-  {
-    hostelName: "Hostel Charles",
-    staffName: "Curtis McCarthy",
-    capacity: 680,
-    numberOfStudents: 661,
-    gender: 1,
-    dateAdded: "12 May, 2023",
-    classes: "Grade 3,Grade 4",
-  },
-  {
-    hostelName: "Hostel Rosalie",
-    staffName: "Mark Long",
-    capacity: 378,
-    numberOfStudents: 837,
-    gender: 0,
-    dateAdded: "12 May, 2023",
-    classes: "Grade 4,Grade 5",
-  },
-  {
-    hostelName: "Hostel Ollie",
-    staffName: "William Lawson",
-    capacity: 815,
-    numberOfStudents: 551,
-    gender: 0,
-    dateAdded: "12 May, 2023",
-    classes: "Grade 4,Grade 6",
-  },
-  {
-    hostelName: "Hostel Sally",
-    staffName: "Lina Larson",
-    capacity: 820,
-    numberOfStudents: 325,
-    gender: 0,
-    dateAdded: "12 May, 2023",
-    classes: "Grade 3,Grade 4,Grade 5,Grade 6",
-  },
-  {
-    hostelName: "Hostel Maurice",
-    staffName: "Stella Shaw",
-    capacity: 820,
-    numberOfStudents: 325,
-    gender: 0,
-    dateAdded: "12 May, 2023",
-    classes: "Grade 3,Grade 4,Grade 5,Grade 6",
-  },
-  {
-    hostelName: "Hostel Francisco",
-    staffName: "Leroy Dixon",
-    capacity: 820,
-    numberOfStudents: 325,
-    gender: 0,
-    dateAdded: "12 May, 2023",
-    classes: "Grade 3,Grade 4,Grade 5,Grade 6",
-  },
-];
 
 const items: MenuProps["items"] = [
   {

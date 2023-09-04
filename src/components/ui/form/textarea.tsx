@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 
 import { TextAreaProps } from "@/types";
 
@@ -9,14 +9,19 @@ function TextAreaWithLabelAndCount({
   maxLength,
   showCharacterCount,
   isFullWidth = false,
+  ...textareaProps
 }: TextAreaProps) {
-  const [text, setText] = React.useState<string>("");
-  const remainingCharacters = maxLength - text.length;
-
-  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setText(event.target.value);
-  };
   const containerClassName = isFullWidth ? "lg:min-w-full" : "lg:min-w-[250px]";
+
+  const [text, setText] = React.useState<string>(textareaProps.value || "");
+
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(event.target.value);
+
+    if (textareaProps.value !== undefined) {
+      textareaProps.onChange?.(event);
+    }
+  };
 
   return (
     <div className={`flex-1 ${containerClassName}`}>
@@ -34,13 +39,15 @@ function TextAreaWithLabelAndCount({
         value={text}
         onChange={handleChange}
         maxLength={maxLength}
+        {...textareaProps}
       />
       {showCharacterCount && (
         <span className="text-gray-800">
-          {remainingCharacters}/{maxLength} characters remaining
+          {text.length}/{maxLength} characters remaining
         </span>
       )}
     </div>
   );
 }
+
 export default TextAreaWithLabelAndCount;

@@ -99,7 +99,7 @@ function WhyUs() {
         <ContentSection
           heading="Effortlessly handle school administration"
           button={
-            <button className="bg-primary-purple-500 text-grey-100 border-2 px-14 py-2 border-accent-300 rounded-md hover:shadow-[4px_4px_0px_0px_#000000] transition-all">
+            <button className="bg-primary-purple-500 text-step--2 text-grey-100 border-2 px-14 py-2 border-accent-300 rounded-md hover:shadow-[4px_4px_0px_0px_#000000] transition-all">
               Book a free demo
             </button>
           }

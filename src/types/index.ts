@@ -91,11 +91,6 @@ export type ClassListProps = {
     React.SetStateAction<"All" | "Active" | "Inactive">
   >;
 };
-export type ModalProps = {
-  open: boolean;
-  onClose: () => void;
-  children: JSX.Element;
-};
 
 export type TextFieldProps = {
   id: string;
@@ -114,11 +109,15 @@ export type TextAreaProps = {
   maxLength: number;
   isFullWidth?: boolean;
   showCharacterCount: boolean;
-};
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+} & React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 export type SelectFieldProps = {
   id: string;
   label: string;
   options: string[];
   isFullWidth?: boolean;
-};
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+} & React.SelectHTMLAttributes<HTMLSelectElement>;

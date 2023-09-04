@@ -9,6 +9,7 @@ import { twMerge } from "tailwind-merge";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
 import { TableCell } from "@/components/ui/table";
+import { lessonInfo } from "@/config/dummyInfo";
 import { DASHBOARD_LESSON_PLAN_INFO, NEW_LESSON_PLAN } from "@/config/links";
 import { LessonPlanState, LessonPlanTableRowProps } from "@/types";
 
@@ -233,7 +234,7 @@ function Table() {
       <table className="w-full text-sm text-left text-gray-500">
         <TableHeaders />
         <tbody>
-          {resultInfo.map((item, index) => (
+          {lessonInfo.map((item, index) => (
             <LessonPlanTableRow
               key={item.staffName}
               item={item}
@@ -376,48 +377,3 @@ function TableHeadingText({
     </th>
   );
 }
-
-const resultInfo = [
-  {
-    staffName: "Fred Swanson",
-    subject: "Use of English Language",
-    class: "Grade 5",
-    statusIsActive: 0,
-  },
-  {
-    staffName: "Luella Wood",
-    subject: "Mathematics",
-    class: "Grade 7",
-    statusIsActive: 0,
-  },
-  {
-    staffName: "Jim Johnston",
-    subject: "Chemistry",
-    class: "Grade 7",
-    statusIsActive: 0,
-  },
-  {
-    staffName: "Lottie Brewer",
-    subject: "Physics",
-    class: "Grade 6",
-    statusIsActive: 1,
-  },
-  {
-    staffName: "Edwin Elliott",
-    subject: "Biology",
-    class: "Grade 5",
-    statusIsActive: 1,
-  },
-  {
-    staffName: "Charles Patterson",
-    subject: "Civic Education",
-    class: "Grade 5",
-    statusIsActive: 2,
-  },
-  {
-    staffName: "Calvin Brown",
-    subject: "Further Mathematics",
-    class: "Grade 7",
-    statusIsActive: 1,
-  },
-];

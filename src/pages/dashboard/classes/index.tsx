@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Icon } from "@iconify/react";
-import { Dropdown, MenuProps } from "antd";
+import { Dropdown, MenuProps, Modal } from "antd";
 import Link from "next/link";
 import React from "react";
 
@@ -59,11 +59,11 @@ export default function Classes() {
   );
 }
 
-const ClassList: React.FC<ClassListProps> = ({
+function ClassList({
   studentClassDemographics,
   viewStudent,
   setViewStudent,
-}) => {
+}: ClassListProps) {
   return (
     <ul className="flex bg-neutral-300 border-1.5 items-center w-fit my-2 border-border-colour-light rounded px-2 py-1 gap-2 mt-10">
       {studentClassDemographics.map(each => (
@@ -82,7 +82,7 @@ const ClassList: React.FC<ClassListProps> = ({
       ))}
     </ul>
   );
-};
+}
 
 function Table() {
   return (
@@ -117,6 +117,39 @@ function TableHeaders() {
 }
 
 function ClassRow({ item, index }: ClassRowProps) {
+  const error = () => {
+    Modal.confirm({
+      title: "Class Removal",
+      icon: (
+        <Icon
+          icon="material-symbols:error"
+          fontSize={35}
+          className="text-secondary-red-600"
+        />
+      ),
+      content: "You are attempting to remove a class!. Are you sure?",
+      okButtonProps: {
+        style: {
+          backgroundColor: "#fff",
+          color: "#cd2026",
+          border: "1px solid #cd2026",
+        },
+      },
+      cancelButtonProps: {
+        style: {
+          backgroundColor: "floralwhite",
+        },
+      },
+      centered: true,
+      onOk() {
+        console.log("OK");
+        return true;
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
+  };
   const items: MenuProps["items"] = [
     {
       label: (
@@ -132,7 +165,10 @@ function ClassRow({ item, index }: ClassRowProps) {
     },
     {
       label: (
-        <button className="flex gap-2 w-full transition-all py-1 rounded-sm">
+        <button
+          className="flex gap-2 w-full transition-all py-1 rounded-sm"
+          onClick={error}
+        >
           <Icon icon="solar:trash-bin-2-broken" fontSize={20} />
           <span className="text-sm">Remove</span>
         </button>
@@ -140,6 +176,7 @@ function ClassRow({ item, index }: ClassRowProps) {
       key: "1",
     },
   ];
+
   return (
     <tr className="bg-white border-b ">
       <TableCell content={index + 1} isCentered />

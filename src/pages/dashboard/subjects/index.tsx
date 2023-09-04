@@ -7,6 +7,7 @@ import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
+import { subjectInfo } from "@/config/dummyInfo";
 import { DASHBOARD_SUBJECT_INFO, NEW_SUBJECT } from "@/config/links";
 
 export default function Subjects() {
@@ -162,64 +163,7 @@ function Table() {
     </div>
   );
 }
-const subjectInfo = [
-  {
-    subjectName: "Physics",
-    subjectCode: "PHY",
-    teacher: "Kevin Momusa, Abram... +2",
-    class: "Grade 4",
-    studentsOffering: "12",
-    statusIsActive: true,
-  },
-  {
-    subjectName: "Chemistry",
-    subjectCode: "CHEM",
-    teacher: "Kevin Momusa, Abram... +2",
-    class: "Grade 4",
-    studentsOffering: "12",
-    statusIsActive: false,
-  },
-  {
-    subjectName: "Biology",
-    subjectCode: "BIO",
-    teacher: "Kevin Momusa, Abram... +2",
-    class: "Grade 4",
-    studentsOffering: "12",
-    statusIsActive: true,
-  },
-  {
-    subjectName: "Further Mathematics",
-    subjectCode: "FMATH",
-    teacher: "Kevin Momusa, Abram... +2",
-    class: "Grade 4",
-    studentsOffering: "12",
-    statusIsActive: true,
-  },
-  {
-    subjectName: "English Language",
-    subjectCode: "ENG",
-    teacher: "Kevin Momusa, Abram... +2",
-    class: "Grade 4",
-    studentsOffering: "12",
-    statusIsActive: true,
-  },
-  {
-    subjectName: "Civic Education",
-    subjectCode: "CVE",
-    teacher: "Kevin Momusa, Abram... +2",
-    class: "Grade 4",
-    studentsOffering: "12",
-    statusIsActive: true,
-  },
-  {
-    subjectName: "Economics",
-    subjectCode: "ECON",
-    teacher: "Kevin Momusa, Abram... +2",
-    class: "Grade 4",
-    studentsOffering: "12",
-    statusIsActive: true,
-  },
-];
+
 const items: MenuProps["items"] = [
   {
     label: (
