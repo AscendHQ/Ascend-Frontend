@@ -28,6 +28,7 @@ export const DASHBOARD_SUBJECT_INFO = (slug: string) =>
 
 export const DASHBOARD_CLASS = "/dashboard/classes";
 export const NEW_CLASS = "/dashboard/classes/new-class";
+export const NEW_BULK_CLASS = "/dashboard/classes/new-bulk-class";
 export const DASHBOARD_CLASS_INFO = (slug: string) =>
   `/dashboard/classes/${slug}`;
 
@@ -48,6 +49,7 @@ export const DASHBOARD_TEACHER_SECURITY_INFO = (slug: string) =>
 
 export const DASHBOARD_HOSTEL = "/dashboard/hostels";
 export const NEW_HOSTEL = "/dashboard/hostels/new-hostel";
+export const NEW_BULK_HOSTEL = "/dashboard/hostels/new-bulk-hostel";
 export const DASHBOARD_HOSTEL_INFO = (slug: string) =>
   `/dashboard/hostels/${slug}`;
 

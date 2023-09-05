@@ -2,18 +2,7 @@ import { Icon } from "@iconify/react";
 import { Modal } from "antd";
 import React from "react";
 
-type ErrorModalProps = {
-  title?: string;
-  content?: string;
-  okButtonProps?: {
-    style: React.CSSProperties;
-  };
-  cancelButtonProps?: {
-    style: React.CSSProperties;
-  };
-  onOk?: () => void;
-  onCancel?: () => void;
-};
+import { ErrorModalProps } from "@/types";
 
 const ErrorModal: React.FC<ErrorModalProps> = ({
   title,
@@ -22,6 +11,7 @@ const ErrorModal: React.FC<ErrorModalProps> = ({
   cancelButtonProps,
   onOk,
   onCancel,
+  mainButtonProps,
 }) => {
   const showModal = () => {
     Modal.confirm({
@@ -64,8 +54,11 @@ const ErrorModal: React.FC<ErrorModalProps> = ({
   };
 
   return (
-    <button onClick={showModal} className="error-modal-button">
-      Show Error Modal
+    <button
+      className="flex gap-2 w-full transition-all py-1 rounded-sm"
+      onClick={showModal}
+    >
+      {mainButtonProps}
     </button>
   );
 };

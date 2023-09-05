@@ -1,3 +1,5 @@
+import { ComponentProps } from "react";
+
 export type FilterButtonsProps = {
   studentDemographics: {
     name: "All" | "Female Hostel" | "Male Hostel";
@@ -104,11 +106,11 @@ export type TextFieldProps = {
 
 export type TextAreaProps = {
   id: string;
-  label: string;
+  label: React.ReactNode;
   placeholder: string;
-  maxLength: number;
+  maxLength?: number;
   isFullWidth?: boolean;
-  showCharacterCount: boolean;
+  showCharacterCount?: boolean;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 } & React.TextareaHTMLAttributes<HTMLTextAreaElement>;
@@ -121,3 +123,23 @@ export type SelectFieldProps = {
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 } & React.SelectHTMLAttributes<HTMLSelectElement>;
+
+export interface InputGroupProps extends ComponentProps<"input"> {
+  id: string;
+  label: string;
+  options: { value: string; label: string; checked: boolean }[];
+  isFullWidth?: boolean;
+}
+export type ErrorModalProps = {
+  title?: string;
+  content?: string;
+  okButtonProps?: {
+    style: React.CSSProperties;
+  };
+  cancelButtonProps?: {
+    style: React.CSSProperties;
+  };
+  mainButtonProps: JSX.Element;
+  onOk?: () => void;
+  onCancel?: () => void;
+};

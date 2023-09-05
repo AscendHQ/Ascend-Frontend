@@ -3,6 +3,7 @@ import {
   DASHBOARD_CLASS,
   DASHBOARD_CLASS_INFO,
   DASHBOARD_HOSTEL,
+  DASHBOARD_HOSTEL_INFO,
   DASHBOARD_STUDENT,
   DASHBOARD_SUBJECT,
   DASHBOARD_SUBJECT_INFO,
@@ -11,7 +12,10 @@ import {
   DASHBOARD_TEACHER_INFO_OFFICIAL_INFO,
   DASHBOARD_TEACHER_INFO_PERMISSION,
   DASHBOARD_TEACHER_SECURITY_INFO,
+  NEW_BULK_CLASS,
+  NEW_BULK_HOSTEL,
   NEW_CLASS,
+  NEW_HOSTEL,
   NEW_SUBJECT,
   NEW_TEACHER_BIODATA,
   NEW_TEACHER_OFFICIAL_INFO,
@@ -49,6 +53,7 @@ const databaseNavSection = [
     isActivepath: [
       DASHBOARD_CLASS,
       NEW_CLASS,
+      NEW_BULK_CLASS,
       DASHBOARD_CLASS_INFO("[classInfo]"),
     ],
   },
@@ -69,7 +74,12 @@ const databaseNavSection = [
   {
     title: "Hostels",
     path: DASHBOARD_HOSTEL,
-    isActivepath: [DASHBOARD_HOSTEL],
+    isActivepath: [
+      DASHBOARD_HOSTEL,
+      NEW_HOSTEL,
+      NEW_BULK_HOSTEL,
+      DASHBOARD_HOSTEL_INFO("[hostelInfo]"),
+    ],
   },
 ];
 

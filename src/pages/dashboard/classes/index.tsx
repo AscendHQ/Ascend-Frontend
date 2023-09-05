@@ -6,9 +6,14 @@ import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
+import ErrorModal from "@/components/ui/modal/errormodal";
 import { TableCell, TableHeader } from "@/components/ui/table";
 import { classInfo } from "@/config/dummyInfo";
-import { DASHBOARD_CLASS_INFO, NEW_CLASS } from "@/config/links";
+import {
+  DASHBOARD_CLASS_INFO,
+  NEW_BULK_CLASS,
+  NEW_CLASS,
+} from "@/config/links";
 import {
   ClassDemographic,
   ClassDemographicsState,
@@ -150,6 +155,13 @@ function ClassRow({ item, index }: ClassRowProps) {
       },
     });
   };
+  const handleOk = () => {
+    console.log("OK");
+  };
+
+  const handleCancel = () => {
+    console.log("Cancel");
+  };
   const items: MenuProps["items"] = [
     {
       label: (
@@ -165,13 +177,30 @@ function ClassRow({ item, index }: ClassRowProps) {
     },
     {
       label: (
-        <button
-          className="flex gap-2 w-full transition-all py-1 rounded-sm"
-          onClick={error}
-        >
-          <Icon icon="solar:trash-bin-2-broken" fontSize={20} />
-          <span className="text-sm">Remove</span>
-        </button>
+        <ErrorModal
+          title="Class Removal"
+          content="You are attempting to remove a class!. Are you sure?"
+          okButtonProps={{
+            style: {
+              backgroundColor: "#fff",
+              color: "#cd2026",
+              border: "1px solid #cd2026",
+            },
+          }}
+          cancelButtonProps={{
+            style: {
+              backgroundColor: "floralwhite",
+            },
+          }}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          mainButtonProps={
+            <>
+              <Icon icon="solar:trash-bin-2-broken" fontSize={20} />
+              <span className="text-sm">Remove</span>
+            </>
+          }
+        />
       ),
       key: "1",
     },
@@ -227,10 +256,13 @@ function ClassRow({ item, index }: ClassRowProps) {
 const items: MenuProps["items"] = [
   {
     label: (
-      <button className="flex gap-1 w-full transition-all p-1 rounded-sm">
+      <Link
+        href={NEW_BULK_CLASS}
+        className="flex gap-1 w-full transition-all p-1 rounded-sm"
+      >
         <Icon icon="bx:data" fontSize={25} />
         <span>Bulk Upload</span>
-      </button>
+      </Link>
     ),
     key: "0",
   },

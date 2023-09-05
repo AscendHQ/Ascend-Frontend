@@ -6,9 +6,14 @@ import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
+import ErrorModal from "@/components/ui/modal/errormodal";
 import { TableCell, TableHeader } from "@/components/ui/table";
 import { hostelInfo } from "@/config/dummyInfo";
-import { DASHBOARD_HOSTEL_INFO, NEW_HOSTEL } from "@/config/links";
+import {
+  DASHBOARD_HOSTEL_INFO,
+  NEW_BULK_HOSTEL,
+  NEW_HOSTEL,
+} from "@/config/links";
 import {
   FilterButtonsProps,
   HostelItem,
@@ -110,6 +115,13 @@ function TableHeaders() {
   );
 }
 function HostelRow({ item, index }: { item: HostelItem; index: number }) {
+  const handleOk = () => {
+    console.log("OK");
+  };
+
+  const handleCancel = () => {
+    console.log("Cancel");
+  };
   const items: MenuProps["items"] = [
     {
       label: (
@@ -127,10 +139,30 @@ function HostelRow({ item, index }: { item: HostelItem; index: number }) {
     },
     {
       label: (
-        <button className="flex gap-2 w-full transition-all py-1 rounded-sm">
-          <Icon icon="solar:trash-bin-2-broken" fontSize={20} />
-          <span className="text-sm">Remove</span>
-        </button>
+        <ErrorModal
+          title="Hostel Removal"
+          content="You are attempting to remove an hostel!. Do you want to proceed?"
+          okButtonProps={{
+            style: {
+              backgroundColor: "#fff",
+              color: "#cd2026",
+              border: "1px solid #cd2026",
+            },
+          }}
+          cancelButtonProps={{
+            style: {
+              backgroundColor: "floralwhite",
+            },
+          }}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          mainButtonProps={
+            <>
+              <Icon icon="solar:trash-bin-2-broken" fontSize={20} />
+              <span className="text-sm">Remove</span>
+            </>
+          }
+        />
       ),
       key: "1",
     },
@@ -158,10 +190,13 @@ function HostelRow({ item, index }: { item: HostelItem; index: number }) {
 const items: MenuProps["items"] = [
   {
     label: (
-      <button className="flex gap-1 w-full transition-all p-1 rounded-sm">
+      <Link
+        href={NEW_BULK_HOSTEL}
+        className="flex gap-1 w-full transition-all p-1 rounded-sm"
+      >
         <Icon icon="bx:data" fontSize={25} />
         <span>Bulk Upload</span>
-      </button>
+      </Link>
     ),
     key: "0",
   },
