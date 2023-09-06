@@ -122,39 +122,6 @@ function TableHeaders() {
 }
 
 function ClassRow({ item, index }: ClassRowProps) {
-  const error = () => {
-    Modal.confirm({
-      title: "Class Removal",
-      icon: (
-        <Icon
-          icon="material-symbols:error"
-          fontSize={35}
-          className="text-secondary-red-600"
-        />
-      ),
-      content: "You are attempting to remove a class!. Are you sure?",
-      okButtonProps: {
-        style: {
-          backgroundColor: "#fff",
-          color: "#cd2026",
-          border: "1px solid #cd2026",
-        },
-      },
-      cancelButtonProps: {
-        style: {
-          backgroundColor: "floralwhite",
-        },
-      },
-      centered: true,
-      onOk() {
-        console.log("OK");
-        return true;
-      },
-      onCancel() {
-        console.log("Cancel");
-      },
-    });
-  };
   const handleOk = () => {
     console.log("OK");
   };

@@ -40,16 +40,24 @@ export type studentDemographicsState = {
   viewStudent: "All" | "Male Hostel" | "Female Hostel";
   studentDemographics: StudentDemographic[];
 };
+export type lessonTitle = "All" | "Approved" | "Rejected";
+
 export type LessonPlan = {
-  name: "All" | "Rejected" | "Approved";
+  title: lessonTitle;
   number: number;
 };
 
 export type LessonPlanState = {
-  viewStudent: "All" | "Approved" | "Rejected";
+  viewLessonPlan: lessonTitle;
   LessonPlans: LessonPlan[];
+  // { value: string; label: string; checked: boolean }
 };
 
+export type LessonPlanListProps = {
+  lessonPlans: LessonPlan[];
+  currentLessonPlan: lessonTitle;
+  setCurrentLessonPlan: React.Dispatch<React.SetStateAction<lessonTitle>>;
+};
 export type LessonPlanTableRowProps = {
   item: {
     staffName: string;
@@ -121,6 +129,9 @@ export type SelectFieldProps = {
   options: string[];
   isFullWidth?: boolean;
   value?: string;
+  labelStyle?: string;
+  selectStyle?: string;
+  wrapperStyle?: string;
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 } & React.SelectHTMLAttributes<HTMLSelectElement>;
 

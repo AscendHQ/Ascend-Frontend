@@ -65,6 +65,8 @@ export const DASHBOARD_PAYROLL_INFO = (slug: string) =>
 
 export const DASHBOARD_LESSON_PLAN = "/dashboard/lesson-plan";
 export const NEW_LESSON_PLAN = "/dashboard/lesson-plan/new-lesson-plan";
+export const NEW_BULK_LESSON_PLAN =
+  "/dashboard/lesson-plan/new-bulk-lesson-plan";
 export const DASHBOARD_LESSON_PLAN_INFO = (slug: string) =>
   `/dashboard/lesson-plan/${slug}`;
 
