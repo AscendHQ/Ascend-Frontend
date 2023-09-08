@@ -1,3 +1,4 @@
+import { NotificationInstance } from "antd/es/notification/interface";
 import { ComponentProps } from "react";
 
 export type FilterButtonsProps = {
@@ -153,4 +154,17 @@ export type ErrorModalProps = {
   mainButtonProps: JSX.Element;
   onOk?: () => void;
   onCancel?: () => void;
+};
+export type PayrollRowProps = {
+  item: {
+    staffName: string;
+    class: string;
+    jobTitle: string;
+    basicSalary: number;
+    deductions: number;
+    accountNumberDetails: string;
+    bankAccountDetails: string;
+  };
+  index: number;
+  api: NotificationInstance;
 };
