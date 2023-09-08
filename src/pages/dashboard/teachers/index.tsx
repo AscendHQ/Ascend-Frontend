@@ -5,6 +5,7 @@ import Link from "next/link";
 import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
+import { teacherInfo } from "@/config/dummyInfo";
 import {
   DASHBOARD_TEACHER_INFO_BIODATA,
   NEW_TEACHER_BIODATA,
@@ -119,50 +120,7 @@ function Table() {
     </div>
   );
 }
-const teacherInfo = [
-  {
-    teacherName: "Johnny White",
-    subjects: "Mathematics, English, Yoruba,  Physics, Chemistry",
-    dateAdded: "12 May, 2023",
-    classes: "Grade 4,Grade 5,Grade 6",
-  },
-  {
-    teacherName: "Curtis McCarthy",
-    subjects: "Mathematics, English, Yoruba,  Physics, Chemistry",
-    dateAdded: "12 May, 2023",
-    classes: "Grade 3,Grade 4",
-  },
-  {
-    teacherName: "Mark Long",
-    subjects: "Mathematics, English, Yoruba,  Physics, Chemistry",
-    dateAdded: "12 May, 2023",
-    classes: "Grade 4,Grade 5",
-  },
-  {
-    teacherName: "William Lawson",
-    subjects: "Mathematics, English, Yoruba,  Physics, Chemistry",
-    dateAdded: "12 May, 2023",
-    classes: "Grade 4,Grade 6",
-  },
-  {
-    teacherName: "Lina Larson",
-    subjects: "Mathematics, English, Yoruba,  Physics, Chemistry",
-    dateAdded: "12 May, 2023",
-    classes: "Grade 3,Grade 4,Grade 5,Grade 6",
-  },
-  {
-    teacherName: "Stella Shaw",
-    subjects: "Yoruba,Chemistry,Mathematics, English,   Physics",
-    dateAdded: "12 May, 2023",
-    classes: "Grade 6",
-  },
-  {
-    teacherName: "Leroy Dixon",
-    subjects: "Physics,Mathematics, English, Yoruba",
-    dateAdded: "12 May, 2023",
-    classes: "Grade 3,Grade 4",
-  },
-];
+
 function name(params: string) {
   return params
     .split(",")

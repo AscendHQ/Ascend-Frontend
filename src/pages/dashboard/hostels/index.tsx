@@ -1,189 +1,215 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Icon } from "@iconify/react";
+import { Dropdown, MenuProps } from "antd";
 import Link from "next/link";
 import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
-import { DASHBOARD_HOSTEL_INFO, NEW_HOSTEL } from "@/config/links";
+import { DashboardButton } from "@/components/ui/button/button";
+import ErrorModal from "@/components/ui/modal/errormodal";
+import { TableCell, TableHeader } from "@/components/ui/table";
+import { hostelInfo } from "@/config/dummyInfo";
+import {
+  DASHBOARD_HOSTEL_INFO,
+  NEW_BULK_HOSTEL,
+  NEW_HOSTEL,
+} from "@/config/links";
+import {
+  FilterButtonsProps,
+  HostelItem,
+  studentDemographicsState,
+} from "@/types";
 
 export default function Hostels() {
-  const [viewStudent, setviewStudent] = React.useState<
-    "All" | "Male Hostel" | "Female Hostel"
-  >("All");
+  const initialState: studentDemographicsState = {
+    viewStudent: "All",
+    studentDemographics: [
+      { name: "All", number: 7 },
+      { name: "Male Hostel", number: 4 },
+      { name: "Female Hostel", number: 3 },
+    ],
+  };
 
-  const [studentDemographics, setstudentDemographics] = React.useState<
-    {
-      name: "All" | "Female Hostel" | "Male Hostel";
-      number: number;
-    }[]
-  >([
-    { name: "All", number: 7 },
-    { name: "Male Hostel", number: 4 },
-    { name: "Female Hostel", number: 3 },
-  ]);
+  const [viewStudent, setViewStudent] = React.useState(
+    initialState.viewStudent
+  );
+  const [studentDemographics, setStudentDemographics] = React.useState(
+    initialState.studentDemographics
+  );
   return (
     <Container headerTitle="Hostel">
       <main className="bg-white p-10 h-full">
-        {/* TODO: make all related look like this */}
-        <Link
-          href={NEW_HOSTEL}
-          className="ml-auto w-fit flex gap-1 items-center bg-primary-purple-700 text-white px-5 py-3 text-sm font-medium rounded-lg"
-        >
-          <Icon icon="tabler:plus" />
-          <span>New hostel</span>
-        </Link>
-        <ul className="flex bg-neutral-300 border-1.5 items-center w-fit my-2 border-border-colour-light rounded px-2 py-1 gap-2 mt-10">
-          {studentDemographics.map(each => (
-            <li key={each.name}>
-              <button
-                className={`px-3 py-2 ${
-                  each.name === viewStudent
-                    ? "shadow-[0px_2px_12px_0px_#18181B36] text-primary-purple-700 bg-white rounded"
-                    : " text-gray-800"
-                } font-medium tracking-tight`}
-                onClick={() => setviewStudent(each.name)}
-              >
-                {each.name} ({each.number.toLocaleString()})
-              </button>
-            </li>
-          ))}
-        </ul>
+        <Dropdown menu={{ items }} trigger={["click"]}>
+          <DashboardButton
+            variant="primary"
+            leftElement={<Icon icon="tabler:plus" />}
+            onClick={e => e.preventDefault()}
+          >
+            New hostel
+          </DashboardButton>
+        </Dropdown>
+        <FilterButtons
+          studentDemographics={studentDemographics}
+          viewStudent={viewStudent}
+          setViewStudent={setViewStudent}
+        />
         <Table />
       </main>
     </Container>
   );
 }
+
+function FilterButtons({
+  studentDemographics,
+  viewStudent,
+  setViewStudent,
+}: FilterButtonsProps) {
+  return (
+    <ul className="flex bg-neutral-300 border-1.5 items-center w-fit my-2 border-border-colour-light rounded px-2 py-1 gap-2 mt-10">
+      {studentDemographics.map(each => (
+        <li key={each.name}>
+          <button
+            className={`px-3 py-2 ${
+              each.name === viewStudent
+                ? "shadow-[0px_2px_12px_0px_#18181B36] text-primary-purple-700 bg-white rounded"
+                : " text-gray-800"
+            } font-medium tracking-tight`}
+            onClick={() => setViewStudent(each.name)}
+          >
+            {each.name} ({each.number.toLocaleString()})
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function Table() {
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
       <table className="w-full text-sm text-left text-gray-500">
-        <thead className="text-xs text-gray-700 normal-case border-b border-grey-300 bg-gray-50 ">
-          <tr>
-            <th scope="col" className="pl-6 pr-3 py-3">
-              Hostel name
-            </th>
-            <th scope="col" className="px-6 py-3 text-center">
-              Staff name
-            </th>
-            <th scope="col" className="px-6 py-3 text-center">
-              Capacity
-            </th>
-            <th scope="col" className="px-6 py-3 text-center">
-              Number of students
-            </th>
-            <th scope="col" className="px-6 py-3 text-center">
-              Gender
-            </th>
-            <th scope="col" className="px-6 py-3 text-center">
-              Date added
-            </th>
-            <th scope="col" className="px-6 py-3">
-              <Icon icon="ion:filter" />
-            </th>
-          </tr>
-        </thead>
+        <TableHeaders />
         <tbody>
-          {teacherInfo.map(item => (
-            <tr className="bg-white border-b " key={item.staffName}>
-              <td className="px-6 py-4 font-medium text-gray-900  whitespace-nowrap">
-                {item.hostelName}
-              </td>
-              <td className="px-6 py-4 text-center">
-                <span>{item.staffName}</span>
-              </td>
-              <td className="px-6 py-4 text-center">
-                <span>{item.capacity}</span>
-              </td>
-              <td className="px-6 py-4 text-center">
-                <span>{item.numberOfStudents}</span>
-              </td>
-
-              <td className="px-6 py-4 text-center">
-                <span>{item.gender === 0 ? "M" : "F"}</span>
-              </td>
-
-              <td className="px-6 py-4 text-center">
-                <span>{item.dateAdded}</span>
-              </td>
-              <td className="px-6 py-4">
-                <Link
-                  href={DASHBOARD_HOSTEL_INFO(
-                    item.hostelName.split(" ").join("-").toLowerCase()
-                  )}
-                >
-                  <Icon icon="ri:more-2-fill" />
-                </Link>
-              </td>
-            </tr>
+          {hostelInfo.map((item, index) => (
+            <HostelRow item={item} key={item.hostelName} index={index} />
           ))}
         </tbody>
       </table>
     </div>
   );
 }
-const teacherInfo = [
+function TableHeaders() {
+  return (
+    <thead className="text-xs text-gray-700 normal-case border-b border-grey-300 bg-gray-50 ">
+      <tr>
+        <TableHeader text="S/N" />
+        <TableHeader text="Hostel name" />
+        <TableHeader text="Staff name" />
+        <TableHeader text="Capacity" />
+        <TableHeader text="Number of students" />
+        <TableHeader text="Gender" />
+        <TableHeader text="Date added" />
+        <TableHeader text={<Icon icon="ion:filter" />} />
+      </tr>
+    </thead>
+  );
+}
+function HostelRow({ item, index }: { item: HostelItem; index: number }) {
+  const handleOk = () => {
+    console.log("OK");
+  };
+
+  const handleCancel = () => {
+    console.log("Cancel");
+  };
+  const items: MenuProps["items"] = [
+    {
+      label: (
+        <Link
+          href={DASHBOARD_HOSTEL_INFO(
+            item.hostelName.split(" ").join("-").toLowerCase()
+          )}
+          className="flex gap-2 w-full transition-all py-1 rounded-sm items-center"
+        >
+          <Icon icon="ep:more" fontSize={20} />
+          <span className="text-sm">View details</span>
+        </Link>
+      ),
+      key: "0",
+    },
+    {
+      label: (
+        <ErrorModal
+          title="Hostel Removal"
+          content="You are attempting to remove an hostel!. Do you want to proceed?"
+          okButtonProps={{
+            style: {
+              backgroundColor: "#fff",
+              color: "#cd2026",
+              border: "1px solid #cd2026",
+            },
+          }}
+          cancelButtonProps={{
+            style: {
+              backgroundColor: "floralwhite",
+            },
+          }}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          mainButtonProps={
+            <>
+              <Icon icon="solar:trash-bin-2-broken" fontSize={20} />
+              <span className="text-sm">Remove</span>
+            </>
+          }
+        />
+      ),
+      key: "1",
+    },
+  ];
+  return (
+    <tr className="bg-white border-b " key={item.staffName}>
+      <TableCell content={index + 1} isCentered />
+      <TableCell content={item.hostelName} />
+      <TableCell content={item.staffName} />
+      <TableCell content={item.capacity} isCentered />
+      <TableCell content={item.numberOfStudents} isCentered />
+      <TableCell content={item.gender === 0 ? "M" : "F"} isCentered />
+      <TableCell content={item.dateAdded} isCentered />
+      <td className="px-6 py-4">
+        <Dropdown menu={{ items }} trigger={["click"]}>
+          <button>
+            <Icon icon="ri:more-2-fill" />
+          </button>
+        </Dropdown>
+      </td>
+    </tr>
+  );
+}
+
+const items: MenuProps["items"] = [
   {
-    hostelName: "Hostel Lucille",
-    staffName: "Johnny White",
-    capacity: 961,
-    numberOfStudents: 878,
-    gender: 0,
-    dateAdded: "12 May, 2023",
-    classes: "Grade 4,Grade 5,Grade 6",
+    label: (
+      <Link
+        href={NEW_BULK_HOSTEL}
+        className="flex gap-1 w-full transition-all p-1 rounded-sm"
+      >
+        <Icon icon="bx:data" fontSize={25} />
+        <span>Bulk Upload</span>
+      </Link>
+    ),
+    key: "0",
   },
   {
-    hostelName: "Hostel Charles",
-    staffName: "Curtis McCarthy",
-    capacity: 680,
-    numberOfStudents: 661,
-    gender: 1,
-    dateAdded: "12 May, 2023",
-    classes: "Grade 3,Grade 4",
-  },
-  {
-    hostelName: "Hostel Rosalie",
-    staffName: "Mark Long",
-    capacity: 378,
-    numberOfStudents: 837,
-    gender: 0,
-    dateAdded: "12 May, 2023",
-    classes: "Grade 4,Grade 5",
-  },
-  {
-    hostelName: "Hostel Ollie",
-    staffName: "William Lawson",
-    capacity: 815,
-    numberOfStudents: 551,
-    gender: 0,
-    dateAdded: "12 May, 2023",
-    classes: "Grade 4,Grade 6",
-  },
-  {
-    hostelName: "Hostel Sally",
-    staffName: "Lina Larson",
-    capacity: 820,
-    numberOfStudents: 325,
-    gender: 0,
-    dateAdded: "12 May, 2023",
-    classes: "Grade 3,Grade 4,Grade 5,Grade 6",
-  },
-  {
-    hostelName: "Hostel Maurice",
-    staffName: "Stella Shaw",
-    capacity: 820,
-    numberOfStudents: 325,
-    gender: 0,
-    dateAdded: "12 May, 2023",
-    classes: "Grade 3,Grade 4,Grade 5,Grade 6",
-  },
-  {
-    hostelName: "Hostel Francisco",
-    staffName: "Leroy Dixon",
-    capacity: 820,
-    numberOfStudents: 325,
-    gender: 0,
-    dateAdded: "12 May, 2023",
-    classes: "Grade 3,Grade 4,Grade 5,Grade 6",
+    label: (
+      <Link
+        href={NEW_HOSTEL}
+        className="flex gap-1 w-full transition-all p-1 rounded-sm"
+      >
+        <Icon icon="grommet-icons:form-edit" fontSize={25} />
+        <span>Single Upload</span>
+      </Link>
+    ),
+    key: "1",
   },
 ];

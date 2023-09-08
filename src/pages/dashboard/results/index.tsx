@@ -7,6 +7,7 @@ import { twMerge } from "tailwind-merge";
 
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
+import { resultInfo } from "@/config/dummyInfo";
 import { DASHBOARD_RESULT_INFO, NEW_RESULT } from "@/config/links";
 
 export default function Results() {
@@ -376,41 +377,3 @@ function TableHeadingText({
     </th>
   );
 }
-
-const resultInfo = [
-  {
-    studentName: "Fred Swanson",
-    class: "Grade 4",
-    statusIsActive: 0,
-  },
-  {
-    studentName: "Luella Wood",
-    class: "Grade 4",
-    statusIsActive: 0,
-  },
-  {
-    studentName: "Jim Johnston",
-    class: "Grade 4",
-    statusIsActive: 0,
-  },
-  {
-    studentName: "Lottie Brewer",
-    class: "Grade 4",
-    statusIsActive: 1,
-  },
-  {
-    studentName: "Edwin Elliott",
-    class: "Grade 4",
-    statusIsActive: 1,
-  },
-  {
-    studentName: "Charles Patterson",
-    class: "Grade 4",
-    statusIsActive: 2,
-  },
-  {
-    studentName: "Calvin Brown",
-    class: "Grade 4",
-    statusIsActive: 1,
-  },
-];

@@ -6,6 +6,7 @@ import { twMerge } from "tailwind-merge";
 
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
+import { roleInfo } from "@/config/dummyInfo";
 
 export default function Roles() {
   const [openAddNewRole, setOpenAddNewRole] = React.useState(false);
@@ -213,7 +214,7 @@ function Table({
           </tr>
         </thead>
         <tbody className="text-xs">
-          {resultInfo.map((item, index) => (
+          {roleInfo.map((item, index) => (
             <tr className="bg-white border-b " key={item.roleName}>
               <TableBodyText
                 title={(index + 1).toString()}
@@ -291,42 +292,3 @@ function TableHeadingText({
     </th>
   );
 }
-
-const resultInfo = [
-  {
-    roleName: "Admin",
-    description:
-      "This user has access to all functions and is usually the creator of the school account.",
-    numberOfStaff: 2,
-    class: "Grade 4",
-    jobTitle: "Class Teacher",
-    basicSalary: 32000,
-    deductions: 3100,
-    accountNumberDetails: "51121375105",
-    bankAccountDetails: "Access Diamond Bank",
-  },
-  {
-    roleName: "Staff",
-    class: "Grade 4",
-    jobTitle: "Head Teacher",
-    numberOfStaff: 2,
-    description:
-      "This user has access to all functions and is usually the creator of the school account.",
-    deductions: 2000,
-    basicSalary: 24700,
-    accountNumberDetails: "30357306841",
-    bankAccountDetails: "Guarantee Trust Bank",
-  },
-  {
-    roleName: "Bursary",
-    numberOfStaff: 2,
-    class: "Grade 4",
-    jobTitle: "Class Teacher",
-    deductions: 3600,
-    basicSalary: 53700,
-    description:
-      "This user has access to all functions and is usually the creator of the school account.",
-    accountNumberDetails: "50173652452",
-    bankAccountDetails: "Access Bank",
-  },
-];

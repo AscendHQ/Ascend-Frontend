@@ -1,10 +1,17 @@
 /* eslint-disable react/no-array-index-key */
+import { PlusOutlined } from "@ant-design/icons";
 import { Icon } from "@iconify/react";
+import { Input, InputRef, Space, Tag, theme, Tooltip } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
+import CheckboxGroup from "@/components/ui/form/checkboxgroup";
+import RadioGroup from "@/components/ui/form/radiogroup";
+import SelectField from "@/components/ui/form/selectfield";
+import TextAreaWithLabelAndCount from "@/components/ui/form/textarea";
+import TextField from "@/components/ui/form/textfield";
 import { DASHBOARD_HOSTEL } from "@/config/links";
 
 export default function HostelInfo() {
@@ -27,9 +34,6 @@ export default function HostelInfo() {
         <RoomNamingConfiguration />
         <HostelFee />
         <div className="flex justify-end gap-6">
-          <button className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-20 py-3 rounded-lg">
-            Cancel
-          </button>
           <button className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-20 py-3 rounded-lg">
             Save
           </button>
@@ -51,53 +55,28 @@ function HostelInformation() {
         </p>
       </div>
       <div className="flex flex-1 flex-wrap gap-5">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="hostel_name"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Hostel name
-          </label>
-          <input
-            type="text"
-            id="hostel_name"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Babalola Hostel"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="capacity"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Capacity
-          </label>
-          <input
-            type="text"
-            id="capacity"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="2000"
-            required
-          />
-        </div>
-
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="type"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Type
-          </label>
-          <select
-            name="type"
-            id="type"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
-        </div>
+        <TextField
+          id="hostel_name"
+          label="Hostel name"
+          placeholder="Babalola Hostel"
+          required
+          defaultValue="Cora Hostel"
+          onChange={e => console.log(e.target.value)}
+        />
+        <TextField
+          id="capacity"
+          label="Capacity"
+          placeholder="2000"
+          defaultValue={"3204"}
+          required
+          onChange={e => console.log(e.target.value)}
+        />
+        <SelectField
+          id="type"
+          label="Type"
+          options={["Select an option", "Male", "Female"]}
+          defaultValue={"Female"}
+        />
       </div>
     </div>
   );
@@ -115,36 +94,20 @@ function HostelStaffDetails() {
         </p>
       </div>
       <div className="flex flex-1 flex-wrap gap-5">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="staff_name"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Staff name
-          </label>
-          <input
-            type="text"
-            id="staff_name"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Mr Bamidele"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="contact_detail"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Contact detail
-          </label>
-          <input
-            type="text"
-            id="contact_detail"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="0811-234-5678"
-            required
-          />
-        </div>
+        <TextField
+          id="staff_name"
+          label="Staff name"
+          placeholder="Mr Bamidele"
+          required
+          defaultValue={"Mrs Rosie"}
+        />
+        <TextField
+          id="contact_detail"
+          label="Contact detail"
+          placeholder="0811-234-5678"
+          defaultValue={"09062327721"}
+          required
+        />
       </div>
     </div>
   );
@@ -160,38 +123,19 @@ function HostelFee() {
         </p>
       </div>
       <div className="flex flex-1 flex-wrap gap-5">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="amount_to_be_paid"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Amount to be paid
-          </label>
-          <input
-            type="text"
-            id="amount_to_be_paid"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="$13,450"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="period_of_payment"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Period of payment
-          </label>
-          <select
-            name="period_of_payment"
-            id="period_of_payment"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="1st Term">1st Term</option>
-            <option value="2nd Term">2nd Term</option>
-            <option value="3rd Term">3rd Term</option>
-          </select>
-        </div>
+        <TextField
+          id="amount_to_be_paid"
+          label="Amount to be paid"
+          placeholder="$1300"
+          required
+          defaultValue={"$1000"}
+        />
+        <SelectField
+          id="period_of_payment"
+          label="Period of payment"
+          options={["Select an option", "1st Term", "2nd Term", "3rd Term"]}
+          defaultValue={"2nd Term"}
+        />
       </div>
     </div>
   );
@@ -208,13 +152,16 @@ function AdditionalInformation() {
         </p>
       </div>
       <div className="flex-1 text-sm text-Text-high-emphasis font-medium space-y-2">
-        <h5>
-          Other notes & comments <small>(Optional)</small>
-        </h5>
-        <textarea
-          name="Notes&Comments"
+        <TextAreaWithLabelAndCount
           id="Notes&Comments"
-          className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis h-28"
+          label={
+            <>
+              Other notes & comments <small>(Optional)</small>
+            </>
+          }
+          placeholder="If you want to provide note and comment"
+          isFullWidth
+          defaultValue={"No comment"}
         />
       </div>
     </div>
@@ -233,31 +180,7 @@ function AllocateStudent() {
         </p>
       </div>
       <div className="flex-1 text-sm text-Text-high-emphasis font-medium space-y-5">
-        <label htmlFor="add_student_name" className="sr-only">
-          Enter student name
-        </label>
-        <input
-          type="text"
-          id="add_student_name"
-          className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis font-normal text-Text-high-emphasis"
-          placeholder="Enter student name"
-          required
-        />
-        <ul id="students" className="flex items-center flex-wrap gap-3">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <li
-              className="inline-flex items-center py-1 px-3 rounded gap-2 text-Text-high-emphasis bg-neutral-300"
-              key={i}
-            >
-              <span>Myrtle Hart</span>
-              <Icon
-                icon="material-symbols:cancel-outline"
-                fontSize={20}
-                className="cursor-pointer"
-              />
-            </li>
-          ))}
-        </ul>
+        <TagContainer />
       </div>
     </div>
   );
@@ -274,24 +197,16 @@ function RoomNamingConfiguration() {
           This will be displayed on the hostel detail profile.
         </p>
       </div>
-      <div className="flex-1 space-y-3">
-        <h5>Naming convention</h5>
-        <div className="inline-flex items-center gap-3 mr-5">
-          <input
-            type="radio"
-            name="naming_convention"
-            id="naming_convention_number"
-          />
-          <label htmlFor="naming_convention_number">Number (i.e Room 1)</label>
-        </div>
-        <div className="inline-flex items-center gap-3">
-          <input
-            type="radio"
-            name="naming_convention"
-            id="naming_convention_letter"
-          />
-          <label htmlFor="naming_convention_letter">Letter (i.e Room A)</label>
-        </div>
+      <div className="flex-1">
+        <RadioGroup
+          id="naming_convention"
+          label="Naming convention"
+          options={[
+            { value: "number", label: "Number (i.e Room 1)", checked: false },
+            { value: "letter", label: "Letter (i.e Room A)", checked: true },
+          ]}
+          isFullWidth
+        />
       </div>
     </div>
   );
@@ -309,80 +224,26 @@ function HostelFacilities() {
         </p>
       </div>
       <div className="flex-1">
-        <div className="lg:max-w-[250px]">
-          <label
-            htmlFor="room_type"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Room type
-          </label>
-          <select
-            name="room_type"
-            id="room_type"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="Single room">Single room</option>
-            <option value="Double room">Double room</option>
-          </select>
-        </div>
+        <SelectField
+          id="room_type"
+          label="Room type"
+          options={["Select an option", "Single room", "Double room"]}
+          defaultValue={"Single room"}
+        />
 
-        <div className="mt-5 space-y-3">
-          <h4 className="text-gray-800 font-medium">Available amenities</h4>
-          <div className="flex flex-wrap gap-4 items-center">
-            <label htmlFor="amenities_beds" className="space-x-3">
-              <input
-                type="checkbox"
-                name="amenities_beds"
-                id="amenities_beds"
-              />
-              <span className="text-gray-800 font-medium">Beds (4)</span>
-            </label>
-            <label htmlFor="amenities_study-table" className="space-x-3">
-              <input
-                type="checkbox"
-                name="amenities_study-table"
-                id="amenities_study-table"
-              />
-              <span className="text-gray-800 font-medium">Study tables</span>
-            </label>
-            <label htmlFor="amenities_wardrobes" className="space-x-3">
-              <input
-                type="checkbox"
-                name="amenities_wardrobes"
-                id="amenities_wardrobes"
-              />
-              <span className="text-gray-800 font-medium">Wardrobes</span>
-            </label>
-            <label htmlFor="amenities_bathrooms" className="space-x-3">
-              <input
-                type="checkbox"
-                name="amenities_bathrooms"
-                id="amenities_bathrooms"
-              />
-              <span className="text-gray-800 font-medium">Bathrooms</span>
-            </label>
-            <label htmlFor="amenities_common-rooms" className="space-x-3">
-              <input
-                type="checkbox"
-                name="amenities_common-rooms"
-                id="amenities_common-rooms"
-              />
-              <span className="text-gray-800 font-medium">Common rooms</span>
-            </label>
-            <label htmlFor="amenities_fan" className="space-x-3">
-              <input type="checkbox" name="amenities_fan" id="amenities_fan" />
-              <span className="text-gray-800 font-medium">Fan</span>
-            </label>
-            <label htmlFor="amenities_wi-Fi" className="space-x-3">
-              <input
-                type="checkbox"
-                name="amenities_wi-Fi"
-                id="amenities_wi-Fi"
-              />
-              <span className="text-gray-800 font-medium">Wi-Fi</span>
-            </label>
-          </div>
-        </div>
+        <CheckboxGroup
+          id="amenities"
+          label="Available amenities"
+          options={[
+            { value: "beds", label: "Beds (4)", checked: false },
+            { value: "study-table", label: "Study tables", checked: false },
+            { value: "wardrobes", label: "Wardrobes", checked: false },
+            { value: "bathrooms", label: "Bathrooms", checked: true },
+            { value: "common-rooms", label: "Common rooms", checked: false },
+            { value: "fan", label: "Fan", checked: false },
+            { value: "wi-Fi", label: "Wi-Fi", checked: false },
+          ]}
+        />
       </div>
     </div>
   );
@@ -402,3 +263,153 @@ function HostelDetailHeading() {
     </div>
   );
 }
+
+const TagContainer: React.FC = () => {
+  const { token } = theme.useToken();
+  const [tags, setTags] = React.useState([
+    "Dorothy Lloyd",
+    "Hettie Patterson",
+    "Sara Boone",
+    "Ronald Montgomery",
+    "Brett Carroll",
+    "Nancy Holmes",
+  ]);
+  const [inputVisible, setInputVisible] = React.useState(false);
+  const [inputValue, setInputValue] = React.useState("");
+  const [editInputIndex, setEditInputIndex] = React.useState(-1);
+  const [editInputValue, setEditInputValue] = React.useState("");
+  const inputRef = React.useRef<InputRef>(null);
+  const editInputRef = React.useRef<InputRef>(null);
+
+  React.useEffect(() => {
+    if (inputVisible) {
+      inputRef.current?.focus();
+    }
+  }, [inputVisible]);
+
+  React.useEffect(() => {
+    editInputRef.current?.focus();
+  }, [editInputValue]);
+
+  const handleClose = (removedTag: string) => {
+    const newTags = tags.filter(tag => tag !== removedTag);
+    console.log(newTags);
+    setTags(newTags);
+  };
+
+  const showInput = () => {
+    setInputVisible(true);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleInputConfirm = () => {
+    if (inputValue && tags.indexOf(inputValue) === -1) {
+      setTags([...tags, inputValue]);
+    }
+    setInputVisible(false);
+    setInputValue("");
+  };
+
+  const handleEditInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditInputValue(e.target.value);
+  };
+
+  const handleEditInputConfirm = () => {
+    const newTags = [...tags];
+    newTags[editInputIndex] = editInputValue;
+    setTags(newTags);
+    setEditInputIndex(-1);
+    setEditInputValue("");
+  };
+
+  const tagInputStyle: React.CSSProperties = {
+    width: 64,
+    height: 22,
+    marginInlineEnd: 8,
+    verticalAlign: "top",
+    padding: 2,
+  };
+
+  const tagPlusStyle: React.CSSProperties = {
+    height: 22,
+    fontSize: 16,
+    background: token.colorBgContainer,
+    borderStyle: "dashed",
+  };
+
+  return (
+    <Space size={[0, 8]} wrap>
+      <Space size={[0, 8]} wrap>
+        {tags.map((tag, index) => {
+          if (editInputIndex === index) {
+            return (
+              <Input
+                ref={editInputRef}
+                key={tag}
+                size="large"
+                style={tagInputStyle}
+                value={editInputValue}
+                onChange={handleEditInputChange}
+                onBlur={handleEditInputConfirm}
+                onPressEnter={handleEditInputConfirm}
+              />
+            );
+          }
+          const isLongTag = tag.length > 20;
+          const tagElem = (
+            <Tag
+              key={tag}
+              closable={index !== -1}
+              className="flex items-center py-1 px-3 rounded gap-2 select-none bg-neutral-300"
+              onClose={() => handleClose(tag)}
+              closeIcon={
+                <Icon
+                  icon="material-symbols:cancel-outline"
+                  fontSize={20}
+                  className="cursor-pointer ml-2 mb-1 inline"
+                />
+              }
+            >
+              <button
+                onDoubleClick={e => {
+                  setEditInputIndex(index);
+                  setEditInputValue(tag);
+                  e.preventDefault();
+                }}
+                className="text-gray-800 font-medium text-base"
+              >
+                {isLongTag ? `${tag.slice(0, 20)}...` : tag}
+              </button>
+            </Tag>
+          );
+          return isLongTag ? (
+            <Tooltip title={tag} key={tag}>
+              {tagElem}
+            </Tooltip>
+          ) : (
+            tagElem
+          );
+        })}
+        {inputVisible ? (
+          <Input
+            ref={inputRef}
+            type="text"
+            size="small"
+            style={tagInputStyle}
+            value={inputValue}
+            onChange={handleInputChange}
+            onBlur={handleInputConfirm}
+            onPressEnter={handleInputConfirm}
+          />
+        ) : (
+          <Tag style={tagPlusStyle} onClick={showInput}>
+            <PlusOutlined /> New Student
+          </Tag>
+        )}
+      </Space>
+    </Space>
+  );
+};

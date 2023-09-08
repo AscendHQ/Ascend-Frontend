@@ -23,7 +23,7 @@ export default function DatabaseStudentContainer({
   const router = useRouter();
 
   return (
-    <div className="grid font-inter grid-cols-9">
+    <div className="grid font-inter grid-cols-9 min-w-[950px]">
       <Sidebar />
       <div className="col-[3/-1] 3xl:col-[2/-1] bg-neutral-300">
         <DashboardHeader headerTitle={headerTitle} />

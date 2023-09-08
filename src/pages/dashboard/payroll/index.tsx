@@ -8,7 +8,10 @@ import { twMerge } from "tailwind-merge";
 
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
+import { TableCell, TableHeader } from "@/components/ui/table";
+import { payrollInfo } from "@/config/dummyInfo";
 import { DASHBOARD_PAYROLL_INFO, GENERATE_PAYROLL } from "@/config/links";
+import { PayrollRowProps } from "@/types";
 
 export default function Payroll() {
   const [openPayrollOption, setPayrollOption] = React.useState(false);
@@ -115,6 +118,44 @@ export default function Payroll() {
 function Table() {
   const [api, contextHolder] = notification.useNotification();
 
+  return (
+    <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
+      {contextHolder}
+
+      <table className="w-full text-sm text-left text-gray-500">
+        <TableHeaders />
+        <tbody className="text-xs">
+          {payrollInfo.map((item, index) => (
+            <ClassRow
+              key={item.staffName}
+              item={item}
+              index={index}
+              api={api}
+            />
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function TableHeaders() {
+  return (
+    <thead className="text-xs text-gray-700 normal-case border-b border-grey-300 bg-gray-50 ">
+      <tr>
+        <TableHeader text="S/N" styles="pl-6 pr-3" />
+        <TableHeader text="Staff name" />
+        <TableHeader text="Job title" />
+        <TableHeader text="Account details" />
+        <TableHeader text="Basic Salary" isCentered />
+        <TableHeader text="Deductions" isCentered />
+        <TableHeader text={<Icon icon="ion:filter" />} isCentered />
+      </tr>
+    </thead>
+  );
+}
+
+function ClassRow({ item, index, api }: PayrollRowProps) {
   const [currentStudent, setCurrentStudent] = React.useState({
     name: "",
   });
@@ -160,75 +201,47 @@ function Table() {
     console.log(success);
     openNotification("topRight");
   };
-
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
-      {contextHolder}
+    <tr className="bg-white border-b " key={item.staffName}>
+      <TableCell content={index + 1} isCentered />
+      <TableCell content={item.staffName} styles="whitespace-nowrap" />
+      <TableCell content={item.jobTitle} styles="whitespace-nowrap" />
+      <TableCell
+        content={
+          <>
+            {item.accountNumberDetails + " | " + item.bankAccountDetails}
+            <button onClick={() => copyToClipboard(item.accountNumberDetails)}>
+              <Icon icon="fluent:document-copy-20-regular" />
+            </button>
+          </>
+        }
+        styles="p-4 text-info-main flex items-center"
+      />
+      <TableBodyText
+        title={"₦" + item.basicSalary.toLocaleString() + ".00"}
+        styles="whitespace-nowrap text-center"
+      />
+      <TableBodyText
+        title={"-₦" + item.deductions.toLocaleString() + ".00"}
+        styles="whitespace-nowrap text-secondary-red-600 text-center"
+      />
 
-      <table className="w-full text-sm text-left text-gray-500">
-        <thead className="text-xs text-gray-700 normal-case border-b border-grey-300 bg-gray-50 ">
-          <tr>
-            <TableHeadingText title="S/N" />
-            <TableHeadingText title="Staff name" />
-            <TableHeadingText title="Job title" />
-            <TableHeadingText title="Account details" />
-            <TableHeadingText title="Basic Salary" styles="text-center" />
-            <TableHeadingText title="Deductions" styles="text-center" />
-            <th scope="col" className="px-6 py-3">
-              <Icon icon="ion:filter" />
-            </th>
-          </tr>
-        </thead>
-        <tbody className="text-xs">
-          {resultInfo.map((item, index) => (
-            <tr className="bg-white border-b " key={item.staffName}>
-              <TableBodyText
-                title={(index + 1).toString()}
-                styles="text-center"
-              />
-              <TableBodyText
-                title={item.staffName}
-                styles="whitespace-nowrap"
-              />
-              <TableBodyText title={item.jobTitle} styles="whitespace-nowrap" />
-
-              <td className="p-4 text-info-main flex items-center">
-                {item.accountNumberDetails + " | " + item.bankAccountDetails}
-                <button
-                  onClick={() => copyToClipboard(item.accountNumberDetails)}
-                >
-                  <Icon icon="fluent:document-copy-20-regular" />
-                </button>
-              </td>
-              <TableBodyText
-                title={"₦" + item.basicSalary.toLocaleString() + ".00"}
-                styles="whitespace-nowrap text-center"
-              />
-              <TableBodyText
-                title={"-₦" + item.deductions.toLocaleString() + ".00"}
-                styles="whitespace-nowrap text-secondary-red-600 text-center"
-              />
-
-              <td className="px-6 py-4">
-                <Dropdown
-                  menu={{ items }}
-                  trigger={["click"]}
-                  onOpenChange={() =>
-                    setCurrentStudent({
-                      name: item.staffName,
-                    })
-                  }
-                >
-                  <button>
-                    <Icon icon="ri:more-2-fill" />
-                  </button>
-                </Dropdown>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+      <td className="px-6 py-4">
+        <Dropdown
+          menu={{ items }}
+          trigger={["click"]}
+          onOpenChange={() =>
+            setCurrentStudent({
+              name: item.staffName,
+            })
+          }
+        >
+          <button>
+            <Icon icon="ri:more-2-fill" />
+          </button>
+        </Dropdown>
+      </td>
+    </tr>
   );
 }
 
@@ -248,96 +261,3 @@ function TableBodyText({
     </td>
   );
 }
-
-function TableHeadingText({
-  title,
-  styles,
-}: {
-  title: string;
-  styles?: string;
-}) {
-  return (
-    <th
-      scope="col"
-      className={twMerge(
-        "px-4 py-3 normal-case text-Text-high-emphasis  text-sm font-medium",
-        styles
-      )}
-    >
-      {title}
-    </th>
-  );
-}
-
-const resultInfo = [
-  {
-    staffName: "Fred Swanson",
-    class: "Grade 4",
-    jobTitle: "Class Teacher",
-
-    basicSalary: 32000,
-    deductions: 3100,
-    accountNumberDetails: "51121375105",
-    bankAccountDetails: "Access Diamond Bank",
-  },
-  {
-    staffName: "Luella Wood",
-    class: "Grade 4",
-    jobTitle: "Head Teacher",
-
-    deductions: 2000,
-    basicSalary: 24700,
-    accountNumberDetails: "30357306841",
-    bankAccountDetails: "Guarantee Trust Bank",
-  },
-  {
-    staffName: "Jim Johnston",
-    class: "Grade 4",
-    jobTitle: "Class Teacher",
-    deductions: 3600,
-    basicSalary: 53700,
-
-    accountNumberDetails: "50173652452",
-    bankAccountDetails: "Access Bank",
-  },
-  {
-    staffName: "Lottie Brewer",
-    class: "Grade 4",
-    deductions: 4800,
-    basicSalary: 72700,
-    jobTitle: "Class Teacher",
-
-    accountNumberDetails: "47084389455",
-    bankAccountDetails: "United Bank of Africa",
-  },
-  {
-    staffName: "Edwin Elliott",
-    class: "Grade 4",
-    deductions: 4000,
-    basicSalary: 78400,
-    jobTitle: "Class Teacher",
-
-    accountNumberDetails: "78735530203",
-    bankAccountDetails: "Union Bank",
-  },
-  {
-    staffName: "Charles Patterson",
-    basicSalary: 21800,
-    class: "Grade 4",
-    deductions: 4300,
-    jobTitle: "Class Teacher",
-
-    accountNumberDetails: "52255181577",
-    bankAccountDetails: "Polaris Bank",
-  },
-  {
-    staffName: "Calvin Brown",
-    class: "Grade 4",
-    basicSalary: 36300,
-    deductions: 900,
-    jobTitle: "Class Teacher",
-
-    accountNumberDetails: "68030027884",
-    bankAccountDetails: "First Bank",
-  },
-];

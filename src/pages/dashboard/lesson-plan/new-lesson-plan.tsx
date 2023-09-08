@@ -5,6 +5,9 @@ import { useRouter } from "next/router";
 import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
+import SelectField from "@/components/ui/form/selectfield";
+import TextAreaWithLabelAndCount from "@/components/ui/form/textarea";
+import TextField from "@/components/ui/form/textfield";
 import {
   DASHBOARD_LESSON_PLAN,
   DASHBOARD_LESSON_PLAN_INFO,
@@ -90,111 +93,52 @@ function LessonInformation() {
           </p>
         </div>
         <div className="flex flex-1 min-w-[60%] flex-wrap gap-5">
-          <div className="lg:min-w-[250px] flex-1">
-            <label
-              htmlFor="lesson_title"
-              className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-            >
-              Lesson title
-            </label>
-            <input
-              type="text"
-              id="lesson_title"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-              placeholder="Enter a lesson title"
-              required
-            />
-          </div>
-          <div className="lg:min-w-[250px] flex-1">
-            <label
-              htmlFor="subject"
-              className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-            >
-              Subject
-            </label>
-            <select
-              id="subject"
-              name="subject"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            >
-              <option>Select a subject</option>
-              <option value="Use of English Language">
-                Use of English Language
-              </option>
-              <option value="Mathematics">Mathematics</option>
-              <option value="Chemistry">Chemistry</option>
-              <option value="Physics">Physics</option>
-              <option value="Biology">Biology</option>
-              <option value="Further Mathematics">Further Mathematics</option>
-              <option value="Civic Education">Civic Education</option>
-            </select>
-          </div>
-          <div className="lg:min-w-[250px] flex-1">
-            <label
-              htmlFor="class"
-              className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-            >
-              Class
-            </label>
-            <select
-              id="class"
-              name="class"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            >
-              <option>Select a class</option>
-              <option value="JSS1">JSS1</option>
-              <option value="JSS2">JSS2</option>
-              <option value="JSS3">JSS3</option>
-              <option value="SS1">SS1</option>
-              <option value="SS2">SS2</option>
-              <option value="SS3">SS3</option>
-            </select>
-          </div>
-          <div className="lg:min-w-[250px] flex-1">
-            <label
-              htmlFor="duration"
-              className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-            >
-              Duration
-            </label>
-            <input
-              type="text"
-              id="duration"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-              placeholder="1 week"
-              required
-            />
-          </div>
-
-          <div className="lg:min-w-full flex-1 ">
-            <label
-              htmlFor="lesson_plan_overview"
-              className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-            >
-              Lesson plan overview
-            </label>
-            <textarea
-              name="lesson_plan_overview"
-              id="lesson_plan_overview"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis h-28"
-              placeholder="What is this lesson plan about?"
-            />
-            <span className="text-xs">0/40 characters remaining</span>
-          </div>
-          <div className="lg:min-w-full flex-1 ">
-            <label
-              htmlFor="week_1_objectives"
-              className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-            >
-              Week 1 objectives
-            </label>
-            <textarea
-              name="week_1_objectives"
-              id="week_1_objectives"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis h-28"
-              placeholder="What are the objectives for this week?"
-            />
-          </div>
+          <TextField
+            id="lesson_title"
+            label="Lesson title"
+            placeholder="Enter a lesson title"
+            required
+          />
+          <SelectField
+            id="subject"
+            label="Subject"
+            options={[
+              "Use of English Language",
+              "Mathematics",
+              "Chemistry",
+              "Physics",
+              "Biology",
+              "Further Mathematics",
+              "Civic Education",
+            ]}
+          />
+          <SelectField
+            id="class"
+            label="Class"
+            options={["JSS1", "JSS2", "JSS3", "SS1", "SS2", "SS3"]}
+          />
+          <TextField
+            id="duration"
+            label="Duration"
+            placeholder="1 week"
+            required
+          />
+          <TextAreaWithLabelAndCount
+            id="lesson_plan_overview"
+            label="Lesson plan overview"
+            placeholder="What is this lesson plan about?"
+            maxLength={3000}
+            showCharacterCount={false}
+            isFullWidth
+          />
+          <TextAreaWithLabelAndCount
+            id="weekly_plan_objectives"
+            label="Weekly plan objectives"
+            placeholder="Highlight your objectives for each week"
+            maxLength={3000}
+            showCharacterCount={false}
+            isFullWidth
+          />
         </div>
       </div>
       <ul className="flex gap-2 justify-end">
