@@ -334,12 +334,9 @@ function Table() {
               />
 
               <td className="p-4">
-                {/* <button className="border-1.5 rounded border-border-colour-light text-gray-800 py-2 px-3">
-                  Download
-                </button> */}
                 <ReactToPrint
                   content={reactToPrintContent}
-                  documentTitle="AwesomeFileName"
+                  documentTitle={item.studentName}
                   onBeforeGetContent={handleOnBeforeGetContent}
                   removeAfterPrint
                   trigger={reactToPrintTrigger}

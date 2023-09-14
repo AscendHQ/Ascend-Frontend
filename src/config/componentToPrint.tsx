@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
 import React from "react";
 
@@ -357,6 +358,67 @@ const ComponentToPrint = React.forwardRef(
               </tr>
             </tbody>
           </table>
+        </div>
+        <div className="flex gap-8 mt-5">
+          <div className="flex-1">
+            <h4 className="text-center text-2xl mb-2">Grading</h4>
+            <table className="w-full">
+              <thead>
+                <tr className="[&>th]:border [&>th]:border-black border-collapse">
+                  <th>Score</th>
+                  <th>Grade&Remark</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className={rowStyle}>
+                  <td>100 - 70</td>
+                  <td>A (Excellent)</td>
+                </tr>
+                <tr className={rowStyle}>
+                  <td>69 - 60</td>
+                  <td>B (Very Good)</td>
+                </tr>
+                <tr className={rowStyle}>
+                  <td>59 - 50</td>
+                  <td>C (Good)</td>
+                </tr>
+                <tr className={rowStyle}>
+                  <td>49 - 45</td>
+                  <td>D (Satisfactory)</td>
+                </tr>
+                <tr className={rowStyle}>
+                  <td>44 - 40</td>
+                  <td>E (Pass)</td>
+                </tr>
+                <tr className={rowStyle}>
+                  <td>39 - 0</td>
+                  <td>F (Fail)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="flex-1 flex gap-8 items-center justify-center">
+            <div className="flex-1 text-center">
+              <h4>Class teacher Signature</h4>
+              <span className="border-b-2 border-black border-dashed h-24 block">
+                <img
+                  src="https://static.cdn.wisestamp.com/wp-content/uploads/2020/08/Oprah-Winfrey-Signature-1.png"
+                  alt="Oprah-Winfrey-Signature"
+                  className="w-40 mx-auto block"
+                />
+              </span>
+            </div>
+            <div className="flex-1 text-center">
+              <h4>Principal Signature</h4>
+              <span className="border-b-2 border-black border-dashed h-24 block">
+                <img
+                  src="https://static.vecteezy.com/system/resources/thumbnails/023/264/092/small/fake-hand-drawn-autographs-set-handwritten-signature-scribble-for-business-certificate-or-letter-isolated-illustration-vector.jpg"
+                  alt="Oprah-Winfrey-Signature"
+                  className="w-40 mx-auto block"
+                />
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     );
