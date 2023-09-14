@@ -7,3 +7,5 @@
 -- Complete Staff
 
 -- Change the select to default html select
+
+-- react to print PDF CODESANDBOX(https://codesandbox.io/s/react-to-print-forked-hd5q5m?file=/examples/FunctionalComponent/index.js)
