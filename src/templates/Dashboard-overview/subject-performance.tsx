@@ -1,4 +1,5 @@
 /* eslint-disable react/no-array-index-key */
+import { blue } from "@ant-design/colors";
 import { Icon } from "@iconify/react";
 import { Progress, Select } from "antd";
 import Link from "next/link";
@@ -12,7 +13,7 @@ export default function SubjectPerformance() {
   return (
     <div className="bg-white py-4 rounded-lg grid px-6 flex-1 border border-border-colour-light">
       <div className="flex justify-between items-center gap-5">
-        <div className="">
+        <div className="pb-2">
           <h3 className="text-Text-high-emphasis text-lg font-semibold ">
             Subject Performance
           </h3>
@@ -43,7 +44,11 @@ export default function SubjectPerformance() {
           <div className="mt-3" key={i}>
             <h4 className="text-Text-high-emphasis text-sm">Mathematics</h4>
 
-            <Progress percent={73} status="active" />
+            <Progress
+              percent={93 - i * 15}
+              status="active"
+              strokeColor={blue[8]}
+            />
           </div>
         ))}
       </div>

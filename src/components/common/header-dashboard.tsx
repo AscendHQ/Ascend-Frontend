@@ -63,6 +63,7 @@ export default function DashboardHeader({
     </header>
   );
 }
+
 function NotificationDropDownSection({
   activeTab,
   handleTabClick,

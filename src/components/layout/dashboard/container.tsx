@@ -12,10 +12,10 @@ export default function Container({ children, headerTitle }: Props) {
   return (
     <div className="grid font-inter grid-cols-9 min-w-[950px]">
       <Sidebar />
-      <div className="col-[3/-1] 3xl:col-[2/-1] bg-neutral-300">
+      <main className="col-[3/-1] 3xl:col-[2/-1] bg-neutral-300">
         <DashboardHeader headerTitle={headerTitle} />
         {children}
-      </div>
+      </main>
     </div>
   );
 }

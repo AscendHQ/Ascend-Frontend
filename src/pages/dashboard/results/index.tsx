@@ -1,12 +1,14 @@
 import { Icon } from "@iconify/react";
-import { MenuProps, Modal, Select } from "antd";
+import { MenuProps, Modal, Select, Spin } from "antd";
 import { Dropdown } from "antd";
 import Link from "next/link";
 import React from "react";
+import ReactToPrint from "react-to-print";
 import { twMerge } from "tailwind-merge";
 
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
+import ComponentToPrint from "@/config/componentToPrint";
 import { resultInfo } from "@/config/dummyInfo";
 import { DASHBOARD_RESULT_INFO, NEW_RESULT } from "@/config/links";
 
@@ -161,6 +163,50 @@ function Table() {
     },
   ];
 
+  const componentRef = React.useRef<HTMLDivElement>(null);
+
+  const onBeforeGetContentResolve = React.useRef<(() => void) | null>(null);
+
+  const [loading, setLoading] = React.useState(false);
+  const [text, setText] = React.useState("old boring text");
+
+  const handleOnBeforeGetContent = React.useCallback(() => {
+    console.log("`onBeforeGetContent` called");
+    setLoading(true);
+    setText("Loading new text...");
+
+    return new Promise<void>(resolve => {
+      onBeforeGetContentResolve.current = resolve;
+
+      setTimeout(() => {
+        setLoading(false);
+        setText("New, Updated Text!");
+        resolve();
+      }, 2000);
+    });
+  }, [setLoading, setText]);
+
+  React.useEffect(() => {
+    if (
+      text === "New, Updated Text!" &&
+      typeof onBeforeGetContentResolve.current === "function"
+    ) {
+      onBeforeGetContentResolve.current();
+    }
+  }, [text]);
+
+  const reactToPrintContent = React.useCallback(() => {
+    return componentRef.current;
+  }, []);
+
+  const reactToPrintTrigger = React.useCallback(() => {
+    return (
+      <button className="border-1.5 rounded border-border-colour-light text-gray-800 py-2 px-3">
+        Download
+      </button>
+    );
+  }, []);
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
       <Modal
@@ -251,6 +297,11 @@ function Table() {
           </p>
         </section>
       </Modal>
+      {loading && (
+        <div className="fixed z-50 inset-0 justify-center items-center flex bg-black bg-opacity-10">
+          <Spin size="large" />
+        </div>
+      )}
       <table className="w-full text-sm text-left text-gray-500">
         <thead className="text-xs text-gray-700 normal-case border-b border-grey-300 bg-gray-50 ">
           <tr>
@@ -283,9 +334,20 @@ function Table() {
               />
 
               <td className="p-4">
-                <button className="border-1.5 rounded border-border-colour-light text-gray-800 py-2 px-3">
+                {/* <button className="border-1.5 rounded border-border-colour-light text-gray-800 py-2 px-3">
                   Download
-                </button>
+                </button> */}
+                <ReactToPrint
+                  content={reactToPrintContent}
+                  documentTitle="AwesomeFileName"
+                  onBeforeGetContent={handleOnBeforeGetContent}
+                  removeAfterPrint
+                  trigger={reactToPrintTrigger}
+                />
+
+                <div className="sr-only">
+                  <ComponentToPrint ref={componentRef} text={text} />
+                </div>
               </td>
 
               <td className="px-1 py-4 text-center">
