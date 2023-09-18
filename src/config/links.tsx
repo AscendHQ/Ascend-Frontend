@@ -13,56 +13,66 @@ export const ACCOUNT_SETTING_GENERALSETTING =
 
 export const DASHBOARD_OVERVIEW = "/dashboard";
 
-export const DASHBOARD_STUDENT = "/dashboard/students";
+// STUDENT
+export const DASHBOARD_STUDENT = "/dashboard/database/students";
 export const STUDENT_ACADEMIC_INFORMATION =
-  "/dashboard/students/academic-information";
-export const STUDENT_BIODATA = "/dashboard/students/biodata";
-export const STUDENT_BIODATA_UPDATE = "/dashboard/students/update-biodata";
+  "/dashboard/database/students/academic-information";
+export const STUDENT_BIODATA = "/dashboard/database/students/biodata";
+export const STUDENT_BIODATA_UPDATE =
+  "/dashboard/database/students/update-biodata";
 export const STUDENT_ACADEMIC_INFORMATION_UPDATE =
-  "/dashboard/students/update-academic-information";
+  "/dashboard/database/students/update-academic-information";
 
-export const DASHBOARD_SUBJECT = "/dashboard/subjects";
-export const NEW_SUBJECT = "/dashboard/subjects/new-subject";
+// SUBJECT
+export const DASHBOARD_SUBJECT = "/dashboard/database/subjects";
+export const NEW_SUBJECT = "/dashboard/database/subjects/new-subject";
 export const DASHBOARD_SUBJECT_INFO = (slug: string) =>
-  `/dashboard/subjects/${slug}`;
+  `/dashboard/database/subjects/${slug}`;
 
-export const DASHBOARD_CLASS = "/dashboard/classes";
-export const NEW_CLASS = "/dashboard/classes/new-class";
-export const NEW_BULK_CLASS = "/dashboard/classes/new-bulk-class";
+// CLASS
+export const DASHBOARD_CLASS = "/dashboard/database/classes";
+export const NEW_CLASS = "/dashboard/database/classes/new-class";
+export const NEW_BULK_CLASS = "/dashboard/database/classes/new-bulk-class";
 export const DASHBOARD_CLASS_INFO = (slug: string) =>
-  `/dashboard/classes/${slug}`;
+  `/dashboard/database/classes/${slug}`;
 
-export const DASHBOARD_TEACHER = "/dashboard/teachers";
-export const NEW_TEACHER_BIODATA = "/dashboard/teachers/new-teacher-biodata";
+// TEACHER
+export const DASHBOARD_TEACHER = "/dashboard/database/teachers";
+export const NEW_TEACHER_BIODATA =
+  "/dashboard/database/teachers/new-teacher-biodata";
 export const NEW_TEACHER_PERMISSION =
-  "/dashboard/teachers/new-teacher-permission";
+  "/dashboard/database/teachers/new-teacher-permission";
 export const NEW_TEACHER_OFFICIAL_INFO =
-  "/dashboard/teachers/new-teacher-official-information";
+  "/dashboard/database/teachers/new-teacher-official-information";
 export const DASHBOARD_TEACHER_INFO_BIODATA = (slug: string) =>
-  `/dashboard/teachers/${slug}/biodata`;
+  `/dashboard/database/teachers/${slug}/biodata`;
 export const DASHBOARD_TEACHER_INFO_OFFICIAL_INFO = (slug: string) =>
-  `/dashboard/teachers/${slug}/official-information`;
+  `/dashboard/database/teachers/${slug}/official-information`;
 export const DASHBOARD_TEACHER_INFO_PERMISSION = (slug: string) =>
-  `/dashboard/teachers/${slug}/permission`;
+  `/dashboard/database/teachers/${slug}/permission`;
 export const DASHBOARD_TEACHER_SECURITY_INFO = (slug: string) =>
-  `/dashboard/teachers/${slug}/security-information`;
+  `/dashboard/database/teachers/${slug}/security-information`;
 
-export const DASHBOARD_HOSTEL = "/dashboard/hostels";
-export const NEW_HOSTEL = "/dashboard/hostels/new-hostel";
-export const NEW_BULK_HOSTEL = "/dashboard/hostels/new-bulk-hostel";
+// HOSTEL
+export const DASHBOARD_HOSTEL = "/dashboard/database/hostels";
+export const NEW_HOSTEL = "/dashboard/database/hostels/new-hostel";
+export const NEW_BULK_HOSTEL = "/dashboard/database/hostels/new-bulk-hostel";
 export const DASHBOARD_HOSTEL_INFO = (slug: string) =>
-  `/dashboard/hostels/${slug}`;
+  `/dashboard/database/hostels/${slug}`;
 
+// RESULT
 export const DASHBOARD_RESULT = "/dashboard/results";
 export const NEW_RESULT = "/dashboard/results/new-result";
 export const DASHBOARD_RESULT_INFO = (slug: string) =>
   `/dashboard/results/${slug}`;
 
+// PAYROLL
 export const DASHBOARD_PAYROLL = "/dashboard/payroll";
 export const GENERATE_PAYROLL = "/dashboard/payroll/generate-payroll";
 export const DASHBOARD_PAYROLL_INFO = (slug: string) =>
   `/dashboard/payroll/${slug}`;
 
+// LESSON-PLAN
 export const DASHBOARD_LESSON_PLAN = "/dashboard/lesson-plan";
 export const NEW_LESSON_PLAN = "/dashboard/lesson-plan/new-lesson-plan";
 export const NEW_BULK_LESSON_PLAN =
@@ -70,6 +80,7 @@ export const NEW_BULK_LESSON_PLAN =
 export const DASHBOARD_LESSON_PLAN_INFO = (slug: string) =>
   `/dashboard/lesson-plan/${slug}`;
 
+// TIMETABLES
 export const DASHBOARD_TIMETABLE = "/dashboard/timetable";
 export const NEW_TIMETABLE = "/dashboard/timetable/new-timetable";
 

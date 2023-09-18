@@ -8,7 +8,7 @@ import { DashboardButton } from "@/components/ui/button/button";
 import { STUDENT_ACADEMIC_INFORMATION_UPDATE } from "@/config/links";
 
 const AttendanceHeatMap = dynamic(
-  () => import("../../../templates/Database/heatmap"),
+  () => import("../../../../templates/Database/heatmap"),
   {
     ssr: false,
   }
