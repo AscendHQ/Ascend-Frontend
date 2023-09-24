@@ -1,13 +1,15 @@
 import { NotificationInstance } from "antd/es/notification/interface";
 import { ComponentProps } from "react";
 
+type hostelOption = "All" | "Female Hostel" | "Male Hostel";
+
 export type FilterButtonsProps = {
   studentDemographics: {
-    name: "All" | "Female Hostel" | "Male Hostel";
+    name: hostelOption;
     number: number;
   }[];
-  viewStudent: "All" | "Male Hostel" | "Female Hostel";
-  setViewStudent: (value: "All" | "Male Hostel" | "Female Hostel") => void;
+  viewStudent: hostelOption;
+  setViewStudent: (value: hostelOption) => void;
 };
 
 export type TableHeaderProps = {

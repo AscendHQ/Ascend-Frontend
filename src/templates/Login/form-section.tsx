@@ -6,25 +6,17 @@ import { useRouter } from "next/router";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Lottie from "react-lottie-player";
-import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { HOME_PAGE } from "@/config/links";
+import { useLoginMutation } from "@/store/api";
+import { formSchema, FormSchemaType } from "@/types/auth";
 
 import loadingLottie from "../../../public/animation.json";
 
 export default function FormSection() {
-  const formSchema = z.object({
-    email: z.string().email("Invalid email").min(1, "Email is required"),
-    password: z
-      .string()
-      .min(1, "Password is required")
-      .min(8, "Password must have more than 8 characters"),
-  });
-
   const router = useRouter();
-
-  type FormSchemaType = z.infer<typeof formSchema>;
+  const [loginMutation] = useLoginMutation();
 
   const {
     register,
@@ -35,9 +27,10 @@ export default function FormSection() {
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit: SubmitHandler<FormSchemaType> = data => {
+  const onSubmit: SubmitHandler<FormSchemaType> = async data => {
     console.log(data);
-
+    const response = await loginMutation(data);
+    console.log(response, "response response response");
     router.push("/dashboard");
   };
 
@@ -144,7 +137,7 @@ export default function FormSection() {
         </div>
         <button
           onClick={handleSubmit(onSubmit)}
-          disabled={isSubmitting}
+          // disabled={isSubmitting}
           className={`${
             isSubmitting ? "bg-primary-purple-400" : "bg-primary-purple-700"
           }  py-4 text-white rounded-lg mt-4 active:scale-90 transition-all`}
@@ -154,7 +147,7 @@ export default function FormSection() {
               loop
               animationData={loadingLottie}
               play
-              style={{ width: 600, height: 600 }}
+              style={{ width: 60, height: 20, margin: "0 auto" }}
             />
           ) : (
             <span>Sign in</span>
