@@ -5,7 +5,7 @@ export const formSchema = z.object({
   password: z
     .string()
     .min(1, "Password is required")
-    .min(2, "Password must have more than 8 characters"),
+    .min(8, "Password must have more than 8 characters"),
 });
 
 export type FormSchemaType = z.infer<typeof formSchema>;
