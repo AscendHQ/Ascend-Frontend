@@ -9,7 +9,11 @@ export default function Button({
   variant,
   className,
   styles,
+  isLink,
+  path,
 }: {
+  isLink?: boolean;
+  path?: string;
   leftElement?: JSX.Element;
   rightElement?: JSX.Element;
   children: ReactNode;
@@ -17,21 +21,26 @@ export default function Button({
   className?: string;
   styles?: string;
 }): React.JSX.Element {
-  let variantClasses = "";
+  let variantClasses =
+    "bg-grey-100 border-border-colour-light px-6 py-2 rounded-md text-step--2";
 
-  switch (variant) {
-    case "primary":
-      variantClasses =
-        "bg-primary-purple-500 text-step--2 text-grey-100 border-2 px-24 py-2 border-accent-300 rounded-md hover:shadow-[4px_4px_0px_0px_#000000]  transition-all";
-      break;
-    case "secondary":
-      variantClasses =
-        "bg-grey-100 text-accent-300 border-2 text-step--2 px-4 py-2 border-border-colour-light rounded-md hover:shadow-[4px_4px_0px_0px_#000000]  transition-all flex items-center gap-2 ";
-      break;
-    default:
-      variantClasses =
-        "bg-grey-100 border-border-colour-light px-6 py-2 rounded-md text-step--2";
-      break;
+  const variantStyle = {
+    primary:
+      "bg-primary-purple-500 text-step--2 text-grey-100 border-2 px-24 py-2 border-accent-300 rounded-md hover:shadow-[4px_4px_0px_0px_#000000]  transition-all",
+    secondary:
+      "bg-grey-100 text-accent-300 border-2 text-step--2 px-4 py-2 border-border-colour-light rounded-md hover:shadow-[4px_4px_0px_0px_#000000]  transition-all flex items-center gap-2 ",
+  };
+  if (variant !== undefined) {
+    variantClasses = variantStyle[variant];
+  }
+  if (isLink && path) {
+    return (
+      <Link href={path} className={`${twMerge(variantClasses, className)}`}>
+        {leftElement}
+        {children}
+        {rightElement}
+      </Link>
+    );
   }
   return (
     <button className={`${twMerge(variantClasses, className)} ${styles}`}>

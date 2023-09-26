@@ -87,19 +87,19 @@ function Header({
             )}
           >
             <ul className="flex order-2 lg:order-1 flex-col w-full lg:flex-row lg:items-center gap-9">
-              {menuData.slice(0, -2).map(item => (
+              {menuData.slice(0, -1).map(item => (
                 <li key={item.title} className="font-medium whitespace-nowrap">
                   <Link href={item.to}>{item.title}</Link>
                 </li>
               ))}
             </ul>
             <ul className="flex order-1 mt-3 lg:mt-0 lg:order-2 flex-col w-full lg:flex-row lg:items-center justify-end gap-9">
-              {menuData.slice(-2).map((item, index) => (
+              {menuData.slice(-1).map(item => (
                 <li key={item.title} className="font-medium">
                   <Link
                     href={item.to}
                     className={`${
-                      index === 1
+                      item.title === "Book a Demo"
                         ? "bg-primary-purple-500 text-white  lg:bg-grey-100 lg:text-accent-300 border-2 px-4 py-2 border-accent-300 lg:border-border-colour-light rounded-md hover:shadow-[4px_4px_0px_0px_#000000] transition-all flex items-center gap-2"
                         : ""
                     }`}

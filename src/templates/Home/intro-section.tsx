@@ -1,8 +1,10 @@
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 
+// import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
+import { BOOK_A_DEMO } from "@/config/links";
 
 export default function IntroSection() {
   return (
@@ -18,7 +20,12 @@ export default function IntroSection() {
         </p>
         <ul className="flex flex-col sm:flex-row items-center justify-center gap-6">
           <li className="text-white">
-            <Button variant="primary" className="text-step--2 px-6 py-2">
+            <Button
+              isLink
+              path={BOOK_A_DEMO}
+              variant="primary"
+              className="text-step--2 px-6 py-2"
+            >
               Book a Demo
             </Button>
           </li>
