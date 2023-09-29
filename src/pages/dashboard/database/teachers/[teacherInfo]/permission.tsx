@@ -1,11 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 
 import DatabaseTeacherContainer from "@/components/layout/database-teacher/container";
 import { DashboardButton } from "@/components/ui/button/button";
-import { STUDENT_ACADEMIC_INFORMATION_UPDATE } from "@/config/links";
 
 export default function DatabaseTeacherPermission() {
   const router = useRouter();

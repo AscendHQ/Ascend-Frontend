@@ -1,55 +1,22 @@
-import { Icon } from "@iconify/react";
-import Link from "next/link";
 import React from "react";
 
-import { DashboardHeader } from "@/components/common";
-import { Sidebar } from "@/components/sidebar";
+import DatabaseStudentContainer from "@/components/layout/database-student/container";
 import { DashboardButton } from "@/components/ui/button/button";
-import { DASHBOARD_STUDENT } from "@/config/links";
+import { NEW_STUDENT_BIODATA } from "@/config/links";
 
-export default function UpdateBiodata() {
-  // const [showToast, setShowToast] = React.useState(false);
-
-  const handleShowToast = () => {
-    // setTimeout(() => {
-    //   setShowToast(true);
-    // }, 100);
-  };
+export default function Biodata() {
   return (
-    <div className="grid font-inter grid-cols-9 min-w-[950px]">
-      <Sidebar />
-      <div className="col-[3/-1] 3xl:col-[2/-1] bg-white">
-        <DashboardHeader headerTitle="Student Biodata" />
-        <main className="p-10">
-          <Link href={DASHBOARD_STUDENT} className="flex items-center gap-2">
-            <Icon icon="teenyicons:arrow-left-solid" />
-            Back to Biodata
-          </Link>
-          <StudentBiodataHeading />
-          <PersonalInformation />
-          <ContactInformation />
-          <HostelAccommodation />
-          <GuardianInformation />
-          <MedicalInformation />
-          <AdditionalInformation />
-          <div className="flex justify-end gap-6">
-            <DashboardButton variant="secondary" className="font-semibold px-7">
-              Cancel
-            </DashboardButton>
-            <DashboardButton
-              variant="primary"
-              className="font-semibold px-7 ml-0"
-              onClick={handleShowToast}
-            >
-              Save and continue
-            </DashboardButton>
-
-            {/* <div className="fixed bottom-5 right-5 bg-gray-800 text-white py-2 px-4 rounded-lg shadow-lg transform translate-y-full transition-transform duration-500">
-             */}
-          </div>
-        </main>
+    <DatabaseStudentContainer headerTitle="Student">
+      <div>
+        <BioUpdate />
+        <PersonalInformation />
+        <ContactInformation />
+        <HostelAccommodation />
+        <GuardianInformation />
+        <MedicalInformation />
+        <AdditionalInformation />
       </div>
-    </div>
+    </DatabaseStudentContainer>
   );
 }
 
@@ -97,7 +64,6 @@ function HostelAccommodation() {
     </div>
   );
 }
-
 function AdditionalInformation() {
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
@@ -383,23 +349,31 @@ function ContactInformation() {
   );
 }
 
-function StudentBiodataHeading() {
+function BioUpdate() {
   return (
-    <div className="flex justify-between gap-16 pb-4 my-8 border-b-2 border-border-colour-light">
+    <div className="flex justify-between items-center gap-16 py-8 mb-8 border-b-2 border-border-colour-light">
       <div className="w-96">
-        <h4 className="text-Text-high-emphasis text-2xl font-bold">
+        <h4 className="text-Text-high-emphasis font-semibold">
           Student Biodata
         </h4>
-        <p className="text-sm tracking-tight text-gray-800">
-          This will be displayed on your organization profile.
+        <p className="text-sm tracking-tight max-w-xs text-gray-800">
+          Update key information and details about the students in our database.
         </p>
       </div>
+
+      <DashboardButton
+        variant="primary"
+        isLink={true}
+        path={NEW_STUDENT_BIODATA}
+      >
+        Update
+      </DashboardButton>
     </div>
   );
 }
 function PersonalInformation() {
   return (
-    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
+    <div className="flex justify-between gap-16 pb-16 mb-8 border-b-2 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Personal information
@@ -409,28 +383,6 @@ function PersonalInformation() {
         </p>
       </div>
       <div className="flex flex-1 flex-wrap gap-5">
-        <section className="lg:min-w-full flex-1 flex items-center gap-3 justify-start">
-          <div className="relative flex justify-center items-center p-3 w-24 h-24 mr-5 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-            <svg
-              className=" w-17 h-17 text-gray-400"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-          </div>
-          <button className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg">
-            Upload new
-          </button>
-          <button className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg">
-            Remove
-          </button>
-        </section>
         <div className="lg:min-w-[250px] flex-1">
           <label
             htmlFor="first_name"
@@ -590,20 +542,3 @@ function PersonalInformation() {
     </div>
   );
 }
-/* 
-{showToast && (
-              <Toast
-                className={`fixed top-5 right-5 bg-gray-800 text-white py-2 px-4 rounded-lg shadow-lg ${
-                  showToast
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-full"
-                } transition-opacity duration-500`}
-              >
-                {/* <Toast className="fixed top-1 -translate-x-2/4 left-2/4 bg-success-main text-white rounded-none "> 
-                // <div className="ml-3 text-sm font-normal">
-                  // Student registered successfully
-                // </div>
-                // <Toast.Toggle className="rounded-full flex justify-center items-center h-7 w-7" />
-              // </Toast>
-            // )}
-*/

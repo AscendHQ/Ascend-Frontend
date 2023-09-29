@@ -1,455 +1,266 @@
+/* eslint-disable react/no-array-index-key */
 import { Icon } from "@iconify/react";
-import Link from "next/link";
+import dynamic from "next/dynamic";
 import React from "react";
 
-import { DashboardHeader } from "@/components/common";
-import { Sidebar } from "@/components/sidebar";
-import {
-  DASHBOARD_STUDENT,
-  STUDENT_ACADEMIC_INFORMATION,
-} from "@/config/links";
+import DatabaseStudentContainer from "@/components/layout/database-student/container";
+import { DashboardButton } from "@/components/ui/button/button";
 
-export default function UpdateAcademicInformation() {
+const AttendanceHeatMap = dynamic(
+  () => import("../../../../templates/Database/heatmap"),
+  {
+    ssr: false,
+  }
+);
+
+export default function AcademicInformation() {
   return (
-    <div className="grid font-inter grid-cols-9 min-w-[950px]">
-      <Sidebar />
-      <div className="col-[3/-1] 3xl:col-[2/-1] bg-white">
-        <DashboardHeader headerTitle="Student Academic Information" />
-        <main className="p-10">
-          <Link
-            href={STUDENT_ACADEMIC_INFORMATION}
-            className="flex items-center gap-2"
-          >
-            <Icon icon="teenyicons:arrow-left-solid" />
-            Back to Academic information
-          </Link>
-          <AcademicInfoHeading />
-          <AcademicDetails />
-          <SubjectsOffering />
-          <MedicalInformation />
-          <AdditionalInformation />
-          <HostelAccommodation />
-          <div className="flex justify-end gap-6">
-            <Link
-              href={DASHBOARD_STUDENT}
-              className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg"
-            >
-              Cancel
-            </Link>
-            <Link
-              href={DASHBOARD_STUDENT}
-              className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg"
-            >
-              Save and continue
-            </Link>
-          </div>
-        </main>
+    <DatabaseStudentContainer headerTitle="Student">
+      <div>
+        <AcademicInfoUpdate />
+        <AttendanceInformation />
+        <ClassInformation />
+        <GradesPerformance />
       </div>
-    </div>
+    </DatabaseStudentContainer>
   );
 }
 
-function AcademicInfoHeading() {
-  return (
-    <div className="flex justify-between gap-16 pb-4 my-8 border-b-2 border-border-colour-light">
-      <div className="w-96">
-        <h4 className="text-Text-high-emphasis text-2xl font-bold">
-          Academic & School Information
-        </h4>
-        <p className="text-sm tracking-tight text-gray-800">
-          Update your student information here
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function AcademicDetails() {
-  return (
-    <div className="flex justify-between gap-10 pb-16 mb-8 border-b-2 border-border-colour-light">
-      <div className="w-96">
-        <h4 className="text-Text-high-emphasis font-semibold">
-          Academic Details
-        </h4>
-        <p className="text-sm tracking-tight text-gray-800">
-          This will be displayed on the student’s profile.
-        </p>
-      </div>
-      <div className="flex flex-1 flex-wrap gap-5">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="class"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Class
-          </label>
-          <select
-            name="class"
-            id="class"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="SS3B">SS3B</option>
-            <option value="SS3A">SS3A</option>
-            <option value="SS2B">SS2B</option>
-            <option value="SS2A">SS2A</option>
-            <option value="SS1B">SS1B</option>
-            <option value="SS1A">SS1A</option>
-          </select>
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="previous_school_attended"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Previous School Attended
-          </label>
-          <input
-            type="text"
-            id="previous_school_attended"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="4517 Washington Ave. Manchester, Kentucky 39495"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="enrollment_year"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Enrollment Year
-          </label>
-          <select
-            name="enrollment_year"
-            id="enrollment_year"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-            <option value="2019">2019</option>
-            <option value="2018">2018</option>
-          </select>
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="graduation_year"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Graduation Year
-          </label>
-          <select
-            name="graduation_year"
-            id="graduation_year"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-            <option value="2019">2019</option>
-            <option value="2018">2018</option>
-          </select>
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="awards_&_recognition"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Awards & Recognition
-          </label>
-          <input
-            type="text"
-            id="awards_&_recognition"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="leadership_role"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Any Leadership role held?
-          </label>
-          <input
-            type="text"
-            id="leadership_role"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            required
-          />
-        </div>
-        <div className="lg:min-w-full flex-1">
-          <label
-            htmlFor="extracurricular_activities"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Extracurricular Activities
-          </label>
-          <input
-            type="text"
-            id="extracurricular_activities"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            required
-          />
-        </div>
-        <label
-          htmlFor="dropzone-file"
-          className="flex flex-col items-center justify-center w-full h-44 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 "
-        >
-          <div className="flex flex-col items-center justify-center pt-5 pb-6">
-            <svg
-              className="w-8 h-8 mb-1 text-Text-high-emphasis"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 20 16"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1"
-                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-              />
-            </svg>
-            <p className="font-semibold text-gray-800">Upload document</p>
-            <p className="text-xs text-gray-800">
-              For each upload, file size should not be more than 25 Mb
-            </p>
-            <span className="text-primary-purple-700 text-sm underline mt-1 decoration-primary-purple-600">
-              Choose file
-            </span>
-          </div>
-          <input id="dropzone-file" type="file" className="hidden" />
-        </label>
-      </div>
-    </div>
-  );
-}
-
-function SubjectsOffering() {
+function GradesPerformance() {
   return (
     <div className="flex justify-between gap-16 pb-5 border-b-2 mb-5 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
-          Subjects Offering
+          Grades & Performance
         </h4>
         <p className="text-sm tracking-tight text-gray-800">
           This will be displayed on the student's profile.
         </p>
       </div>
       <div className="flex-1 min-w-[60%] space-y-3">
-        <div className="flex justify-end flex-wrap gap-4 w-full">
+        <div className="flex justify-between flex-wrap gap-4 w-full">
+          <div className="flex gap-3">
+            <div className="flex items-center border border-border-colour-light rounded p-2">
+              <label htmlFor="academic_session" className="font-semibold">
+                Session:
+              </label>
+              <select
+                className="border-none font-semibold p-0"
+                name="academic_session"
+              >
+                <option value="2022/2023">2022/2023</option>
+                <option value="2021/2022">2021/2022</option>
+                <option value="2020/2021">2020/2021</option>
+              </select>
+            </div>
+            <div className="flex items-center border border-border-colour-light rounded p-2">
+              <label
+                htmlFor="academic_session"
+                className="text-gray-800 font-semibold"
+              >
+                Term:
+              </label>
+              <select
+                className="border-none font-semibold p-0 text-Text-high-emphasis"
+                name="academic_session"
+              >
+                <option value="1st term">1st term</option>
+                <option value="2nd term">2nd term</option>
+                <option value="3rd term">3rd term</option>
+              </select>
+            </div>
+          </div>
           <button className="flex gap-3 items-center bg-primary-purple-700 text-sm text-white px-6 py-3 rounded-lg">
             <Icon icon="ph:plus-bold" />
             <span>Add Subject</span>
           </button>
         </div>
-        <SubjectOfferingData />
+        <Table />
       </div>
     </div>
   );
 }
 
-function SubjectOfferingData() {
+function AttendanceInformation() {
   return (
-    <ul className="overflow-x-auto border border-border-colour-light rounded-lg">
-      {subjectOfferingList.map((item, index) => (
-        <li
-          className={`flex justify-between items-center px-3 py-2   ${
-            subjectOfferingList.length - 1 === index
-              ? ""
-              : "border-b border-border-colour-light"
-          }`}
-          key={item}
-        >
-          <span className="text-sm text-Text-high-emphasis font-semibold">
-            {item}
-          </span>
-          <div className="flex gap-2">
-            <button className="border-1.5 border-border-colour-light text-sm rounded-lg px-5 py-1">
-              Edit
-            </button>
-            <button className="border-1.5 border-border-colour-light text-sm rounded-lg px-4 py-2">
-              Remove
-            </button>
+    <div className="flex justify-between gap-16 pb-5 border-b-2 mb-5 border-border-colour-light">
+      <div className="w-96">
+        <h4 className="text-Text-high-emphasis font-semibold">
+          Attendance information
+        </h4>
+        <p className="text-sm tracking-tight text-gray-800">
+          This will be displayed on the student's profile.
+        </p>
+      </div>
+      <div className="flex flex-1 gap-3 ">
+        <div>
+          <div className="border border-border-colour-light rounded p-3.5 space-y-1">
+            <h4 className="font-medium uppercase text-gray-800 text-xs">
+              ATTENDANCE SCORE
+            </h4>
+            <p className="text-xl font-bold text-primary-purple-700">75%</p>
           </div>
-        </li>
-      ))}
-    </ul>
+          <div className="border border-border-colour-light rounded p-3.5 mt-2 space-y-1">
+            <h4 className="font-medium uppercase text-gray-800 text-xs">
+              CLASSES HELD
+            </h4>
+            <p className="text-xl font-bold text-gray-800">19</p>
+          </div>
+          <div className="border border-border-colour-light rounded p-3.5 mt-2 space-y-1">
+            <h4 className="font-medium uppercase text-gray-800 text-xs">
+              CLASSES ATTENDED
+            </h4>
+            <p className="text-xl font-bold text-gray-800">15</p>
+          </div>
+        </div>
+        <AttendanceHeatMap />
+      </div>
+    </div>
   );
 }
 
-function HostelAccommodation() {
+function ClassInformation() {
   return (
-    <div className="flex justify-between gap-16 pb-10 border-b-2 mb-8 border-border-colour-light">
+    <div className="flex justify-between gap-16 pb-5 mb-6 border-b-2 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
-          Hostel / accommodation
+          Class information
         </h4>
         <p className="text-sm tracking-tight text-gray-800">
-          This will be displayed on your organization profile.
+          This will be displayed on the student's profile.
         </p>
       </div>
-      <div className="flex flex-1 flex-wrap gap-5">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="hostel_block"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Block
-          </label>
-          <input
-            type="text"
-            id="hostel_block"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            required
-          />
+      <div className="flex-1">
+        <div className="flex gap-3">
+          <div className="border-1.5 border-border-colour-light space-y-1 rounded-lg p-3.5 min-w-[200px]">
+            <h4 className="text-xs font-medium text-gray-800">CURRENT CLASS</h4>
+            <select className="border-none text-xl font-bold p-0">
+              <option value="SS3a">SS3a</option>
+              <option value="SS3b">SS3b</option>
+              <option value="SS2b">SS2b</option>
+              <option value="SS2a">SS2a</option>
+              <option value="SS1b">SS1b</option>
+              <option value="SS1a">SS1a</option>
+            </select>
+          </div>
+          <div className="border-1.5 border-border-colour-light space-y-1 rounded-lg p-3.5 min-w-[200px]">
+            <h4 className="text-xs font-medium text-gray-800">CLASS SIZE</h4>
+            <p className="border-none text-sm p-0">
+              <span className="text-xl font-bold">50</span> students
+            </p>
+          </div>
         </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="hostel_room-number"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Room number
-          </label>
-          <input
-            type="text"
-            id="hostel_room-number"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            required
-          />
+        <h5 className="text-gray-800 text-sm my-3 font-medium">
+          Class Position History
+        </h5>
+        <div className="flex gap-5 flex-wrap">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div
+              className="border-1.5 border-border-colour-light space-y-1 rounded-lg p-3.5 min-w-[190px]"
+              key={i}
+            >
+              <h4 className="text-xs font-medium text-gray-800">1st Term</h4>
+              <p className="border-none text-sm p-0">
+                <span className="text-lg font-bold">12th</span> of 50 students
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
   );
 }
 
-function AdditionalInformation() {
+function AcademicInfoUpdate() {
   return (
-    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
+    <div className="flex justify-between items-center gap-16 py-8 mb-8 border-b-2 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
-          Additional information
+          Student Academic Information
         </h4>
-        <p className="text-sm tracking-tight text-gray-800">
-          This will be displayed on your organization profile.
+        <p className="text-sm tracking-tight max-w-xs text-gray-800">
+          Update the academic performance and achievements of students.
         </p>
       </div>
-      <div className="flex flex-1 flex-wrap gap-5">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="special_needs/disabilities"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Any special needs / disabilities?
-          </label>
-          <input
-            type="text"
-            id="special_needs/disabilities"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="nature_of_disability"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Nature of disability
-          </label>
-          <input
-            type="text"
-            id="nature_of_disability"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="(217) 555-0113"
-            required
-          />
-        </div>
-        <div className="lg:min-w-full flex-1">
-          <label
-            htmlFor="medication"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Medication
-          </label>
-          <textarea
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            id="medication"
-          />
-        </div>
-      </div>
+
+      <DashboardButton variant="primary">Update</DashboardButton>
     </div>
   );
 }
 
-function MedicalInformation() {
+function Table() {
   return (
-    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
-      <div className="w-96">
-        <h4 className="text-Text-high-emphasis font-semibold">
-          Medical information
-        </h4>
-        <p className="text-sm tracking-tight text-gray-800">
-          This will be displayed on your organization profile.
-        </p>
-      </div>
-      <div className="flex flex-1 flex-wrap gap-5">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="allergies"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Allergies
-          </label>
-          <input
-            type="text"
-            id="allergies"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Any know allergies?"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="emergency_contact"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Emergency Contact
-          </label>
-          <input
-            type="text"
-            id="emergency_contact"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="(217) 555-0113"
-            required
-          />
-        </div>
-        <div className="lg:min-w-full flex-1">
-          <label
-            htmlFor="medication"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Medication
-          </label>
-          <textarea
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            id="medication"
-          />
-        </div>
-      </div>
+    <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
+      <table className="w-full text-sm text-left text-gray-500">
+        <thead className="text-xs text-gray-700 uppercase border-b border-grey-300 bg-gray-50 ">
+          <tr>
+            <th scope="col" className="pl-6 pr-3 py-3">
+              Subject
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Mid-Term test
+            </th>
+            <th scope="col" className="px-6 py-3">
+              CA Score
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Exam score
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Total
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Grade
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {[
+            "General Mathematics",
+            "Use of English Language",
+            "Chemistry",
+            "Further Mathematics",
+            "Biology",
+            "Physics",
+            "Economics",
+            "Civic Education",
+            "Data Processing",
+          ].map(item => (
+            <tr className="bg-white border-b " key={item}>
+              <td className="px-6 py-4 font-medium text-gray-900  whitespace-nowrap">
+                {item}
+              </td>
+              <td className="px-6 py-4">
+                <input
+                  type="text"
+                  className="max-w-[100px] placeholder:text-Text-meduim-emphasis border border-grey-300"
+                  placeholder="0.00"
+                />
+              </td>
+              <td className="px-6 py-4">
+                <input
+                  type="text"
+                  className="max-w-[100px] placeholder:text-Text-meduim-emphasis border border-grey-300"
+                  placeholder="0.00"
+                />
+              </td>
+              <td className="px-6 py-4">
+                <input
+                  type="text"
+                  className="max-w-[100px] placeholder:text-Text-meduim-emphasis border border-grey-300"
+                  placeholder="0.00"
+                />
+              </td>
+              <td className="px-6 py-4">
+                <span>N/A</span>
+              </td>
+              <td className="px-6 py-4">
+                <span>N/A</span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
-const subjectOfferingList = [
-  "General Mathematics",
-  "Use of English Language",
-  "Chemistry",
-  "Further Mathematics",
-  "Biology",
-  "Physics",
-  "Economics",
-  "Civic Education",
-  "Data Processing",
-];

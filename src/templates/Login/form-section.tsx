@@ -10,7 +10,7 @@ import Lottie from "react-lottie-player";
 import { Button } from "@/components/ui/button";
 import { HOME_PAGE } from "@/config/links";
 import { useLoginMutation } from "@/store/api";
-import { formSchema, FormSchemaType } from "@/types/auth";
+import { formSchema, FormSchemaType } from "@/types/form";
 
 import loadingLottie from "../../../public/animation.json";
 
@@ -137,7 +137,6 @@ export default function FormSection() {
         </div>
         <button
           onClick={handleSubmit(onSubmit)}
-          // disabled={isSubmitting}
           className={`${
             isSubmitting ? "bg-primary-purple-400" : "bg-primary-purple-700"
           }  py-4 text-white rounded-lg mt-4 active:scale-90 transition-all`}

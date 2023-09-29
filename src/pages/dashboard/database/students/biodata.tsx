@@ -1,24 +1,101 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Icon } from "@iconify/react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
+import { useForm } from "react-hook-form";
+import Lottie from "react-lottie-player";
 
-import DatabaseStudentContainer from "@/components/layout/database-student/container";
+import { DashboardHeader } from "@/components/common";
+import { Sidebar } from "@/components/sidebar";
 import { DashboardButton } from "@/components/ui/button/button";
-import { STUDENT_BIODATA_UPDATE } from "@/config/links";
+import {
+  DASHBOARD_STUDENT,
+  NEW_STUDENT_ACADEMIC_INFORMATION,
+} from "@/config/links";
+import {
+  MyContextType,
+  studentDataSchema,
+  StudentDataSchemaType,
+} from "@/types/form";
 
-export default function Biodata() {
+import loadingLottie from "../../../../../public/animation.json";
+
+const ReactHookForm = React.createContext<MyContextType | undefined>(undefined);
+
+export default function UpdateBiodata() {
+  const router = useRouter();
+  const onSubmit = () => {
+    router.push(NEW_STUDENT_ACADEMIC_INFORMATION);
+  };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+  } = useForm<StudentDataSchemaType>({
+    resolver: zodResolver(studentDataSchema),
+  });
+
+  React.useEffect(() => {
+    reset({});
+  }, [isSubmitSuccessful, reset]);
+
   return (
-    <DatabaseStudentContainer headerTitle="Student">
-      <div>
-        <BioUpdate />
-        <PersonalInformation />
-        <ContactInformation />
-        <HostelAccommodation />
-        <GuardianInformation />
-        <MedicalInformation />
-        <AdditionalInformation />
+    <ReactHookForm.Provider value={{ register, errors }}>
+      <div className="grid font-inter grid-cols-9 min-w-[950px]">
+        <Sidebar />
+        <div className="col-[3/-1] 3xl:col-[2/-1] bg-white">
+          <DashboardHeader headerTitle="Student Biodata" />
+          <main className="p-10">
+            <Link href={DASHBOARD_STUDENT} className="flex items-center gap-2">
+              <Icon icon="teenyicons:arrow-left-solid" />
+              Back to Biodata
+            </Link>
+            <StudentBiodataHeading />
+            <PersonalInformation />
+            <ContactInformation />
+            <HostelAccommodation />
+            <GuardianInformation />
+            <MedicalInformation />
+            <AdditionalInformation />
+            <div className="flex justify-end gap-6">
+              <DashboardButton
+                variant="secondary"
+                className="font-semibold px-7"
+              >
+                Cancel
+              </DashboardButton>
+              <DashboardButton
+                variant="primary"
+                className="font-semibold px-7 ml-0"
+                onClick={handleSubmit(onSubmit)}
+              >
+                {isSubmitting ? (
+                  <Lottie
+                    loop
+                    animationData={loadingLottie}
+                    play
+                    style={{ width: 60, height: 20, margin: "0 auto" }}
+                  />
+                ) : (
+                  <span>Save and continue</span>
+                )}
+              </DashboardButton>
+            </div>
+          </main>
+        </div>
       </div>
-    </DatabaseStudentContainer>
+    </ReactHookForm.Provider>
   );
 }
+const useFormContext = () => {
+  const context = React.useContext(ReactHookForm);
+  if (!context) {
+    throw new Error("useFormContext must be used within a MyProvider");
+  }
+  return context;
+};
 
 function HostelAccommodation() {
   return (
@@ -64,6 +141,7 @@ function HostelAccommodation() {
     </div>
   );
 }
+
 function AdditionalInformation() {
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
@@ -273,6 +351,7 @@ function GuardianInformation() {
 }
 
 function ContactInformation() {
+  const { register, errors } = useFormContext();
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
@@ -293,11 +372,16 @@ function ContactInformation() {
           </label>
           <input
             type="text"
-            id="residential_address"
             className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
             placeholder="4517 Washington Ave. Manchester, Kentucky 39495"
             required
+            {...register("residential_address")}
           />
+          {errors.residential_address && (
+            <span className="text-red-800 block text-xs lg:text-sm mt-2">
+              {errors.residential_address?.message}
+            </span>
+          )}
         </div>
         <div className="lg:min-w-[250px] flex-1">
           <label
@@ -308,11 +392,16 @@ function ContactInformation() {
           </label>
           <input
             type="text"
-            id="contact_details"
             className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
             placeholder="(217) 555-0113"
             required
+            {...register("contact_details")}
           />
+          {errors.contact_details && (
+            <span className="text-red-800 block text-xs lg:text-sm mt-2">
+              {errors.contact_details?.message}
+            </span>
+          )}
         </div>
         <div className="lg:min-w-[250px] flex-1">
           <label
@@ -323,11 +412,16 @@ function ContactInformation() {
           </label>
           <input
             type="text"
-            id="guardian"
+            {...register("guardian")}
             className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
             placeholder="Mr & Mrs. Babalola"
             required
           />
+          {errors.guardian && (
+            <span className="text-red-800 block text-xs lg:text-sm mt-2">
+              {errors.guardian?.message}
+            </span>
+          )}
         </div>
         <div className="lg:min-w-[250px] flex-1">
           <label
@@ -339,41 +433,40 @@ function ContactInformation() {
           <input
             type="text"
             id="email_address"
+            {...register("email_address")}
             className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
             placeholder="Mr & Mrs. Babalola"
             required
           />
+          {errors.email_address && (
+            <span className="text-red-800 block text-xs lg:text-sm mt-2">
+              {errors.email_address?.message}
+            </span>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-function BioUpdate() {
+function StudentBiodataHeading() {
   return (
-    <div className="flex justify-between items-center gap-16 py-8 mb-8 border-b-2 border-border-colour-light">
+    <div className="flex justify-between gap-16 pb-4 my-8 border-b-2 border-border-colour-light">
       <div className="w-96">
-        <h4 className="text-Text-high-emphasis font-semibold">
+        <h4 className="text-Text-high-emphasis text-2xl font-bold">
           Student Biodata
         </h4>
-        <p className="text-sm tracking-tight max-w-xs text-gray-800">
-          Update key information and details about the students in our database.
+        <p className="text-sm tracking-tight text-gray-800">
+          This will be displayed on your organization profile.
         </p>
       </div>
-
-      <DashboardButton
-        variant="primary"
-        isLink={true}
-        path={STUDENT_BIODATA_UPDATE}
-      >
-        Update
-      </DashboardButton>
     </div>
   );
 }
 function PersonalInformation() {
+  const { register, errors } = useFormContext();
   return (
-    <div className="flex justify-between gap-16 pb-16 mb-8 border-b-2 border-border-colour-light">
+    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Personal information
@@ -383,6 +476,28 @@ function PersonalInformation() {
         </p>
       </div>
       <div className="flex flex-1 flex-wrap gap-5">
+        <section className="lg:min-w-full flex-1 flex items-center gap-3 justify-start">
+          <div className="relative flex justify-center items-center p-3 w-24 h-24 mr-5 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+            <svg
+              className=" w-17 h-17 text-gray-400"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </div>
+          <button className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg">
+            Upload new
+          </button>
+          <button className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg">
+            Remove
+          </button>
+        </section>
         <div className="lg:min-w-[250px] flex-1">
           <label
             htmlFor="first_name"
@@ -396,7 +511,13 @@ function PersonalInformation() {
             className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
             placeholder="Babalola"
             required
+            {...register("first_name")}
           />
+          {errors.first_name && (
+            <span className="text-red-800 block text-xs lg:text-sm mt-2">
+              {errors.first_name?.message}
+            </span>
+          )}
         </div>
         <div className="lg:min-w-[250px] flex-1">
           <label
@@ -411,7 +532,13 @@ function PersonalInformation() {
             className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
             placeholder="Okowah"
             required
+            {...register("last_name")}
           />
+          {errors.last_name && (
+            <span className="text-red-800 block text-xs lg:text-sm mt-2">
+              {errors.last_name?.message}
+            </span>
+          )}
         </div>
         <div className="lg:min-w-[250px] flex-1 ">
           <label
@@ -421,13 +548,19 @@ function PersonalInformation() {
             Gender
           </label>
           <select
-            name="gender"
             id="gender"
             className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+            {...register("gender")}
+            defaultValue={"Male"}
           >
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
+          {errors.gender && (
+            <span className="text-red-800 block text-xs lg:text-sm mt-2">
+              {errors.gender?.message}
+            </span>
+          )}
         </div>
         <div className="lg:min-w-[250px] flex-1">
           <label
@@ -436,8 +569,8 @@ function PersonalInformation() {
           >
             Date of Birth
           </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 right-3.5 z-50 flex items-center pl-3.5 cursor-pointer">
+          <div className="relative ">
+            {/* <div className="absolute inset-y-0 right-3.5 h-fit top-0 z-50 flex items-center pl-3.5 pointer-events-none">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-6 h-6 text-Text-high-emphasis bg-white"
@@ -461,13 +594,18 @@ function PersonalInformation() {
                   />
                 </g>
               </svg>
-            </div>
+            </div> */}
             <input
               type="date"
-              name="date_of_birth"
               id="date_of_birth"
+              {...register("date_of_birth")}
               className="bg-neutral-300 border border-border-colour-light text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             />
+            {errors.date_of_birth && (
+              <span className="text-red-800 block text-xs lg:text-sm mt-2">
+                {errors.date_of_birth?.message}
+              </span>
+            )}
           </div>
         </div>
         <div className="lg:min-w-[250px] flex-1 ">
@@ -478,14 +616,14 @@ function PersonalInformation() {
             Religion
           </label>
           <select
-            name="gender"
             id="gender"
+            {...register("gender")}
             className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
           >
             <option value="Christain">Christain</option>
             <option value="Muslim">Muslim</option>
           </select>
-        </div>{" "}
+        </div>
         <div className="lg:min-w-[250px] flex-1 ">
           <label
             htmlFor="nationality"
@@ -494,8 +632,8 @@ function PersonalInformation() {
             Nationality
           </label>
           <select
-            name="nationality"
             id="nationality"
+            {...register("nationality")}
             className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
           >
             <option value="Nigeria">Nigeria</option>
@@ -510,8 +648,8 @@ function PersonalInformation() {
             State of Origin
           </label>
           <select
-            name="state_of_origin"
             id="state_of_origin"
+            {...register("state_of_origin")}
             className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
           >
             <option value="Ondo">Ondo</option>
@@ -530,8 +668,8 @@ function PersonalInformation() {
             Local Government Area
           </label>
           <select
-            name="local_government_area"
             id="local_government_area"
+            {...register("local_government_area")}
             className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
           >
             <option value="Akoko-Edo">Akoko-Edo</option>
