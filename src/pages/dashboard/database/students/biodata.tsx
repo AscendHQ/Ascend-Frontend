@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
@@ -9,23 +10,31 @@ import Lottie from "react-lottie-player";
 import { DashboardHeader } from "@/components/common";
 import { Sidebar } from "@/components/sidebar";
 import { DashboardButton } from "@/components/ui/button/button";
+import SelectField from "@/components/ui/form/selectfield";
+import TextAreaWithLabelAndCount from "@/components/ui/form/textarea";
+import TextField from "@/components/ui/form/textfield";
 import {
   DASHBOARD_STUDENT,
   NEW_STUDENT_ACADEMIC_INFORMATION,
 } from "@/config/links";
 import {
-  MyContextType,
-  studentDataSchema,
-  StudentDataSchemaType,
+  BioDataContextType,
+  studentBioDataSchema,
+  StudentBioDataSchemaType,
 } from "@/types/form";
 
 import loadingLottie from "../../../../../public/animation.json";
 
-const ReactHookForm = React.createContext<MyContextType | undefined>(undefined);
+const ReactHookForm = React.createContext<BioDataContextType | undefined>(
+  undefined
+);
 
 export default function UpdateBiodata() {
   const router = useRouter();
-  const onSubmit = () => {
+
+  const onSubmit = (data: object) => {
+    console.log(data, "data");
+
     router.push(NEW_STUDENT_ACADEMIC_INFORMATION);
   };
   const {
@@ -33,8 +42,8 @@ export default function UpdateBiodata() {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting, isSubmitSuccessful },
-  } = useForm<StudentDataSchemaType>({
-    resolver: zodResolver(studentDataSchema),
+  } = useForm<StudentBioDataSchemaType>({
+    resolver: zodResolver(studentBioDataSchema),
   });
 
   React.useEffect(() => {
@@ -43,7 +52,7 @@ export default function UpdateBiodata() {
 
   return (
     <ReactHookForm.Provider value={{ register, errors }}>
-      <div className="grid font-inter grid-cols-9 min-w-[950px]">
+      <div className="grid font-inter grid-cols-9 min-w-[1000px]">
         <Sidebar />
         <div className="col-[3/-1] 3xl:col-[2/-1] bg-white">
           <DashboardHeader headerTitle="Student Biodata" />
@@ -98,6 +107,8 @@ const useFormContext = () => {
 };
 
 function HostelAccommodation() {
+  const { register, errors } = useFormContext();
+
   return (
     <div className="flex justify-between gap-16 pb-10 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
@@ -109,40 +120,31 @@ function HostelAccommodation() {
         </p>
       </div>
       <div className="flex flex-1 flex-wrap gap-5">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="hostel_block"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Block
-          </label>
-          <input
-            type="text"
-            id="hostel_block"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="hostel_room-number"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Room number
-          </label>
-          <input
-            type="text"
-            id="hostel_room-number"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            required
-          />
-        </div>
+        <TextField
+          id="hostel_block"
+          label="Block"
+          placeholder="Block 2"
+          required
+          register={register}
+          errorMessage={errors["hostel_block"]?.message || ""}
+        />
+
+        <TextField
+          id="hostel_room-number"
+          label="Room number"
+          placeholder="09"
+          required
+          register={register}
+          errorMessage={errors["hostel_room-number"]?.message || ""}
+        />
       </div>
     </div>
   );
 }
 
 function AdditionalInformation() {
+  const { register, errors } = useFormContext();
+
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
@@ -154,53 +156,38 @@ function AdditionalInformation() {
         </p>
       </div>
       <div className="flex flex-1 flex-wrap gap-5">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="special_needs/disabilities"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Any special needs / disabilities?
-          </label>
-          <input
-            type="text"
-            id="special_needs/disabilities"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="nature_of_disability"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Nature of disability
-          </label>
-          <input
-            type="text"
-            id="nature_of_disability"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="(217) 555-0113"
-            required
-          />
-        </div>
-        <div className="lg:min-w-full flex-1">
-          <label
-            htmlFor="medication"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Medication
-          </label>
-          <textarea
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            id="medication"
-          />
-        </div>
+        <TextField
+          id="student_special_needs/disabilities"
+          label="Any special needs / disabilities?"
+          required
+          register={register}
+          errorMessage={
+            errors["student_special_needs/disabilities"]?.message || ""
+          }
+        />
+        <TextField
+          id="student_nature_of_disability"
+          label="Nature of disability"
+          required
+          register={register}
+          errorMessage={errors["student_nature_of_disability"]?.message || ""}
+        />
+        <TextAreaWithLabelAndCount
+          id="additional_student_medication"
+          label="Medication"
+          register={register}
+          errorMessage={errors["additional_student_medication"]?.message || ""}
+          maxLength={40}
+          isFullWidth
+        />
       </div>
     </div>
   );
 }
 
 function MedicalInformation() {
+  const { register, errors } = useFormContext();
+
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
@@ -212,54 +199,38 @@ function MedicalInformation() {
         </p>
       </div>
       <div className="flex flex-1 flex-wrap gap-5">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="allergies"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Allergies
-          </label>
-          <input
-            type="text"
-            id="allergies"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Any know allergies?"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="emergency_contact"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Emergency Contact
-          </label>
-          <input
-            type="text"
-            id="emergency_contact"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="(217) 555-0113"
-            required
-          />
-        </div>
-        <div className="lg:min-w-full flex-1">
-          <label
-            htmlFor="medication"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Medication
-          </label>
-          <textarea
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            id="medication"
-          />
-        </div>
+        <TextField
+          id="student_allergies"
+          label="Allergies"
+          placeholder="Any know allergies?"
+          required
+          register={register}
+          errorMessage={errors.student_allergies?.message || ""}
+        />
+        <TextField
+          id="student_emergency_contact"
+          label="Emergency Contact"
+          placeholder="(217) 555-0113"
+          required
+          register={register}
+          errorMessage={errors.student_emergency_contact?.message || ""}
+        />
+        <TextAreaWithLabelAndCount
+          id="student_medication"
+          label="Medication"
+          register={register}
+          errorMessage={errors["student_medication"]?.message || ""}
+          maxLength={40}
+          isFullWidth
+        />
       </div>
     </div>
   );
 }
 
 function GuardianInformation() {
+  const { register, errors } = useFormContext();
+
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
@@ -271,80 +242,48 @@ function GuardianInformation() {
         </p>
       </div>
       <div className="flex flex-1 flex-wrap gap-5">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="first_name"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            First name
-          </label>
-          <input
-            type="text"
-            id="first_name"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Cameron"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="last_name"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Last name
-          </label>
-          <input
-            type="text"
-            id="last_name"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Huff"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="relationship_with_student"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Relationship with Student
-          </label>
-          <input
-            type="text"
-            id="relationship_with_student"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="contact_details"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Contact Details
-          </label>
-          <input
-            type="text"
-            id="contact_details"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="(217) 555-0113"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="email_address"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Email Address
-          </label>
-          <input
-            type="text"
-            id="email_address"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Mr & Mrs. Babalola"
-            required
-          />
-        </div>
+        <TextField
+          id="guardian_first_name"
+          label="First name"
+          placeholder="Cameron"
+          required
+          register={register}
+          errorMessage={errors.guardian_first_name?.message || ""}
+        />
+        <TextField
+          id="guardian_last_name"
+          label="Last name"
+          placeholder="Huff"
+          required
+          register={register}
+          errorMessage={errors.guardian_last_name?.message || ""}
+        />
+        <TextField
+          id="guardian_relationship_with_student"
+          label="Relationship with Student"
+          placeholder="Parent"
+          required
+          register={register}
+          errorMessage={
+            errors.guardian_relationship_with_student?.message || ""
+          }
+        />
+        <TextField
+          id="guardian_contact_details"
+          label="Contact Details"
+          placeholder="(217) 555-0113"
+          required
+          register={register}
+          errorMessage={errors.guardian_contact_details?.message || ""}
+        />
+        <TextField
+          id="guardian_email_address"
+          label="Email Address"
+          placeholder="carson@gmail.com"
+          required
+          register={register}
+          errorMessage={errors.guardian_email_address?.message || ""}
+        />
       </div>
     </div>
   );
@@ -363,87 +302,40 @@ function ContactInformation() {
         </p>
       </div>
       <div className="flex flex-1 flex-wrap gap-5">
-        <div className="lg:min-w-full flex-1">
-          <label
-            htmlFor="residential_address"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Residential Address
-          </label>
-          <input
-            type="text"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="4517 Washington Ave. Manchester, Kentucky 39495"
-            required
-            {...register("residential_address")}
-          />
-          {errors.residential_address && (
-            <span className="text-red-800 block text-xs lg:text-sm mt-2">
-              {errors.residential_address?.message}
-            </span>
-          )}
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="contact_details"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Contact Details
-          </label>
-          <input
-            type="text"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="(217) 555-0113"
-            required
-            {...register("contact_details")}
-          />
-          {errors.contact_details && (
-            <span className="text-red-800 block text-xs lg:text-sm mt-2">
-              {errors.contact_details?.message}
-            </span>
-          )}
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="guardian"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Guardian
-          </label>
-          <input
-            type="text"
-            {...register("guardian")}
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Mr & Mrs. Babalola"
-            required
-          />
-          {errors.guardian && (
-            <span className="text-red-800 block text-xs lg:text-sm mt-2">
-              {errors.guardian?.message}
-            </span>
-          )}
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="email_address"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Email Address
-          </label>
-          <input
-            type="text"
-            id="email_address"
-            {...register("email_address")}
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Mr & Mrs. Babalola"
-            required
-          />
-          {errors.email_address && (
-            <span className="text-red-800 block text-xs lg:text-sm mt-2">
-              {errors.email_address?.message}
-            </span>
-          )}
-        </div>
+        <TextField
+          id="residential_address"
+          label="Residential Address"
+          placeholder="4517 Washington Ave. Manchester, Kentucky 39495"
+          required
+          register={register}
+          isFullWidth
+          errorMessage={errors.residential_address?.message || ""}
+        />
+        <TextField
+          id="contact_details"
+          label="Contact Details"
+          placeholder="(217) 555-0113"
+          required
+          register={register}
+          errorMessage={errors.contact_details?.message || ""}
+        />
+        <TextField
+          id="guardian"
+          label="Guardian"
+          placeholder="Mr & Mrs. Babalola"
+          required
+          register={register}
+          errorMessage={errors.guardian?.message || ""}
+        />
+        <TextField
+          id="email_address"
+          label="Email Address"
+          placeholder="allison@gmail.com"
+          required
+          register={register}
+          type="email"
+          errorMessage={errors.email_address?.message || ""}
+        />
       </div>
     </div>
   );
@@ -465,6 +357,7 @@ function StudentBiodataHeading() {
 }
 function PersonalInformation() {
   const { register, errors } = useFormContext();
+
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
@@ -492,190 +385,76 @@ function PersonalInformation() {
             </svg>
           </div>
           <button className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg">
-            Upload new
+            Upload Image
           </button>
-          <button className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg">
+          {/* <button className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg">
             Remove
-          </button>
+          </button> */}
         </section>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="first_name"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            First name
-          </label>
-          <input
-            type="text"
-            id="first_name"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Babalola"
-            required
-            {...register("first_name")}
-          />
-          {errors.first_name && (
-            <span className="text-red-800 block text-xs lg:text-sm mt-2">
-              {errors.first_name?.message}
-            </span>
-          )}
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="last_name"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Last name
-          </label>
-          <input
-            type="text"
-            id="last_name"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Okowah"
-            required
-            {...register("last_name")}
-          />
-          {errors.last_name && (
-            <span className="text-red-800 block text-xs lg:text-sm mt-2">
-              {errors.last_name?.message}
-            </span>
-          )}
-        </div>
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="gender"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Gender
-          </label>
-          <select
-            id="gender"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            {...register("gender")}
-            defaultValue={"Male"}
-          >
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
-          {errors.gender && (
-            <span className="text-red-800 block text-xs lg:text-sm mt-2">
-              {errors.gender?.message}
-            </span>
-          )}
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="date_of_birth"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Date of Birth
-          </label>
-          <div className="relative ">
-            {/* <div className="absolute inset-y-0 right-3.5 h-fit top-0 z-50 flex items-center pl-3.5 pointer-events-none">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 text-Text-high-emphasis bg-white"
-                viewBox="0 0 24 24"
-              >
-                <g fill="none">
-                  <path
-                    stroke="currentColor"
-                    stroke-width="2"
-                    d="M2 12c0-3.771 0-5.657 1.172-6.828C4.343 4 6.229 4 10 4h4c3.771 0 5.657 0 6.828 1.172C22 6.343 22 8.229 22 12v2c0 3.771 0 5.657-1.172 6.828C19.657 22 17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172C2 19.657 2 17.771 2 14v-2Z"
-                  />
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-width="2"
-                    d="M7 4V2.5M17 4V2.5M2.5 9h19"
-                  />
-                  <path
-                    fill="currentColor"
-                    d="M18 17a1 1 0 1 1-2 0a1 1 0 0 1 2 0Zm0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0Zm-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0Zm0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0Zm-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0Zm0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0Z"
-                  />
-                </g>
-              </svg>
-            </div> */}
-            <input
-              type="date"
-              id="date_of_birth"
-              {...register("date_of_birth")}
-              className="bg-neutral-300 border border-border-colour-light text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-            />
-            {errors.date_of_birth && (
-              <span className="text-red-800 block text-xs lg:text-sm mt-2">
-                {errors.date_of_birth?.message}
-              </span>
-            )}
-          </div>
-        </div>
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="religion"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Religion
-          </label>
-          <select
-            id="gender"
-            {...register("gender")}
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="Christain">Christain</option>
-            <option value="Muslim">Muslim</option>
-          </select>
-        </div>
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="nationality"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Nationality
-          </label>
-          <select
-            id="nationality"
-            {...register("nationality")}
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="Nigeria">Nigeria</option>
-            <option value="Ghana">Ghana</option>
-          </select>
-        </div>
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="state_of_origin"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            State of Origin
-          </label>
-          <select
-            id="state_of_origin"
-            {...register("state_of_origin")}
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="Ondo">Ondo</option>
-            <option value="Ekiti">Ekiti</option>
-            <option value="Edo">Edo</option>
-            <option value="Oyo">Oyo</option>
-            <option value="Lagos">Lagos</option>
-            <option value="Kwara">Kwara</option>
-          </select>
-        </div>
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="local_government_area"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Local Government Area
-          </label>
-          <select
-            id="local_government_area"
-            {...register("local_government_area")}
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="Akoko-Edo">Akoko-Edo</option>
-            <option value="Ikale">Ikale</option>
-          </select>
-        </div>
+        <TextField
+          id="first_name"
+          label="First name"
+          placeholder="SS2B"
+          required
+          register={register}
+          errorMessage={errors.first_name?.message || ""}
+        />
+        <TextField
+          id="last_name"
+          label="Last name"
+          placeholder="Okowah"
+          required
+          register={register}
+          errorMessage={errors.last_name?.message || ""}
+        />
+        <SelectField
+          id="gender"
+          label="Gender"
+          options={["Male", "Female"]}
+          register={register}
+          errorMessage={errors.gender?.message || ""}
+          onChange={e => console.log(e.target.value)}
+        />
+        <TextField
+          id="date_of_birth"
+          label="Date of Birth"
+          type="date"
+          required
+          register={register}
+          errorMessage={errors.date_of_birth?.message || ""}
+        />
+        <SelectField
+          id="religion"
+          label="Religion"
+          options={["Christain", "Muslim"]}
+          register={register}
+          errorMessage={errors.religion?.message || ""}
+          onChange={e => console.log(e.target.value)}
+        />
+        <SelectField
+          id="nationality"
+          label="Nationality"
+          options={["Nigeria", "Ghana"]}
+          register={register}
+          errorMessage={errors.nationality?.message || ""}
+          onChange={e => console.log(e.target.value)}
+        />
+        <SelectField
+          id="state_of_origin"
+          label="State of Origin"
+          options={["Ondo", "Ekiti", "Edo", "Oyo", "Lagos", "Kwara"]}
+          register={register}
+          errorMessage={errors.state_of_origin?.message || ""}
+          onChange={e => console.log(e.target.value)}
+        />
+        <SelectField
+          id="local_government_area"
+          label="Local Government Area"
+          options={["Odigbo", "Ifon", "Okitipupa", "Ikorodu", "Oshodi"]}
+          register={register}
+          errorMessage={errors.state_of_origin?.message || ""}
+          onChange={e => console.log(e.target.value)}
+        />
       </div>
     </div>
   );

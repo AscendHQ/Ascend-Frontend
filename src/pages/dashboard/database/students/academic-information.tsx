@@ -1,54 +1,104 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+// import { useRouter } from "next/router";
 import React from "react";
+import { useForm } from "react-hook-form";
+import Lottie from "react-lottie-player";
 
 import { DashboardHeader } from "@/components/common";
 import { Sidebar } from "@/components/sidebar";
+import { DashboardButton } from "@/components/ui/button/button";
+import SelectField from "@/components/ui/form/selectfield";
+import TextField from "@/components/ui/form/textfield";
+import { DASHBOARD_STUDENT, NEW_STUDENT_BIODATA } from "@/config/links";
 import {
-  DASHBOARD_STUDENT,
-  STUDENT_ACADEMIC_INFORMATION,
-} from "@/config/links";
+  AcademicInfoContextType,
+  studentAcademicInfoSchema,
+  StudentAcademicInfoSchemaType,
+} from "@/types/form";
+
+import loadingLottie from "../../../../../public/animation.json";
+
+const ReactHookForm = React.createContext<AcademicInfoContextType | undefined>(
+  undefined
+);
 
 export default function UpdateAcademicInformation() {
+  // const router = useRouter();
+
+  const onSubmit = (data: object) => {
+    console.log(data, "data");
+
+    // router.push(NEW_STUDENT_BIODATA);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+  } = useForm<StudentAcademicInfoSchemaType>({
+    resolver: zodResolver(studentAcademicInfoSchema),
+  });
+
+  React.useEffect(() => {
+    reset({});
+  }, [isSubmitSuccessful, reset]);
   return (
-    <div className="grid font-inter grid-cols-9 min-w-[950px]">
-      <Sidebar />
-      <div className="col-[3/-1] 3xl:col-[2/-1] bg-white">
-        <DashboardHeader headerTitle="Student Academic Information" />
-        <main className="p-10">
-          <Link
-            href={STUDENT_ACADEMIC_INFORMATION}
-            className="flex items-center gap-2"
-          >
-            <Icon icon="teenyicons:arrow-left-solid" />
-            Back to Academic information
-          </Link>
-          <AcademicInfoHeading />
-          <AcademicDetails />
-          <SubjectsOffering />
-          <MedicalInformation />
-          <AdditionalInformation />
-          <HostelAccommodation />
-          <div className="flex justify-end gap-6">
+    <ReactHookForm.Provider value={{ register, errors }}>
+      <div className="grid font-inter grid-cols-9 min-w-[950px]">
+        <Sidebar />
+        <div className="col-[3/-1] 3xl:col-[2/-1] bg-white">
+          <DashboardHeader headerTitle="Student Academic Information" />
+          <main className="p-10">
             <Link
-              href={DASHBOARD_STUDENT}
-              className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg"
+              href={NEW_STUDENT_BIODATA}
+              className="flex items-center gap-2"
             >
-              Cancel
+              <Icon icon="teenyicons:arrow-left-solid" />
+              Back to Biodata
             </Link>
-            <Link
-              href={DASHBOARD_STUDENT}
-              className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg"
-            >
-              Save and continue
-            </Link>
-          </div>
-        </main>
+            <AcademicInfoHeading />
+            <AcademicDetails />
+            <SubjectsOffering />
+            <div className="flex justify-end gap-6">
+              <Link
+                href={DASHBOARD_STUDENT}
+                className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg"
+              >
+                Cancel
+              </Link>
+              <DashboardButton
+                variant="primary"
+                className="font-semibold px-7 ml-0"
+                onClick={handleSubmit(onSubmit)}
+              >
+                {isSubmitting ? (
+                  <Lottie
+                    loop
+                    animationData={loadingLottie}
+                    play
+                    style={{ width: 60, height: 20, margin: "0 auto" }}
+                  />
+                ) : (
+                  <span>Save</span>
+                )}
+              </DashboardButton>
+            </div>
+          </main>
+        </div>
       </div>
-    </div>
+    </ReactHookForm.Provider>
   );
 }
-
+const useFormContext = () => {
+  const context = React.useContext(ReactHookForm);
+  if (!context) {
+    throw new Error("useFormContext must be used within a MyProvider");
+  }
+  return context;
+};
 function AcademicInfoHeading() {
   return (
     <div className="flex justify-between gap-16 pb-4 my-8 border-b-2 border-border-colour-light">
@@ -65,6 +115,8 @@ function AcademicInfoHeading() {
 }
 
 function AcademicDetails() {
+  const { register, errors } = useFormContext();
+
   return (
     <div className="flex justify-between gap-10 pb-16 mb-8 border-b-2 border-border-colour-light">
       <div className="w-96">
@@ -76,123 +128,58 @@ function AcademicDetails() {
         </p>
       </div>
       <div className="flex flex-1 flex-wrap gap-5">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="class"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Class
-          </label>
-          <select
-            name="class"
-            id="class"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="SS3B">SS3B</option>
-            <option value="SS3A">SS3A</option>
-            <option value="SS2B">SS2B</option>
-            <option value="SS2A">SS2A</option>
-            <option value="SS1B">SS1B</option>
-            <option value="SS1A">SS1A</option>
-          </select>
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="previous_school_attended"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Previous School Attended
-          </label>
-          <input
-            type="text"
-            id="previous_school_attended"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="4517 Washington Ave. Manchester, Kentucky 39495"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="enrollment_year"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Enrollment Year
-          </label>
-          <select
-            name="enrollment_year"
-            id="enrollment_year"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-            <option value="2019">2019</option>
-            <option value="2018">2018</option>
-          </select>
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="graduation_year"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Graduation Year
-          </label>
-          <select
-            name="graduation_year"
-            id="graduation_year"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-            <option value="2019">2019</option>
-            <option value="2018">2018</option>
-          </select>
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="awards_&_recognition"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Awards & Recognition
-          </label>
-          <input
-            type="text"
-            id="awards_&_recognition"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="leadership_role"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Any Leadership role held?
-          </label>
-          <input
-            type="text"
-            id="leadership_role"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            required
-          />
-        </div>
-        <div className="lg:min-w-full flex-1">
-          <label
-            htmlFor="extracurricular_activities"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Extracurricular Activities
-          </label>
-          <input
-            type="text"
-            id="extracurricular_activities"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            required
-          />
-        </div>
+        <SelectField
+          id="class"
+          label="Class"
+          options={["SS3B", "SS3A", "SS2B", "SS2A", "SS1B", "SS1A"]}
+          register={register}
+          errorMessage={errors.class?.message || ""}
+          onChange={e => console.log(e.target.value)}
+        />
+        <TextField
+          id="previous_school_attended"
+          label="Previous School Attended"
+          register={register}
+          errorMessage={errors.previous_school_attended?.message || ""}
+        />
+        <SelectField
+          id="enrollment_year"
+          label="Enrollment Year"
+          options={["2023", "2022", "2021", "2020", "2019", "2018"]}
+          register={register}
+          errorMessage={errors.enrollment_year?.message || ""}
+        />
+
+        <SelectField
+          id="graduation_year"
+          label="Graduation Year"
+          options={["2023", "2022", "2021", "2020", "2019", "2018"]}
+          register={register}
+          errorMessage={errors.graduation_year?.message || ""}
+        />
+
+        <TextField
+          id="awards_&_recognition"
+          label="Awards & Recognition"
+          register={register}
+          errorMessage={errors["awards_&_recognition"]?.message || ""}
+        />
+
+        <TextField
+          id="leadership_role"
+          label="Any Leadership role held?"
+          register={register}
+          errorMessage={errors["leadership_role"]?.message || ""}
+        />
+
+        <TextField
+          id="extracurricular_activities"
+          label="Extracurricular Activities"
+          register={register}
+          isFullWidth
+          errorMessage={errors["extracurricular_activities"]?.message || ""}
+        />
+
         <label
           htmlFor="dropzone-file"
           className="flex flex-col items-center justify-center w-full h-44 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 "
@@ -281,167 +268,6 @@ function SubjectOfferingData() {
   );
 }
 
-function HostelAccommodation() {
-  return (
-    <div className="flex justify-between gap-16 pb-10 border-b-2 mb-8 border-border-colour-light">
-      <div className="w-96">
-        <h4 className="text-Text-high-emphasis font-semibold">
-          Hostel / accommodation
-        </h4>
-        <p className="text-sm tracking-tight text-gray-800">
-          This will be displayed on your organization profile.
-        </p>
-      </div>
-      <div className="flex flex-1 flex-wrap gap-5">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="hostel_block"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Block
-          </label>
-          <input
-            type="text"
-            id="hostel_block"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="hostel_room-number"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Room number
-          </label>
-          <input
-            type="text"
-            id="hostel_room-number"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            required
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function AdditionalInformation() {
-  return (
-    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
-      <div className="w-96">
-        <h4 className="text-Text-high-emphasis font-semibold">
-          Additional information
-        </h4>
-        <p className="text-sm tracking-tight text-gray-800">
-          This will be displayed on your organization profile.
-        </p>
-      </div>
-      <div className="flex flex-1 flex-wrap gap-5">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="special_needs/disabilities"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Any special needs / disabilities?
-          </label>
-          <input
-            type="text"
-            id="special_needs/disabilities"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="nature_of_disability"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Nature of disability
-          </label>
-          <input
-            type="text"
-            id="nature_of_disability"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="(217) 555-0113"
-            required
-          />
-        </div>
-        <div className="lg:min-w-full flex-1">
-          <label
-            htmlFor="medication"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Medication
-          </label>
-          <textarea
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            id="medication"
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function MedicalInformation() {
-  return (
-    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
-      <div className="w-96">
-        <h4 className="text-Text-high-emphasis font-semibold">
-          Medical information
-        </h4>
-        <p className="text-sm tracking-tight text-gray-800">
-          This will be displayed on your organization profile.
-        </p>
-      </div>
-      <div className="flex flex-1 flex-wrap gap-5">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="allergies"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Allergies
-          </label>
-          <input
-            type="text"
-            id="allergies"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Any know allergies?"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="emergency_contact"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Emergency Contact
-          </label>
-          <input
-            type="text"
-            id="emergency_contact"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="(217) 555-0113"
-            required
-          />
-        </div>
-        <div className="lg:min-w-full flex-1">
-          <label
-            htmlFor="medication"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Medication
-          </label>
-          <textarea
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            id="medication"
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
 const subjectOfferingList = [
   "General Mathematics",
   "Use of English Language",

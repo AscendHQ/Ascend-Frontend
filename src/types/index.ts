@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { NotificationInstance } from "antd/es/notification/interface";
 import { ComponentProps } from "react";
+import { UseFormRegister } from "react-hook-form";
 
 type hostelOption = "All" | "Female Hostel" | "Male Hostel";
 
@@ -105,21 +107,26 @@ export type ClassListProps = {
   >;
 };
 
+// @ts-ignore
+type NewType = UseFormRegister<T>;
+
 export type TextFieldProps = {
   id: string;
   label: string;
-  placeholder: string;
   required?: boolean;
   isFullWidth?: boolean;
+  register: NewType;
   value?: string;
+  errorMessage: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 export type TextAreaProps = {
   id: string;
   label: React.ReactNode;
-  placeholder: string;
   maxLength?: number;
+  errorMessage: string;
+  register: NewType;
   isFullWidth?: boolean;
   showCharacterCount?: boolean;
   value?: string;
@@ -133,6 +140,8 @@ export type SelectFieldProps = {
   isFullWidth?: boolean;
   value?: string;
   labelStyle?: string;
+  register: NewType;
+  errorMessage: string;
   selectStyle?: string;
   wrapperStyle?: string;
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
