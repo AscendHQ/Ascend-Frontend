@@ -1,42 +1,91 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import { Modal } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import { useForm } from "react-hook-form";
 
 import { Container } from "@/components/layout/dashboard";
 import SelectField from "@/components/ui/form/selectfield";
 import TextAreaWithLabelAndCount from "@/components/ui/form/textarea";
 import TextField from "@/components/ui/form/textfield";
+import LoadingState from "@/components/ui/Loading";
 import {
   DASHBOARD_LESSON_PLAN,
   DASHBOARD_LESSON_PLAN_INFO,
 } from "@/config/links";
+import {
+  LessonPlanInfoContextType,
+  lessonPlanInfoSchema,
+  LessonPlanInfoSchemaType,
+} from "@/types/form";
+
+const ReactHookForm = React.createContext<
+  LessonPlanInfoContextType | undefined
+>(undefined);
 
 export default function LessonPlanInfo() {
   const router = useRouter();
   const id = router.query.lessonPlanInfo as string;
+  const [open, setOpen] = React.useState(false);
+
+  const onSubmit = (data: object) => {
+    console.log(data, "data");
+    setOpen(true);
+    router.push("/");
+  };
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+  } = useForm<LessonPlanInfoSchemaType>({
+    resolver: zodResolver(lessonPlanInfoSchema),
+  });
+
+  React.useEffect(() => {
+    reset({});
+  }, [isSubmitSuccessful, reset]);
+
   return (
-    <Container headerTitle={id?.split("-")?.join(" ")}>
-      <main className="bg-white px-10 pt-7 h-full">
-        <div className="flex justify-between">
-          <Link
-            href={DASHBOARD_LESSON_PLAN}
-            className="flex items-center gap-3 text-sm"
+    <ReactHookForm.Provider value={{ register, errors, open }}>
+      <Container headerTitle={id?.split("-")?.join(" ")}>
+        <main className="bg-white px-10 pt-7 h-full">
+          <div className="flex justify-between">
+            <Link
+              href={DASHBOARD_LESSON_PLAN}
+              className="flex items-center gap-3 text-sm"
+            >
+              <Icon icon="teenyicons:arrow-left-solid" />
+              <span>Back</span>
+            </Link>
+          </div>
+          <LessonInformation />
+
+          <button
+            className="text-white bg-primary-purple-700 rounded-lg py-3 px-16 font-semibold text-sm block ml-auto"
+            onClick={handleSubmit(onSubmit)}
           >
-            <Icon icon="teenyicons:arrow-left-solid" />
-            <span>Back</span>
-          </Link>
-        </div>
-        <LessonInformation />
-      </main>
-    </Container>
+            <LoadingState label="Save" isSubmitting={isSubmitting} />
+          </button>
+        </main>
+      </Container>
+    </ReactHookForm.Provider>
   );
 }
+const useFormContext = () => {
+  const context = React.useContext(ReactHookForm);
+  if (!context) {
+    throw new Error("useFormContext must be used within a MyProvider");
+  }
+  return context;
+};
 function LessonInformation() {
   const router = useRouter();
+  const { register, errors, open } = useFormContext();
 
-  const [open, setOpen] = React.useState(false);
   return (
     <section>
       <Modal
@@ -98,7 +147,8 @@ function LessonInformation() {
             placeholder="Enter a lesson title"
             required
             defaultValue="Mr Jordan's Lesson"
-            onChange={e => console.log(e.target.value)}
+            register={register}
+            errorMessage={errors.lesson_title?.message || ""}
           />
 
           <SelectField
@@ -114,14 +164,16 @@ function LessonInformation() {
               "Civic Education",
             ]}
             defaultValue="Mathematics"
-            onChange={e => console.log(e.target.value)}
+            register={register}
+            errorMessage={errors.subject?.message || ""}
           />
           <SelectField
             id="class"
             label="Class"
             options={["JSS1", "JSS2", "JSS3", "SS1", "SS2", "SS3"]}
             defaultValue="JSS3"
-            onChange={e => console.log(e.target.value)}
+            register={register}
+            errorMessage={errors.class?.message || ""}
           />
           <TextField
             id="duration"
@@ -129,7 +181,8 @@ function LessonInformation() {
             placeholder="1 week"
             required
             defaultValue="4 weeks"
-            onChange={e => console.log(e.target.value)}
+            register={register}
+            errorMessage={errors.duration?.message || ""}
           />
 
           <TextAreaWithLabelAndCount
@@ -142,6 +195,8 @@ function LessonInformation() {
             defaultValue={
               "Lorem ipsum dolor sit amet consectetur adipisicing elit. enim, sint. magni architecto eos voluptate maiores consectetur odio iste expedita fugit id non iure rem fugiat, repellat quibusdam ut reprehenderit aliquid!"
             }
+            register={register}
+            errorMessage={errors.lesson_plan_overview?.message || ""}
           />
 
           <TextAreaWithLabelAndCount
@@ -151,19 +206,14 @@ function LessonInformation() {
             maxLength={3000}
             showCharacterCount={false}
             isFullWidth
-            defaultValue={`Lorem ipsum dolor sit amet consectetur adipisicing elit.  
-Enim, sint. Magni architecto eos voluptate maiores consectetur odio iste.
-Expedita fugit id non iure rem fugiat, repellat quibusdam ut reprehenderit aliquid!`}
+            defaultValue={
+              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim, sint. Magni architecto eos voluptate maiores consectetur odio iste.Expedita fugit id non iure rem fugiat, repellat quibusdam ut reprehenderit aliquid!"
+            }
+            register={register}
+            errorMessage={errors.weekly_plan_objectives?.message || ""}
           />
         </div>
       </div>
-
-      <button
-        className="text-white bg-primary-purple-700 rounded-lg py-3 px-16 font-semibold text-sm block ml-auto"
-        onClick={() => setOpen(true)}
-      >
-        Save
-      </button>
     </section>
   );
 }

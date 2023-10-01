@@ -55,7 +55,7 @@ export const studentBioDataSchema = z.object({
     .min(1, "Student's special needs/disabilities is required"),
 });
 
-export type BioDataFieldValues = {
+type BioDataFieldValues = {
   first_name: string;
   last_name: string;
   date_of_birth: string;
@@ -84,16 +84,22 @@ export type BioDataFieldValues = {
 };
 
 export const studentAcademicInfoSchema = z.object({
-  class: z.string().min(1, "First Name is required"),
-  leadership_role: z.string().min(1, "First Name is required"),
-  extracurricular_activities: z.string().min(1, "First Name is required"),
-  "awards_&_recognition": z.string().min(1, "First Name is required"),
-  graduation_year: z.string().min(1, "First Name is required"),
-  enrollment_year: z.string().min(1, "First Name is required"),
-  previous_school_attended: z.string().min(1, "First Name is required"),
+  class: z.string().min(1, "Class is required"),
+  leadership_role: z.string().min(1, "Leadership role is required"),
+  extracurricular_activities: z
+    .string()
+    .min(1, "Extracurricular activities is required"),
+  "awards_&_recognition": z
+    .string()
+    .min(1, "Awards or recognition is required"),
+  graduation_year: z.string().min(1, "Graduation year is required"),
+  enrollment_year: z.string().min(1, "Enrollment year is required"),
+  previous_school_attended: z
+    .string()
+    .min(1, "Previous school attended is required"),
 });
 
-export type AcademicInfoFieldValues = {
+type AcademicInfoFieldValues = {
   class: string;
   leadership_role: string;
   extracurricular_activities: string;
@@ -102,6 +108,102 @@ export type AcademicInfoFieldValues = {
   enrollment_year: string;
   previous_school_attended: string;
 };
+
+export const newSubjectSchema = z.object({
+  subject_name: z.string().min(1, "Subject name is required"),
+  subject_code: z.string().min(1, "Subject code is required"),
+  description: z.string().min(1, "Description is required"),
+  classes_offering: z.string().min(1, "Classes offering is required"),
+  teachers: z.string().min(1, "Teachers is required"),
+  status: z.string().min(1, "Status is required"),
+  hours_per_week: z.string().min(1, "Hours per week is required"),
+});
+
+type NewSubjectFieldValues = {
+  subject_name: string;
+  subject_code: string;
+  description: string;
+  classes_offering: string;
+  teachers: string;
+  status: string;
+  hours_per_week: string;
+};
+
+export const classInfoSchema = z.object({
+  class_name: z.string().min(1, "Subject name is required"),
+  status: z.string().min(1, "Subject name is required"),
+  additional_notes: z.string().min(1, "Subject name is required"),
+  class_teacher: z.string().min(1, "Subject name is required"),
+  class_teacher_contact: z.string().min(1, "Subject name is required"),
+  academic_year: z.string().min(1, "Subject name is required"),
+});
+
+type ClassInfoFieldValues = {
+  class_name: string;
+  status: string;
+  additional_notes: string;
+  class_teacher: string;
+  class_teacher_contact: string;
+  academic_year: string;
+};
+
+export const newClassSchema = z.object({
+  class_name: z.string().min(1, "Subject name is required"),
+  additional_notes: z.string().min(1, "Subject name is required"),
+  students: z.string().min(1, "Subject name is required"),
+  status: z.string().min(1, "Subject name is required"),
+  class_teacher_contact: z.string().min(1, "Subject name is required"),
+  class_teacher: z.string().min(1, "Subject name is required"),
+  academic_year: z.string().min(1, "Subject name is required"),
+});
+
+type NewClassFieldValues = {
+  class_name: string;
+  additional_notes: string;
+  students: string;
+  status: string;
+  class_teacher_contact: string;
+  class_teacher: string;
+  academic_year: string;
+};
+
+export const newLessonPlanSchema = z.object({
+  lesson_title: z.string().min(1, "Subject name is required"),
+  subject: z.string().min(1, "Subject name is required"),
+  class: z.string().min(1, "Subject name is required"),
+  duration: z.string().min(1, "Subject name is required"),
+  lesson_plan_overview: z.string().min(1, "Subject name is required"),
+  weekly_plan_objectives: z.string().min(1, "Subject name is required"),
+});
+
+type NewLessonPlanFieldValues = {
+  lesson_title: string;
+  subject: string;
+  class: string;
+  duration: string;
+  lesson_plan_overview: string;
+  weekly_plan_objectives: string;
+};
+
+export const lessonPlanInfoSchema = z.object({
+  lesson_title: z.string().min(1, "Subject name is required"),
+  subject: z.string().min(1, "Subject name is required"),
+  class: z.string().min(1, "Subject name is required"),
+  duration: z.string().min(1, "Subject name is required"),
+  lesson_plan_overview: z.string().min(1, "Subject name is required"),
+  weekly_plan_objectives: z.string().min(1, "Subject name is required"),
+});
+
+type LessonPlanInfoFieldValues = {
+  lesson_title: string;
+  subject: string;
+  class: string;
+  duration: string;
+  lesson_plan_overview: string;
+  weekly_plan_objectives: string;
+};
+
+// zodresolver
 export type BioDataContextType = {
   register: UseFormRegister<BioDataFieldValues>;
   errors: FieldErrors<BioDataFieldValues>;
@@ -112,6 +214,33 @@ export type AcademicInfoContextType = {
   errors: FieldErrors<AcademicInfoFieldValues>;
 };
 
+export type NewSubjectContextType = {
+  register: UseFormRegister<NewSubjectFieldValues>;
+  errors: FieldErrors<NewSubjectFieldValues>;
+};
+
+export type NewClassContextType = {
+  register: UseFormRegister<NewClassFieldValues>;
+  errors: FieldErrors<NewClassFieldValues>;
+};
+
+export type ClassInfoContextType = {
+  register: UseFormRegister<ClassInfoFieldValues>;
+  errors: FieldErrors<ClassInfoFieldValues>;
+};
+
+export type NewLessonPlanContextType = {
+  register: UseFormRegister<NewLessonPlanFieldValues>;
+  errors: FieldErrors<NewLessonPlanFieldValues>;
+  open: boolean;
+};
+export type LessonPlanInfoContextType = {
+  register: UseFormRegister<LessonPlanInfoFieldValues>;
+  errors: FieldErrors<LessonPlanInfoFieldValues>;
+  open: boolean;
+};
+
+// useform
 export type FormSchemaType = z.infer<typeof formSchema>;
 
 export type StudentBioDataSchemaType = z.infer<typeof studentBioDataSchema>;
@@ -119,3 +248,12 @@ export type StudentBioDataSchemaType = z.infer<typeof studentBioDataSchema>;
 export type StudentAcademicInfoSchemaType = z.infer<
   typeof studentAcademicInfoSchema
 >;
+export type NewSubjectSchemaType = z.infer<typeof newSubjectSchema>;
+
+export type NewClassSchemaType = z.infer<typeof newClassSchema>;
+
+export type ClassInfoSchemaType = z.infer<typeof classInfoSchema>;
+
+export type NewLessonPlanSchemaType = z.infer<typeof newLessonPlanSchema>;
+
+export type LessonPlanInfoSchemaType = z.infer<typeof lessonPlanInfoSchema>;

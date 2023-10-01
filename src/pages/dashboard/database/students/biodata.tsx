@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import Lottie from "react-lottie-player";
 
 import { DashboardHeader } from "@/components/common";
 import { Sidebar } from "@/components/sidebar";
@@ -13,6 +12,7 @@ import { DashboardButton } from "@/components/ui/button/button";
 import SelectField from "@/components/ui/form/selectfield";
 import TextAreaWithLabelAndCount from "@/components/ui/form/textarea";
 import TextField from "@/components/ui/form/textfield";
+import LoadingState from "@/components/ui/Loading";
 import {
   DASHBOARD_STUDENT,
   NEW_STUDENT_ACADEMIC_INFORMATION,
@@ -22,8 +22,6 @@ import {
   studentBioDataSchema,
   StudentBioDataSchemaType,
 } from "@/types/form";
-
-import loadingLottie from "../../../../../public/animation.json";
 
 const ReactHookForm = React.createContext<BioDataContextType | undefined>(
   undefined
@@ -52,7 +50,7 @@ export default function UpdateBiodata() {
 
   return (
     <ReactHookForm.Provider value={{ register, errors }}>
-      <div className="grid font-inter grid-cols-9 min-w-[1000px]">
+      <div className="grid font-inter grid-cols-9 min-w-[900px]">
         <Sidebar />
         <div className="col-[3/-1] 3xl:col-[2/-1] bg-white">
           <DashboardHeader headerTitle="Student Biodata" />
@@ -80,16 +78,10 @@ export default function UpdateBiodata() {
                 className="font-semibold px-7 ml-0"
                 onClick={handleSubmit(onSubmit)}
               >
-                {isSubmitting ? (
-                  <Lottie
-                    loop
-                    animationData={loadingLottie}
-                    play
-                    style={{ width: 60, height: 20, margin: "0 auto" }}
-                  />
-                ) : (
-                  <span>Save and continue</span>
-                )}
+                <LoadingState
+                  label="Save and continue"
+                  isSubmitting={isSubmitting}
+                />
               </DashboardButton>
             </div>
           </main>
@@ -110,7 +102,7 @@ function HostelAccommodation() {
   const { register, errors } = useFormContext();
 
   return (
-    <div className="flex justify-between gap-16 pb-10 border-b-2 mb-8 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-10 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Hostel / accommodation
@@ -119,7 +111,7 @@ function HostelAccommodation() {
           This will be displayed on your organization profile.
         </p>
       </div>
-      <div className="flex flex-1 flex-wrap gap-5">
+      <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
         <TextField
           id="hostel_block"
           label="Block"
@@ -146,7 +138,7 @@ function AdditionalInformation() {
   const { register, errors } = useFormContext();
 
   return (
-    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Additional information
@@ -155,7 +147,7 @@ function AdditionalInformation() {
           This will be displayed on your organization profile.
         </p>
       </div>
-      <div className="flex flex-1 flex-wrap gap-5">
+      <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
         <TextField
           id="student_special_needs/disabilities"
           label="Any special needs / disabilities?"
@@ -189,7 +181,7 @@ function MedicalInformation() {
   const { register, errors } = useFormContext();
 
   return (
-    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Medical information
@@ -198,7 +190,7 @@ function MedicalInformation() {
           This will be displayed on your organization profile.
         </p>
       </div>
-      <div className="flex flex-1 flex-wrap gap-5">
+      <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
         <TextField
           id="student_allergies"
           label="Allergies"
@@ -232,7 +224,7 @@ function GuardianInformation() {
   const { register, errors } = useFormContext();
 
   return (
-    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Guardian/Parent information
@@ -241,7 +233,7 @@ function GuardianInformation() {
           This will be displayed on your organization profile.
         </p>
       </div>
-      <div className="flex flex-1 flex-wrap gap-5">
+      <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
         <TextField
           id="guardian_first_name"
           label="First name"
@@ -292,7 +284,7 @@ function GuardianInformation() {
 function ContactInformation() {
   const { register, errors } = useFormContext();
   return (
-    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Contact information
@@ -301,7 +293,7 @@ function ContactInformation() {
           This will be displayed on your organization profile.
         </p>
       </div>
-      <div className="flex flex-1 flex-wrap gap-5">
+      <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
         <TextField
           id="residential_address"
           label="Residential Address"
@@ -359,7 +351,9 @@ function PersonalInformation() {
   const { register, errors } = useFormContext();
 
   return (
-    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
+    <div
+      className={`flex flex-col lg:flex-row justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light`}
+    >
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Personal information
@@ -368,7 +362,7 @@ function PersonalInformation() {
           This will be displayed on your organization profile.
         </p>
       </div>
-      <div className="flex flex-1 flex-wrap gap-5">
+      <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
         <section className="lg:min-w-full flex-1 flex items-center gap-3 justify-start">
           <div className="relative flex justify-center items-center p-3 w-24 h-24 mr-5 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
             <svg
@@ -413,7 +407,6 @@ function PersonalInformation() {
           options={["Male", "Female"]}
           register={register}
           errorMessage={errors.gender?.message || ""}
-          onChange={e => console.log(e.target.value)}
         />
         <TextField
           id="date_of_birth"
@@ -429,7 +422,6 @@ function PersonalInformation() {
           options={["Christain", "Muslim"]}
           register={register}
           errorMessage={errors.religion?.message || ""}
-          onChange={e => console.log(e.target.value)}
         />
         <SelectField
           id="nationality"
@@ -437,7 +429,6 @@ function PersonalInformation() {
           options={["Nigeria", "Ghana"]}
           register={register}
           errorMessage={errors.nationality?.message || ""}
-          onChange={e => console.log(e.target.value)}
         />
         <SelectField
           id="state_of_origin"
@@ -445,7 +436,6 @@ function PersonalInformation() {
           options={["Ondo", "Ekiti", "Edo", "Oyo", "Lagos", "Kwara"]}
           register={register}
           errorMessage={errors.state_of_origin?.message || ""}
-          onChange={e => console.log(e.target.value)}
         />
         <SelectField
           id="local_government_area"
@@ -453,7 +443,6 @@ function PersonalInformation() {
           options={["Odigbo", "Ifon", "Okitipupa", "Ikorodu", "Oshodi"]}
           register={register}
           errorMessage={errors.state_of_origin?.message || ""}
-          onChange={e => console.log(e.target.value)}
         />
       </div>
     </div>

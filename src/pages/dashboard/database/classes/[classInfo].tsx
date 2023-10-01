@@ -1,25 +1,56 @@
 /* eslint-disable react/no-array-index-key */
 import { PlusOutlined } from "@ant-design/icons";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import type { InputRef } from "antd";
 import { Input, Space, Tag, theme, Tooltip } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import { useForm } from "react-hook-form";
 
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
 import SelectField from "@/components/ui/form/selectfield";
 import TextAreaWithLabelAndCount from "@/components/ui/form/textarea";
 import TextField from "@/components/ui/form/textfield";
+import LoadingState from "@/components/ui/Loading";
 import { DASHBOARD_CLASS } from "@/config/links";
+import {
+  ClassInfoContextType,
+  classInfoSchema,
+  ClassInfoSchemaType,
+} from "@/types/form";
+
+const ReactHookForm = React.createContext<ClassInfoContextType | undefined>(
+  undefined
+);
 
 export default function ClassInfo() {
   const router = useRouter();
   const id = router.query.classInfo as string;
 
+  const onSubmit = (data: object) => {
+    console.log(data, "data");
+
+    router.push("/");
+  };
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+  } = useForm<ClassInfoSchemaType>({
+    resolver: zodResolver(classInfoSchema),
+  });
+
+  React.useEffect(() => {
+    reset({});
+  }, [isSubmitSuccessful, reset]);
+
   return (
-    <div>
+    <ReactHookForm.Provider value={{ register, errors }}>
       <Container headerTitle={id}>
         <main className="bg-white px-10 pt-7 h-full">
           <div className="flex justify-between">
@@ -30,20 +61,28 @@ export default function ClassInfo() {
               <Icon icon="teenyicons:arrow-left-solid" />
               <span>Back</span>
             </Link>
-            <DashboardButton
-              variant="primary"
-              onClick={e => e.preventDefault()}
-            >
-              Save changes
+            <DashboardButton variant="primary" onClick={handleSubmit(onSubmit)}>
+              <LoadingState label="Save changes" isSubmitting={isSubmitting} />
             </DashboardButton>
           </div>
           <ClassInformation />
         </main>
       </Container>
-    </div>
+    </ReactHookForm.Provider>
   );
 }
+
+const useFormContext = () => {
+  const context = React.useContext(ReactHookForm);
+  if (!context) {
+    throw new Error("useFormContext must be used within a MyProvider");
+  }
+  return context;
+};
+
 function ClassInformation() {
+  const { register, errors } = useFormContext();
+
   return (
     <div className="flex justify-between gap-16 pb-16 mt-14 mb-8 border-b-2 border-border-colour-light">
       <div className="w-96">
@@ -61,7 +100,8 @@ function ClassInformation() {
           placeholder="SS2B"
           required
           defaultValue="SS1A"
-          onChange={e => console.log(e.target.value)}
+          register={register}
+          errorMessage={errors.class_name?.message || ""}
         />
         <TextField
           id="academic_year"
@@ -69,6 +109,8 @@ function ClassInformation() {
           placeholder="2023"
           required
           defaultValue="2023"
+          register={register}
+          errorMessage={errors.academic_year?.message || ""}
           onChange={e => console.log(e.target.value)}
         />
         <TextField
@@ -77,7 +119,8 @@ function ClassInformation() {
           placeholder="Myrtle Rios"
           required
           defaultValue="Myrtle Rios"
-          onChange={e => console.log(e.target.value)}
+          register={register}
+          errorMessage={errors.class_teacher?.message || ""}
         />
         <TextField
           id="class_teacher_contact"
@@ -85,7 +128,8 @@ function ClassInformation() {
           placeholder="(234)81 0000 0000"
           required
           defaultValue="(234)81 0000 0000"
-          onChange={e => console.log(e.target.value)}
+          register={register}
+          errorMessage={errors.class_teacher_contact?.message || ""}
         />
         <div className="lg:min-w-full flex-1">
           <label
@@ -104,6 +148,8 @@ function ClassInformation() {
           defaultValue="Inactive"
           onChange={e => console.log(e.target.value)}
           isFullWidth
+          register={register}
+          errorMessage={errors.status?.message || ""}
         />
 
         <TextAreaWithLabelAndCount
@@ -113,6 +159,8 @@ function ClassInformation() {
           maxLength={40}
           showCharacterCount
           isFullWidth
+          register={register}
+          errorMessage={errors.additional_notes?.message || ""}
         />
       </div>
     </div>

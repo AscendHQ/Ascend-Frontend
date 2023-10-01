@@ -1,21 +1,52 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import { Modal } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import { useForm } from "react-hook-form";
 
 import { Container } from "@/components/layout/dashboard";
 import SelectField from "@/components/ui/form/selectfield";
 import TextAreaWithLabelAndCount from "@/components/ui/form/textarea";
 import TextField from "@/components/ui/form/textfield";
+import LoadingState from "@/components/ui/Loading";
 import {
   DASHBOARD_LESSON_PLAN,
   DASHBOARD_LESSON_PLAN_INFO,
 } from "@/config/links";
+import {
+  NewLessonPlanContextType,
+  newLessonPlanSchema,
+  NewLessonPlanSchemaType,
+} from "@/types/form";
+
+const ReactHookForm = React.createContext<NewLessonPlanContextType | undefined>(
+  undefined
+);
 
 export default function NewLessonPlan() {
+  const [open, setOpen] = React.useState(false);
+
+  const onSubmit = (data: object) => {
+    console.log(data, "data");
+    setOpen(true);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+  } = useForm<NewLessonPlanSchemaType>({
+    resolver: zodResolver(newLessonPlanSchema),
+  });
+
+  React.useEffect(() => {
+    reset({});
+  }, [isSubmitSuccessful, reset]);
   return (
-    <div>
+    <ReactHookForm.Provider value={{ register, errors, open }}>
       <Container headerTitle={"New Lesson Plan"}>
         <main className="bg-white px-10 pt-7 h-full">
           <div className="flex justify-between">
@@ -28,15 +59,39 @@ export default function NewLessonPlan() {
             </Link>
           </div>
           <LessonInformation />
+          <ul className="flex gap-2 justify-end">
+            <li>
+              <button className="text-Text-high-emphasis border-1.5 border-border-colour-light rounded-lg py-3 px-14 font-semibold text-sm">
+                Cancel
+              </button>
+            </li>
+            <li>
+              <button
+                className="text-white bg-primary-purple-700 rounded-lg py-3 px-16 font-semibold text-sm"
+                onClick={handleSubmit(onSubmit)}
+              >
+                <LoadingState label="Save" isSubmitting={isSubmitting} />
+              </button>
+            </li>
+          </ul>
         </main>
       </Container>
-    </div>
+    </ReactHookForm.Provider>
   );
 }
+const useFormContext = () => {
+  const context = React.useContext(ReactHookForm);
+  if (!context) {
+    throw new Error("useFormContext must be used within a MyProvider");
+  }
+  return context;
+};
+
 function LessonInformation() {
+  const { register, errors, open } = useFormContext();
+
   const router = useRouter();
 
-  const [open, setOpen] = React.useState(false);
   return (
     <section>
       <Modal
@@ -98,6 +153,8 @@ function LessonInformation() {
             label="Lesson title"
             placeholder="Enter a lesson title"
             required
+            register={register}
+            errorMessage={errors.lesson_title?.message || ""}
           />
           <SelectField
             id="subject"
@@ -111,17 +168,23 @@ function LessonInformation() {
               "Further Mathematics",
               "Civic Education",
             ]}
+            register={register}
+            errorMessage={errors.subject?.message || ""}
           />
           <SelectField
             id="class"
             label="Class"
             options={["JSS1", "JSS2", "JSS3", "SS1", "SS2", "SS3"]}
+            register={register}
+            errorMessage={errors.class?.message || ""}
           />
           <TextField
             id="duration"
             label="Duration"
             placeholder="1 week"
             required
+            register={register}
+            errorMessage={errors.duration?.message || ""}
           />
           <TextAreaWithLabelAndCount
             id="lesson_plan_overview"
@@ -130,6 +193,8 @@ function LessonInformation() {
             maxLength={3000}
             showCharacterCount={false}
             isFullWidth
+            register={register}
+            errorMessage={errors.lesson_plan_overview?.message || ""}
           />
           <TextAreaWithLabelAndCount
             id="weekly_plan_objectives"
@@ -138,24 +203,11 @@ function LessonInformation() {
             maxLength={3000}
             showCharacterCount={false}
             isFullWidth
+            register={register}
+            errorMessage={errors.weekly_plan_objectives?.message || ""}
           />
         </div>
       </div>
-      <ul className="flex gap-2 justify-end">
-        <li>
-          <button className="text-Text-high-emphasis border-1.5 border-border-colour-light rounded-lg py-3 px-14 font-semibold text-sm">
-            Cancel
-          </button>
-        </li>
-        <li>
-          <button
-            className="text-white bg-primary-purple-700 rounded-lg py-3 px-16 font-semibold text-sm"
-            onClick={() => setOpen(true)}
-          >
-            Save
-          </button>
-        </li>
-      </ul>
     </section>
   );
 }

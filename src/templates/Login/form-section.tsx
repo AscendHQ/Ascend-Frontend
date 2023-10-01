@@ -5,14 +5,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import Lottie from "react-lottie-player";
 
 import { Button } from "@/components/ui/button";
+import LoadingState from "@/components/ui/Loading";
 import { HOME_PAGE } from "@/config/links";
 import { useLoginMutation } from "@/store/api";
 import { formSchema, FormSchemaType } from "@/types/form";
-
-import loadingLottie from "../../../public/animation.json";
 
 export default function FormSection() {
   const router = useRouter();
@@ -141,16 +139,7 @@ export default function FormSection() {
             isSubmitting ? "bg-primary-purple-400" : "bg-primary-purple-700"
           }  py-4 text-white rounded-lg mt-4 active:scale-90 transition-all`}
         >
-          {isSubmitting ? (
-            <Lottie
-              loop
-              animationData={loadingLottie}
-              play
-              style={{ width: 60, height: 20, margin: "0 auto" }}
-            />
-          ) : (
-            <span>Sign in</span>
-          )}
+          <LoadingState label="Sign in" isSubmitting={isSubmitting} />
         </button>
       </div>
     </section>

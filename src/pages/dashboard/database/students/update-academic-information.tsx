@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable react/no-array-index-key */
 import { Icon } from "@iconify/react";
 import dynamic from "next/dynamic";
@@ -28,7 +29,7 @@ export default function AcademicInformation() {
 
 function GradesPerformance() {
   return (
-    <div className="flex justify-between gap-16 pb-5 border-b-2 mb-5 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-5 border-b-2 mb-5 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Grades & Performance
@@ -38,7 +39,7 @@ function GradesPerformance() {
         </p>
       </div>
       <div className="flex-1 min-w-[60%] space-y-3">
-        <div className="flex justify-between flex-wrap gap-4 w-full">
+        <div className="flex justify-between flex-col lg:flex-row flex-wrap gap-4 w-full">
           <div className="flex gap-3">
             <div className="flex items-center border border-border-colour-light rounded p-2">
               <label htmlFor="academic_session" className="font-semibold">
@@ -70,7 +71,7 @@ function GradesPerformance() {
               </select>
             </div>
           </div>
-          <button className="flex gap-3 items-center bg-primary-purple-700 text-sm text-white px-6 py-3 rounded-lg">
+          <button className="flex gap-3 items-center w-fit bg-primary-purple-700 text-sm text-white px-6 py-3 rounded-lg">
             <Icon icon="ph:plus-bold" />
             <span>Add Subject</span>
           </button>
@@ -83,7 +84,7 @@ function GradesPerformance() {
 
 function AttendanceInformation() {
   return (
-    <div className="flex justify-between gap-16 pb-5 border-b-2 mb-5 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-5 border-b-2 mb-5 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Attendance information
@@ -92,7 +93,7 @@ function AttendanceInformation() {
           This will be displayed on the student's profile.
         </p>
       </div>
-      <div className="flex flex-1 gap-3 ">
+      <div className="flex flex-1 flex-col lg:flex-row gap-3 ">
         <div>
           <div className="border border-border-colour-light rounded p-3.5 space-y-1">
             <h4 className="font-medium uppercase text-gray-800 text-xs">
@@ -121,7 +122,7 @@ function AttendanceInformation() {
 
 function ClassInformation() {
   return (
-    <div className="flex justify-between gap-16 pb-5 mb-6 border-b-2 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-5 mb-6 border-b-2 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Class information
@@ -131,17 +132,20 @@ function ClassInformation() {
         </p>
       </div>
       <div className="flex-1">
-        <div className="flex gap-3">
+        <div className="flex gap-3 flex-col lg:flex-row">
           <div className="border-1.5 border-border-colour-light space-y-1 rounded-lg p-3.5 min-w-[200px]">
-            <h4 className="text-xs font-medium text-gray-800">CURRENT CLASS</h4>
-            <select className="border-none text-xl font-bold p-0">
+            <h4 className="text-xs font-medium mb-1 text-gray-800">
+              CURRENT CLASS
+            </h4>
+            <span className="text-xl font-bold ">SS3a</span>
+            {/* <select className="border-none text-xl font-bold p-0">
               <option value="SS3a">SS3a</option>
               <option value="SS3b">SS3b</option>
               <option value="SS2b">SS2b</option>
               <option value="SS2a">SS2a</option>
               <option value="SS1b">SS1b</option>
               <option value="SS1a">SS1a</option>
-            </select>
+            </select> */}
           </div>
           <div className="border-1.5 border-border-colour-light space-y-1 rounded-lg p-3.5 min-w-[200px]">
             <h4 className="text-xs font-medium text-gray-800">CLASS SIZE</h4>
@@ -159,7 +163,10 @@ function ClassInformation() {
               className="border-1.5 border-border-colour-light space-y-1 rounded-lg p-3.5 min-w-[190px]"
               key={i}
             >
-              <h4 className="text-xs font-medium text-gray-800">1st Term</h4>
+              <h4 className="text-xs font-medium text-gray-800">
+                {/* @ts-ignore */}
+                {terms[(i + 1).toString()]} Term
+              </h4>
               <p className="border-none text-sm p-0">
                 <span className="text-lg font-bold">12th</span> of 50 students
               </p>
@@ -170,6 +177,11 @@ function ClassInformation() {
     </div>
   );
 }
+const terms = {
+  1: "1st",
+  2: "2nd",
+  3: "3rd",
+};
 
 function AcademicInfoUpdate() {
   return (
@@ -234,21 +246,24 @@ function Table() {
                 <input
                   type="text"
                   className="max-w-[100px] placeholder:text-Text-meduim-emphasis border border-grey-300"
-                  placeholder="0.00"
+                  readOnly
+                  value="19.00"
                 />
               </td>
               <td className="px-6 py-4">
                 <input
                   type="text"
                   className="max-w-[100px] placeholder:text-Text-meduim-emphasis border border-grey-300"
-                  placeholder="0.00"
+                  readOnly
+                  value="22.00"
                 />
               </td>
               <td className="px-6 py-4">
                 <input
                   type="text"
                   className="max-w-[100px] placeholder:text-Text-meduim-emphasis border border-grey-300"
-                  placeholder="0.00"
+                  readOnly
+                  value="49.00"
                 />
               </td>
               <td className="px-6 py-4">

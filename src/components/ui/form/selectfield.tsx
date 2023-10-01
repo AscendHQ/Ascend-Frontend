@@ -38,7 +38,9 @@ function SelectField<T>({
         )}
         {...restRegister}
         {...selectProps}
+        required
       >
+        <option value="">--Please choose an option--</option>
         {options.map(option => (
           <option key={option} value={option}>
             {option}

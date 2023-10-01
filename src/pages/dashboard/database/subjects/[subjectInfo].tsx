@@ -1,5 +1,8 @@
+/* eslint-disable sonarjs/no-identical-functions */
 /* eslint-disable react/no-array-index-key */
+import { PlusOutlined } from "@ant-design/icons";
 import { Icon } from "@iconify/react";
+import { Input, InputRef, Space, Tag, theme, Tooltip } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
@@ -83,57 +86,8 @@ function SubjectInformation() {
             required
           />
         </div>
-        <div className="lg:min-w-full flex-1 ">
-          <label
-            htmlFor="classes_offering"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Classes offering
-          </label>
-
-          <ul id="classes_offering" className="flex items-center gap-3">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <li
-                className="inline-flex items-center py-1 px-3 rounded gap-2 text-gray-800 bg-neutral-300"
-                key={i}
-              >
-                <span>SS2A</span>
-                <Icon
-                  icon="material-symbols:cancel-outline"
-                  fontSize={20}
-                  className="cursor-pointer"
-                />
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="lg:min-w-full flex-1 ">
-          <label
-            htmlFor="teachers_handling"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Teachers handling
-          </label>
-
-          <ul
-            id="teachers_handling"
-            className="flex items-center gap-3 flex-wrap"
-          >
-            {Array.from({ length: 4 }).map((_, i) => (
-              <li
-                className="inline-flex items-center py-1 px-3 rounded gap-2 text-gray-800 bg-neutral-300"
-                key={i}
-              >
-                <span>Melvin Little</span>
-                <Icon
-                  icon="material-symbols:cancel-outline"
-                  fontSize={20}
-                  className="cursor-pointer"
-                />
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ClassTagContainer />
+        <TeacherTagContainer />
         <div className="lg:min-w-[250px] flex-1 ">
           <label
             htmlFor="status"
@@ -189,3 +143,317 @@ function SubjectInformation() {
     </div>
   );
 }
+const ClassTagContainer: React.FC = () => {
+  const { token } = theme.useToken();
+  const [tags, setTags] = React.useState([
+    "SS3A",
+    "SS3B",
+    "SS2A",
+    "SS2B",
+    "SS1A",
+    "SS1B",
+  ]);
+  const [inputVisible, setInputVisible] = React.useState(false);
+  const [inputValue, setInputValue] = React.useState("");
+  const [editInputIndex, setEditInputIndex] = React.useState(-1);
+  const [editInputValue, setEditInputValue] = React.useState("");
+  const inputRef = React.useRef<InputRef>(null);
+  const editInputRef = React.useRef<InputRef>(null);
+
+  React.useEffect(() => {
+    if (inputVisible) {
+      inputRef.current?.focus();
+    }
+  }, [inputVisible]);
+
+  React.useEffect(() => {
+    editInputRef.current?.focus();
+  }, [editInputValue]);
+
+  const handleClose = (removedTag: string) => {
+    const newTags = tags.filter(tag => tag !== removedTag);
+    console.log(newTags);
+    setTags(newTags);
+  };
+
+  const showInput = () => {
+    setInputVisible(true);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleInputConfirm = () => {
+    if (inputValue && tags.indexOf(inputValue) === -1) {
+      setTags([...tags, inputValue]);
+    }
+    setInputVisible(false);
+    setInputValue("");
+  };
+
+  const handleEditInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditInputValue(e.target.value);
+  };
+
+  const handleEditInputConfirm = () => {
+    const newTags = [...tags];
+    newTags[editInputIndex] = editInputValue;
+    setTags(newTags);
+    setEditInputIndex(-1);
+    setEditInputValue("");
+  };
+
+  const tagInputStyle: React.CSSProperties = {
+    width: 64,
+    height: 22,
+    marginInlineEnd: 8,
+    verticalAlign: "top",
+    padding: 2,
+  };
+
+  const tagPlusStyle: React.CSSProperties = {
+    height: 22,
+    fontSize: 16,
+    background: token.colorBgContainer,
+    borderStyle: "dashed",
+  };
+
+  return (
+    <div className="lg:min-w-full flex-1 ">
+      <label
+        htmlFor="classes_offering"
+        className="block mb-2 text-sm font-medium text-Text-high-emphasis"
+      >
+        Classes offering
+      </label>
+      <Space size={[0, 8]} wrap>
+        <Space size={[0, 8]} wrap>
+          {tags.map((tag, index) => {
+            if (editInputIndex === index) {
+              return (
+                <Input
+                  ref={editInputRef}
+                  key={tag}
+                  size="large"
+                  style={tagInputStyle}
+                  value={editInputValue}
+                  onChange={handleEditInputChange}
+                  onBlur={handleEditInputConfirm}
+                  onPressEnter={handleEditInputConfirm}
+                />
+              );
+            }
+            const isLongTag = tag.length > 20;
+            const tagElem = (
+              <Tag
+                key={tag}
+                closable={index !== -1}
+                className="flex items-center py-1 px-3 rounded gap-2 select-none bg-neutral-300"
+                onClose={() => handleClose(tag)}
+                closeIcon={
+                  <Icon
+                    icon="material-symbols:cancel-outline"
+                    fontSize={20}
+                    className="cursor-pointer ml-2 mb-1 inline"
+                  />
+                }
+              >
+                <button
+                  onDoubleClick={e => {
+                    setEditInputIndex(index);
+                    setEditInputValue(tag);
+                    e.preventDefault();
+                  }}
+                  className="text-gray-800 font-medium text-base"
+                >
+                  {isLongTag ? `${tag.slice(0, 20)}...` : tag}
+                </button>
+              </Tag>
+            );
+            return isLongTag ? (
+              <Tooltip title={tag} key={tag}>
+                {tagElem}
+              </Tooltip>
+            ) : (
+              tagElem
+            );
+          })}
+          {inputVisible ? (
+            <Input
+              ref={inputRef}
+              type="text"
+              size="small"
+              style={tagInputStyle}
+              value={inputValue}
+              onChange={handleInputChange}
+              onBlur={handleInputConfirm}
+              onPressEnter={handleInputConfirm}
+            />
+          ) : (
+            <Tag style={tagPlusStyle} onClick={showInput}>
+              <PlusOutlined /> New Class
+            </Tag>
+          )}
+        </Space>
+      </Space>
+    </div>
+  );
+};
+const TeacherTagContainer: React.FC = () => {
+  const { token } = theme.useToken();
+  const [tags, setTags] = React.useState([
+    "Manuel Hunt",
+    "Amy Becker",
+    "Sylvia Martinez",
+    "Bryan Moran",
+    "Vera Beck",
+    "Jackson Jensen",
+  ]);
+  const [inputVisible, setInputVisible] = React.useState(false);
+  const [inputValue, setInputValue] = React.useState("");
+  const [editInputIndex, setEditInputIndex] = React.useState(-1);
+  const [editInputValue, setEditInputValue] = React.useState("");
+  const inputRef = React.useRef<InputRef>(null);
+  const editInputRef = React.useRef<InputRef>(null);
+
+  React.useEffect(() => {
+    if (inputVisible) {
+      inputRef.current?.focus();
+    }
+  }, [inputVisible]);
+
+  React.useEffect(() => {
+    editInputRef.current?.focus();
+  }, [editInputValue]);
+
+  const handleClose = (removedTag: string) => {
+    const newTags = tags.filter(tag => tag !== removedTag);
+    console.log(newTags);
+    setTags(newTags);
+  };
+
+  const showInput = () => {
+    setInputVisible(true);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleInputConfirm = () => {
+    if (inputValue && tags.indexOf(inputValue) === -1) {
+      setTags([...tags, inputValue]);
+    }
+    setInputVisible(false);
+    setInputValue("");
+  };
+
+  const handleEditInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditInputValue(e.target.value);
+  };
+
+  const handleEditInputConfirm = () => {
+    const newTags = [...tags];
+    newTags[editInputIndex] = editInputValue;
+    setTags(newTags);
+    setEditInputIndex(-1);
+    setEditInputValue("");
+  };
+
+  const tagInputStyle: React.CSSProperties = {
+    width: 64,
+    height: 22,
+    marginInlineEnd: 8,
+    verticalAlign: "top",
+    padding: 2,
+  };
+
+  const tagPlusStyle: React.CSSProperties = {
+    height: 22,
+    fontSize: 16,
+    background: token.colorBgContainer,
+    borderStyle: "dashed",
+  };
+
+  return (
+    <div className="lg:min-w-full flex-1 ">
+      <label
+        htmlFor="teachers_handling"
+        className="block mb-2 text-sm font-medium text-Text-high-emphasis"
+      >
+        Teachers handling
+      </label>
+      <Space size={[0, 8]} wrap>
+        <Space size={[0, 8]} wrap>
+          {tags.map((tag, index) => {
+            if (editInputIndex === index) {
+              return (
+                <Input
+                  ref={editInputRef}
+                  key={tag}
+                  size="large"
+                  style={tagInputStyle}
+                  value={editInputValue}
+                  onChange={handleEditInputChange}
+                  onBlur={handleEditInputConfirm}
+                  onPressEnter={handleEditInputConfirm}
+                />
+              );
+            }
+            const isLongTag = tag.length > 20;
+            const tagElem = (
+              <Tag
+                key={tag}
+                closable={index !== -1}
+                className="flex items-center py-1 px-3 rounded gap-2 select-none bg-neutral-300"
+                onClose={() => handleClose(tag)}
+                closeIcon={
+                  <Icon
+                    icon="material-symbols:cancel-outline"
+                    fontSize={20}
+                    className="cursor-pointer ml-2 mb-1 inline"
+                  />
+                }
+              >
+                <button
+                  onDoubleClick={e => {
+                    setEditInputIndex(index);
+                    setEditInputValue(tag);
+                    e.preventDefault();
+                  }}
+                  className="text-gray-800 font-medium text-base"
+                >
+                  {isLongTag ? `${tag.slice(0, 20)}...` : tag}
+                </button>
+              </Tag>
+            );
+            return isLongTag ? (
+              <Tooltip title={tag} key={tag}>
+                {tagElem}
+              </Tooltip>
+            ) : (
+              tagElem
+            );
+          })}
+          {inputVisible ? (
+            <Input
+              ref={inputRef}
+              type="text"
+              size="small"
+              style={tagInputStyle}
+              value={inputValue}
+              onChange={handleInputChange}
+              onBlur={handleInputConfirm}
+              onPressEnter={handleInputConfirm}
+            />
+          ) : (
+            <Tag style={tagPlusStyle} onClick={showInput}>
+              <PlusOutlined /> New Teacher
+            </Tag>
+          )}
+        </Space>
+      </Space>
+    </div>
+  );
+};

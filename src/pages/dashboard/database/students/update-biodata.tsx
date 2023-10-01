@@ -22,7 +22,7 @@ export default function Biodata() {
 
 function HostelAccommodation() {
   return (
-    <div className="flex justify-between gap-16 pb-10 border-b-2 mb-8 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-10 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Hostel / accommodation
@@ -31,7 +31,7 @@ function HostelAccommodation() {
           This will be displayed on your organization profile.
         </p>
       </div>
-      <div className="flex flex-1 flex-wrap gap-5">
+      <div className="flex flex-1 flex-wrap flex-col lg:flex-row gap-5">
         <div className="lg:min-w-[250px] flex-1">
           <label
             htmlFor="hostel_block"
@@ -66,7 +66,7 @@ function HostelAccommodation() {
 }
 function AdditionalInformation() {
   return (
-    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Additional information
@@ -75,7 +75,7 @@ function AdditionalInformation() {
           This will be displayed on your organization profile.
         </p>
       </div>
-      <div className="flex flex-1 flex-wrap gap-5">
+      <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
         <div className="lg:min-w-[250px] flex-1">
           <label
             htmlFor="special_needs/disabilities"
@@ -124,7 +124,7 @@ function AdditionalInformation() {
 
 function MedicalInformation() {
   return (
-    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Medical information
@@ -133,7 +133,7 @@ function MedicalInformation() {
           This will be displayed on your organization profile.
         </p>
       </div>
-      <div className="flex flex-1 flex-wrap gap-5">
+      <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
         <div className="lg:min-w-[250px] flex-1">
           <label
             htmlFor="allergies"
@@ -183,7 +183,7 @@ function MedicalInformation() {
 
 function GuardianInformation() {
   return (
-    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Guardian/Parent information
@@ -192,7 +192,7 @@ function GuardianInformation() {
           This will be displayed on your organization profile.
         </p>
       </div>
-      <div className="flex flex-1 flex-wrap gap-5">
+      <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
         <div className="lg:min-w-[250px] flex-1">
           <label
             htmlFor="first_name"
@@ -274,7 +274,7 @@ function GuardianInformation() {
 
 function ContactInformation() {
   return (
-    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Contact information
@@ -283,7 +283,7 @@ function ContactInformation() {
           This will be displayed on your organization profile.
         </p>
       </div>
-      <div className="flex flex-1 flex-wrap gap-5">
+      <div className="flex flex-1 flex-wrap flex-col lg:flex-row gap-5">
         <div className="lg:min-w-full flex-1">
           <label
             htmlFor="residential_address"
@@ -373,7 +373,7 @@ function BioUpdate() {
 }
 function PersonalInformation() {
   return (
-    <div className="flex justify-between gap-16 pb-16 mb-8 border-b-2 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 mb-8 border-b-2 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Personal information
@@ -382,7 +382,7 @@ function PersonalInformation() {
           This will be displayed on your organization profile.
         </p>
       </div>
-      <div className="flex flex-1 flex-wrap gap-5">
+      <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
         <div className="lg:min-w-[250px] flex-1">
           <label
             htmlFor="first_name"

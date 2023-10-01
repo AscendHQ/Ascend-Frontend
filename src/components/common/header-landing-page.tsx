@@ -8,13 +8,9 @@ import { menuData } from "@/config";
 
 import { Container } from "../ui/container";
 
-function Header({
-  isOpen,
-  setIsOpen,
-}: {
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+function Header() {
+  const [isOpen, setIsOpen] = React.useState(false);
+
   const [isScrolled, setIsScrolled] = React.useState(false);
 
   const genericHamburgerLine =

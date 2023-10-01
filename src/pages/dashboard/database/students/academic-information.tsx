@@ -4,21 +4,19 @@ import Link from "next/link";
 // import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import Lottie from "react-lottie-player";
 
 import { DashboardHeader } from "@/components/common";
 import { Sidebar } from "@/components/sidebar";
 import { DashboardButton } from "@/components/ui/button/button";
 import SelectField from "@/components/ui/form/selectfield";
 import TextField from "@/components/ui/form/textfield";
+import LoadingState from "@/components/ui/Loading";
 import { DASHBOARD_STUDENT, NEW_STUDENT_BIODATA } from "@/config/links";
 import {
   AcademicInfoContextType,
   studentAcademicInfoSchema,
   StudentAcademicInfoSchemaType,
 } from "@/types/form";
-
-import loadingLottie from "../../../../../public/animation.json";
 
 const ReactHookForm = React.createContext<AcademicInfoContextType | undefined>(
   undefined
@@ -74,16 +72,7 @@ export default function UpdateAcademicInformation() {
                 className="font-semibold px-7 ml-0"
                 onClick={handleSubmit(onSubmit)}
               >
-                {isSubmitting ? (
-                  <Lottie
-                    loop
-                    animationData={loadingLottie}
-                    play
-                    style={{ width: 60, height: 20, margin: "0 auto" }}
-                  />
-                ) : (
-                  <span>Save</span>
-                )}
+                <LoadingState label="Save" isSubmitting={isSubmitting} />
               </DashboardButton>
             </div>
           </main>
@@ -118,7 +107,7 @@ function AcademicDetails() {
   const { register, errors } = useFormContext();
 
   return (
-    <div className="flex justify-between gap-10 pb-16 mb-8 border-b-2 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-10 pb-16 mb-8 border-b-2 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Academic Details
@@ -127,7 +116,7 @@ function AcademicDetails() {
           This will be displayed on the student’s profile.
         </p>
       </div>
-      <div className="flex flex-1 flex-wrap gap-5">
+      <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
         <SelectField
           id="class"
           label="Class"
@@ -217,7 +206,7 @@ function AcademicDetails() {
 
 function SubjectsOffering() {
   return (
-    <div className="flex justify-between gap-16 pb-5 border-b-2 mb-5 border-border-colour-light">
+    <div className="flex justify-between gap-16 flex-col lg:flex-row pb-5 border-b-2 mb-5 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Subjects Offering

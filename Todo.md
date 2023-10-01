@@ -6,6 +6,8 @@
 
 -- Complete Staff
 
+-- Change 404 page
+
 -- Change the select to default html select
 
 <!--
@@ -33,7 +35,7 @@
   "contact_information": {
     "residential_address": "No 5, Oluwaseun street, Apatapiti, FUTA South Gate, Akure, Ondo State",
     "phone_number": "+23470234576",
-    "guardian_name": "male", // male or female
+    "guardian_name": "male", //male or female
     "email": "fatomiwahome@gmail.com"
   },
   "guardian_information": {

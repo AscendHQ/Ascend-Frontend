@@ -1,28 +1,62 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
+import { useForm } from "react-hook-form";
 
 import { Container } from "@/components/layout/dashboard";
+import SelectField from "@/components/ui/form/selectfield";
+import TextAreaWithLabelAndCount from "@/components/ui/form/textarea";
+import TextField from "@/components/ui/form/textfield";
+import LoadingState from "@/components/ui/Loading";
 import { DASHBOARD_SUBJECT } from "@/config/links";
+import {
+  NewSubjectContextType,
+  newSubjectSchema,
+  NewSubjectSchemaType,
+} from "@/types/form";
 
-interface ModalProps {
+type ModalProps = {
   open: boolean;
   onClose: () => void;
   children: JSX.Element;
-}
-
+};
+const ReactHookForm = React.createContext<NewSubjectContextType | undefined>(
+  undefined
+);
 export default function NewStudent() {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
+  const router = useRouter();
+
+  const onSubmit = (data: object) => {
+    setIsModalOpen(true);
+    console.log(data, "data");
+
+    router.push("/");
+  };
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+  } = useForm<NewSubjectSchemaType>({
+    resolver: zodResolver(newSubjectSchema),
+  });
+
+  React.useEffect(() => {
+    reset({});
+  }, [isSubmitSuccessful, reset]);
+
   return (
-    <div>
+    <ReactHookForm.Provider value={{ register, errors }}>
       <Container headerTitle="New Subject">
         <main className="px-10 py-5 bg-white h-full">
           <Link
@@ -41,10 +75,13 @@ export default function NewStudent() {
             </li>
             <li>
               <button
-                onClick={handleOpenModal}
+                onClick={handleSubmit(onSubmit)}
                 className="text-white bg-primary-purple-700 rounded-lg py-3 px-6 font-semibold text-sm"
               >
-                Save changes
+                <LoadingState
+                  label="Save changes"
+                  isSubmitting={isSubmitting}
+                />
               </button>
             </li>
           </ul>
@@ -75,10 +112,20 @@ export default function NewStudent() {
           </button>
         </div>
       </Modal>
-    </div>
+    </ReactHookForm.Provider>
   );
 }
+
+const useFormContext = () => {
+  const context = React.useContext(ReactHookForm);
+  if (!context) {
+    throw new Error("useFormContext must be used within a MyProvider");
+  }
+  return context;
+};
 function SubjectInformation() {
+  const { register, errors } = useFormContext();
+
   return (
     <div className="flex justify-between gap-16 pb-16 mt-14 mb-8 border-b-2 border-border-colour-light">
       <div className="w-96">
@@ -90,119 +137,60 @@ function SubjectInformation() {
         </p>
       </div>
       <div className="flex flex-1 flex-wrap gap-5">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="subject_name"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Subject name
-          </label>
-          <input
-            type="text"
-            id="subject_name"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Enter a subject name"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="subject_code"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Subject code
-          </label>
-          <input
-            type="text"
-            id="subject_code"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="e.g. PHY"
-            required
-          />
-        </div>
-        <div className="lg:min-w-full flex-1 ">
-          <label
-            htmlFor="description"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Description
-          </label>
-          <textarea
-            name="description"
-            id="description"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis h-28"
-            placeholder="What is this subject about?"
-          />
-          <span className="text-gray-800">0/40 characters remaining</span>
-        </div>
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="classes_offering"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Classes offering
-          </label>
-          <select
-            name="classes_offering"
-            id="classes_offering"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option>Select at least a class</option>
-            <option value="Christain">Christain</option>
-            <option value="Muslim">Muslim</option>
-          </select>
-        </div>{" "}
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="teachers"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Teachers
-          </label>
-          <select
-            name="teachers"
-            id="teachers"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option>Select an option</option>
-            <option value="Nigeria">Nigeria</option>
-            <option value="Ghana">Ghana</option>
-          </select>
-        </div>
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="hours_per_week"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Hours per week
-          </label>
-          <select
-            name="hours_per_week"
-            id="hours_per_week"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option>Select an option</option>
-            <option value="Nigeria">Nigeria</option>
-            <option value="Ghana">Ghana</option>
-          </select>
-        </div>
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="status"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Status
-          </label>
-          <select
-            name="status"
-            id="status"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option>Select an option</option>
-            <option value="Nigeria">Nigeria</option>
-            <option value="Ghana">Ghana</option>
-          </select>
-        </div>
+        <TextField
+          id="subject_name"
+          label="Subject name"
+          placeholder="Enter a subject name"
+          required
+          register={register}
+          errorMessage={errors.subject_name?.message || ""}
+        />
+        <TextField
+          id="subject_code"
+          label="Subject code"
+          placeholder="e.g. PHY"
+          required
+          register={register}
+          errorMessage={errors.subject_code?.message || ""}
+        />
+        <TextAreaWithLabelAndCount
+          id="description"
+          label="Description"
+          register={register}
+          errorMessage={errors.description?.message || ""}
+          maxLength={40}
+          placeholder="What is this subject about?"
+          isFullWidth
+          showCharacterCount
+        />
+        <SelectField
+          id="classes_offering"
+          label="Classes offering"
+          options={["Mathematics", "English", "Yoruba", "Agriculture"]}
+          register={register}
+          errorMessage={errors.classes_offering?.message || ""}
+        />
+        <SelectField
+          id="teachers"
+          label="Teachers"
+          options={["Mr Benson", "Mrs Hamilton", "Mr Leonard", "Mr Marsh"]}
+          register={register}
+          errorMessage={errors.teachers?.message || ""}
+        />
+        <SelectField
+          id="hours_per_week"
+          label="Hours per week"
+          options={["1", "2", "3", "4", "5", "6", "7", "8"]}
+          register={register}
+          errorMessage={errors.hours_per_week?.message || ""}
+        />
+        <SelectField
+          id="status"
+          label="Status"
+          options={["Active", "Inactive"]}
+          register={register}
+          errorMessage={errors.status?.message || ""}
+        />
       </div>
     </div>
   );
