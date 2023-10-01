@@ -14,6 +14,9 @@ const props: UploadProps = {
   name: "file",
   multiple: true,
   action: MOCK_API_LINK,
+  headers: {
+    authorization: "authorization-text",
+  },
   onChange(info) {
     const { status } = info.file;
     if (status !== "uploading") {
@@ -27,6 +30,14 @@ const props: UploadProps = {
   },
   onDrop(e) {
     console.log("Dropped files", e.dataTransfer.files);
+  },
+  progress: {
+    strokeColor: {
+      "0%": "#108ee9",
+      "100%": "#87d068",
+    },
+    strokeWidth: 3,
+    format: percent => percent && `${parseFloat(percent.toFixed(2))}%`,
   },
 };
 

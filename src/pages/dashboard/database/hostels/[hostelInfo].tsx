@@ -1,10 +1,12 @@
 /* eslint-disable react/no-array-index-key */
 import { PlusOutlined } from "@ant-design/icons";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import { Input, InputRef, Space, Tag, theme, Tooltip } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import { useForm } from "react-hook-form";
 
 import { Container } from "@/components/layout/dashboard";
 import CheckboxGroup from "@/components/ui/form/checkboxgroup";
@@ -12,38 +14,80 @@ import RadioGroup from "@/components/ui/form/radiogroup";
 import SelectField from "@/components/ui/form/selectfield";
 import TextAreaWithLabelAndCount from "@/components/ui/form/textarea";
 import TextField from "@/components/ui/form/textfield";
+import LoadingState from "@/components/ui/Loading";
 import { DASHBOARD_HOSTEL } from "@/config/links";
+import {
+  HostelInfoContextType,
+  hostelInfoSchema,
+  HostelInfoSchemaType,
+} from "@/types/form";
+
+const ReactHookForm = React.createContext<HostelInfoContextType | undefined>(
+  undefined
+);
 
 export default function HostelInfo() {
   const router = useRouter();
   const id = router.query.hostelInfo as string;
 
+  const onSubmit = (data: object) => {
+    console.log(data, "data");
+  };
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+  } = useForm<HostelInfoSchemaType>({
+    resolver: zodResolver(hostelInfoSchema),
+  });
+
+  React.useEffect(() => {
+    reset({});
+  }, [isSubmitSuccessful, reset]);
+
   return (
-    <Container headerTitle={id}>
-      <main className="p-10 bg-white h-full">
-        <Link href={DASHBOARD_HOSTEL} className="flex items-center gap-2">
-          <Icon icon="teenyicons:arrow-left-solid" />
-          Back to Hostel
-        </Link>
-        <HostelDetailHeading />
-        <HostelInformation />
-        <HostelFacilities />
-        <HostelStaffDetails />
-        <AdditionalInformation />
-        <AllocateStudent />
-        <RoomNamingConfiguration />
-        <HostelFee />
-        <div className="flex justify-end gap-6">
-          <button className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-20 py-3 rounded-lg">
-            Save
-          </button>
-        </div>
-      </main>
-    </Container>
+    <ReactHookForm.Provider value={{ register, errors }}>
+      <Container headerTitle={id}>
+        <main className="p-10 bg-white h-full">
+          <Link href={DASHBOARD_HOSTEL} className="flex items-center gap-2">
+            <Icon icon="teenyicons:arrow-left-solid" />
+            Back to Hostel
+          </Link>
+          <HostelDetailHeading />
+          <HostelInformation />
+          <HostelFacilities />
+          <HostelStaffDetails />
+          <AdditionalInformation />
+          <AllocateStudent />
+          <RoomNamingConfiguration />
+          <HostelFee />
+          <div className="flex justify-end gap-6">
+            <button
+              className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-20 py-3 rounded-lg"
+              onClick={handleSubmit(onSubmit)}
+            >
+              <LoadingState label="Save" isSubmitting={isSubmitting} />
+            </button>
+          </div>
+        </main>
+      </Container>
+    </ReactHookForm.Provider>
   );
 }
 
+const useFormContext = () => {
+  const context = React.useContext(ReactHookForm);
+  if (!context) {
+    throw new Error("useFormContext must be used within a MyProvider");
+  }
+  return context;
+};
+
 function HostelInformation() {
+  const { register, errors } = useFormContext();
+
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
@@ -61,7 +105,8 @@ function HostelInformation() {
           placeholder="Babalola Hostel"
           required
           defaultValue="Cora Hostel"
-          onChange={e => console.log(e.target.value)}
+          register={register}
+          errorMessage={errors.hostel_name?.message || ""}
         />
         <TextField
           id="capacity"
@@ -69,13 +114,16 @@ function HostelInformation() {
           placeholder="2000"
           defaultValue={"3204"}
           required
-          onChange={e => console.log(e.target.value)}
+          register={register}
+          errorMessage={errors.capacity?.message || ""}
         />
         <SelectField
-          id="type"
+          id="hostel_type"
           label="Type"
-          options={["Select an option", "Male", "Female"]}
+          options={["Male", "Female"]}
           defaultValue={"Female"}
+          register={register}
+          errorMessage={errors.hostel_type?.message || ""}
         />
       </div>
     </div>
@@ -83,6 +131,8 @@ function HostelInformation() {
 }
 
 function HostelStaffDetails() {
+  const { register, errors } = useFormContext();
+
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
@@ -100,6 +150,8 @@ function HostelStaffDetails() {
           placeholder="Mr Bamidele"
           required
           defaultValue={"Mrs Rosie"}
+          register={register}
+          errorMessage={errors.staff_name?.message || ""}
         />
         <TextField
           id="contact_detail"
@@ -107,6 +159,8 @@ function HostelStaffDetails() {
           placeholder="0811-234-5678"
           defaultValue={"09062327721"}
           required
+          register={register}
+          errorMessage={errors.contact_detail?.message || ""}
         />
       </div>
     </div>
@@ -114,6 +168,8 @@ function HostelStaffDetails() {
 }
 
 function HostelFee() {
+  const { register, errors } = useFormContext();
+
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
@@ -129,18 +185,24 @@ function HostelFee() {
           placeholder="$1300"
           required
           defaultValue={"$1000"}
+          register={register}
+          errorMessage={errors.amount_to_be_paid?.message || ""}
         />
         <SelectField
           id="period_of_payment"
           label="Period of payment"
-          options={["Select an option", "1st Term", "2nd Term", "3rd Term"]}
+          options={["1st Term", "2nd Term", "3rd Term"]}
           defaultValue={"2nd Term"}
+          register={register}
+          errorMessage={errors.period_of_payment?.message || ""}
         />
       </div>
     </div>
   );
 }
 function AdditionalInformation() {
+  const { register, errors } = useFormContext();
+
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
@@ -162,6 +224,8 @@ function AdditionalInformation() {
           placeholder="If you want to provide note and comment"
           isFullWidth
           defaultValue={"No comment"}
+          register={register}
+          errorMessage={errors["Notes&Comments"]?.message || ""}
         />
       </div>
     </div>
@@ -213,6 +277,8 @@ function RoomNamingConfiguration() {
 }
 
 function HostelFacilities() {
+  const { register, errors } = useFormContext();
+
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
@@ -227,8 +293,10 @@ function HostelFacilities() {
         <SelectField
           id="room_type"
           label="Room type"
-          options={["Select an option", "Single room", "Double room"]}
+          options={["Single room", "Double room"]}
           defaultValue={"Single room"}
+          register={register}
+          errorMessage={errors.room_type?.message || ""}
         />
 
         <CheckboxGroup

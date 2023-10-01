@@ -1,9 +1,11 @@
 /* eslint-disable react/no-array-index-key */
 import { PlusOutlined } from "@ant-design/icons";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import { Input, InputRef, Modal, Space, Tag, theme, Tooltip } from "antd";
 import Link from "next/link";
 import React from "react";
+import { useForm } from "react-hook-form";
 
 import { Container } from "@/components/layout/dashboard";
 import CheckboxGroup from "@/components/ui/form/checkboxgroup";
@@ -11,97 +13,132 @@ import RadioGroup from "@/components/ui/form/radiogroup";
 import SelectField from "@/components/ui/form/selectfield";
 import TextAreaWithLabelAndCount from "@/components/ui/form/textarea";
 import TextField from "@/components/ui/form/textfield";
+import LoadingState from "@/components/ui/Loading";
 import { DASHBOARD_HOSTEL } from "@/config/links";
+import {
+  NewHostelContextType,
+  newHostelSchema,
+  NewHostelSchemaType,
+} from "@/types/form";
+
+const ReactHookForm = React.createContext<NewHostelContextType | undefined>(
+  undefined
+);
 
 export default function NewHostel() {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
-  const handleOpenModal = () => {
-    return () => setIsModalOpen(true);
-  };
-
   const handleCloseModal = () => {
     return () => setIsModalOpen(false);
   };
+
+  const onSubmit = (data: object) => {
+    console.log(data, "data");
+    setIsModalOpen(true);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+  } = useForm<NewHostelSchemaType>({
+    resolver: zodResolver(newHostelSchema),
+  });
+
+  React.useEffect(() => {
+    reset({});
+  }, [isSubmitSuccessful, reset]);
+
   return (
-    <Container headerTitle="New Hostel">
-      <main className="p-10 bg-white h-full">
-        <Link href={DASHBOARD_HOSTEL} className="flex items-center gap-2">
-          <Icon icon="teenyicons:arrow-left-solid" />
-          Back to Hostel
-        </Link>
-        <NewHostelHeading />
-        <HostelInformation />
-        <HostelFacilities />
-        <HostelStaffDetails />
-        <AdditionalInformation />
-        <AllocateStudent />
-        <RoomNamingConfiguration />
-        <HostelFee />
-        <div className="flex justify-end gap-6">
-          <button
-            className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-20 py-3 rounded-lg"
-            onClick={handleOpenModal()}
-          >
-            Save
-          </button>
-        </div>
-        <Modal
-          centered
-          open={isModalOpen}
-          onOk={handleCloseModal()}
-          width={450}
-          okText={
+    <ReactHookForm.Provider value={{ register, errors }}>
+      <Container headerTitle="New Hostel">
+        <main className="p-10 bg-white h-full">
+          <Link href={DASHBOARD_HOSTEL} className="flex items-center gap-2">
+            <Icon icon="teenyicons:arrow-left-solid" />
+            Back to Hostel
+          </Link>
+          <NewHostelHeading />
+          <HostelInformation />
+          <HostelFacilities />
+          <HostelStaffDetails />
+          <AdditionalInformation />
+          <AllocateStudent />
+          <RoomNamingConfiguration />
+          <HostelFee />
+          <div className="flex justify-end gap-6">
             <button
-              onClick={handleCloseModal()}
-              className="text-white bg-primary-purple-700  w-full rounded-lg py-3 px-6 font-semibold text-sm"
+              className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-20 py-3 rounded-lg"
+              onClick={handleSubmit(onSubmit)}
             >
-              View hostel
+              <LoadingState label="Save" isSubmitting={isSubmitting} />
             </button>
-          }
-          closeIcon={
-            <button onClick={handleCloseModal()} className="">
-              <Icon icon="carbon:close-outline" className="text-black" />
-            </button>
-          }
-          okButtonProps={{
-            style: {
-              color: "#ffffff",
-              width: "100%",
-              background: "#fff",
-              margin: 0,
-              marginBottom: 20,
-            },
-          }}
-          cancelButtonProps={{
-            style: {
-              display: "none",
-            },
-          }}
-        >
-          <div className="text-center pt-6 w-[95%] mx-auto">
-            <div className="flex justify-center items-center rounded-lg bg-success-light  py-6">
-              <Icon
-                icon="zondicons:checkmark-outline"
-                className="bg-success-light text-success-dark"
-                fontSize={40}
-              />
-            </div>
-            <h2 className="text-2xl font-semibold mb-1 mt-4 text-Text-high-emphasis">
-              New hostel created
-            </h2>
-            <p className="text-gray-700 font-medium">
-              You have successfully created a new hostel named Rhoda Hosel with
-              50 students added to this hostel.
-            </p>
           </div>
-        </Modal>
-      </main>
-    </Container>
+          <Modal
+            centered
+            open={isModalOpen}
+            onOk={handleCloseModal()}
+            width={450}
+            okText={
+              <button
+                onClick={handleCloseModal()}
+                className="text-white bg-primary-purple-700  w-full rounded-lg py-3 px-6 font-semibold text-sm"
+              >
+                View hostel
+              </button>
+            }
+            closeIcon={
+              <button onClick={handleCloseModal()} className="">
+                <Icon icon="carbon:close-outline" className="text-black" />
+              </button>
+            }
+            okButtonProps={{
+              style: {
+                color: "#ffffff",
+                width: "100%",
+                background: "#fff",
+                margin: 0,
+                marginBottom: 20,
+              },
+            }}
+            cancelButtonProps={{
+              style: {
+                display: "none",
+              },
+            }}
+          >
+            <div className="text-center pt-6 w-[95%] mx-auto">
+              <div className="flex justify-center items-center rounded-lg bg-success-light  py-6">
+                <Icon
+                  icon="zondicons:checkmark-outline"
+                  className="bg-success-light text-success-dark"
+                  fontSize={40}
+                />
+              </div>
+              <h2 className="text-2xl font-semibold mb-1 mt-4 text-Text-high-emphasis">
+                New hostel created
+              </h2>
+              <p className="text-gray-700 font-medium">
+                You have successfully created a new hostel named Rhoda Hosel
+                with 50 students added to this hostel.
+              </p>
+            </div>
+          </Modal>
+        </main>
+      </Container>
+    </ReactHookForm.Provider>
   );
 }
-
+const useFormContext = () => {
+  const context = React.useContext(ReactHookForm);
+  if (!context) {
+    throw new Error("useFormContext must be used within a MyProvider");
+  }
+  return context;
+};
 function HostelInformation() {
+  const { register, errors } = useFormContext();
+
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
@@ -118,12 +155,23 @@ function HostelInformation() {
           label="Hostel name"
           placeholder="Babalola Hostel"
           required
+          register={register}
+          errorMessage={errors.hostel_name?.message || ""}
         />
-        <TextField id="capacity" label="Capacity" placeholder="2000" required />
+        <TextField
+          id="capacity"
+          label="Capacity"
+          placeholder="2000"
+          required
+          register={register}
+          errorMessage={errors.capacity?.message || ""}
+        />
         <SelectField
-          id="type"
+          id="hostel_type"
           label="Type"
-          options={["Select an option", "Male", "Female"]}
+          options={["Male", "Female"]}
+          register={register}
+          errorMessage={errors.hostel_type?.message || ""}
         />
       </div>
     </div>
@@ -131,6 +179,8 @@ function HostelInformation() {
 }
 
 function HostelStaffDetails() {
+  const { register, errors } = useFormContext();
+
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
@@ -147,12 +197,16 @@ function HostelStaffDetails() {
           label="Staff name"
           placeholder="Mr Bamidele"
           required
+          register={register}
+          errorMessage={errors.staff_name?.message || ""}
         />
         <TextField
           id="contact_detail"
           label="Contact detail"
           placeholder="0811-234-5678"
           required
+          register={register}
+          errorMessage={errors.contact_detail?.message || ""}
         />
       </div>
     </div>
@@ -160,6 +214,8 @@ function HostelStaffDetails() {
 }
 
 function HostelFee() {
+  const { register, errors } = useFormContext();
+
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
@@ -174,17 +230,23 @@ function HostelFee() {
           label="Amount to be paid"
           placeholder="$13,450"
           required
+          register={register}
+          errorMessage={errors.amount_to_be_paid?.message || ""}
         />
         <SelectField
           id="period_of_payment"
           label="Period of payment"
-          options={["Select an option", "1st Term", "2nd Term", "3rd Term"]}
+          options={["1st Term", "2nd Term", "3rd Term"]}
+          register={register}
+          errorMessage={errors.period_of_payment?.message || ""}
         />
       </div>
     </div>
   );
 }
 function AdditionalInformation() {
+  const { register, errors } = useFormContext();
+
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
@@ -206,6 +268,8 @@ function AdditionalInformation() {
           }
           placeholder="If you want to provide note and comment"
           isFullWidth
+          register={register}
+          errorMessage={errors["Notes&Comments"]?.message || ""}
         />
       </div>
     </div>
@@ -257,6 +321,8 @@ function RoomNamingConfiguration() {
 }
 
 function HostelFacilities() {
+  const { register, errors } = useFormContext();
+
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
@@ -271,7 +337,9 @@ function HostelFacilities() {
         <SelectField
           id="room_type"
           label="Room type"
-          options={["Select an option", "Single room", "Double room"]}
+          options={["Single room", "Double room"]}
+          register={register}
+          errorMessage={errors.room_type?.message || ""}
         />
 
         <CheckboxGroup

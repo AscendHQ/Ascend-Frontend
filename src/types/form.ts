@@ -203,6 +203,54 @@ type LessonPlanInfoFieldValues = {
   weekly_plan_objectives: string;
 };
 
+export const newHostelSchema = z.object({
+  hostel_name: z.string().min(1, "Subject name is required"),
+  capacity: z.string().min(1, "Subject name is required"),
+  hostel_type: z.string().min(1, "Subject name is required"),
+  staff_name: z.string().min(1, "Subject name is required"),
+  contact_detail: z.string().min(1, "Subject name is required"),
+  amount_to_be_paid: z.string().min(1, "Subject name is required"),
+  period_of_payment: z.string().min(1, "Subject name is required"),
+  room_type: z.string().min(1, "Subject name is required"),
+  "Notes&Comments": z.string().min(1, "Subject name is required"),
+});
+
+type NewHostelFieldValues = {
+  hostel_name: string;
+  capacity: string;
+  hostel_type: string;
+  staff_name: string;
+  contact_detail: string;
+  amount_to_be_paid: string;
+  period_of_payment: string;
+  room_type: string;
+  "Notes&Comments": string;
+};
+
+export const hostelInfoSchema = z.object({
+  hostel_name: z.string().min(1, "Subject name is required"),
+  capacity: z.string().min(1, "Subject name is required"),
+  hostel_type: z.string().min(1, "Subject name is required"),
+  staff_name: z.string().min(1, "Subject name is required"),
+  contact_detail: z.string().min(1, "Subject name is required"),
+  amount_to_be_paid: z.string().min(1, "Subject name is required"),
+  period_of_payment: z.string().min(1, "Subject name is required"),
+  room_type: z.string().min(1, "Subject name is required"),
+  "Notes&Comments": z.string().min(1, "Subject name is required"),
+});
+
+type HostelInfoFieldValues = {
+  hostel_name: string;
+  capacity: string;
+  hostel_type: string;
+  staff_name: string;
+  contact_detail: string;
+  amount_to_be_paid: string;
+  period_of_payment: string;
+  room_type: string;
+  "Notes&Comments": string;
+};
+
 // zodresolver
 export type BioDataContextType = {
   register: UseFormRegister<BioDataFieldValues>;
@@ -234,10 +282,21 @@ export type NewLessonPlanContextType = {
   errors: FieldErrors<NewLessonPlanFieldValues>;
   open: boolean;
 };
+
 export type LessonPlanInfoContextType = {
   register: UseFormRegister<LessonPlanInfoFieldValues>;
   errors: FieldErrors<LessonPlanInfoFieldValues>;
   open: boolean;
+};
+
+export type NewHostelContextType = {
+  register: UseFormRegister<NewHostelFieldValues>;
+  errors: FieldErrors<NewHostelFieldValues>;
+};
+
+export type HostelInfoContextType = {
+  register: UseFormRegister<HostelInfoFieldValues>;
+  errors: FieldErrors<HostelInfoFieldValues>;
 };
 
 // useform
@@ -248,6 +307,7 @@ export type StudentBioDataSchemaType = z.infer<typeof studentBioDataSchema>;
 export type StudentAcademicInfoSchemaType = z.infer<
   typeof studentAcademicInfoSchema
 >;
+
 export type NewSubjectSchemaType = z.infer<typeof newSubjectSchema>;
 
 export type NewClassSchemaType = z.infer<typeof newClassSchema>;
@@ -257,3 +317,7 @@ export type ClassInfoSchemaType = z.infer<typeof classInfoSchema>;
 export type NewLessonPlanSchemaType = z.infer<typeof newLessonPlanSchema>;
 
 export type LessonPlanInfoSchemaType = z.infer<typeof lessonPlanInfoSchema>;
+
+export type NewHostelSchemaType = z.infer<typeof newHostelSchema>;
+
+export type HostelInfoSchemaType = z.infer<typeof hostelInfoSchema>;
