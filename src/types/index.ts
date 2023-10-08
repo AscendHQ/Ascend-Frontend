@@ -112,7 +112,7 @@ type NewType = UseFormRegister<T>;
 
 export type TextFieldProps = {
   id: string;
-  label: string;
+  label: string | JSX.Element;
   required?: boolean;
   isFullWidth?: boolean;
   register: NewType;

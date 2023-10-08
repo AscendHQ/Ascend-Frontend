@@ -6,6 +6,7 @@ import Link from "next/link";
 import React from "react";
 
 import { ACCOUNT_SETTING_DETAILS } from "@/config/links";
+import useClickOutside from "@/hooks/useClickOutside";
 
 export default function DashboardHeader({
   headerTitle,
@@ -53,11 +54,19 @@ export default function DashboardHeader({
           />
           <Icon icon="tabler:chevron-down" fontSize={22} />
         </button>
-        <AccountDropDownSection dropDown={accountDropDown} />
+        <AccountDropDownSection
+          dropDown={accountDropDown}
+          onClose={() => {
+            setAccountDropDown(false);
+          }}
+        />
         <NotificationDropDownSection
           activeTab={activeTab}
           handleTabClick={handleTabClick}
           dropDown={notificationDropDown}
+          onClose={() => {
+            setNotificationDropDown(false);
+          }}
         />
       </div>
     </header>
@@ -68,11 +77,15 @@ function NotificationDropDownSection({
   activeTab,
   handleTabClick,
   dropDown,
+  onClose,
 }: {
   activeTab: string;
   handleTabClick: (tabId: React.SetStateAction<string>) => void;
   dropDown: boolean;
+  onClose: () => void;
 }) {
+  const notificationRef = React.useRef<HTMLDivElement>(null);
+
   const checkActiveTabContainer = (route: string) =>
     activeTab === route ? "border-grey-1000" : "border-transparent";
 
@@ -80,6 +93,9 @@ function NotificationDropDownSection({
     activeTab === route
       ? "bg-info-main text-white"
       : "bg-grey-200 text-Text-meduim-emphasis";
+
+  useClickOutside(notificationRef, onClose);
+
   return (
     <motion.section
       initial={{
@@ -89,6 +105,7 @@ function NotificationDropDownSection({
         opacity: dropDown ? 1 : 0,
         y: dropDown ? 0 : 100,
       }}
+      ref={notificationRef}
       className={`absolute ${
         dropDown ? "block" : "hidden"
       } bg-white top-[115%] right-28 rounded-2xl min-w-[500px] shadow-xl z-50`}
@@ -391,7 +408,17 @@ function NotificationDropDownSection({
   );
 }
 
-function AccountDropDownSection({ dropDown }: { dropDown: boolean }) {
+function AccountDropDownSection({
+  dropDown,
+  onClose,
+}: {
+  dropDown: boolean;
+  onClose: () => void;
+}) {
+  const accountRef = React.useRef<HTMLDivElement>(null);
+
+  useClickOutside(accountRef, onClose);
+
   return (
     <motion.section
       initial={{
@@ -401,6 +428,7 @@ function AccountDropDownSection({ dropDown }: { dropDown: boolean }) {
         opacity: dropDown ? 1 : 0,
         y: dropDown ? 0 : 50,
       }}
+      ref={accountRef}
       className={`absolute bg-white top-full right-10 p-4 flex flex-col items-center justify-center rounded-md shadow-lg  z-50 ${
         dropDown ? "block" : "hidden"
       }`}

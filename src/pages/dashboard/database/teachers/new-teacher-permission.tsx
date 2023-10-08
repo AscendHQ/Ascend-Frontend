@@ -1,14 +1,32 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
+import { useForm } from "react-hook-form";
 
 import { Container } from "@/components/layout/dashboard";
+import { DashboardButton } from "@/components/ui/button/button";
+import PermissionCheckboxGroup from "@/components/ui/form/PermissionCheckboxGroup";
+import LoadingState from "@/components/ui/Loading";
 import {
   DASHBOARD_TEACHER_INFO_BIODATA,
   NEW_TEACHER_OFFICIAL_INFO,
 } from "@/config/links";
+import { useFormContext } from "@/hooks/useFormContext";
+import {
+  NewTeacherPermissionContextType,
+  newTeacherPermissionSchema,
+  NewTeacherPermissionSchemaType,
+} from "@/types/form";
+
+const ReactHookForm = React.createContext<
+  NewTeacherPermissionContextType | undefined
+>(undefined);
 
 export default function NewTeacherPermissions() {
+  const router = useRouter();
+
   const [isModalOpenSendInvite, setIsModalOpenSendInvite] =
     React.useState(false);
   const [isModalOpenInviteSent, setIsModalOpenInviteSent] =
@@ -29,8 +47,27 @@ export default function NewTeacherPermissions() {
   const handleCloseModalInviteSent = () => {
     setIsModalOpenInviteSent(false);
   };
+
+  const onSubmit = (data: NewTeacherPermissionSchemaType) => {
+    console.log(data, "data");
+    handleOpenModalSendInvite();
+    router.push("/");
+  };
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+  } = useForm<NewTeacherPermissionSchemaType>({
+    resolver: zodResolver(newTeacherPermissionSchema),
+  });
+
+  React.useEffect(() => {
+    reset({});
+  }, [isSubmitSuccessful, reset]);
   return (
-    <div>
+    <ReactHookForm.Provider value={{ register, errors }}>
       <Container headerTitle="New Teacher">
         <main className="p-10 bg-white h-full">
           <Link
@@ -49,15 +86,22 @@ export default function NewTeacherPermissions() {
           <Administration />
           <Payroll />
           <div className="flex justify-end gap-6">
-            <button className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg">
-              Discard
-            </button>
-            <button
-              onClick={handleOpenModalSendInvite}
-              className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg"
+            <DashboardButton
+              variant="secondary"
+              onClick={() => {
+                // TODO: do something about cancellation
+              }}
+              className="text-base px-7"
             >
-              Save and continue
-            </button>
+              Cancel
+            </DashboardButton>
+            <DashboardButton
+              variant="primary"
+              onClick={handleSubmit(onSubmit)}
+              className="text-base px-7 m-0"
+            >
+              <LoadingState label="Submit" isSubmitting={isSubmitting} />
+            </DashboardButton>
           </div>
         </main>
       </Container>
@@ -121,7 +165,7 @@ export default function NewTeacherPermissions() {
           </Link>
         </div>
       </Modal>
-    </div>
+    </ReactHookForm.Provider>
   );
 }
 
@@ -163,6 +207,9 @@ function Dashboard() {
 }
 
 function Database() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { register, errors } = useFormContext(ReactHookForm);
+
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
@@ -172,6 +219,14 @@ function Database() {
         </p>
       </div>
       <div className="flex-1 space-y-6">
+        <section>
+          <h5 className="font-medium">Students</h5>
+          <PermissionCheckboxGroup
+            actions={["create", "delete", "edit"]}
+            register={register}
+            entityType="Student"
+          />
+        </section>
         <section>
           <h5 className="font-medium">Students</h5>
           <div className="flex gap-5 flex-wrap mt-2">
@@ -511,11 +566,11 @@ function Payroll() {
     </div>
   );
 }
-interface ModalProps {
+type ModalProps = {
   open: boolean;
   onClose: () => void;
   children: JSX.Element;
-}
+};
 
 const Modal: React.FC<ModalProps> = ({ open, onClose, children }) => {
   const modalRef = React.useRef<HTMLDivElement>(null);

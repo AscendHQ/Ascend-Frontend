@@ -51,13 +51,11 @@ export default function Classes() {
             </DashboardButton>
           </Dropdown>
         </div>
-
         <ClassList
           studentClassDemographics={studentClassDemographics}
           viewStudent={viewStudent}
           setViewStudent={setViewStudent}
         />
-
         <Table />
       </main>
     </Container>
