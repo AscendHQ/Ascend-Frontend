@@ -4,7 +4,6 @@ import React from "react";
 
 import DatabaseStudentContainer from "@/components/layout/database-student/container";
 import { DashboardButton } from "@/components/ui/button/button";
-import { STUDENT_ACADEMIC_INFORMATION_UPDATE } from "@/config/links";
 
 export default function AcademicInformation() {
   return (
@@ -175,13 +174,7 @@ function AcademicInfoUpdate() {
         </p>
       </div>
 
-      <DashboardButton
-        variant="primary"
-        isLink={true}
-        path={STUDENT_ACADEMIC_INFORMATION_UPDATE}
-      >
-        Update
-      </DashboardButton>
+      <DashboardButton variant="primary">Update</DashboardButton>
     </div>
   );
 }

@@ -5,8 +5,10 @@ import { ConfigProvider } from "antd";
 import { AnimatePresence } from "framer-motion";
 import type { AppProps } from "next/app";
 import NextNprogress from "nextjs-progressbar";
+import { Provider } from "react-redux";
 
 import { GTWalsheimPro, InterFont } from "@/assets/fonts";
+import { store } from "@/store";
 
 import theme from "../styles/themeConfig";
 
@@ -29,11 +31,13 @@ export default function App({ Component, pageProps }: AppProps) {
         stopDelayMs={200}
         height={3}
       />
-      <AnimatePresence>
-        <ConfigProvider theme={theme}>
-          <Component {...pageProps} />
-        </ConfigProvider>
-      </AnimatePresence>
+      <Provider store={store}>
+        <AnimatePresence>
+          <ConfigProvider theme={theme}>
+            <Component {...pageProps} />
+          </ConfigProvider>
+        </AnimatePresence>
+      </Provider>
     </>
   );
 }
