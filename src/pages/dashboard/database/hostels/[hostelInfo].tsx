@@ -16,10 +16,11 @@ import TextAreaWithLabelAndCount from "@/components/ui/form/textarea";
 import TextField from "@/components/ui/form/textfield";
 import LoadingState from "@/components/ui/Loading";
 import { DASHBOARD_HOSTEL } from "@/config/links";
+import { useFormContext } from "@/hooks/useFormContext";
 import {
   HostelInfoContextType,
-  hostelInfoSchema,
   HostelInfoSchemaType,
+  newTeacherBioDataSchema,
 } from "@/types/form";
 
 const ReactHookForm = React.createContext<HostelInfoContextType | undefined>(
@@ -40,7 +41,7 @@ export default function HostelInfo() {
     reset,
     formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<HostelInfoSchemaType>({
-    resolver: zodResolver(hostelInfoSchema),
+    resolver: zodResolver(newTeacherBioDataSchema),
   });
 
   React.useEffect(() => {
@@ -77,16 +78,8 @@ export default function HostelInfo() {
   );
 }
 
-const useFormContext = () => {
-  const context = React.useContext(ReactHookForm);
-  if (!context) {
-    throw new Error("useFormContext must be used within a MyProvider");
-  }
-  return context;
-};
-
 function HostelInformation() {
-  const { register, errors } = useFormContext();
+  const { register, errors } = useFormContext(ReactHookForm);
 
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
@@ -114,6 +107,7 @@ function HostelInformation() {
           placeholder="2000"
           defaultValue={"3204"}
           required
+          type="number"
           register={register}
           errorMessage={errors.capacity?.message || ""}
         />
@@ -131,7 +125,7 @@ function HostelInformation() {
 }
 
 function HostelStaffDetails() {
-  const { register, errors } = useFormContext();
+  const { register, errors } = useFormContext(ReactHookForm);
 
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
@@ -168,7 +162,7 @@ function HostelStaffDetails() {
 }
 
 function HostelFee() {
-  const { register, errors } = useFormContext();
+  const { register, errors } = useFormContext(ReactHookForm);
 
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
@@ -183,6 +177,7 @@ function HostelFee() {
           id="amount_to_be_paid"
           label="Amount to be paid"
           placeholder="$1300"
+          type="number"
           required
           defaultValue={"$1000"}
           register={register}
@@ -201,7 +196,7 @@ function HostelFee() {
   );
 }
 function AdditionalInformation() {
-  const { register, errors } = useFormContext();
+  const { register, errors } = useFormContext(ReactHookForm);
 
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
@@ -277,7 +272,7 @@ function RoomNamingConfiguration() {
 }
 
 function HostelFacilities() {
-  const { register, errors } = useFormContext();
+  const { register, errors } = useFormContext(ReactHookForm);
 
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">

@@ -1,38 +1,88 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
+import { useForm } from "react-hook-form";
 
 import { Container } from "@/components/layout/dashboard";
+import { DashboardButton } from "@/components/ui/button/button";
+import SelectField from "@/components/ui/form/selectfield";
+import TextField from "@/components/ui/form/textfield";
+import LoadingState from "@/components/ui/Loading";
 import { NEW_TEACHER_BIODATA, NEW_TEACHER_PERMISSION } from "@/config/links";
+import { useFormContext } from "@/hooks/useFormContext";
+import {
+  NewTeacherOfficialInfoContextType,
+  newTeacherOfficialInfoSchema,
+  NewTeacherOfficialInfoSchemaType,
+} from "@/types/form";
+
+const ReactHookForm = React.createContext<
+  NewTeacherOfficialInfoContextType | undefined
+>(undefined);
 
 export default function NewTeacherOfficialInfo() {
+  const router = useRouter();
+
+  const onSubmit = (data: NewTeacherOfficialInfoSchemaType) => {
+    console.log(data, "data");
+    router.push(NEW_TEACHER_PERMISSION);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+  } = useForm<NewTeacherOfficialInfoSchemaType>({
+    resolver: zodResolver(newTeacherOfficialInfoSchema),
+  });
+
+  React.useEffect(() => {
+    reset({});
+  }, [isSubmitSuccessful, reset]);
+
   return (
-    <Container headerTitle="New Teacher">
-      <main className="p-10 bg-white h-full">
-        <Link href={NEW_TEACHER_BIODATA} className="flex items-center gap-2">
-          <Icon icon="teenyicons:arrow-left-solid" />
-          Back
-        </Link>
-        <TeacherdataHeading />
-        <PersonalInformation />
-        <Password />
-        <div className="flex justify-end gap-6">
-          <button className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg">
-            Cancel
-          </button>
-          <Link
-            href={NEW_TEACHER_PERMISSION}
-            className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg"
-          >
-            Save and continue
+    <ReactHookForm.Provider value={{ register, errors }}>
+      <Container headerTitle="New Teacher">
+        <main className="p-10 bg-white h-full">
+          <Link href={NEW_TEACHER_BIODATA} className="flex items-center gap-2">
+            <Icon icon="teenyicons:arrow-left-solid" />
+            Back
           </Link>
-        </div>
-      </main>
-    </Container>
+          <TeacherdataHeading />
+          <PersonalInformation />
+          <Password />
+          <div className="flex justify-end gap-6">
+            <DashboardButton
+              variant="secondary"
+              onClick={() => {
+                // TODO: do something about cancellation
+              }}
+              className="text-base px-7"
+            >
+              Cancel
+            </DashboardButton>
+            <DashboardButton
+              variant="primary"
+              onClick={handleSubmit(onSubmit)}
+              className="text-base px-7"
+            >
+              <LoadingState
+                label="Save and continue"
+                isSubmitting={isSubmitting}
+              />
+            </DashboardButton>
+          </div>
+        </main>
+      </Container>
+    </ReactHookForm.Provider>
   );
 }
 
 function PersonalInformation() {
+  const { register, errors } = useFormContext(ReactHookForm);
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
@@ -43,52 +93,31 @@ function PersonalInformation() {
           This will be displayed on your organization profile.
         </p>
       </div>
-      <div className="flex flex-1 flex-wrap gap-5">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="staff_ID"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Staff ID
-          </label>
-          <input
-            type="text"
-            id="staff_ID"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="GPIC5566"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="job_title"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Job title
-          </label>
-          <input
-            type="text"
-            id="job_title"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Teacher"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="staff_category"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Staff category
-          </label>
-          <input
-            type="text"
-            id="staff_category"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Teacher"
-            required
-          />
-        </div>
+      <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
+        <TextField
+          id="staff_ID"
+          label="Staff ID"
+          placeholder="GPIC5566"
+          required
+          register={register}
+          errorMessage={errors.staff_ID?.message || ""}
+        />
+        <TextField
+          id="job_title"
+          label="Job title"
+          placeholder="Teacher"
+          required
+          register={register}
+          errorMessage={errors.job_title?.message || ""}
+        />
+        <TextField
+          id="staff_category"
+          label="Staff category"
+          placeholder="Teacher"
+          required
+          register={register}
+          errorMessage={errors.staff_category?.message || ""}
+        />
         <div className="lg:min-w-[250px] flex-1">
           <label
             htmlFor="employment_start_date"
@@ -106,13 +135,13 @@ function PersonalInformation() {
                 <g fill="none">
                   <path
                     stroke="currentColor"
-                    stroke-width="2"
+                    strokeWidth="2"
                     d="M2 12c0-3.771 0-5.657 1.172-6.828C4.343 4 6.229 4 10 4h4c3.771 0 5.657 0 6.828 1.172C22 6.343 22 8.229 22 12v2c0 3.771 0 5.657-1.172 6.828C19.657 22 17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172C2 19.657 2 17.771 2 14v-2Z"
                   />
                   <path
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeWidth="2"
                     d="M7 4V2.5M17 4V2.5M2.5 9h19"
                   />
                   <path
@@ -130,38 +159,24 @@ function PersonalInformation() {
             />
           </div>
         </div>
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="department"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Department <small>(Optional)</small>
-          </label>
-          <input
-            type="email"
-            id="department"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Science"
-            required
-          />
-        </div>{" "}
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="educational_qualification"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Educational Qualification
-          </label>
-          <select
-            name="educational_qualification"
-            id="educational_qualification"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="Bsc.">Bsc.</option>
-            <option value="HND">HND</option>
-            <option value="OND">OND</option>
-          </select>
-        </div>
+        <TextField
+          id="department"
+          label={
+            <span>
+              Department <small>(Optional)</small>
+            </span>
+          }
+          placeholder="Science"
+          register={register}
+          errorMessage={errors.department?.message || ""}
+        />
+        <SelectField
+          id="educational_qualification"
+          label="Educational Qualification"
+          register={register}
+          options={["Bsc.", "HND", "OND"]}
+          errorMessage={errors.educational_qualification?.message || ""}
+        />
       </div>
     </div>
   );

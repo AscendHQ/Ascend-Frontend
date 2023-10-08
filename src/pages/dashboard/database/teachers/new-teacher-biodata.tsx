@@ -1,40 +1,89 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
+import { useForm } from "react-hook-form";
 
 import { Container } from "@/components/layout/dashboard";
+import { DashboardButton } from "@/components/ui/button/button";
+import SelectField from "@/components/ui/form/selectfield";
+import TextAreaWithLabelAndCount from "@/components/ui/form/textarea";
+import TextField from "@/components/ui/form/textfield";
+import LoadingState from "@/components/ui/Loading";
 import { DASHBOARD_TEACHER, NEW_TEACHER_OFFICIAL_INFO } from "@/config/links";
+import { useFormContext } from "@/hooks/useFormContext";
+import {
+  NewTeacherBioDataContextType,
+  newTeacherBioDataSchema,
+  NewTeacherBioDataSchemaType,
+} from "@/types/form";
+
+const ReactHookForm = React.createContext<
+  NewTeacherBioDataContextType | undefined
+>(undefined);
 
 export default function NewTeacherBiodata() {
+  const router = useRouter();
+
+  const onSubmit = (data: NewTeacherBioDataSchemaType) => {
+    console.log(data, "data");
+    router.push(NEW_TEACHER_OFFICIAL_INFO);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+  } = useForm<NewTeacherBioDataSchemaType>({
+    resolver: zodResolver(newTeacherBioDataSchema),
+  });
+
+  React.useEffect(() => {
+    reset({});
+  }, [isSubmitSuccessful, reset]);
+
+  React.useEffect(() => {
+    window.addEventListener("popstate", function (event) {
+      localStorage.setItem("ayod", JSON.stringify("This is testing" + event));
+    });
+  }, []);
+
   return (
-    <Container headerTitle="New Teacher">
-      <main className="p-10 bg-white h-full">
-        <Link href={DASHBOARD_TEACHER} className="flex items-center gap-2">
-          <Icon icon="teenyicons:arrow-left-solid" />
-          Back
-        </Link>
-        <TeacherdataHeading />
-        <PersonalInformation />
-        <NextOfKinInformation />
-        <div className="flex justify-end gap-6">
-          <button className="flex font-semibold gap-3 items-center border border-border-colour-light text-sm text-gray-800 px-7 py-3 rounded-lg">
-            Cancel
-          </button>
-          <Link
-            href={NEW_TEACHER_OFFICIAL_INFO}
-            className="flex gap-3 items-center font-semibold bg-primary-purple-700 text-sm text-white px-7 py-3 rounded-lg"
-          >
-            Save and continue
+    <ReactHookForm.Provider value={{ register, errors }}>
+      <Container headerTitle="New Teacher">
+        <main className="p-10 bg-white h-full">
+          <Link href={DASHBOARD_TEACHER} className="flex items-center gap-2">
+            <Icon icon="teenyicons:arrow-left-solid" />
+            Back
           </Link>
-        </div>
-      </main>
-    </Container>
+          <TeacherdataHeading />
+          <PersonalInformation />
+          <NextOfKinInformation />
+          <div className="flex justify-end gap-6">
+            <DashboardButton
+              variant="primary"
+              onClick={handleSubmit(onSubmit)}
+              className="text-base px-7"
+            >
+              <LoadingState
+                label="Save and continue"
+                isSubmitting={isSubmitting}
+              />
+            </DashboardButton>
+          </div>
+        </main>
+      </Container>
+    </ReactHookForm.Provider>
   );
 }
 
 function NextOfKinInformation() {
+  const { register, errors } = useFormContext(ReactHookForm);
+
   return (
-    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Next of kin information
@@ -43,132 +92,74 @@ function NextOfKinInformation() {
           This will be displayed on your organization profile.
         </p>
       </div>
-      <div className="flex flex-1 flex-wrap gap-5">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="first_name"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            First name
-          </label>
-          <input
-            type="text"
-            id="first_name"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Joe"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="last_name"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Last name
-          </label>
-          <input
-            type="text"
-            id="last_name"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Doe"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="relationship"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Relationship
-          </label>
-          <select
-            name="relationship"
-            id="relationship"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="Father">Father</option>
-            <option value="Mother">Mother</option>
-          </select>
-        </div>
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="gender"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Gender
-          </label>
-          <select
-            name="gender"
-            id="gender"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
-        </div>
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="email_address"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Email address <small>(Optional)</small>
-          </label>
-          <input
-            type="email"
-            id="email_address"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="emilypage@gmail.com"
-            required
-          />
-        </div>{" "}
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="phone_number"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Phone number
-          </label>
-          <input
-            type="text"
-            id="phone_number"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="0900 000 0000"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="email_address"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            State of residence
-          </label>
-          <select
-            name="select_a_state"
-            id="select_a_state"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Select a state"
-          >
-            <option value="Ondo">Ondo</option>
-            <option value="Ekiti">Ekiti</option>
-            <option value="Lagos">Lagos</option>
-            <option value="Oyo">Oyo</option>
-            <option value="Osun">Osun</option>
-          </select>
-        </div>{" "}
-        <div className="lg:min-w-full flex-1 ">
-          <label
-            htmlFor="residential_address"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Residential address
-          </label>
-          <textarea
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            id="residential_address"
-            placeholder="Enter your home address"
-          />
-        </div>
+      <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
+        <TextField
+          id="next_of_kin_first_name"
+          label="First name"
+          placeholder="John"
+          required
+          register={register}
+          errorMessage={errors.next_of_kin_first_name?.message || ""}
+        />
+        <TextField
+          id="next_of_kin_last_name"
+          label="Last name"
+          placeholder="Doe"
+          required
+          register={register}
+          errorMessage={errors.next_of_kin_last_name?.message || ""}
+        />
+        <SelectField
+          id="next_of_kin_relationship"
+          label="Relationship"
+          register={register}
+          options={["Father", "Mother"]}
+          errorMessage={errors.next_of_kin_relationship?.message || ""}
+        />
+        <SelectField
+          id="next_of_kin_gender"
+          label="Gender"
+          register={register}
+          options={["Male", "Female"]}
+          errorMessage={errors.next_of_kin_gender?.message || ""}
+        />
+        <TextField
+          id="next_of_kin_email_address"
+          label={
+            <span>
+              Email address <small>(Optional)</small>
+            </span>
+          }
+          type="email"
+          placeholder="emilypage@gmail.com"
+          register={register}
+          errorMessage={errors.next_of_kin_email_address?.message || ""}
+        />
+        <TextField
+          id="next_of_kin_phone_number"
+          label="Phone number"
+          placeholder="0900 000 0000"
+          required
+          register={register}
+          errorMessage={errors.next_of_kin_phone_number?.message || ""}
+        />
+        <SelectField
+          id="next_of_kin_state_of_residence"
+          label="State of residence"
+          register={register}
+          options={["Ondo", "Ekiti", "Lagos", "Osun", "Oyo"]}
+          errorMessage={errors.next_of_kin_state_of_residence?.message || ""}
+        />
+        <TextAreaWithLabelAndCount
+          id="next_of_kin_residential_address"
+          label="Residential address"
+          placeholder="Enter your home address"
+          maxLength={50}
+          showCharacterCount={false}
+          register={register}
+          isFullWidth
+          errorMessage={errors.next_of_kin_residential_address?.message || ""}
+        />
       </div>
     </div>
   );
@@ -187,8 +178,10 @@ function TeacherdataHeading() {
   );
 }
 function PersonalInformation() {
+  const { register, errors } = useFormContext(ReactHookForm);
+
   return (
-    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Personal information
@@ -197,7 +190,7 @@ function PersonalInformation() {
           This will be displayed on your organization profile.
         </p>
       </div>
-      <div className="flex flex-1 flex-wrap gap-5">
+      <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
         <section className="lg:min-w-full flex-1 flex items-center gap-3 justify-start">
           <div className="relative flex justify-center items-center p-3 w-24 h-24 mr-5 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
             <svg
@@ -207,9 +200,9 @@ function PersonalInformation() {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
               ></path>
             </svg>
           </div>
@@ -220,52 +213,31 @@ function PersonalInformation() {
             Remove
           </button>
         </section>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="first_name"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            First name
-          </label>
-          <input
-            type="text"
-            id="first_name"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Babalola"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="last_name"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Last name
-          </label>
-          <input
-            type="text"
-            id="last_name"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Okowah"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="gender"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Gender
-          </label>
-          <select
-            name="gender"
-            id="gender"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
-        </div>
+        <TextField
+          id="first_name"
+          label="First name"
+          placeholder="Babalola"
+          required
+          register={register}
+          errorMessage={errors.first_name?.message || ""}
+        />
+        <TextField
+          id="last_name"
+          label="Last name"
+          placeholder="Okowah"
+          required
+          register={register}
+          errorMessage={errors.last_name?.message || ""}
+        />
+
+        <SelectField
+          id="gender"
+          label="Gender"
+          register={register}
+          options={["Male", "Female"]}
+          errorMessage={errors.gender?.message || ""}
+        />
+
         <div className="lg:min-w-[250px] flex-1">
           <label
             htmlFor="date_of_birth"
@@ -283,13 +255,13 @@ function PersonalInformation() {
                 <g fill="none">
                   <path
                     stroke="currentColor"
-                    stroke-width="2"
+                    strokeWidth="2"
                     d="M2 12c0-3.771 0-5.657 1.172-6.828C4.343 4 6.229 4 10 4h4c3.771 0 5.657 0 6.828 1.172C22 6.343 22 8.229 22 12v2c0 3.771 0 5.657-1.172 6.828C19.657 22 17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172C2 19.657 2 17.771 2 14v-2Z"
                   />
                   <path
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeWidth="2"
                     d="M7 4V2.5M17 4V2.5M2.5 9h19"
                   />
                   <path
@@ -307,85 +279,55 @@ function PersonalInformation() {
             />
           </div>
         </div>
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="email_address"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Email address <small>(Optional)</small>
-          </label>
-          <input
-            type="email"
-            id="email_address"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="emilypage@gmail.com"
-            required
-          />
-        </div>{" "}
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="phone_number"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Phone number
-          </label>
-          <input
-            type="text"
-            id="phone_number"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="0900 000 0000"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="state_of_origin"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            State of Origin
-          </label>
-          <select
-            name="state_of_origin"
-            id="state_of_origin"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="Ondo">Ondo</option>
-            <option value="Ekiti">Ekiti</option>
-            <option value="Edo">Edo</option>
-            <option value="Oyo">Oyo</option>
-            <option value="Lagos">Lagos</option>
-            <option value="Kwara">Kwara</option>
-          </select>
-        </div>
-        <div className="lg:min-w-[250px] flex-1 ">
-          <label
-            htmlFor="local_government_area"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Local Government Area
-          </label>
-          <select
-            name="local_government_area"
-            id="local_government_area"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="Akoko-Edo">Akoko-Edo</option>
-            <option value="Ikale">Ikale</option>
-          </select>
-        </div>
-        <div className="lg:min-w-full flex-1">
-          <label
-            htmlFor="home_address"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Home Address
-          </label>
-          <textarea
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            id="home_address"
-            placeholder="Enter your home address"
-          />
-        </div>
+        <TextField
+          id="email_address"
+          label={
+            <span>
+              Email address <small>(Optional)</small>
+            </span>
+          }
+          placeholder="emilypage@gmail.com"
+          register={register}
+          errorMessage={errors.email_address?.message || ""}
+        />
+        <TextField
+          id="phone_number"
+          label="Phone number"
+          placeholder="0900 000 0000"
+          required
+          register={register}
+          errorMessage={errors.phone_number?.message || ""}
+        />
+        <SelectField
+          id="state_of_origin"
+          label="State of Origin"
+          register={register}
+          options={["Ondo", "Ekiti", "Lagos", "Osun", "Oyo"]}
+          errorMessage={errors.state_of_origin?.message || ""}
+        />
+        <SelectField
+          id="local_government_area"
+          label="Local Government Area"
+          register={register}
+          options={[
+            "Akoko-North",
+            "Akoko-South",
+            "Akure-North",
+            "Akure-South",
+            "Ondo",
+          ]}
+          errorMessage={errors.local_government_area?.message || ""}
+        />
+        <TextAreaWithLabelAndCount
+          id="home_address"
+          label="Home Address"
+          placeholder="Enter your home address"
+          maxLength={50}
+          showCharacterCount={false}
+          register={register}
+          isFullWidth
+          errorMessage={errors.home_address?.message || ""}
+        />
       </div>
     </div>
   );

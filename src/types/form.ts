@@ -228,27 +228,149 @@ type NewHostelFieldValues = {
 };
 
 export const hostelInfoSchema = z.object({
-  hostel_name: z.string().min(1, "Subject name is required"),
-  capacity: z.string().min(1, "Subject name is required"),
-  hostel_type: z.string().min(1, "Subject name is required"),
-  staff_name: z.string().min(1, "Subject name is required"),
-  contact_detail: z.string().min(1, "Subject name is required"),
-  amount_to_be_paid: z.string().min(1, "Subject name is required"),
-  period_of_payment: z.string().min(1, "Subject name is required"),
-  room_type: z.string().min(1, "Subject name is required"),
-  "Notes&Comments": z.string().min(1, "Subject name is required"),
+  hostel_name: z
+    .string()
+    .min(2, { message: "Hostel name should be at least 2 characters long" }),
+  capacity: z
+    .number()
+    .int()
+    .min(1, { message: "Capacity should be a positive integer" }),
+  hostel_type: z
+    .string()
+    .min(2, { message: "Hostel type should be at least 2 characters long" }),
+  staff_name: z
+    .string()
+    .min(2, { message: "Staff name should be at least 2 characters long" }),
+  contact_detail: z
+    .string()
+    .min(5, { message: "Contact detail should be at least 5 characters long" }),
+  amount_to_be_paid: z
+    .number()
+    .int()
+    .min(1, { message: "Amount to be paid should be a positive integer" }),
+  period_of_payment: z.string().min(2, {
+    message: "Period of payment should be at least 2 characters long",
+  }),
+  room_type: z
+    .string()
+    .min(2, { message: "Room type should be at least 2 characters long" }),
+  "Notes&Comments": z.string().min(5, {
+    message: "Notes & comments should be at least 5 characters long",
+  }),
 });
 
 type HostelInfoFieldValues = {
   hostel_name: string;
-  capacity: string;
+  capacity: number;
   hostel_type: string;
   staff_name: string;
   contact_detail: string;
-  amount_to_be_paid: string;
+  amount_to_be_paid: number;
   period_of_payment: string;
   room_type: string;
   "Notes&Comments": string;
+};
+
+export const newTeacherBioDataSchema = z.object({
+  first_name: z
+    .string()
+    .min(2, { message: "First name should be at least 2 characters long" }),
+  next_of_kin_first_name: z.string().min(2, {
+    message: "Next of kin first name should be at least 2 characters long",
+  }),
+  last_name: z
+    .string()
+    .min(2, { message: "Last name should be at least 2 characters long" }),
+  next_of_kin_last_name: z.string().min(2, {
+    message: "Next of kin last name should be at least 2 characters long",
+  }),
+  next_of_kin_relationship: z
+    .string()
+    .min(2, { message: "Relationship with next of kin is required" }),
+  gender: z.string().min(1, { message: "Gender is required" }),
+  next_of_kin_gender: z
+    .string()
+    .min(1, { message: "Gender of next of kin is required" }),
+  home_address: z
+    .string()
+    .min(10, { message: "Home address should be at least 10 characters long" }),
+  next_of_kin_residential_address: z.string().min(10, {
+    message:
+      "Residential address of next of kin should be at least 10 characters long",
+  }),
+  phone_number: z
+    .string()
+    .regex(/^\+?\d{10,12}$/, { message: "Invalid phone number" }),
+  next_of_kin_phone_number: z.string().regex(/^\+?\d{10,12}$/, {
+    message: "Invalid phone number of next of kin",
+  }),
+  next_of_kin_state_of_residence: z
+    .string()
+    .min(2, { message: "State of residence of next of kin is required" }),
+  email_address: z.string().email({ message: "Invalid email address" }),
+  next_of_kin_email_address: z
+    .string()
+    .email({ message: "Invalid email address for next of kin" }),
+  local_government_area: z
+    .string()
+    .min(2, { message: "Local government area is required" }),
+  state_of_origin: z
+    .string()
+    .min(2, { message: "State of origin is required" }),
+});
+
+type NewTeacherBioDataFieldValues = {
+  first_name: string;
+  next_of_kin_first_name: string;
+  last_name: string;
+  next_of_kin_last_name: string;
+  next_of_kin_relationship: string;
+  gender: string;
+  next_of_kin_gender: string;
+  next_of_kin_residential_address: string;
+  phone_number: string;
+  next_of_kin_phone_number: string;
+  next_of_kin_state_of_residence: string;
+  email_address: string;
+  next_of_kin_email_address: string;
+  home_address: string;
+  state_of_origin: string;
+  local_government_area: string;
+};
+export const newTeacherOfficialInfoSchema = z.object({
+  staff_ID: z
+    .string()
+    .min(2, { message: "Staff ID should be at least 2 characters long" }),
+  job_title: z
+    .string()
+    .min(2, { message: "Job title should be at least 2 characters long" }),
+  educational_qualification: z.string().min(2, {
+    message: "Educational qualification should be at least 2 characters long",
+  }),
+  department: z
+    .string()
+    .min(2, { message: "Department should be at least 2 characters long" }),
+  staff_category: z
+    .string()
+    .min(2, { message: "Staff category should be at least 2 characters long" }),
+});
+
+type NewTeacherOfficialInfoFieldValues = {
+  staff_ID: string;
+  job_title: string;
+  staff_category: string;
+  department: string;
+  educational_qualification: string;
+};
+
+export const newTeacherPermissionSchema = z.object({
+  students_create: z.boolean({
+    errorMap: () => ({ message: "You must accept Terms and Conditions" }),
+  }),
+});
+
+type NewTeacherPermissionFieldValues = {
+  students_create: boolean;
 };
 
 // zodresolver
@@ -299,6 +421,21 @@ export type HostelInfoContextType = {
   errors: FieldErrors<HostelInfoFieldValues>;
 };
 
+export type NewTeacherBioDataContextType = {
+  register: UseFormRegister<NewTeacherBioDataFieldValues>;
+  errors: FieldErrors<NewTeacherBioDataFieldValues>;
+};
+
+export type NewTeacherOfficialInfoContextType = {
+  register: UseFormRegister<NewTeacherOfficialInfoFieldValues>;
+  errors: FieldErrors<NewTeacherOfficialInfoFieldValues>;
+};
+
+export type NewTeacherPermissionContextType = {
+  register: UseFormRegister<NewTeacherPermissionFieldValues>;
+  errors: FieldErrors<NewTeacherPermissionFieldValues>;
+};
+
 // useform
 export type FormSchemaType = z.infer<typeof formSchema>;
 
@@ -321,3 +458,15 @@ export type LessonPlanInfoSchemaType = z.infer<typeof lessonPlanInfoSchema>;
 export type NewHostelSchemaType = z.infer<typeof newHostelSchema>;
 
 export type HostelInfoSchemaType = z.infer<typeof hostelInfoSchema>;
+
+export type NewTeacherBioDataSchemaType = z.infer<
+  typeof newTeacherBioDataSchema
+>;
+
+export type NewTeacherOfficialInfoSchemaType = z.infer<
+  typeof newTeacherOfficialInfoSchema
+>;
+
+export type NewTeacherPermissionSchemaType = z.infer<
+  typeof newTeacherPermissionSchema
+>;

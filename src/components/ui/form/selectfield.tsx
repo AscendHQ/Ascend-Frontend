@@ -17,7 +17,7 @@ function SelectField<T>({
   ...selectProps
 }: SelectFieldProps) {
   const containerClassName = isFullWidth ? "lg:min-w-full" : "lg:min-w-[250px]";
-  const { ref, onChange: onRegisterChange, ...restRegister } = register(id);
+  const { ...restRegister } = register(id);
   return (
     <div className={twMerge(`flex-1 ${containerClassName}`, wrapperStyle)}>
       <label
@@ -30,7 +30,6 @@ function SelectField<T>({
         {label}
       </label>
       <select
-        ref={ref}
         id={id}
         className={twMerge(
           "border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis",
@@ -40,7 +39,7 @@ function SelectField<T>({
         {...selectProps}
         required
       >
-        <option value="">--Please choose an option--</option>
+        <option value="">Please choose an option</option>
         {options.map(option => (
           <option key={option} value={option}>
             {option}

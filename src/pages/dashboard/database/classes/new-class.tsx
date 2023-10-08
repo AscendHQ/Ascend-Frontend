@@ -12,6 +12,7 @@ import TextAreaWithLabelAndCount from "@/components/ui/form/textarea";
 import TextField from "@/components/ui/form/textfield";
 import LoadingState from "@/components/ui/Loading";
 import { DASHBOARD_CLASS } from "@/config/links";
+import { useFormContext } from "@/hooks/useFormContext";
 import {
   NewClassContextType,
   newClassSchema,
@@ -123,16 +124,8 @@ export default function NewClass() {
   );
 }
 
-const useFormContext = () => {
-  const context = React.useContext(ReactHookForm);
-  if (!context) {
-    throw new Error("useFormContext must be used within a MyProvider");
-  }
-  return context;
-};
-
 function ClassInformation() {
-  const { register, errors } = useFormContext();
+  const { register, errors } = useFormContext(ReactHookForm);
 
   return (
     <div className="flex justify-between gap-16 pb-16 mt-14 mb-8 border-b-2 border-border-colour-light">
