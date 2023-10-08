@@ -96,23 +96,22 @@ export default function LessonPlan() {
               >
                 Session :
               </span>
-              <SelectField
-                id="session"
-                label="Session"
-                labelStyle="sr-only"
-                selectStyle="border-none bg-tranparent"
-                wrapperStyle="lg:min-w-[100px]"
-                options={[
-                  "2020/2021",
-                  "2019/2020",
-                  "2018/2019",
-                  "2017/2018",
-                  "2016/2017",
-                  "2015/2016",
-                ]}
-                defaultValue="2019/2020"
-                onChange={e => console.log(e.target.value)}
-              />
+              <div className={"flex-1 lg:min-w-[100px]"}>
+                <label htmlFor="Session" className="sr-only">
+                  Session
+                </label>
+                <select
+                  id="Session"
+                  className={
+                    "w-full rounded-lg bg-transparent focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis border-none bg-tranparent"
+                  }
+                  defaultValue={"2019/2020"}
+                >
+                  <option value={"2020/2021"}>2020/2021</option>
+                  <option value={"2019/2020"}>2019/2020</option>
+                  <option value={"2018/2019"}>2018/2019</option>
+                </select>
+              </div>
             </div>
             <div className="flex items-center border border-default-black pl-2 rounded">
               <span
@@ -121,22 +120,23 @@ export default function LessonPlan() {
               >
                 Term :
               </span>
-
-              <SelectField
-                id="term"
-                label="Term"
-                labelStyle="sr-only"
-                selectStyle="border-none bg-tranparent"
-                wrapperStyle="lg:min-w-[60px]"
-                options={[
-                  "All Term",
-                  "First Term",
-                  "Second Term",
-                  "Third Term",
-                ]}
-                defaultValue="All Term"
-                onChange={e => console.log(e.target.value)}
-              />
+              <div className={"flex-1 lg:min-w-[60px]"}>
+                <label htmlFor="term" className="sr-only">
+                  Term
+                </label>
+                <select
+                  id="term"
+                  className={
+                    "w-full rounded-lg bg-transparent focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis border-none bg-tranparent"
+                  }
+                  defaultValue="All Term"
+                >
+                  <option value="All Term">All Term</option>
+                  <option value="First Term">First Term</option>
+                  <option value="Second Term">Second Term</option>
+                  <option value="Third Term">Third Term</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>

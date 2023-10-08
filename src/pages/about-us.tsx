@@ -4,12 +4,10 @@ import { Footer, Header } from "@/components/common";
 import { IntroSection, MainSection } from "@/templates/About-us";
 
 function Solutions() {
-  const [isOpen, setIsOpen] = React.useState(false);
-
   return (
     <div className="font-GTWalsheimPro">
       <div className="bg-purple-100">
-        <Header isOpen={isOpen} setIsOpen={setIsOpen} />
+        <Header />
         <IntroSection />
       </div>
       <MainSection />

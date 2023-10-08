@@ -1,18 +1,44 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
+import LoadingState from "@/components/ui/Loading";
 import { HOME_PAGE } from "@/config/links";
+import { useLoginMutation } from "@/store/api";
+import { formSchema, FormSchemaType } from "@/types/form";
 
 export default function FormSection() {
   const router = useRouter();
+  const [loginMutation] = useLoginMutation();
 
-  function goToDashboard() {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+  } = useForm<FormSchemaType>({
+    resolver: zodResolver(formSchema),
+  });
+
+  const onSubmit: SubmitHandler<FormSchemaType> = async data => {
+    console.log(data);
+    const response = await loginMutation(data);
+    console.log(response, "response response response");
     router.push("/dashboard");
-  }
+  };
+
+  React.useEffect(() => {
+    reset({
+      email: "",
+      password: "",
+    });
+  }, [isSubmitSuccessful, reset]);
+
   return (
     <section className="mx-auto space-y-7 max-w-[450px]">
       <Link href={HOME_PAGE}>
@@ -63,8 +89,14 @@ export default function FormSection() {
             placeholder="Your email address"
             className="pl-11 border-border-colour-light placeholder:text-Text-meduim-emphasis py-3 border w-full rounded-md"
             id="email_address"
+            {...register("email")}
           />
         </div>
+        {errors.email && (
+          <span className="text-red-800 block text-xs lg:text-sm mt-2">
+            {errors.email?.message}
+          </span>
+        )}
         <label
           htmlFor="password"
           className="text-step--2 text-Text-high-emphasis placeholder:text-Text-meduim-emphasis mb-1.5 mt-5 font-semibold"
@@ -84,8 +116,14 @@ export default function FormSection() {
             placeholder="Enter your password"
             className="pl-11 border-border-colour-light py-3 border w-full rounded-md"
             id="password"
+            {...register("password")}
           />
         </div>
+        {errors.password && (
+          <span className="text-red-800 block text-xs lg:text-sm  mt-2">
+            {errors.password?.message}
+          </span>
+        )}
         <div className="flex justify-between mt-7 flex-wrap gap-2">
           <div className="flex items-center gap-2 text-sm">
             <input type="checkbox" name="check" id="check" />
@@ -96,10 +134,12 @@ export default function FormSection() {
           </Link>
         </div>
         <button
-          onClick={goToDashboard}
-          className="bg-primary-purple-700 py-4 text-white rounded-lg mt-4 active:scale-90 transition-all"
+          onClick={handleSubmit(onSubmit)}
+          className={`${
+            isSubmitting ? "bg-primary-purple-400" : "bg-primary-purple-700"
+          }  py-4 text-white rounded-lg mt-4 active:scale-90 transition-all`}
         >
-          Sign in
+          <LoadingState label="Sign in" isSubmitting={isSubmitting} />
         </button>
       </div>
     </section>

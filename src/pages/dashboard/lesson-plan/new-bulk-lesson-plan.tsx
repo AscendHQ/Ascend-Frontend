@@ -6,14 +6,14 @@ import Link from "next/link";
 import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
-import { DASHBOARD_LESSON_PLAN } from "@/config/links";
+import { DASHBOARD_LESSON_PLAN, MOCK_API_LINK } from "@/config/links";
 
 const { Dragger } = Upload;
 
 const props: UploadProps = {
   name: "file",
   multiple: true,
-  action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+  action: MOCK_API_LINK,
   onChange(info) {
     const { status } = info.file;
     if (status !== "uploading") {
