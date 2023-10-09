@@ -17,6 +17,9 @@ export default function DashboardHeader({
   const [notificationDropDown, setNotificationDropDown] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState("All");
 
+  const accountTargetRef = React.useRef<HTMLButtonElement>(null);
+  const notificationRef = React.useRef<HTMLButtonElement>(null);
+
   const handleTabClick = (tabId: React.SetStateAction<string>): void => {
     setActiveTab(tabId);
   };
@@ -35,7 +38,10 @@ export default function DashboardHeader({
         {headerTitle}
       </h2>
       <div className="flex items-center gap-11">
-        <button onClick={() => setNotificationDropDown(prev => !prev)}>
+        <button
+          ref={notificationRef}
+          onClick={() => setNotificationDropDown(prev => !prev)}
+        >
           <Icon
             icon="mi:notification"
             fontSize={23}
@@ -44,6 +50,7 @@ export default function DashboardHeader({
         </button>
         <button
           className="flex items-center gap-3"
+          ref={accountTargetRef}
           onClick={() => setAccountDropDown(prev => !prev)}
         >
           <Image
@@ -59,6 +66,7 @@ export default function DashboardHeader({
           onClose={() => {
             setAccountDropDown(false);
           }}
+          targetRef={accountTargetRef}
         />
         <NotificationDropDownSection
           activeTab={activeTab}
@@ -67,6 +75,7 @@ export default function DashboardHeader({
           onClose={() => {
             setNotificationDropDown(false);
           }}
+          targetRef={notificationRef}
         />
       </div>
     </header>
@@ -78,11 +87,13 @@ function NotificationDropDownSection({
   handleTabClick,
   dropDown,
   onClose,
+  targetRef,
 }: {
   activeTab: string;
   handleTabClick: (tabId: React.SetStateAction<string>) => void;
   dropDown: boolean;
   onClose: () => void;
+  targetRef: React.RefObject<HTMLButtonElement>;
 }) {
   const notificationRef = React.useRef<HTMLDivElement>(null);
 
@@ -94,7 +105,7 @@ function NotificationDropDownSection({
       ? "bg-info-main text-white"
       : "bg-grey-200 text-Text-meduim-emphasis";
 
-  useClickOutside(notificationRef, onClose);
+  useClickOutside(notificationRef, onClose, targetRef);
 
   return (
     <motion.section
@@ -411,13 +422,15 @@ function NotificationDropDownSection({
 function AccountDropDownSection({
   dropDown,
   onClose,
+  targetRef,
 }: {
   dropDown: boolean;
   onClose: () => void;
+  targetRef: React.RefObject<HTMLButtonElement>;
 }) {
   const accountRef = React.useRef<HTMLDivElement>(null);
 
-  useClickOutside(accountRef, onClose);
+  useClickOutside(accountRef, onClose, targetRef);
 
   return (
     <motion.section
