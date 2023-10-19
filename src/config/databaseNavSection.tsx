@@ -58,7 +58,7 @@ const databaseNavSection = [
     ],
   },
   {
-    title: "Teachers",
+    title: "Staff",
     path: DASHBOARD_TEACHER,
     isActivepath: [
       DASHBOARD_TEACHER,

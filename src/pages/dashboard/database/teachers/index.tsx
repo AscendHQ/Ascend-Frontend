@@ -13,23 +13,78 @@ import {
   DASHBOARD_TEACHER_INFO_BIODATA,
   NEW_TEACHER_BIODATA,
 } from "@/config/links";
-import { additionalInfo, formatNames } from "@/utils";
 
+const staffCategory = {
+  all: {
+    name: "All",
+    number: 0,
+  },
+  teaching: {
+    name: "Teaching",
+    number: 0,
+  },
+  "non-teaching": {
+    name: "None Teaching",
+    number: 0,
+  },
+  permanent: {
+    name: "Permanent",
+    number: 0,
+  },
+  "part-time": {
+    name: "Part-Time",
+    number: 0,
+  },
+};
+
+type TeacherOptions = keyof typeof staffCategory;
+const staffCategoryKeys = Object.keys(staffCategory);
+
+interface TabeItem {
+  name: string;
+  staffId: string;
+  sex: "m" | "f";
+  status: "t" | "nt";
+  type: "ft" | "prt";
+}
+
+type TableData = TabeItem[];
 export default function Teachers() {
-  const [viewTeacher, setViewTeacher] = React.useState<
-    "All" | "Active" | "Inactive"
-  >("All");
+  const [currentStaffCategory, setCurrentStaffCategory] =
+    React.useState<TeacherOptions>("all");
 
-  const [teacherDemographics, setTeacherDemographics] = React.useState<
-    {
-      name: "All" | "Inactive" | "Active";
-      number: number;
-    }[]
-  >([
-    { name: "All", number: 80 },
-    { name: "Active", number: 79 },
-    { name: "Inactive", number: 1 },
-  ]);
+  const numberOfAllTeachers = teacherInfo.length;
+
+  staffCategory.all.number = numberOfAllTeachers;
+
+  const partTimeTeachers = teacherInfo.filter(item => item.type === "prt");
+  const noOfPartTimeTeachers = partTimeTeachers.length;
+  const noOfFullTimeTeachers = numberOfAllTeachers - noOfPartTimeTeachers;
+
+  staffCategory["part-time"].number = noOfPartTimeTeachers;
+  staffCategory.permanent.number = noOfFullTimeTeachers;
+
+  const teachingStaff = teacherInfo.filter(Item => Item.status === "t");
+  const noOfTeachingStaff = teachingStaff.length;
+  const noOfNoneTeachingStaff = numberOfAllTeachers - noOfTeachingStaff;
+
+  staffCategory.teaching.number = noOfTeachingStaff;
+  staffCategory["non-teaching"].number = noOfNoneTeachingStaff;
+
+  const filteredData = teacherInfo.filter(item => {
+    if (currentStaffCategory === "all") {
+      return true;
+    } else if (currentStaffCategory === "part-time") {
+      return item.type === "prt";
+    } else if (currentStaffCategory === "permanent") {
+      return item.type === "ft";
+    } else if (currentStaffCategory === "teaching") {
+      return item.status === "t";
+    } else if (currentStaffCategory === "non-teaching") {
+      return item.status === "nt";
+    }
+  });
+
   return (
     <Container headerTitle="Teachers">
       <main className="px-10 py-5 h-full bg-white">
@@ -43,75 +98,65 @@ export default function Teachers() {
             Add Teacher
           </DashboardButton>
         </div>
-        <TeacherList
-          teacherDemographics={teacherDemographics}
-          viewTeacher={viewTeacher}
-          setViewTeacher={setViewTeacher}
+        <Tab
+          currentCategory={currentStaffCategory}
+          setCurrentCategory={setCurrentStaffCategory}
         />
-        <Table />
+        <Table data={filteredData} />
       </main>
     </Container>
   );
 }
 
-function TeacherList({
-  teacherDemographics,
-  viewTeacher,
-  setViewTeacher,
+function Tab({
+  currentCategory,
+  setCurrentCategory,
 }: {
-  teacherDemographics: {
-    name: "All" | "Inactive" | "Active";
-    number: number;
-  }[];
-  viewTeacher: "All" | "Active" | "Inactive";
-  setViewTeacher: React.Dispatch<
-    React.SetStateAction<"All" | "Active" | "Inactive">
-  >;
+  currentCategory: TeacherOptions;
+  setCurrentCategory: React.Dispatch<React.SetStateAction<TeacherOptions>>;
 }) {
   return (
     <ul className="flex bg-neutral-300 border-1.5 items-center w-fit my-2 border-border-colour-light rounded px-2 py-1 gap-2 mt-10">
-      {teacherDemographics.map(each => (
-        <li key={each.name}>
-          <button
-            className={`px-3 py-2 ${
-              each.name === viewTeacher
-                ? "shadow-[0px_2px_12px_0px_#18181B36] text-primary-purple-700 bg-white rounded"
-                : " text-gray-800"
-            } font-medium tracking-tight`}
-            onClick={() => setViewTeacher(each.name)}
-          >
-            {each.name} ({each.number.toLocaleString()})
-          </button>
-        </li>
-      ))}
+      {staffCategoryKeys.map(item => {
+        const selectItem = item as TeacherOptions;
+
+        const selectedCategory = staffCategory[selectItem];
+
+        const isCurrentItem = selectItem === currentCategory;
+        return (
+          <li key={selectItem}>
+            <button
+              className={`px-3 py-2 ${
+                isCurrentItem
+                  ? "shadow-[0px_2px_12px_0px_#18181B36] text-primary-purple-700 bg-white rounded"
+                  : " text-gray-800"
+              } font-medium tracking-tight`}
+              onClick={() => setCurrentCategory(selectItem)}
+            >
+              {selectedCategory.name} ({selectedCategory.number})
+            </button>
+          </li>
+        );
+      })}
     </ul>
   );
 }
 
-function Table() {
+function Table({ data }: { data: TableData }) {
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
       <table className="w-full text-sm text-left text-gray-500">
         <TableHeaders />
         <tbody>
-          {teacherInfo.map(item => (
-            <TeacherRow item={item} key={item.teacherName} />
+          {data.map(item => (
+            <TeacherRow item={item} key={item.name} />
           ))}
         </tbody>
       </table>
     </div>
   );
 }
-function TeacherRow({
-  item,
-}: {
-  item: {
-    teacherName: string;
-    subjects: string;
-    dateAdded: string;
-    classes: string;
-  };
-}) {
+function TeacherRow({ item }: { item: TabeItem }) {
   const handleOk = () => {
     console.log("OK");
   };
@@ -124,7 +169,7 @@ function TeacherRow({
       label: (
         <Link
           href={DASHBOARD_TEACHER_INFO_BIODATA(
-            item.teacherName.split(" ").join("-").toLowerCase()
+            item.name.split(" ").join("-").toLowerCase()
           )}
           className="flex gap-2 w-full transition-all py-1 rounded-sm items-center"
         >
@@ -165,26 +210,12 @@ function TeacherRow({
     },
   ];
   return (
-    <tr className="bg-white border-b " key={item.teacherName}>
-      <TableCell content={item.teacherName} styles="whitespace-nowrap" />
-      <TableCell
-        content={
-          <span>
-            {formatNames(item.classes)}
-            {additionalInfo(item.classes)}
-          </span>
-        }
-        styles="whitespace-nowrap"
-      />
-      <TableCell
-        content={
-          <span>
-            {formatNames(item.subjects)}
-            {additionalInfo(item.subjects)}
-          </span>
-        }
-      />
-      <TableCell content={item.dateAdded} />
+    <tr className="bg-white border-b " key={item.name}>
+      <TableCell content={item.name} styles="whitespace-nowrap" />
+      <TableCell content={item.staffId} styles="whitespace-nowrap" />
+      <TableCell content={item.sex} />
+      <TableCell content={item.status} />
+      <TableCell content={item.type} />
 
       <TableCell
         content={
@@ -203,10 +234,11 @@ function TableHeaders() {
   return (
     <thead className="text-xs text-gray-700 normal-case border-b border-grey-300 bg-gray-50 ">
       <tr>
-        <TableHeader text="Teacher name" />
-        <TableHeader text="Classes" />
-        <TableHeader text="Subjects" />
-        <TableHeader text="Date added" />
+        <TableHeader text="Name" />
+        <TableHeader text="Staff Id" />
+        <TableHeader text="Sex" />
+        <TableHeader text="Status" />
+        <TableHeader text="Type" />
         <TableHeader text={<Icon icon="ion:filter" />} />
       </tr>
     </thead>
