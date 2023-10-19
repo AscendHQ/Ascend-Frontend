@@ -68,20 +68,20 @@ export default function Teachers() {
   const [currentStaffCategory, setCurrentStaffCategory] =
     React.useState<TeacherOptions>("all");
 
-  const numberOfAllTeachers = teacherInfo.length;
+  const numberOfAllStaff = teacherInfo.length;
 
-  staffCategory.all.number = numberOfAllTeachers;
+  staffCategory.all.number = numberOfAllStaff;
 
-  const partTimeTeachers = teacherInfo.filter(item => item.type === "prt");
-  const noOfPartTimeTeachers = partTimeTeachers.length;
-  const noOfFullTimeTeachers = numberOfAllTeachers - noOfPartTimeTeachers;
+  const partTimeStaff = teacherInfo.filter(item => item.type === "prt");
+  const noOfPartTimeStaff = partTimeStaff.length;
+  const noOfFullTimeStaff = numberOfAllStaff - noOfPartTimeStaff;
 
-  staffCategory["part-time"].number = noOfPartTimeTeachers;
-  staffCategory.permanent.number = noOfFullTimeTeachers;
+  staffCategory["part-time"].number = noOfPartTimeStaff;
+  staffCategory.permanent.number = noOfFullTimeStaff;
 
   const teachingStaff = teacherInfo.filter(Item => Item.status === "t");
   const noOfTeachingStaff = teachingStaff.length;
-  const noOfNoneTeachingStaff = numberOfAllTeachers - noOfTeachingStaff;
+  const noOfNoneTeachingStaff = numberOfAllStaff - noOfTeachingStaff;
 
   staffCategory.teaching.number = noOfTeachingStaff;
   staffCategory["non-teaching"].number = noOfNoneTeachingStaff;
