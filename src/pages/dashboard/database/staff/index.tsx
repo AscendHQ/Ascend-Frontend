@@ -110,7 +110,7 @@ export default function Teachers() {
             variant="primary"
             leftElement={<Icon icon="tabler:plus" />}
           >
-            Add Teacher
+            Add Staff
           </DashboardButton>
         </div>
         <Tab
