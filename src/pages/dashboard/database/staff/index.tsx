@@ -40,12 +40,27 @@ const staffCategory = {
 type TeacherOptions = keyof typeof staffCategory;
 const staffCategoryKeys = Object.keys(staffCategory);
 
+const sexOptions = {
+  m: "Male",
+  f: "Female",
+};
+
+const statusOptions = {
+  t: "Teaching",
+  nt: "Non-Teaching",
+};
+
+const typeOptions = {
+  ft: "Permanent",
+  prt: "Part-Time",
+};
+
 interface TabeItem {
   name: string;
   staffId: string;
-  sex: "m" | "f";
-  status: "t" | "nt";
-  type: "ft" | "prt";
+  sex: keyof typeof sexOptions;
+  status: keyof typeof statusOptions;
+  type: keyof typeof typeOptions;
 }
 
 type TableData = TabeItem[];
@@ -213,9 +228,9 @@ function TeacherRow({ item }: { item: TabeItem }) {
     <tr className="bg-white border-b " key={item.name}>
       <TableCell content={item.name} styles="whitespace-nowrap" />
       <TableCell content={item.staffId} styles="whitespace-nowrap" />
-      <TableCell content={item.sex} />
-      <TableCell content={item.status} />
-      <TableCell content={item.type} />
+      <TableCell content={sexOptions[item.sex]} />
+      <TableCell content={statusOptions[item.status]} />
+      <TableCell content={typeOptions[item.type]} />
 
       <TableCell
         content={
