@@ -86,7 +86,7 @@ export default function Teachers() {
   });
 
   return (
-    <Container headerTitle="Teachers">
+    <Container headerTitle="Staff">
       <main className="px-10 py-5 h-full bg-white">
         <div className="flex">
           <DashboardButton
