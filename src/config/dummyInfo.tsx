@@ -349,6 +349,7 @@ export const teacherInfo: {
   sex: "m" | "f";
   status: "t" | "nt";
   type: "ft" | "prt";
+  denomination: "a" | "na" | "i";
 }[] = [
   {
     name: "Johnny White",
@@ -356,6 +357,7 @@ export const teacherInfo: {
     sex: "m",
     status: "t",
     type: "ft",
+    denomination: "a",
   },
   {
     name: "Ishola Popping",
@@ -363,6 +365,7 @@ export const teacherInfo: {
     sex: "f",
     status: "nt",
     type: "prt",
+    denomination: "na",
   },
   {
     name: "Ayodeji Atolabeg",
@@ -370,6 +373,7 @@ export const teacherInfo: {
     sex: "m",
     status: "t",
     type: "ft",
+    denomination: "a",
   },
   {
     name: "Alao Michael",
@@ -377,6 +381,7 @@ export const teacherInfo: {
     sex: "m",
     status: "t",
     type: "ft",
+    denomination: "a",
   },
   {
     name: "Taiwo Azzeezat",
@@ -384,6 +389,7 @@ export const teacherInfo: {
     sex: "m",
     status: "t",
     type: "ft",
+    denomination: "a",
   },
   {
     name: "Johnny White",
@@ -391,6 +397,7 @@ export const teacherInfo: {
     sex: "m",
     status: "nt",
     type: "prt",
+    denomination: "na",
   },
   {
     name: "Ayaji John",
@@ -398,6 +405,7 @@ export const teacherInfo: {
     sex: "m",
     status: "t",
     type: "ft",
+    denomination: "i",
   },
   {
     name: "Odetundun Femi",
@@ -405,6 +413,7 @@ export const teacherInfo: {
     sex: "m",
     status: "t",
     type: "ft",
+    denomination: "a",
   },
   {
     name: "Oyeleke Ibukunoluwa",
@@ -412,6 +421,7 @@ export const teacherInfo: {
     sex: "m",
     status: "t",
     type: "ft",
+    denomination: "na",
   },
   {
     name: "Abioye Tolani",
@@ -419,6 +429,7 @@ export const teacherInfo: {
     sex: "m",
     status: "nt",
     type: "prt",
+    denomination: "a",
   },
   {
     name: "Isitok Foryou",
@@ -426,6 +437,7 @@ export const teacherInfo: {
     sex: "m",
     status: "nt",
     type: "prt",
+    denomination: "na",
   },
 ];
 
