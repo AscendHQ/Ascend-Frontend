@@ -1,3 +1,4 @@
+import { Icon } from "@iconify/react";
 import React from "react";
 
 type ModalProps = {
@@ -13,23 +14,23 @@ const ViewDetailsModal: React.FC<ModalProps> = ({
 }) => {
   const modalRef = React.useRef<HTMLDivElement>(null);
 
-  React.useEffect(() => {
-    const handleOutsideClick = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        onClose();
-      }
-    };
+  // React.useEffect(() => {
+  //   const handleOutsideClick = (e: MouseEvent) => {
+  //     if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+  //       onClose();
+  //     }
+  //   };
 
-    if (open) {
-      document.addEventListener("mousedown", handleOutsideClick);
-    } else {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    }
+  //   if (open) {
+  //     document.addEventListener("mousedown", handleOutsideClick);
+  //   } else {
+  //     document.removeEventListener("mousedown", handleOutsideClick);
+  //   }
 
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, [open, onClose]);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleOutsideClick);
+  //   };
+  // }, [open, onClose]);
 
   return (
     <div
@@ -44,6 +45,10 @@ const ViewDetailsModal: React.FC<ModalProps> = ({
         ref={modalRef}
         className="bg-white rounded-xl relative z-50 p-6 max-w-[500px] w-[95%] mx-auto"
       >
+        <button onClick={onClose} className="absolute top-7 right-5">
+          <Icon icon="ic:round-close" fontSize={20} />
+        </button>
+
         {children}
       </div>
     </div>

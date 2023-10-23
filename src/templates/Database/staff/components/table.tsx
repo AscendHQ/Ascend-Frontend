@@ -1,4 +1,8 @@
+import { Icon } from "@iconify/react";
+import Link from "next/link";
 import React from "react";
+
+import { DASHBOARD_TEACHER_INFO_BIODATA } from "@/config/links";
 
 import { TableHeaders } from "./table-header";
 import { StaffDetails, TableRow, TableRowProps } from "./table-row";
@@ -67,6 +71,13 @@ export function Table({ data }: { data: TableData }) {
               );
             })}
           </ul>
+          <Link
+            href={DASHBOARD_TEACHER_INFO_BIODATA(modalDetails?.name ?? "")}
+            className="flex gap-2 w-full transition-all justify-center mt-5 py-1 rounded-sm items-center"
+          >
+            <Icon icon="ep:edit" fontSize={20} />
+            <span className="text-sm">Edit details</span>
+          </Link>
         </div>
       </ViewDetailsModal>
     </>
