@@ -10,7 +10,7 @@ export function Tab({
   setCurrentCategory: React.Dispatch<React.SetStateAction<TeacherOptions>>;
 }) {
   return (
-    <ul className="flex bg-neutral-300 border-1.5 items-center w-fit my-2 border-border-colour-light rounded px-2 py-1 gap-2 mt-10">
+    <ul className="flex bg-neutral-300 border-1.5 items-center w-fit my-2 border-border-colour-light rounded px-2 py-1 gap-2">
       {staffCategoryKeys.map(item => {
         const selectItem = item as TeacherOptions;
         const selectedTabIndex =
