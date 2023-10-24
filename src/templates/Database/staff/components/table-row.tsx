@@ -3,8 +3,6 @@ import { Dropdown, MenuProps } from "antd";
 import Link from "next/link";
 import React from "react";
 
-// import { DashboardButton } from "@/components/ui/button/button";
-// import ErrorModal from "@/components/ui/modal/errormodal";
 import { TableCell } from "@/components/ui/table";
 import { DASHBOARD_TEACHER_INFO_BIODATA } from "@/config/links";
 
