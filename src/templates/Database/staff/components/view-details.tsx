@@ -14,24 +14,6 @@ const ViewDetailsModal: React.FC<ModalProps> = ({
 }) => {
   const modalRef = React.useRef<HTMLDivElement>(null);
 
-  // React.useEffect(() => {
-  //   const handleOutsideClick = (e: MouseEvent) => {
-  //     if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-  //       onClose();
-  //     }
-  //   };
-
-  //   if (open) {
-  //     document.addEventListener("mousedown", handleOutsideClick);
-  //   } else {
-  //     document.removeEventListener("mousedown", handleOutsideClick);
-  //   }
-
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleOutsideClick);
-  //   };
-  // }, [open, onClose]);
-
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center z-50  ${

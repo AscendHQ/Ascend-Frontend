@@ -54,14 +54,6 @@ export function TableRow({
   item: TableRowProps;
   openModal: (item: StaffDetails) => void;
 }) {
-  // const handleOk = () => {
-  //   console.log("OK");
-  // };
-
-  // const handleCancel = () => {
-  //   console.log("Cancel");
-  // };
-
   const staffFullDetails: StaffDetails = {
     name: item.name,
     staffId: item.staffId,
@@ -98,35 +90,6 @@ export function TableRow({
       ),
       key: "0",
     },
-    // {
-    //   label: (
-    //     <ErrorModal
-    //       title="Teacher Removal"
-    //       content="You are attempting to remove a teacher!. Are you sure?"
-    //       okButtonProps={{
-    //         style: {
-    //           backgroundColor: "#fff",
-    //           color: "#cd2026",
-    //           border: "1px solid #cd2026",
-    //         },
-    //       }}
-    //       cancelButtonProps={{
-    //         style: {
-    //           backgroundColor: "floralwhite",
-    //         },
-    //       }}
-    //       onOk={handleOk}
-    //       onCancel={handleCancel}
-    //       mainButtonProps={
-    //         <>
-    //           <Icon icon="solar:trash-bin-2-broken" fontSize={20} />
-    //           <span className="text-sm">Remove</span>
-    //         </>
-    //       }
-    //     />
-    //   ),
-    //   key: "2",
-    // },
   ];
   return (
     <tr className="bg-white border-b " key={item.name}>
