@@ -1,8 +1,8 @@
 import { Icon } from "@iconify/react";
 import { Dropdown, MenuProps } from "antd";
 import Link from "next/link";
+import React from "react";
 
-import ErrorModal from "@/components/ui/modal/errormodal";
 import { TableCell } from "@/components/ui/table";
 import { DASHBOARD_TEACHER_INFO_BIODATA } from "@/config/links";
 
@@ -36,15 +36,44 @@ export interface TableRowProps {
   denomination: keyof typeof denominationOptions;
 }
 
-export function TableRow({ item }: { item: TableRowProps }) {
-  const handleOk = () => {
-    console.log("OK");
+export interface StaffDetails {
+  name: string;
+  staffId: string;
+  sex: string;
+  status: string;
+  type: string;
+  denomination: string;
+}
+
+export function TableRow({
+  item,
+  openModal,
+}: {
+  item: TableRowProps;
+  openModal: (item: StaffDetails) => void;
+}) {
+  const staffFullDetails: StaffDetails = {
+    name: item.name,
+    staffId: item.staffId,
+    sex: sexOptions[item.sex],
+    status: statusOptions[item.status],
+    type: typeOptions[item.type],
+    denomination: denominationOptions[item.denomination],
   };
 
-  const handleCancel = () => {
-    console.log("Cancel");
-  };
   const items: MenuProps["items"] = [
+    {
+      label: (
+        <button
+          onClick={() => openModal(staffFullDetails)}
+          className="flex gap-2 py-1"
+        >
+          <Icon icon="ep:more" fontSize={20} />
+          <span className="text-sm">View details</span>
+        </button>
+      ),
+      key: "1",
+    },
     {
       label: (
         <Link
@@ -53,40 +82,11 @@ export function TableRow({ item }: { item: TableRowProps }) {
           )}
           className="flex gap-2 w-full transition-all py-1 rounded-sm items-center"
         >
-          <Icon icon="ep:more" fontSize={20} />
-          <span className="text-sm">View details</span>
+          <Icon icon="ep:edit" fontSize={20} />
+          <span className="text-sm">Edit details</span>
         </Link>
       ),
       key: "0",
-    },
-    {
-      label: (
-        <ErrorModal
-          title="Teacher Removal"
-          content="You are attempting to remove a teacher!. Are you sure?"
-          okButtonProps={{
-            style: {
-              backgroundColor: "#fff",
-              color: "#cd2026",
-              border: "1px solid #cd2026",
-            },
-          }}
-          cancelButtonProps={{
-            style: {
-              backgroundColor: "floralwhite",
-            },
-          }}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          mainButtonProps={
-            <>
-              <Icon icon="solar:trash-bin-2-broken" fontSize={20} />
-              <span className="text-sm">Remove</span>
-            </>
-          }
-        />
-      ),
-      key: "1",
     },
   ];
   return (
@@ -96,7 +96,6 @@ export function TableRow({ item }: { item: TableRowProps }) {
       <TableCell content={sexOptions[item.sex]} />
       <TableCell content={statusOptions[item.status]} />
       <TableCell content={typeOptions[item.type]} />
-
       <TableCell
         content={
           <Dropdown menu={{ items }} trigger={["click"]}>

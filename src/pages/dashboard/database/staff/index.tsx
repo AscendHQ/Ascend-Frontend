@@ -48,22 +48,21 @@ export default function StaffDatabase() {
     <Container headerTitle="Staff">
       <main className="px-10 py-5 h-full bg-white">
         <StaffStatistics data={teacherInfo} />
-        <div className="flex justify-between items-center ">
+        <div className="flex justify-between items-center mt-10">
           <Tab
             tabNumbers={tabNumbers}
             currentCategory={currentStaffCategory}
             setCurrentCategory={setCurrentStaffCategory}
           />
-          <div>
-            <DashboardButton
-              isLink
-              path={NEW_TEACHER_BIODATA}
-              variant="primary"
-              leftElement={<Icon icon="tabler:plus" />}
-            >
-              Add Staff
-            </DashboardButton>
-          </div>
+          <DashboardButton
+            isLink
+            path={NEW_TEACHER_BIODATA}
+            variant="primary"
+            leftElement={<Icon icon="tabler:plus" />}
+            className="mb-0"
+          >
+            Add Staff
+          </DashboardButton>
         </div>
 
         <Table data={filteredData} />
