@@ -9,10 +9,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import LoadingState from "@/components/ui/Loading";
 import { HOME_PAGE } from "@/config/links";
+import { useLoginMutation } from "@/store/api";
 import { formSchema, FormSchemaType } from "@/types/form";
 
 export default function FormSection() {
   const router = useRouter();
+  const [loginMutation] = useLoginMutation();
 
   const {
     register,
@@ -25,6 +27,8 @@ export default function FormSection() {
 
   const onSubmit: SubmitHandler<FormSchemaType> = async data => {
     console.log(data);
+    const response = await loginMutation(data);
+    console.log(response, "response response response");
     router.push("/dashboard");
   };
 
