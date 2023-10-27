@@ -37,7 +37,8 @@ export const DASHBOARD_CLASS_INFO = (slug: string) =>
 
 // TEACHER
 export const DASHBOARD_TEACHER = "/dashboard/database/staff";
-export const NEW_TEACHER_BIODATA = "/dashboard/database/staff/new-teacher";
+export const NEW_TEACHER_BIODATA =
+  "/dashboard/database/staff/new-teacher-biodata";
 export const NEW_TEACHER_PERMISSION =
   "/dashboard/database/staff/new-teacher-permission";
 export const NEW_TEACHER_OFFICIAL_INFO =
