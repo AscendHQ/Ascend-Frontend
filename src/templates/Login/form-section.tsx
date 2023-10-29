@@ -1,5 +1,9 @@
+// import { MehOutlined } from "@ant-design/icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
+import { useMutation } from "@tanstack/react-query";
+import { notification } from "antd";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -8,12 +12,16 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import LoadingState from "@/components/ui/Loading";
-import { HOME_PAGE } from "@/config/links";
+import { DASHBOARD_OVERVIEW, HOME_PAGE } from "@/config/links";
 import { formSchema, FormSchemaType } from "@/types/form";
+import { setSecureStorage } from "@/utils/cookieStorage";
 
 export default function FormSection() {
+  const [isChecked, setIsChecked] = React.useState(false);
+
   const router = useRouter();
 
+  const [api, contextHolder] = notification.useNotification();
   const {
     register,
     handleSubmit,
@@ -23,9 +31,36 @@ export default function FormSection() {
     resolver: zodResolver(formSchema),
   });
 
+  const loginMutation = useMutation({
+    mutationFn: (data: FormSchemaType) => {
+      return axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/login`,
+        data
+      );
+    },
+    onSuccess: data => {
+      setSecureStorage("userInfo", JSON.stringify(data.data), 30, isChecked);
+      router.push(DASHBOARD_OVERVIEW);
+    },
+    onError: (error: Error & { response: { data: string } }) => {
+      console.log(error, "onerror");
+      api.open({
+        message: (
+          <h3 className="text-secondary-red-600 font-semibold">Error!</h3>
+        ),
+        description: error.response.data,
+        duration: 8,
+        className: "ant-toast",
+      });
+    },
+  });
+
   const onSubmit: SubmitHandler<FormSchemaType> = async data => {
     console.log(data);
-    router.push("/dashboard");
+    loginMutation.mutate({
+      email: data.email,
+      password: data.password,
+    });
   };
 
   React.useEffect(() => {
@@ -35,8 +70,13 @@ export default function FormSection() {
     });
   }, [isSubmitSuccessful, reset]);
 
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChecked(event.target.checked);
+  };
+
   return (
     <section className="mx-auto space-y-7 max-w-[450px]">
+      {contextHolder}
       <Link href={HOME_PAGE}>
         <Image
           src="/Ascend-Logo.svg"
@@ -122,7 +162,12 @@ export default function FormSection() {
         )}
         <div className="flex justify-between mt-7 flex-wrap gap-2">
           <div className="flex items-center gap-2 text-sm">
-            <input type="checkbox" name="check" id="check" />
+            <input
+              type="checkbox"
+              name="check"
+              id="check"
+              onChange={handleCheckboxChange}
+            />
             <label htmlFor="check">Remember me for this device</label>
           </div>
           <Link href={HOME_PAGE} className="text-primary-purple-700 text-sm">

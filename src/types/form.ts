@@ -5,8 +5,15 @@ export const formSchema = z.object({
   email: z.string().email("Invalid email").min(1, "Email is required"),
   password: z
     .string()
-    .min(1, "Password is required")
-    .min(8, "Password must have more than 8 characters"),
+    .min(8, "Password must be at least 8 characters long")
+    .refine(value => {
+      const hasLowerCase = /[a-z]/.test(value);
+      const hasUpperCase = /[A-Z]/.test(value);
+      const hasDigit = /\d/.test(value);
+      const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(value);
+
+      return hasLowerCase && hasUpperCase && hasDigit && hasSpecialChar;
+    }, "Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character"),
 });
 
 export const studentBioDataSchema = z.object({
@@ -271,7 +278,7 @@ type HostelInfoFieldValues = {
   "Notes&Comments": string;
 };
 
-export const newTeacherBioDataSchema = z.object({
+export const newStaffSchema = z.object({
   first_name: z
     .string()
     .min(2, { message: "First name should be at least 2 characters long" }),
@@ -298,23 +305,28 @@ export const newTeacherBioDataSchema = z.object({
   department: z
     .string()
     .min(2, { message: "Department should be at least 2 characters long" }),
-  staff_category: z
-    .string()
-    .min(2, { message: "Staff category should be at least 2 characters long" }),
+
   date_of_birth: z.string().nonempty("Date of birth is required"),
+  denomination: z.string().min(2, { message: "Denomination is required" }),
+  status: z.string().min(2, { message: "Teacher's status is required" }),
+  type: z.string().min(2, { message: "Teacher's type is required" }),
+  staff_no: z.string(),
 });
 
-type NewTeacherBioDataFieldValues = {
+type NewStaffFieldValues = {
   first_name: string;
   last_name: string;
   sex: string;
   phone_number: string;
   home_address: string;
   job_title: string;
-  staff_category: string;
   department: string;
   date_of_birth: string;
   educational_qualification: string;
+  denomination: string;
+  status: string;
+  type: string;
+  staff_no: string;
 };
 export const newTeacherOfficialInfoSchema = z.object({
   staff_ID: z
@@ -333,14 +345,6 @@ export const newTeacherOfficialInfoSchema = z.object({
     .string()
     .min(2, { message: "Staff category should be at least 2 characters long" }),
 });
-
-type NewTeacherOfficialInfoFieldValues = {
-  staff_ID: string;
-  job_title: string;
-  staff_category: string;
-  department: string;
-  educational_qualification: string;
-};
 
 export const newTeacherPermissionSchema = z.object({
   students_create: z.boolean({
@@ -400,14 +404,9 @@ export type HostelInfoContextType = {
   errors: FieldErrors<HostelInfoFieldValues>;
 };
 
-export type NewTeacherBioDataContextType = {
-  register: UseFormRegister<NewTeacherBioDataFieldValues>;
-  errors: FieldErrors<NewTeacherBioDataFieldValues>;
-};
-
-export type NewTeacherOfficialInfoContextType = {
-  register: UseFormRegister<NewTeacherOfficialInfoFieldValues>;
-  errors: FieldErrors<NewTeacherOfficialInfoFieldValues>;
+export type NewStaffContextType = {
+  register: UseFormRegister<NewStaffFieldValues>;
+  errors: FieldErrors<NewStaffFieldValues>;
 };
 
 export type NewTeacherPermissionContextType = {
@@ -438,13 +437,7 @@ export type NewHostelSchemaType = z.infer<typeof newHostelSchema>;
 
 export type HostelInfoSchemaType = z.infer<typeof hostelInfoSchema>;
 
-export type NewTeacherBioDataSchemaType = z.infer<
-  typeof newTeacherBioDataSchema
->;
-
-export type NewTeacherOfficialInfoSchemaType = z.infer<
-  typeof newTeacherOfficialInfoSchema
->;
+export type NewStaffSchemaType = z.infer<typeof newStaffSchema>;
 
 export type NewTeacherPermissionSchemaType = z.infer<
   typeof newTeacherPermissionSchema

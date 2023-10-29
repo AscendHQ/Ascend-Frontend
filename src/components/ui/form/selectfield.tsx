@@ -41,7 +41,7 @@ function SelectField<T>({
       >
         <option value="">Please choose an option</option>
         {options.map(option => (
-          <option key={option} value={option}>
+          <option key={option} value={option} className="capitalize">
             {option}
           </option>
         ))}

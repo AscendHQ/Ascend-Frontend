@@ -3,12 +3,12 @@ import React from "react";
 import { DashboardHeader } from "@/components/common";
 import { Sidebar } from "@/components/sidebar";
 
-type Props = {
+type ContainerProps = {
   children: JSX.Element;
   headerTitle: string;
 };
 
-export default function Container({ children, headerTitle }: Props) {
+export default function Container({ children, headerTitle }: ContainerProps) {
   return (
     <div className="grid font-inter grid-cols-9 min-w-[950px]">
       <Sidebar />

@@ -1,12 +1,12 @@
 import SelectField from "@/components/ui/form/selectfield";
 import TextField from "@/components/ui/form/textfield";
 import { useFormContext } from "@/hooks/useFormContext";
-import { ReactHookForm } from "@/pages/dashboard/database/staff/new-teacher";
+import { ReactHookForm } from "@/pages/dashboard/database/staff/new-staff";
 
 export default function OfficialInformation() {
   const { register, errors } = useFormContext(ReactHookForm);
   return (
-    <div className="flex justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Official information
@@ -24,13 +24,19 @@ export default function OfficialInformation() {
           register={register}
           errorMessage={errors.job_title?.message || ""}
         />
-        <TextField
-          id="staff_category"
-          label="Staff category"
-          placeholder="Teacher"
-          required
+        <SelectField
+          id="status"
+          label="Status"
           register={register}
-          errorMessage={errors.staff_category?.message || ""}
+          options={["teaching", "none-teaching"]}
+          errorMessage={errors.status?.message || ""}
+        />
+        <SelectField
+          id="type"
+          label="Type"
+          register={register}
+          options={["permanent", "part_time"]}
+          errorMessage={errors.type?.message || ""}
         />
 
         <TextField
@@ -42,9 +48,9 @@ export default function OfficialInformation() {
         />
         <SelectField
           id="educational_qualification"
-          label="Educational Qualification"
+          label="Highest Educational Qualification"
           register={register}
-          options={["Bsc.", "HND", "OND"]}
+          options={["PhD", "BSc", "MD/JD/MBA", "MSc", "HND", "OND", "SSCE"]}
           errorMessage={errors.educational_qualification?.message || ""}
         />
       </div>

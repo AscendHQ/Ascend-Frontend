@@ -2,9 +2,9 @@ import SelectField from "@/components/ui/form/selectfield";
 import TextAreaWithLabelAndCount from "@/components/ui/form/textarea";
 import TextField from "@/components/ui/form/textfield";
 import { useFormContext } from "@/hooks/useFormContext";
-import { ReactHookForm } from "@/pages/dashboard/database/staff/new-teacher";
+import { ReactHookForm } from "@/pages/dashboard/database/staff/new-staff";
 
-export default function PersonalInformation() {
+export default function PersonalInformation({ staffNo }: { staffNo: string }) {
   const { register, errors } = useFormContext(ReactHookForm);
 
   return (
@@ -18,6 +18,16 @@ export default function PersonalInformation() {
         </p>
       </div>
       <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
+        <TextField
+          id="staff_no"
+          label="Staff No"
+          placeholder="S175645"
+          required
+          defaultValue={staffNo}
+          register={register}
+          readOnly
+          errorMessage={errors.staff_no?.message || ""}
+        />
         <TextField
           id="first_name"
           label="First name"
@@ -39,8 +49,15 @@ export default function PersonalInformation() {
           id="sex"
           label="Sex"
           register={register}
-          options={["Male", "Female"]}
+          options={["male", "female"]}
           errorMessage={errors.sex?.message || ""}
+        />
+        <SelectField
+          id="denomination"
+          label="Denomination"
+          register={register}
+          options={["islam", "adventist", "non_adventist"]}
+          errorMessage={errors.denomination?.message || ""}
         />
 
         <TextField

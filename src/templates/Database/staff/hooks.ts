@@ -74,3 +74,24 @@ export const useFilterData = ({
     filteredData,
   };
 };
+
+export type addStaffProp = {
+  staff_no: string;
+  surname: string;
+  other_names: string;
+  sex: string;
+  status: string;
+  type: string;
+  denomination: string;
+  department: string;
+  qualifications: string[];
+  post: string;
+  address: string;
+  phone_number: string;
+  loan_received: number;
+  loan_refunded: number;
+  loan_debt: number;
+  employment_date: string;
+  exit_date: string;
+  exit_reason: string;
+};
