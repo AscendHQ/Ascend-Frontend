@@ -112,7 +112,7 @@ export default function NewStaff() {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitSuccessful },
   } = useForm<NewStaffSchemaType>({
     resolver: zodResolver(newStaffSchema),
   });
@@ -154,7 +154,10 @@ export default function NewStaff() {
               onClick={handleSubmit(onSubmit)}
               className="text-base px-7"
             >
-              <LoadingState label="Submit" isSubmitting={isSubmitting} />
+              <LoadingState
+                label="Submit"
+                isSubmitting={addNewStaffMutation.isPending}
+              />
             </DashboardButton>
           </div>
         </main>

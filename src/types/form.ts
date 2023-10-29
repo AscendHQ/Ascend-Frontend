@@ -282,43 +282,27 @@ export const newStaffSchema = z.object({
   first_name: z
     .string()
     .min(2, { message: "First name should be at least 2 characters long" }),
-  next_of_kin_first_name: z.string().min(2, {
-    message: "Next of kin first name should be at least 2 characters long",
-  }),
+
   last_name: z
     .string()
     .min(2, { message: "Last name should be at least 2 characters long" }),
-  next_of_kin_last_name: z.string().min(2, {
-    message: "Next of kin last name should be at least 2 characters long",
-  }),
-  next_of_kin_relationship: z
-    .string()
-    .min(2, { message: "Relationship with next of kin is required" }),
-  gender: z.string().min(1, { message: "Gender is required" }),
-  next_of_kin_gender: z
-    .string()
-    .min(1, { message: "Gender of next of kin is required" }),
+  sex: z.string().min(1, { message: "Sex is required" }),
+
   home_address: z
     .string()
     .min(10, { message: "Home address should be at least 10 characters long" }),
-  next_of_kin_residential_address: z.string().min(10, {
-    message:
-      "Residential address of next of kin should be at least 10 characters long",
-  }),
+
   phone_number: z
     .string()
     .regex(/^\+?\d{10,12}$/, { message: "Invalid phone number" }),
-  next_of_kin_phone_number: z.string().regex(/^\+?\d{10,12}$/, {
-    message: "Invalid phone number of next of kin",
+
+  job_title: z
+    .string()
+    .min(2, { message: "Job title should be at least 2 characters long" }),
+  educational_qualification: z.string().min(2, {
+    message: "Educational qualification should be at least 2 characters long",
   }),
-  next_of_kin_state_of_residence: z
-    .string()
-    .min(2, { message: "State of residence of next of kin is required" }),
-  email_address: z.string().email({ message: "Invalid email address" }),
-  next_of_kin_email_address: z
-    .string()
-    .email({ message: "Invalid email address for next of kin" }),
-  local_government_area: z
+  department: z
     .string()
     .min(2, { message: "Department should be at least 2 characters long" }),
 
@@ -331,18 +315,9 @@ export const newStaffSchema = z.object({
 
 type NewStaffFieldValues = {
   first_name: string;
-  next_of_kin_first_name: string;
   last_name: string;
-  next_of_kin_last_name: string;
-  next_of_kin_relationship: string;
-  gender: string;
-  next_of_kin_gender: string;
-  next_of_kin_residential_address: string;
+  sex: string;
   phone_number: string;
-  next_of_kin_phone_number: string;
-  next_of_kin_state_of_residence: string;
-  email_address: string;
-  next_of_kin_email_address: string;
   home_address: string;
   job_title: string;
   department: string;

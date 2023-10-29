@@ -56,7 +56,7 @@ export default function FormSection() {
   });
 
   const onSubmit: SubmitHandler<FormSchemaType> = async data => {
-    console.log(data);
+    // console.log(data);
     loginMutation.mutate({
       email: data.email,
       password: data.password,
@@ -180,7 +180,10 @@ export default function FormSection() {
             isSubmitting ? "bg-primary-purple-400" : "bg-primary-purple-700"
           }  py-4 text-white rounded-lg mt-4 active:scale-90 transition-all`}
         >
-          <LoadingState label="Sign in" isSubmitting={isSubmitting} />
+          <LoadingState
+            label="Sign in"
+            isSubmitting={loginMutation.isPending}
+          />
         </button>
       </div>
     </section>
