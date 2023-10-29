@@ -20,7 +20,7 @@ import { useFormContext } from "@/hooks/useFormContext";
 import {
   HostelInfoContextType,
   HostelInfoSchemaType,
-  newTeacherBioDataSchema,
+  newStaffSchema,
 } from "@/types/form";
 
 const ReactHookForm = React.createContext<HostelInfoContextType | undefined>(
@@ -41,7 +41,7 @@ export default function HostelInfo() {
     reset,
     formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<HostelInfoSchemaType>({
-    resolver: zodResolver(newTeacherBioDataSchema),
+    resolver: zodResolver(newStaffSchema),
   });
 
   React.useEffect(() => {
