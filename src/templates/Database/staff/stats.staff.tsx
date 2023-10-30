@@ -1,16 +1,14 @@
-import { StatCard, TableData } from "./components";
-import { useStaffStatistics } from "./hooks";
+import { StatCard } from "./components";
 
-export const StaffStatistics = ({ data }: { data: TableData }) => {
-  const {
-    noOfFemaleStaff,
-    noOfMaleStaff,
-    noOfAdventistStaff,
-    noOfNonAdventistStaff,
-    noOfIslamStaff,
-  } = useStaffStatistics({
-    data,
-  });
+export const StaffStatistics = (data: {
+  data: {
+    noOfMaleStaff: number;
+    noOfFemaleStaff: number;
+    noOfAdventistStaff: number;
+    noOfNonAdventistStaff: number;
+    noOfIslamStaff: number;
+  };
+}) => {
   return (
     <div className="flex gap-6">
       <StatCard
@@ -18,11 +16,11 @@ export const StaffStatistics = ({ data }: { data: TableData }) => {
         items={[
           {
             name: sexOptions.m,
-            value: noOfMaleStaff,
+            value: data.data.noOfMaleStaff,
           },
           {
             name: sexOptions.f,
-            value: noOfFemaleStaff,
+            value: data.data.noOfFemaleStaff,
           },
         ]}
       />
@@ -32,15 +30,15 @@ export const StaffStatistics = ({ data }: { data: TableData }) => {
         items={[
           {
             name: denominationOptions.a,
-            value: noOfAdventistStaff,
+            value: data.data.noOfAdventistStaff,
           },
           {
             name: denominationOptions.na,
-            value: noOfNonAdventistStaff,
+            value: data.data.noOfNonAdventistStaff,
           },
           {
             name: denominationOptions.i,
-            value: noOfIslamStaff,
+            value: data.data.noOfIslamStaff,
           },
         ]}
       />

@@ -15,31 +15,17 @@ import {
   DASHBOARD_RESULT_INFO,
   DASHBOARD_TIMETABLE,
   GENERATE_PAYROLL,
-  // LOGIN_PAGE,
   NEW_LESSON_PLAN,
   NEW_TIMETABLE,
 } from "@/config/links";
 
-// import { userInfoTypes } from "@/types";
-// import { getSecureStorage } from "@/utils/cookieStorage";
 import SideBarItem from "./sidebar-item";
 import SidebarMenu from "./sidebar-menu";
 
 export default function Sidebar() {
   const router = useRouter();
-  // const [userInfo, setUserInfo] = React.useState<userInfoTypes | null>(null);
-
   const [showCollapsibleSideNav, setshowCollapsibleSideNav] =
     React.useState(false);
-
-  React.useEffect(() => {
-    // console.log(JSON.parse(getSecureStorage("userInfo")));
-    // setUserInfo(JSON.parse(getSecureStorage("userInfo")));
-    // if (JSON.parse(getSecureStorage("userInfo")) === null) {
-    //   router.push(LOGIN_PAGE);
-    // }
-  }, []);
-
   return (
     <aside className="col-span-2 3xl:col-span-1 border-r border-neutral-200 py-6 px-4 bg-white relative">
       <Image
