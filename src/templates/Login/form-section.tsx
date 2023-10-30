@@ -1,15 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // import { MehOutlined } from "@ant-design/icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import { useMutation } from "@tanstack/react-query";
 import { notification } from "antd";
-import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
+import { axiosInstance } from "@/api";
 import { Button } from "@/components/ui/button";
 import LoadingState from "@/components/ui/Loading";
 import { DASHBOARD_OVERVIEW, HOME_PAGE } from "@/config/links";
@@ -26,20 +27,29 @@ export default function FormSection() {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
   } = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
   });
 
   const loginMutation = useMutation({
     mutationFn: (data: FormSchemaType) => {
-      return axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/login`,
-        data
-      );
+      return axiosInstance.post("/auth/login", data);
     },
     onSuccess: data => {
-      setSecureStorage("userInfo", JSON.stringify(data.data), 30, isChecked);
+      console.log({ data });
+      setSecureStorage(
+        "userInfoAccessToken",
+        JSON.stringify(data.data.access_token),
+        30,
+        isChecked
+      );
+      setSecureStorage(
+        "userInfoData",
+        JSON.stringify(data.data.account),
+        30,
+        isChecked
+      );
       router.push(DASHBOARD_OVERVIEW);
     },
     onError: (error: Error & { response: { data: string } }) => {
@@ -53,6 +63,12 @@ export default function FormSection() {
         className: "ant-toast",
       });
     },
+    onSettled() {
+      reset({
+        email: "",
+        password: "",
+      });
+    },
   });
 
   const onSubmit: SubmitHandler<FormSchemaType> = async data => {
@@ -62,13 +78,6 @@ export default function FormSection() {
       password: data.password,
     });
   };
-
-  React.useEffect(() => {
-    reset({
-      email: "",
-      password: "",
-    });
-  }, [isSubmitSuccessful, reset]);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(event.target.checked);
