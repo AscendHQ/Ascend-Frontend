@@ -4,7 +4,6 @@ import TextField from "@/components/ui/form/textfield";
 import { useFormContext } from "@/hooks/useFormContext";
 import { ReactHookForm } from "@/pages/dashboard/database/staff/new-staff";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function PersonalInformation({ staffNo }: { staffNo: string }) {
   const { register, errors } = useFormContext(ReactHookForm);
 
@@ -26,7 +25,6 @@ export default function PersonalInformation({ staffNo }: { staffNo: string }) {
           required
           defaultValue={staffNo}
           register={register}
-          // readOnly
           errorMessage={errors.staff_no?.message || ""}
         />
         <TextField
@@ -57,11 +55,7 @@ export default function PersonalInformation({ staffNo }: { staffNo: string }) {
           id="denomination"
           label="Denomination"
           register={register}
-          options={[
-            DenominationValue.Islam,
-            DenominationValue.Adventist,
-            DenominationValue["Non adventist"],
-          ]}
+          options={["islam", "adventist", "non_adventist"]}
           errorMessage={errors.denomination?.message || ""}
         />
 
@@ -96,9 +90,3 @@ export default function PersonalInformation({ staffNo }: { staffNo: string }) {
     </div>
   );
 }
-
-const DenominationValue = {
-  Islam: "islam",
-  Adventist: "adventist",
-  "Non adventist": "non_adventist",
-};

@@ -28,14 +28,14 @@ export default function OfficialInformation() {
           id="status"
           label="Status"
           register={register}
-          options={[statusValues.Teaching, statusValues["Non-Teaching"]]}
+          options={["teaching", "none_teaching"]}
           errorMessage={errors.status?.message || ""}
         />
         <SelectField
           id="type"
           label="Type"
           register={register}
-          options={[typeValues.Permanent, typeValues["Part-Time"]]}
+          options={["permanent", "part_time"]}
           errorMessage={errors.type?.message || ""}
         />
 
@@ -57,13 +57,3 @@ export default function OfficialInformation() {
     </div>
   );
 }
-
-const typeValues = {
-  Permanent: "permanent",
-  "Part-Time": "part_time",
-};
-
-const statusValues = {
-  Teaching: "teaching",
-  "Non-Teaching": "none_teaching",
-};

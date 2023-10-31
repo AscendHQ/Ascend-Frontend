@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { notification } from "antd";
-import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
@@ -78,12 +76,13 @@ export default function NewStaff() {
         });
       },
     });
-  const fetchNewStaffNo = () =>
+
+  const getNewStaffNo = () =>
     axiosInstance.get("/staffs/new_staff_no").then(res => res.data);
 
-  const staffNo = useQuery({
+  const nextStaffNo = useQuery({
     queryKey: ["staffNo"],
-    queryFn: fetchNewStaffNo,
+    queryFn: getNewStaffNo,
   });
 
   const onSubmit = (data: NewStaffSchemaType) => {
@@ -102,7 +101,7 @@ export default function NewStaff() {
       post: data.job_title,
       employment_date: formatDate(date),
       denomination: data.denomination,
-      staff_no: data.staff_no === "" ? staffNo.data : data.staff_no,
+      staff_no: data.staff_no === "" ? nextStaffNo.data : data.staff_no,
       status: data.status,
       type: data.type,
       exit_date: "",
@@ -122,7 +121,7 @@ export default function NewStaff() {
   return (
     <ReactHookForm.Provider value={{ register, errors }}>
       <Container headerTitle="New Teacher">
-        {staffNo.isLoading ? (
+        {nextStaffNo.isLoading ? (
           <p>Loading...</p>
         ) : (
           <main className="p-10 bg-white h-full">
@@ -134,7 +133,7 @@ export default function NewStaff() {
               <Icon icon="teenyicons:arrow-left-solid" />
               Back
             </Link>
-            <PersonalInformation staffNo={staffNo.data} />
+            <PersonalInformation staffNo={nextStaffNo.data} />
             <OfficialInformation />
             <div className="flex justify-end gap-6">
               <DashboardButton
