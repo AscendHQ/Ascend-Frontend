@@ -1,4 +1,4 @@
-import { Skeleton } from "antd";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -16,7 +16,6 @@ import {
   NEW_LESSON_PLAN,
   NEW_TIMETABLE,
 } from "@/config/links";
-import { getSecureStorage } from "@/utils/cookieStorage";
 
 import SideBarItem from "./sidebar-item";
 import SidebarMenu from "./sidebar-menu";
@@ -27,18 +26,16 @@ export default function Sidebar() {
   const [showCollapsibleSideNav, setshowCollapsibleSideNav] =
     React.useState(false);
 
-  const userInfo = getSecureStorage("userInfoData");
-
   return (
     <aside className="col-span-2 3xl:col-span-1 border-r border-neutral-200 py-6 px-4 bg-white relative">
-      <Skeleton.Node
-        active={userInfo === null}
-        className="!bg-transparent !w-full !h-10 !justify-start"
-      >
-        <h4 className="font-GTWalsheimPro relative z-50 font-medium text-2xl">
-          {userInfo?.first_name}
-        </h4>
-      </Skeleton.Node>
+      <Image
+        src="/Ascend-Logo.svg"
+        alt="Ascend Logo"
+        width={100}
+        height={24}
+        priority
+        className="relative z-50 mt-3"
+      />
       <div className="mt-16 pb-4 border-b border-neutral-200 space-y-2">
         <h3 className="text-base mb-4 text-gray-800">MAIN</h3>
         <SideBarItem
