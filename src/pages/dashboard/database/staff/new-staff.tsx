@@ -121,7 +121,9 @@ export default function NewStaff() {
     <ReactHookForm.Provider value={{ register, errors }}>
       <Container headerTitle="New Teacher">
         {staffNo.isLoading ? (
-          <p>Loading...</p>
+          <div className="flex justify-center item-center min-h-full">
+            <p>Loading...</p>
+          </div>
         ) : (
           <main className="p-10 bg-white h-full">
             {contextHolder}
