@@ -17,9 +17,9 @@ export function setSecureStorage(
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getSecureStorage(name: string): any {
-  const sessionValue = sessionStorage.getItem(name);
+  const sessionValue = window.sessionStorage?.getItem(name);
   if (sessionValue !== null) {
-    return sessionValue;
+    return JSON.parse(sessionValue);
   }
 
   const cookieValue = document.cookie
@@ -27,7 +27,7 @@ export function getSecureStorage(name: string): any {
     .find(row => row.startsWith(name))
     ?.split("=")[1];
 
-  return cookieValue || null;
+  return cookieValue || "";
 }
 
 export function clearAllStorage(): void {
