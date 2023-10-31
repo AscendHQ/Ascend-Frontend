@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Icon } from "@iconify/react";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
@@ -6,7 +5,6 @@ import React from "react";
 import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
-import { teacherInfo } from "@/config/dummyInfo";
 import { NEW_TEACHER_BIODATA } from "@/config/links";
 import {
   Tab,
@@ -74,53 +72,8 @@ export default function StaffDatabase() {
             Add Staff
           </DashboardButton>
         </div>
-        {staffData.isLoading && <p>loading...</p>}
         <Table data={filteredData} />
       </main>
     </Container>
   );
 }
-/* 
-
- {
-    name: "Name",
-  },
-  {
-    name: "Staff Id",
-  },
-  {
-    name: "Sex",
-  },
-  {
-    name: "Status",
-  },
-  {
-    name: "Type",
-  },
-{
-            "_id": "6539813303513718f15f56e5",
-            "organization": "653978e6277a07a04af91983",
-            "staff_no": "S175649",
-            "surname": "Dee",
-            "other_names": "Tolu",
-            "sex": "female",
-            "status": "none_teaching",
-            "type": "permanent",
-            "denomination": "islam",
-            "department": "agriculture",
-            "qualifications": [
-                "BSc. Copy Sciences"
-            ],
-            "post": "HOD",
-            "address": "N5B/343, Street A1, Ifeoluwa, Akure Ibadan",
-            "phone_number": "+2348142375116",
-            "loan_received": 0,
-            "loan_refunded": 0,
-            "loan_debt": 0,
-            "employment_date": "2023-01-25T00:00:00.000Z",
-            "exit_date": null,
-            "exit_reason": "",
-            "createdAt": "2023-10-25T20:57:23.251Z",
-            "updatedAt": "2023-10-25T20:57:23.251Z",
-            "__v": 0
-*/
