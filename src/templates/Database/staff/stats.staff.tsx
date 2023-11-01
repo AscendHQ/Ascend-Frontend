@@ -15,11 +15,11 @@ export const StaffStatistics = (data: {
         heading="Gender"
         items={[
           {
-            name: sexOptions.m,
+            name: sexOptions.male,
             value: data.data.noOfMaleStaff,
           },
           {
-            name: sexOptions.f,
+            name: sexOptions.female,
             value: data.data.noOfFemaleStaff,
           },
         ]}
@@ -29,15 +29,15 @@ export const StaffStatistics = (data: {
         heading="Denomination"
         items={[
           {
-            name: denominationOptions.a,
+            name: denominationOptions.adventist,
             value: data.data.noOfAdventistStaff,
           },
           {
-            name: denominationOptions.na,
+            name: denominationOptions.non_adventist,
             value: data.data.noOfNonAdventistStaff,
           },
           {
-            name: denominationOptions.i,
+            name: denominationOptions.islam,
             value: data.data.noOfIslamStaff,
           },
         ]}
@@ -46,13 +46,13 @@ export const StaffStatistics = (data: {
   );
 };
 
-const sexOptions = {
-  m: "Male",
-  f: "Female",
+export const sexOptions = {
+  male: "Male",
+  female: "Female",
 };
 
-const denominationOptions = {
-  a: "Adventist",
-  na: "Non-Adventist",
-  i: "Islam",
+export const denominationOptions = {
+  adventist: "Adventist",
+  non_adventist: "Non-Adventist",
+  islam: "Islam",
 };

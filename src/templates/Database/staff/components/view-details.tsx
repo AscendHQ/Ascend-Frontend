@@ -25,7 +25,7 @@ const ViewDetailsModal: React.FC<ModalProps> = ({
       <div className="absolute inset-0 bg-gray-800  opacity-75"></div>
       <div
         ref={modalRef}
-        className="bg-white rounded-xl relative z-50 p-6 max-w-[500px] w-[95%] mx-auto"
+        className="bg-white rounded-xl relative z-50 p-6 max-w-[650px] w-[95%] mx-auto"
       >
         <button onClick={onClose} className="absolute top-7 right-5">
           <Icon icon="ic:round-close" fontSize={20} />

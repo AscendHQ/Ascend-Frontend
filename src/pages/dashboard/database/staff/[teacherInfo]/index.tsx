@@ -125,7 +125,14 @@ export default function DatabaseTeacherBiodata() {
           )}
           {staffData.data && (
             <div className="bg-white p-10 h-full">
-              <div className="flex justify-between">
+              <Link
+                href={DASHBOARD_TEACHER}
+                className="flex items-center gap-2 mb-10"
+              >
+                <Icon icon="teenyicons:arrow-left-solid" />
+                Back
+              </Link>
+              <div className="flex justify-start">
                 <div>
                   <h3 className="text-Text-high-emphasis text-xl font-semibold tracking-tight">
                     {staffData.data.surname} {staffData.data.other_names}
@@ -134,22 +141,15 @@ export default function DatabaseTeacherBiodata() {
                     Staff ID: {(usernameStaffId as string)?.split("-").at(-1)}
                   </span>
                 </div>
-                <Link
-                  href={DASHBOARD_TEACHER}
-                  className="flex items-center gap-2 mb-10"
-                >
-                  <Icon icon="teenyicons:arrow-left-solid" />
-                  Back
-                </Link>
               </div>
               <main className="h-full">
+                <PersonalInformation />
+                <OfficialInformation />
                 <TeacherBiodata
                   isDirty={!isDirty}
                   handleSubmit={handleSubmit}
                   onSubmit={onSubmit}
                 />
-                <PersonalInformation />
-                <OfficialInformation />
               </main>
             </div>
           )}
@@ -158,6 +158,7 @@ export default function DatabaseTeacherBiodata() {
     </ReactHookForm.Provider>
   );
 }
+
 function TeacherBiodata({
   isDirty,
   handleSubmit,
@@ -168,15 +169,8 @@ function TeacherBiodata({
   onSubmit: any;
 }) {
   return (
-    <div className="flex justify-between items-center gap-16 py-8 mb-8 border-b-2 border-border-colour-light">
-      <div className="w-96">
-        <h4 className="text-Text-high-emphasis font-semibold">
-          Teacher Biodata
-        </h4>
-        <p className="text-sm tracking-tight max-w-xs text-gray-800">
-          Update your student biodata here
-        </p>
-      </div>
+    <div className="flex justify-between items-center gap-16 py-8 mb-8">
+      <div className="w-96"></div>
       <DashboardButton
         variant="primary"
         disabled={isDirty}
@@ -192,7 +186,7 @@ function PersonalInformation() {
   const { register, errors } = useFormContext(ReactHookForm);
 
   return (
-    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-y pt-9 mt-8 mb-8 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Personal information

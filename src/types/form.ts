@@ -300,7 +300,7 @@ export const newStaffSchema = z.object({
     .string()
     .min(2, { message: "Job title should be at least 2 characters long" }),
   educational_qualification: z.string().min(2, {
-    message: "Educational qualification should be at least 2 characters long",
+    message: "Educational qualification must be selected",
   }),
   department: z
     .string()

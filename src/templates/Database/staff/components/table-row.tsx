@@ -6,11 +6,13 @@ import React from "react";
 import { TableCell } from "@/components/ui/table";
 import { DASHBOARD_TEACHER_INFO_BIODATA } from "@/config/links";
 
+import { StaffProp } from "../hooks";
+
 export function TableRow({
   item,
   openModal,
 }: {
-  item: TableRowProps;
+  item: StaffProp;
   openModal: (item: StaffDetails) => void;
 }) {
   const staffFullDetails: StaffDetails = {
@@ -21,6 +23,10 @@ export function TableRow({
     status: statusOptions[item.status],
     type: typeOptions[item.type],
     denomination: denominationOptions[item.denomination],
+    qualifications: item.qualifications,
+    phone_number: item.phone_number,
+    address: item.address,
+    title: item.post,
   };
 
   const items: MenuProps["items"] = [
@@ -74,36 +80,26 @@ export function TableRow({
   );
 }
 
-const sexOptions = {
+export const sexOptions = {
   male: "Male",
   female: "Female",
 };
 
-const statusOptions = {
+export const statusOptions = {
   teaching: "Teaching",
   none_teaching: "Non-Teaching",
 };
 
-const typeOptions = {
+export const typeOptions = {
   permanent: "Permanent",
   part_time: "Part-Time",
 };
 
-const denominationOptions = {
+export const denominationOptions = {
   adventist: "Adventist",
-  "non-Adventist": "Non-Adventist",
+  non_adventist: "Non-Adventist",
   islam: "Islam",
 };
-
-export interface TableRowProps {
-  surname: string;
-  other_names: string;
-  staff_no: string;
-  sex: keyof typeof sexOptions;
-  status: keyof typeof statusOptions;
-  type: keyof typeof typeOptions;
-  denomination: keyof typeof denominationOptions;
-}
 
 export interface StaffDetails {
   surname: string;
@@ -113,4 +109,8 @@ export interface StaffDetails {
   status: string;
   type: string;
   denomination: string;
+  qualifications: string[];
+  phone_number: string;
+  address: string;
+  title: string;
 }
