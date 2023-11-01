@@ -97,7 +97,6 @@ export default function Payroll() {
           </DashboardButton>
           <DashboardButton
             variant="primary"
-            onClick={e => e.preventDefault()}
             path={GENERATE_PAYROLL}
             isLink={true}
             className="ml-0"
