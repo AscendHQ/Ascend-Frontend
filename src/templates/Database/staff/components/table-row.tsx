@@ -40,7 +40,7 @@ export function TableRow({
       label: (
         <Link
           href={DASHBOARD_TEACHER_INFO_BIODATA(
-            item.surname.split(" ").join("-").toLowerCase()
+            `${item.surname}-${item.staff_no}`.toLowerCase()
           )}
           className="flex gap-2 w-full transition-all py-1 rounded-sm items-center"
         >

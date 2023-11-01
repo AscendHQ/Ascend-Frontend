@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 
@@ -22,12 +21,6 @@ export default function DatabaseTeacherContainer({
     <Container headerTitle={headerTitle}>
       <div className="bg-white p-10 h-full">
         <div className="flex gap-4">
-          <Image
-            src="/joebrendan.png"
-            alt="unsplashh image as avatar"
-            width={60}
-            height={50}
-          />
           <div>
             <h3 className="text-Text-high-emphasis text-xl font-semibold tracking-tight">
               Babalola Philips

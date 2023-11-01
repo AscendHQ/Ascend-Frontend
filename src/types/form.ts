@@ -337,7 +337,6 @@ export const editStaffSchema = z.object({
   job_title: z.string().optional(),
   educational_qualification: z.string().optional(),
   department: z.string().optional(),
-  date_of_birth: z.string().optional(),
   denomination: z.string().optional(),
   status: z.string().optional(),
   type: z.string().optional(),
@@ -351,7 +350,6 @@ export type EditStaffFieldValues = {
   home_address?: string;
   job_title?: string;
   department?: string;
-  date_of_birth?: string;
   educational_qualification?: string;
   denomination?: string;
   status?: string;

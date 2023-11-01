@@ -46,9 +46,11 @@ export function Table({ data }: { data: TableData }) {
           <TableHeaders data={tableHeaders} />
           <tbody>
             {data.map(item => (
-              <React.Fragment key={item.staff_no}>
-                <TableRow item={item} openModal={openDetailsModal} />
-              </React.Fragment>
+              <TableRow
+                item={item}
+                openModal={openDetailsModal}
+                key={item.staff_no}
+              />
             ))}
           </tbody>
         </table>
@@ -74,7 +76,10 @@ export function Table({ data }: { data: TableData }) {
             })}
           </ul>
           <Link
-            href={DASHBOARD_TEACHER_INFO_BIODATA(modalDetails?.surname ?? "")}
+            href={DASHBOARD_TEACHER_INFO_BIODATA(
+              `${modalDetails?.surname}-${modalDetails?.staff_no}`.toLowerCase() ??
+                ""
+            )}
             className="flex gap-2 w-full transition-all justify-center mt-5 py-1 rounded-sm items-center"
           >
             <Icon icon="ep:edit" fontSize={20} />

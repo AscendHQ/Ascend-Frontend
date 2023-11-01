@@ -1,15 +1,21 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Icon } from "@iconify/react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
 
-import DatabaseTeacherContainer from "@/components/layout/database-teacher/container";
+import { axiosInstance } from "@/api";
+import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
 import SelectField from "@/components/ui/form/selectfield";
 import TextAreaWithLabelAndCount from "@/components/ui/form/textarea";
 import TextField from "@/components/ui/form/textfield";
+import { DASHBOARD_TEACHER } from "@/config/links";
 import { useFormContext } from "@/hooks/useFormContext";
 import {
   EditStaffContextType,
@@ -23,25 +29,72 @@ export const ReactHookForm = React.createContext<
 
 export default function DatabaseTeacherBiodata() {
   const router = useRouter();
-  const id = router.query.teacherInfo as string;
+  const usernameStaffId = router.query.teacherInfo as string;
   const initialValuesRef = React.useRef<EditStaffSchemaType | null>(null);
+  const queryClient = useQueryClient();
+
+  const fetchStaffData = () =>
+    axiosInstance
+      .get(
+        `/staffs/${(usernameStaffId as string)
+          ?.split("-")
+          .at(-1)
+          ?.toUpperCase()}`
+      )
+      .then(res => {
+        if (res.data === null) {
+          queryClient.invalidateQueries({ queryKey: ["staff"] });
+        }
+        console.log(res, "res.data");
+        return res.data;
+      });
+
+  const staffData = useQuery({
+    queryKey: ["staff"],
+    queryFn: fetchStaffData,
+    retry: true,
+    retryDelay: 1000,
+    enabled: !!usernameStaffId,
+  });
 
   const {
     register,
     handleSubmit,
-    getValues,
+
+    setValue,
     formState: { errors, isDirty },
   } = useForm<EditStaffSchemaType>({
     resolver: zodResolver(editStaffSchema),
-    defaultValues: {
-      first_name: "John",
-      last_name: "Doe",
-    },
   });
 
   React.useEffect(() => {
-    initialValuesRef.current = getValues();
-  }, []);
+    if (staffData.data) {
+      setValue("last_name", staffData.data.surname);
+      setValue("first_name", staffData.data.other_names);
+      setValue("job_title", staffData.data.post);
+      setValue("home_address", staffData.data.address);
+      setValue("denomination", staffData.data.denomination);
+      setValue("phone_number", staffData.data.phone_number);
+      setValue("sex", staffData.data.sex);
+      setValue("status", staffData.data.status);
+      setValue("type", staffData.data.type);
+      setValue("department", staffData.data.department);
+      setValue("educational_qualification", staffData.data.qualifications[0]);
+      initialValuesRef.current = {
+        last_name: staffData.data.surname,
+        first_name: staffData.data.other_names,
+        job_title: staffData.data.post,
+        denomination: staffData.data.denomination,
+        home_address: staffData.data.address,
+        phone_number: staffData.data.phone_number,
+        sex: staffData.data.sex,
+        type: staffData.data.type,
+        status: staffData.data.status,
+        department: staffData.data.department,
+        educational_qualification: staffData.data.qualifications[0],
+      };
+    }
+  }, [staffData.data]);
 
   const onSubmit = (data: EditStaffSchemaType) => {
     console.log(data, "datauBAaHqHy");
@@ -63,20 +116,45 @@ export default function DatabaseTeacherBiodata() {
 
   return (
     <ReactHookForm.Provider value={{ register, errors }}>
-      <DatabaseTeacherContainer
-        headerTitle={id?.split("-")?.join(" ")?.toUpperCase()}
-        teacherInfo={id}
-      >
-        <main className="h-full">
-          <TeacherBiodata
-            isDirty={!isDirty}
-            handleSubmit={handleSubmit}
-            onSubmit={onSubmit}
-          />
-          <PersonalInformation />
-          <OfficialInformation />
-        </main>
-      </DatabaseTeacherContainer>
+      <Container headerTitle={"Edit Staff"}>
+        <>
+          {staffData.isLoading && (
+            <div className="flex justify-center items-center min-h-full">
+              <p>loading...</p>
+            </div>
+          )}
+          {staffData.data && (
+            <div className="bg-white p-10 h-full">
+              <div className="flex justify-between">
+                <div>
+                  <h3 className="text-Text-high-emphasis text-xl font-semibold tracking-tight">
+                    {staffData.data.surname} {staffData.data.other_names}
+                  </h3>
+                  <span className="text-sm text-gray-800 font-medium capitalize">
+                    Staff ID: {(usernameStaffId as string)?.split("-").at(-1)}
+                  </span>
+                </div>
+                <Link
+                  href={DASHBOARD_TEACHER}
+                  className="flex items-center gap-2 mb-10"
+                >
+                  <Icon icon="teenyicons:arrow-left-solid" />
+                  Back
+                </Link>
+              </div>
+              <main className="h-full">
+                <TeacherBiodata
+                  isDirty={!isDirty}
+                  handleSubmit={handleSubmit}
+                  onSubmit={onSubmit}
+                />
+                <PersonalInformation />
+                <OfficialInformation />
+              </main>
+            </div>
+          )}
+        </>
+      </Container>
     </ReactHookForm.Provider>
   );
 }
@@ -159,15 +237,6 @@ function PersonalInformation() {
           ]}
           errorMessage={errors.denomination?.message || ""}
         />
-
-        <TextField
-          id="date_of_birth"
-          label="Date of Birth"
-          required
-          type="date"
-          register={register}
-          errorMessage={errors?.date_of_birth?.message || ""}
-        />
         <TextField
           id="phone_number"
           label="Phone number"
@@ -176,7 +245,6 @@ function PersonalInformation() {
           register={register}
           errorMessage={errors.phone_number?.message || ""}
         />
-
         <TextAreaWithLabelAndCount
           id="home_address"
           label="Home Address"
