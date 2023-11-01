@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// import { MehOutlined } from "@ant-design/icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import { useMutation } from "@tanstack/react-query";
@@ -18,8 +16,6 @@ import { formSchema, FormSchemaType } from "@/types/form";
 import { setSecureStorage } from "@/utils/cookieStorage";
 
 export default function FormSection() {
-  const [isChecked, setIsChecked] = React.useState(false);
-
   const router = useRouter();
 
   const [api, contextHolder] = notification.useNotification();
@@ -30,6 +26,10 @@ export default function FormSection() {
     formState: { errors, isSubmitting },
   } = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "ascendafrica.dev@gmail.com",
+      password: "Passw0rd",
+    },
   });
 
   const loginMutation = useMutation({
@@ -40,16 +40,9 @@ export default function FormSection() {
       console.log({ data });
       setSecureStorage(
         "userInfoAccessToken",
-        JSON.stringify(data.data.access_token),
-        30,
-        isChecked
+        JSON.stringify(data.data.access_token)
       );
-      setSecureStorage(
-        "userInfoData",
-        JSON.stringify(data.data.account),
-        30,
-        isChecked
-      );
+      setSecureStorage("userInfoData", JSON.stringify(data.data.account));
       router.push(DASHBOARD_OVERVIEW);
     },
     onError: (error: Error & { response: { data: string } }) => {
@@ -72,15 +65,10 @@ export default function FormSection() {
   });
 
   const onSubmit: SubmitHandler<FormSchemaType> = async data => {
-    // console.log(data);
     loginMutation.mutate({
       email: data.email,
       password: data.password,
     });
-  };
-
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsChecked(event.target.checked);
   };
 
   return (
@@ -169,25 +157,11 @@ export default function FormSection() {
             {errors.password?.message}
           </span>
         )}
-        <div className="flex justify-between mt-7 flex-wrap gap-2">
-          <div className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              name="check"
-              id="check"
-              onChange={handleCheckboxChange}
-            />
-            <label htmlFor="check">Remember me for this device</label>
-          </div>
-          <Link href={HOME_PAGE} className="text-primary-purple-700 text-sm">
-            Forgot Password?
-          </Link>
-        </div>
         <button
           onClick={handleSubmit(onSubmit)}
           className={`${
             isSubmitting ? "bg-primary-purple-400" : "bg-primary-purple-700"
-          }  py-4 text-white rounded-lg mt-4 active:scale-90 transition-all`}
+          }  py-4 text-white rounded-lg mt-11 active:scale-90 transition-all`}
         >
           <LoadingState
             label="Sign in"

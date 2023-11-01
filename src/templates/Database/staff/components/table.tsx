@@ -11,8 +11,8 @@ import ViewDetailsModal from "./view-details";
 export type TableData = TableRowProps[];
 
 const staffDetails = {
-  name: "Fullname",
-  staffId: "Staff ID",
+  fullname: "Fullname",
+  staff_no: "Staff No",
   sex: "Sex",
   status: "Status",
   type: "Type",
@@ -23,12 +23,15 @@ const staffDetailsKeys = Object.keys(staffDetails);
 
 export function Table({ data }: { data: TableData }) {
   const [isOpenDetails, setIsOpenDetails] = React.useState<boolean>(false);
-  const [modalDetails, setModalDetails] = React.useState<StaffDetails | null>(
-    null
-  );
+  const [modalDetails, setModalDetails] = React.useState<
+    (StaffDetails & { fullname: string }) | null
+  >(null);
 
   const openDetailsModal = (item: StaffDetails) => {
-    setModalDetails(item);
+    setModalDetails({
+      ...item,
+      fullname: `${item.surname} ${item.other_names}`,
+    });
     setIsOpenDetails(true);
   };
   const closeDetailsModal = () => {
@@ -43,7 +46,7 @@ export function Table({ data }: { data: TableData }) {
           <TableHeaders data={tableHeaders} />
           <tbody>
             {data.map(item => (
-              <React.Fragment key={item.name}>
+              <React.Fragment key={item.staff_no}>
                 <TableRow item={item} openModal={openDetailsModal} />
               </React.Fragment>
             ))}
@@ -52,8 +55,7 @@ export function Table({ data }: { data: TableData }) {
       </div>
       <ViewDetailsModal open={isOpenDetails} onClose={closeDetailsModal}>
         <div>
-          <h2 className="font-bold text-2xl mb-4">{modalDetails?.name}</h2>
-
+          <h2 className="font-bold text-2xl mb-4">{modalDetails?.fullname}</h2>
           <ul>
             {staffDetailsKeys.map(item => {
               const columnKey = item as keyof typeof staffDetails;
@@ -72,7 +74,7 @@ export function Table({ data }: { data: TableData }) {
             })}
           </ul>
           <Link
-            href={DASHBOARD_TEACHER_INFO_BIODATA(modalDetails?.name ?? "")}
+            href={DASHBOARD_TEACHER_INFO_BIODATA(modalDetails?.surname ?? "")}
             className="flex gap-2 w-full transition-all justify-center mt-5 py-1 rounded-sm items-center"
           >
             <Icon icon="ep:edit" fontSize={20} />
@@ -91,7 +93,7 @@ const tableHeaders: {
     name: "Name",
   },
   {
-    name: "Staff Id",
+    name: "Staff No",
   },
   {
     name: "Sex",

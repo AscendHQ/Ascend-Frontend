@@ -1,33 +1,13 @@
-export function setSecureStorage(
-  name: string,
-  value: string,
-  days: number,
-  rememberMe: boolean
-): void {
-  if (rememberMe) {
-    const date = new Date();
-    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-    const expires = `expires=${date.toUTCString()}`;
-    const secureFlag = location.protocol === "https:" ? ";secure" : "";
-    document.cookie = `${name}=${value};${expires};path=/${secureFlag}`;
-  } else {
-    sessionStorage.setItem(name, value);
-  }
+export function setSecureStorage(name: string, value: string): void {
+  sessionStorage.setItem(name, value);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getSecureStorage(name: string): any {
-  const sessionValue = window.sessionStorage?.getItem(name);
+  const sessionValue = window?.sessionStorage?.getItem(name);
   if (sessionValue !== null) {
     return JSON.parse(sessionValue);
   }
-
-  const cookieValue = document.cookie
-    .split("; ")
-    .find(row => row.startsWith(name))
-    ?.split("=")[1];
-
-  return cookieValue || "";
 }
 
 export function clearAllStorage(): void {

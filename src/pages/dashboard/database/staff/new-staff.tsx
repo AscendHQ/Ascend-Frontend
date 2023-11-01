@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { notification } from "antd";
-import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
