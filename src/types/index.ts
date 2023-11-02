@@ -136,7 +136,7 @@ export type TextAreaProps = {
 export type SelectFieldProps = {
   id: string;
   label: string;
-  options: string[];
+  options: string[] | { value: string; label: string }[];
   isFullWidth?: boolean;
   value?: string;
   labelStyle?: string;

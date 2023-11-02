@@ -20,16 +20,6 @@ export default function PersonalInformation({ staffNo }: { staffNo: string }) {
       </div>
       <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
         <TextField
-          id="staff_no"
-          label="Staff No"
-          placeholder="S175645"
-          required
-          defaultValue={staffNo}
-          register={register}
-          // readOnly
-          errorMessage={errors.staff_no?.message || ""}
-        />
-        <TextField
           id="first_name"
           label="First name"
           placeholder="Babalola"
@@ -46,6 +36,17 @@ export default function PersonalInformation({ staffNo }: { staffNo: string }) {
           errorMessage={errors.last_name?.message || ""}
         />
 
+        <TextField
+          id="staff_no"
+          label="Staff ID"
+          placeholder=""
+          required
+          defaultValue={staffNo}
+          register={register}
+          // readOnly
+          errorMessage={errors.staff_no?.message || ""}
+        />
+
         <SelectField
           id="sex"
           label="Sex"
@@ -57,11 +58,7 @@ export default function PersonalInformation({ staffNo }: { staffNo: string }) {
           id="denomination"
           label="Denomination"
           register={register}
-          options={[
-            DenominationValue.Islam,
-            DenominationValue.Adventist,
-            DenominationValue["Non adventist"],
-          ]}
+          options={denominationOptions}
           errorMessage={errors.denomination?.message || ""}
         />
 
@@ -70,6 +67,7 @@ export default function PersonalInformation({ staffNo }: { staffNo: string }) {
           label="Date of Birth"
           required
           type="date"
+          max={"2010-01-12"}
           register={register}
           errorMessage={errors?.date_of_birth?.message || ""}
         />
@@ -97,8 +95,17 @@ export default function PersonalInformation({ staffNo }: { staffNo: string }) {
   );
 }
 
-const DenominationValue = {
-  Islam: "islam",
-  Adventist: "adventist",
-  "Non adventist": "non_adventist",
-};
+const denominationOptions = [
+  {
+    label: "Adventist",
+    value: "adventist",
+  },
+  {
+    label: "Non Adventist",
+    value: "non_adventist",
+  },
+  {
+    label: "Islam",
+    value: "islam",
+  },
+];

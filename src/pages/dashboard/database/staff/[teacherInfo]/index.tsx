@@ -2,10 +2,8 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Icon } from "@iconify/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { notification } from "antd";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -178,13 +176,6 @@ export default function DatabaseTeacherBiodata() {
                     Staff ID: {(usernameStaffId as string)?.split("-").at(-1)}
                   </span>
                 </div>
-                <Link
-                  href={DASHBOARD_TEACHER}
-                  className="flex items-center gap-2 mb-10"
-                >
-                  <Icon icon="teenyicons:arrow-left-solid" />
-                  Back
-                </Link>
               </div>
               <main className="h-full border-t-2 border-border-colour-light mt-4 pt-8">
                 <EditPersonalInformation />
