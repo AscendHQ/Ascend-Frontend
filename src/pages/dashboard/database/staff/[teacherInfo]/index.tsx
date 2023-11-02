@@ -44,7 +44,6 @@ export default function DatabaseTeacherBiodata() {
         if (res.data === null) {
           queryClient.invalidateQueries({ queryKey: ["staff"] });
         }
-        // console.log(res, "res.data");
         return res.data;
       });
 
