@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import type { InferGetStaticPropsType } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
@@ -11,10 +13,10 @@ import { useForm } from "react-hook-form";
 
 import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
+import { DashboardButton } from "@/components/ui/button/button";
 import { DASHBOARD_TEACHER } from "@/config/links";
 import EditOfficialInformation from "@/templates/Database/staff/components/edit-official-information";
 import EditPersonalInformation from "@/templates/Database/staff/components/edit-personal-information";
-import TeacherBiodata from "@/templates/Database/staff/components/teacher-biodata";
 import {
   EditStaffContextType,
   editStaffSchema,
@@ -25,11 +27,9 @@ export const ReactHookForm = React.createContext<
   EditStaffContextType | undefined
 >(undefined);
 
-export default function DatabaseTeacherBiodata() {
-  const router = useRouter();
-  const usernameStaffId = router.query.teacherInfo as string;
-  const initialValuesRef = React.useRef<EditStaffSchemaType | null>(null);
+export const getStaticProps = async ({ params }: { params: any }) => {
   const queryClient = useQueryClient();
+  const usernameStaffId = params.teacherInfo;
 
   const fetchStaffData = () =>
     axiosInstance
@@ -43,7 +43,7 @@ export default function DatabaseTeacherBiodata() {
         if (res.data === null) {
           queryClient.invalidateQueries({ queryKey: ["staff"] });
         }
-        // console.log(res, "res.data");
+        console.log(res, "res.data");
         return res.data;
       });
 
@@ -55,6 +55,16 @@ export default function DatabaseTeacherBiodata() {
     enabled: !!usernameStaffId,
   });
 
+  return { props: { staffData: staffData.data } };
+};
+
+export default function DatabaseTeacherBiodata({
+  staffData,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  const router = useRouter();
+  const usernameStaffId = router.query.teacherInfo as string;
+  const initialValuesRef = React.useRef<EditStaffSchemaType | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -63,45 +73,39 @@ export default function DatabaseTeacherBiodata() {
   } = useForm<EditStaffSchemaType>({
     resolver: zodResolver(editStaffSchema),
   });
+  console.log(staffData);
 
   React.useEffect(() => {
     if (staffData.data) {
-      setValue("last_name", staffData.data.surname);
-      setValue("first_name", staffData.data.other_names);
-      setValue("job_title", staffData.data.post);
-      setValue("home_address", staffData.data.address);
-      setValue("denomination", staffData.data.denomination);
-      setValue("phone_number", staffData.data.phone_number);
-      setValue("sex", staffData.data.sex);
-      setValue("status", staffData.data.status);
-      setValue("type", staffData.data.type);
-      setValue("department", staffData.data.department);
-      setValue("educational_qualification", staffData.data.qualifications[0]);
-      initialValuesRef.current = {
-        last_name: staffData.data.surname,
-        first_name: staffData.data.other_names,
-        job_title: staffData.data.post,
-        denomination: staffData.data.denomination,
-        home_address: staffData.data.address,
-        phone_number: staffData.data.phone_number,
-        sex: staffData.data.sex,
-        type: staffData.data.type,
-        status: staffData.data.status,
-        department: staffData.data.department,
-        educational_qualification: staffData.data.qualifications[0],
+      const fieldsToSet = {
+        ...staffDataFields,
+        educational_qualification: "qualifications[0]",
       };
+
+      Object.entries(fieldsToSet).forEach(([field, key]) => {
+        const formField = field as keyof EditStaffSchemaType;
+        const dataKey = key;
+
+        setValue(formField, staffData.data[dataKey]);
+
+        if (initialValuesRef.current) {
+          initialValuesRef.current[formField] = staffData.data[dataKey];
+        }
+      });
     }
   }, [staffData.data]);
 
   const onSubmit = (data: EditStaffSchemaType) => {
-    // console.log(data, "datauBAaHqHy");
+    console.log(data, "datauBAaHqHy");
+    // type StaffDataFieldsTypes =
+    //   (typeof staffDataFields)[keyof typeof staffDataFields];
 
     const keyMapping = {
       ...staffDataFields,
-      educational_qualification: "qualification",
+      educational_qualification: "qualifications",
     };
 
-    const changedData = {} as any;
+    const changedData = {};
 
     const keys = Object.keys(data) as Array<keyof EditStaffSchemaType>;
     keys.forEach(key => {
@@ -110,13 +114,9 @@ export default function DatabaseTeacherBiodata() {
         initialValuesRef.current &&
         initialValuesRef.current[key] !== data[key]
       ) {
-        if (key === "educational_qualification") {
-          changedData[keyMapping[key]] = [data[key]];
-          return;
-        }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const backendKey = keyMapping[key] || key;
-
-        changedData[backendKey] = data[key];
+        // changedData[backendKey] = data[key];
       }
     });
 
@@ -165,6 +165,35 @@ export default function DatabaseTeacherBiodata() {
         </>
       </Container>
     </ReactHookForm.Provider>
+  );
+}
+function TeacherBiodata({
+  isDirty,
+  handleSubmit,
+  onSubmit,
+}: {
+  isDirty: boolean;
+  handleSubmit: any;
+  onSubmit: any;
+}) {
+  return (
+    <div className="flex justify-between items-center gap-16 py-8 mb-8 border-b-2 border-border-colour-light">
+      <div className="w-96">
+        <h4 className="text-Text-high-emphasis font-semibold">
+          Teacher Biodata
+        </h4>
+        <p className="text-sm tracking-tight max-w-xs text-gray-800">
+          Update your student biodata here
+        </p>
+      </div>
+      <DashboardButton
+        variant="primary"
+        disabled={isDirty}
+        onClick={handleSubmit(onSubmit)}
+      >
+        Save Changes
+      </DashboardButton>
+    </div>
   );
 }
 
