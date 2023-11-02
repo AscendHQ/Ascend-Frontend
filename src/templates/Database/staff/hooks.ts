@@ -26,7 +26,7 @@ export const useFilterData = ({
   }, [data, criteria]);
 
   return {
-    filteredData,
+    filteredData: filteredData.reverse(),
   };
 };
 

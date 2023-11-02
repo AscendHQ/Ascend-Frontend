@@ -3,7 +3,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { notification } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
@@ -11,10 +12,11 @@ import { useForm } from "react-hook-form";
 
 import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
+import { DashboardButton } from "@/components/ui/button/button";
+import LoadingState from "@/components/ui/Loading";
 import { DASHBOARD_TEACHER } from "@/config/links";
 import EditOfficialInformation from "@/templates/Database/staff/components/edit-official-information";
 import EditPersonalInformation from "@/templates/Database/staff/components/edit-personal-information";
-import TeacherBiodata from "@/templates/Database/staff/components/teacher-biodata";
 import {
   EditStaffContextType,
   editStaffSchema,
@@ -30,6 +32,7 @@ export default function DatabaseTeacherBiodata() {
   const usernameStaffId = router.query.teacherInfo as string;
   const initialValuesRef = React.useRef<EditStaffSchemaType | null>(null);
   const queryClient = useQueryClient();
+  const [api, contextHolder] = notification.useNotification();
 
   const fetchStaffData = () =>
     axiosInstance
@@ -93,16 +96,49 @@ export default function DatabaseTeacherBiodata() {
     }
   }, [staffData.data]);
 
-  const onSubmit = (data: EditStaffSchemaType) => {
-    // console.log(data, "datauBAaHqHy");
+  const { mutate: mutateExistingStaff, isPending: isPendingExistingStaff } =
+    useMutation({
+      mutationFn: data => {
+        return axiosInstance
+          .put(
+            `/staffs/${(usernameStaffId as string)
+              ?.split("-")
+              .at(-1)
+              ?.toUpperCase()}`,
+            data
+          )
+          .then(res => res.data);
+      },
+      onSuccess: () => {
+        api.open({
+          message: (
+            <h3 className="text-secondary-green-600 font-semibold">Success!</h3>
+          ),
+          description: "Staff has been update successfully",
+          duration: 3,
+          className: "ant-toast",
+        });
+        router.push(DASHBOARD_TEACHER);
+      },
+      onError: (error: Error & { response: { data: string } }) => {
+        console.log(error, "onerror");
+        api.open({
+          message: (
+            <h3 className="text-secondary-red-600 font-semibold">Error!</h3>
+          ),
+          description: error.response.data,
+          duration: 8,
+          className: "ant-toast",
+        });
+      },
+    });
 
+  const onSubmit = (data: EditStaffSchemaType) => {
     const keyMapping = {
       ...staffDataFields,
       educational_qualification: "qualification",
     };
-
     const changedData = {} as any;
-
     const keys = Object.keys(data) as Array<keyof EditStaffSchemaType>;
     keys.forEach(key => {
       if (
@@ -115,12 +151,10 @@ export default function DatabaseTeacherBiodata() {
           return;
         }
         const backendKey = keyMapping[key] || key;
-
         changedData[backendKey] = data[key];
       }
     });
-
-    console.log("Changed data:", changedData);
+    mutateExistingStaff(changedData);
   };
 
   return (
@@ -134,6 +168,7 @@ export default function DatabaseTeacherBiodata() {
           )}
           {staffData.data && (
             <div className="bg-white p-10 h-full">
+              {contextHolder}
               <div className="flex justify-between">
                 <div>
                   <h3 className="text-Text-high-emphasis text-xl font-semibold tracking-tight">
@@ -151,14 +186,20 @@ export default function DatabaseTeacherBiodata() {
                   Back
                 </Link>
               </div>
-              <main className="h-full">
-                <TeacherBiodata
-                  isDirty={!isDirty}
-                  handleSubmit={handleSubmit}
-                  onSubmit={onSubmit}
-                />
+              <main className="h-full border-t-2 border-border-colour-light mt-4 pt-8">
                 <EditPersonalInformation />
                 <EditOfficialInformation />
+                <DashboardButton
+                  variant="primary"
+                  disabled={!isDirty}
+                  onClick={handleSubmit(onSubmit)}
+                  className="disabled:bg-primary-purple-400 disabled:cursor-not-allowed"
+                >
+                  <LoadingState
+                    label="Save Changes"
+                    isSubmitting={isPendingExistingStaff}
+                  />
+                </DashboardButton>
               </main>
             </div>
           )}
