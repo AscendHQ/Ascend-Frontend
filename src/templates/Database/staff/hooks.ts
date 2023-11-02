@@ -1,12 +1,13 @@
 import { useMemo } from "react";
 
-import { TableData } from "./components";
+import { statusOptions, typeOptions } from "./components/table-row";
+import { denominationOptions, sexOptions } from "./stats.staff";
 
 export const useFilterData = ({
   data,
   criteria,
 }: {
-  data: TableData;
+  data: StaffProp[];
   criteria: "all" | "part-time" | "permanent" | "teaching" | "non-teaching";
 }) => {
   const filteredData = useMemo(() => {
@@ -30,14 +31,14 @@ export const useFilterData = ({
   };
 };
 
-export type addStaffProp = {
+export type StaffProp = {
   staff_no: string;
   surname: string;
   other_names: string;
-  sex: string;
-  status: string;
-  type: string;
-  denomination: string;
+  sex: keyof typeof sexOptions;
+  status: keyof typeof statusOptions;
+  type: keyof typeof typeOptions;
+  denomination: keyof typeof denominationOptions;
   department: string;
   qualifications: string[];
   post: string;

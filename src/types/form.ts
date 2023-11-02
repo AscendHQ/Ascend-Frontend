@@ -300,7 +300,7 @@ export const newStaffSchema = z.object({
     .string()
     .min(2, { message: "Job title should be at least 2 characters long" }),
   educational_qualification: z.string().min(2, {
-    message: "Educational qualification should be at least 2 characters long",
+    message: "Educational qualification must be selected",
   }),
   department: z
     .string()
@@ -328,6 +328,34 @@ type NewStaffFieldValues = {
   type: string;
   staff_no: string;
 };
+export const editStaffSchema = z.object({
+  first_name: z.string().optional(),
+  last_name: z.string().optional(),
+  sex: z.string().optional(),
+  home_address: z.string().optional(),
+  phone_number: z.string().optional(),
+  job_title: z.string().optional(),
+  educational_qualification: z.string().optional(),
+  department: z.string().optional(),
+  denomination: z.string().optional(),
+  status: z.string().optional(),
+  type: z.string().optional(),
+});
+
+export type EditStaffFieldValues = {
+  first_name?: string;
+  last_name?: string;
+  sex?: string;
+  phone_number?: string;
+  home_address?: string;
+  job_title?: string;
+  department?: string;
+  educational_qualification?: string;
+  denomination?: string;
+  status?: string;
+  type?: string;
+};
+
 export const newTeacherOfficialInfoSchema = z.object({
   staff_ID: z
     .string()
@@ -409,6 +437,11 @@ export type NewStaffContextType = {
   errors: FieldErrors<NewStaffFieldValues>;
 };
 
+export type EditStaffContextType = {
+  register: UseFormRegister<EditStaffFieldValues>;
+  errors: FieldErrors<EditStaffFieldValues>;
+};
+
 export type NewTeacherPermissionContextType = {
   register: UseFormRegister<NewTeacherPermissionFieldValues>;
   errors: FieldErrors<NewTeacherPermissionFieldValues>;
@@ -438,6 +471,8 @@ export type NewHostelSchemaType = z.infer<typeof newHostelSchema>;
 export type HostelInfoSchemaType = z.infer<typeof hostelInfoSchema>;
 
 export type NewStaffSchemaType = z.infer<typeof newStaffSchema>;
+
+export type EditStaffSchemaType = z.infer<typeof editStaffSchema>;
 
 export type NewTeacherPermissionSchemaType = z.infer<
   typeof newTeacherPermissionSchema

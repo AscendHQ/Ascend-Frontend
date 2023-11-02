@@ -41,7 +41,7 @@ export const NEW_TEACHER_BIODATA = "/dashboard/database/staff/new-staff";
 export const NEW_TEACHER_PERMISSION =
   "/dashboard/database/staff/new-teacher-permission";
 export const DASHBOARD_TEACHER_INFO_BIODATA = (slug: string) =>
-  `/dashboard/database/staff/${slug}/biodata`;
+  `/dashboard/database/staff/${slug}`;
 export const DASHBOARD_TEACHER_INFO_OFFICIAL_INFO = (slug: string) =>
   `/dashboard/database/staff/${slug}/official-information`;
 export const DASHBOARD_TEACHER_INFO_PERMISSION = (slug: string) =>

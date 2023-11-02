@@ -14,7 +14,7 @@ import LoadingState from "@/components/ui/Loading";
 import { DASHBOARD_TEACHER } from "@/config/links";
 import OfficialInformation from "@/templates/Database/staff/components/official-information";
 import PersonalInformation from "@/templates/Database/staff/components/personal-information";
-import { addStaffProp } from "@/templates/Database/staff/hooks";
+import { StaffProp } from "@/templates/Database/staff/hooks";
 import {
   NewStaffContextType,
   newStaffSchema,
@@ -25,6 +25,16 @@ export const ReactHookForm = React.createContext<
   NewStaffContextType | undefined
 >(undefined);
 
+type NewStaffProp = Omit<
+  StaffProp,
+  "sex" | "denomination" | "status" | "type"
+> & {
+  sex: string;
+  denomination: string;
+  status: string;
+  type: string;
+};
+
 export default function NewStaff() {
   const router = useRouter();
   const [api, contextHolder] = notification.useNotification();
@@ -32,7 +42,7 @@ export default function NewStaff() {
 
   const { mutate: mutateNewStaff, isPending: isPendingAddNewStaff } =
     useMutation({
-      mutationFn: (data: addStaffProp) => {
+      mutationFn: (data: NewStaffProp) => {
         return axiosInstance.post("/staffs", data).then(res => res.data);
       },
       onSuccess: () => {
@@ -119,9 +129,11 @@ export default function NewStaff() {
 
   return (
     <ReactHookForm.Provider value={{ register, errors }}>
-      <Container headerTitle="New Teacher">
+      <Container headerTitle="New Staff">
         {staffNo.isLoading ? (
-          <p>Loading...</p>
+          <div className="flex justify-center item-center min-h-full">
+            <p>Loading...</p>
+          </div>
         ) : (
           <main className="p-10 bg-white h-full">
             {contextHolder}
