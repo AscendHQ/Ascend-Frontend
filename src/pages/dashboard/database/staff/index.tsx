@@ -5,6 +5,7 @@ import React from "react";
 import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
+import { Spinner } from "@/components/ui/Loading";
 import { NEW_TEACHER_BIODATA } from "@/config/links";
 import {
   Tab,
@@ -56,9 +57,7 @@ export default function StaffDatabase() {
     <Container headerTitle="Staff">
       <main className="px-10 py-5 h-full bg-white">
         {staffData.isLoading ? (
-          <div className="flex justify-center items-center min-h-full">
-            <p>loading...</p>
-          </div>
+          <Spinner />
         ) : (
           <>
             <StaffStatistics data={statisticsData} />

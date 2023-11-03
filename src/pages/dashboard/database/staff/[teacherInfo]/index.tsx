@@ -2,8 +2,10 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Icon } from "@iconify/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { notification } from "antd";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -11,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
-import LoadingState from "@/components/ui/Loading";
+import LoadingState, { Spinner } from "@/components/ui/Loading";
 import { DASHBOARD_TEACHER } from "@/config/links";
 import EditOfficialInformation from "@/templates/Database/staff/components/edit-official-information";
 import EditPersonalInformation from "@/templates/Database/staff/components/edit-personal-information";
@@ -112,7 +114,6 @@ export default function DatabaseTeacherBiodata() {
             <h3 className="text-secondary-green-600 font-semibold">Success!</h3>
           ),
           description: "Staff has been update successfully",
-          duration: 3,
           className: "ant-toast",
         });
         router.push(DASHBOARD_TEACHER);
@@ -124,7 +125,6 @@ export default function DatabaseTeacherBiodata() {
             <h3 className="text-secondary-red-600 font-semibold">Error!</h3>
           ),
           description: error.response.data,
-          duration: 8,
           className: "ant-toast",
         });
       },
@@ -158,14 +158,10 @@ export default function DatabaseTeacherBiodata() {
     <ReactHookForm.Provider value={{ register, errors }}>
       <Container headerTitle={"Edit Staff"}>
         <>
-          {staffData.isLoading && (
-            <div className="flex justify-center items-center min-h-full">
-              <p>loading...</p>
-            </div>
-          )}
+          {staffData.isLoading && <Spinner />}
+          {contextHolder}
           {staffData.data && (
             <div className="bg-white p-10 h-full">
-              {contextHolder}
               <div className="flex justify-between">
                 <div>
                   <h3 className="text-Text-high-emphasis text-xl font-semibold tracking-tight">
@@ -175,6 +171,13 @@ export default function DatabaseTeacherBiodata() {
                     Staff ID: {(usernameStaffId as string)?.split("-").at(-1)}
                   </span>
                 </div>
+                <Link
+                  href={DASHBOARD_TEACHER}
+                  className="flex items-center gap-2 mb-10"
+                >
+                  <Icon icon="teenyicons:arrow-left-solid" />
+                  Back
+                </Link>
               </div>
               <main className="h-full border-t-2 border-border-colour-light mt-4 pt-8">
                 <EditPersonalInformation />

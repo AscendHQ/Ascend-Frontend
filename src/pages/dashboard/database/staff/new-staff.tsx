@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
-import LoadingState from "@/components/ui/Loading";
+import LoadingState, { Spinner } from "@/components/ui/Loading";
 import { DASHBOARD_TEACHER } from "@/config/links";
 import OfficialInformation from "@/templates/Database/staff/components/official-information";
 import PersonalInformation from "@/templates/Database/staff/components/personal-information";
@@ -131,9 +131,7 @@ export default function NewStaff() {
     <ReactHookForm.Provider value={{ register, errors }}>
       <Container headerTitle="New Staff">
         {staffNo.isLoading ? (
-          <div className="flex justify-center item-center min-h-full">
-            <p>Loading...</p>
-          </div>
+          <Spinner />
         ) : (
           <main className="p-10 bg-white h-full">
             {contextHolder}
