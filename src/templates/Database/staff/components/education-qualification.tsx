@@ -3,14 +3,14 @@ import { Icon } from "@iconify/react";
 import { Input, InputRef, Space, Tag, theme, Tooltip } from "antd";
 import React from "react";
 
-import { useFormContext } from "@/hooks/useFormContext";
-import useTagManagement from "@/pages/dashboard/database/classes/useTagManagement.hook";
-import { ReactHookForm } from "@/pages/dashboard/database/staff/new-staff";
+import useTagManagement from "@/templates/Database/class/useTagManagement.hook";
 
 export default function EducationQualification() {
   const { token } = theme.useToken();
-  const { tags, setTags } = useFormContext(ReactHookForm);
-
+  const [tags, setTags] = React.useState({
+    data: ["Trevor Long"],
+    message: "",
+  });
   const [
     { inputVisible, inputValue, editInputIndex, editInputValue },
     {

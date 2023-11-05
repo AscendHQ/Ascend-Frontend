@@ -22,7 +22,7 @@ import {
   ClassInfoSchemaType,
 } from "@/types/form";
 
-import useTagManagement from "./useTagManagement.hook";
+import useTagManagement from "../../../../templates/Database/class/useTagManagement.hook";
 
 const ReactHookForm = React.createContext<ClassInfoContextType | undefined>(
   undefined
