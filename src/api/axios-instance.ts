@@ -15,3 +15,18 @@ axiosInstance.interceptors.request.use(function (config) {
 
   return config;
 });
+
+axiosInstance.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    const response = error?.response;
+    const statusCode = response?.status;
+
+    if (statusCode === 403) {
+      window.sessionStorage.clear();
+      window.location.href = "/auth/login";
+    }
+  }
+);
