@@ -22,6 +22,8 @@ import {
   ClassInfoSchemaType,
 } from "@/types/form";
 
+import useTagManagement from "./useTagManagement.hook";
+
 const ReactHookForm = React.createContext<ClassInfoContextType | undefined>(
   undefined
 );
@@ -167,20 +169,33 @@ function ClassInformation() {
   );
 }
 
-const TagContainer: React.FC = () => {
+function TagContainer() {
   const { token } = theme.useToken();
-  const [tags, setTags] = React.useState([
-    "Dorothy Lloyd",
-    "Hettie Patterson",
-    "Sara Boone",
-    "Ronald Montgomery",
-    "Brett Carroll",
-    "Nancy Holmes",
-  ]);
-  const [inputVisible, setInputVisible] = React.useState(false);
-  const [inputValue, setInputValue] = React.useState("");
-  const [editInputIndex, setEditInputIndex] = React.useState(-1);
-  const [editInputValue, setEditInputValue] = React.useState("");
+  const [tags, setTags] = React.useState({
+    data: [
+      "Dorothy Lloyd",
+      "Hettie Patterson",
+      "Sara Boone",
+      "Ronald Montgomery",
+      "Brett Carroll",
+      "Nancy Holmes",
+    ],
+    message: "",
+  });
+
+  const [
+    { inputVisible, inputValue, editInputIndex, editInputValue },
+    {
+      handleClose,
+      showInput,
+      handleInputChange,
+      handleInputConfirm,
+      handleEditInputChange,
+      handleEditInputConfirm,
+      setEditInputIndex,
+      setEditInputValue,
+    },
+  ] = useTagManagement(tags.data, setTags);
   const inputRef = React.useRef<InputRef>(null);
   const editInputRef = React.useRef<InputRef>(null);
 
@@ -194,51 +209,18 @@ const TagContainer: React.FC = () => {
     editInputRef.current?.focus();
   }, [editInputValue]);
 
-  const handleClose = (removedTag: string) => {
-    const newTags = tags.filter(tag => tag !== removedTag);
-    console.log(newTags);
-    setTags(newTags);
-  };
-
-  const showInput = () => {
-    setInputVisible(true);
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
-
-  const handleInputConfirm = () => {
-    if (inputValue && tags.indexOf(inputValue) === -1) {
-      setTags([...tags, inputValue]);
-    }
-    setInputVisible(false);
-    setInputValue("");
-  };
-
-  const handleEditInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditInputValue(e.target.value);
-  };
-
-  const handleEditInputConfirm = () => {
-    const newTags = [...tags];
-    newTags[editInputIndex] = editInputValue;
-    setTags(newTags);
-    setEditInputIndex(-1);
-    setEditInputValue("");
-  };
-
   const tagInputStyle: React.CSSProperties = {
-    width: 64,
-    height: 22,
+    width: 130,
+    height: 25,
     marginInlineEnd: 8,
     verticalAlign: "top",
     padding: 2,
   };
 
   const tagPlusStyle: React.CSSProperties = {
-    height: 22,
-    fontSize: 16,
+    padding: 2,
+    height: 25,
+    fontSize: 12,
     background: token.colorBgContainer,
     borderStyle: "dashed",
   };
@@ -246,7 +228,7 @@ const TagContainer: React.FC = () => {
   return (
     <Space size={[0, 8]} wrap>
       <Space size={[0, 8]} wrap>
-        {tags.map((tag, index) => {
+        {tags.data.map((tag, index) => {
           if (editInputIndex === index) {
             return (
               <Input
@@ -315,4 +297,4 @@ const TagContainer: React.FC = () => {
       </Space>
     </Space>
   );
-};
+}

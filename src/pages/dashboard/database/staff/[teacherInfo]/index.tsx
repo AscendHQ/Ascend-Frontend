@@ -33,7 +33,13 @@ export default function DatabaseTeacherBiodata() {
   const initialValuesRef = React.useRef<EditStaffSchemaType | null>(null);
   const queryClient = useQueryClient();
   const [api, contextHolder] = notification.useNotification();
-
+  const [tags, setTags] = React.useState<{
+    data: string[];
+    message: string;
+  }>({
+    data: [],
+    message: "",
+  });
   const fetchStaffData = () =>
     axiosInstance
       .get(
@@ -78,7 +84,7 @@ export default function DatabaseTeacherBiodata() {
       setValue("status", staffData.data.status);
       setValue("type", staffData.data.type);
       setValue("department", staffData.data.department);
-      setValue("educational_qualification", staffData.data.qualifications[0]);
+      setTags({ data: staffData.data.qualification, message: "" });
       initialValuesRef.current = {
         last_name: staffData.data.surname,
         first_name: staffData.data.other_names,
@@ -90,7 +96,7 @@ export default function DatabaseTeacherBiodata() {
         type: staffData.data.type,
         status: staffData.data.status,
         department: staffData.data.department,
-        educational_qualification: staffData.data.qualifications[0],
+        educational_qualification: staffData.data.qualifications,
       };
     }
   }, [staffData.data]);
@@ -155,7 +161,7 @@ export default function DatabaseTeacherBiodata() {
   };
 
   return (
-    <ReactHookForm.Provider value={{ register, errors }}>
+    <ReactHookForm.Provider value={{ register, errors, tags, setTags }}>
       <Container headerTitle={"Edit Staff"}>
         <>
           {staffData.isLoading && <Spinner />}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -5,7 +6,7 @@ import { notification } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 
 import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
@@ -39,7 +40,13 @@ export default function NewStaff() {
   const router = useRouter();
   const [api, contextHolder] = notification.useNotification();
   const queryClient = useQueryClient();
-
+  const [tags, setTags] = React.useState<{
+    data: string[];
+    message: string;
+  }>({
+    data: [],
+    message: "",
+  });
   const { mutate: mutateNewStaff, isPending: isPendingAddNewStaff } =
     useMutation({
       mutationFn: (data: NewStaffProp) => {
@@ -79,11 +86,11 @@ export default function NewStaff() {
           job_title: "",
           department: "",
           date_of_birth: "",
-          educational_qualification: "",
           denomination: "",
           status: "",
           type: "",
         });
+        setTags({ data: [], message: "" });
       },
     });
   const fetchNewStaffNo = () =>
@@ -96,6 +103,10 @@ export default function NewStaff() {
 
   const onSubmit = (data: NewStaffSchemaType) => {
     const date = new Date();
+    if (tags.data.length === 0) {
+      setTags({ data: [], message: "Error" });
+      return;
+    }
     mutateNewStaff({
       address: data.home_address,
       department: data.department,
@@ -103,7 +114,7 @@ export default function NewStaff() {
       sex: data.sex,
       surname: data.last_name,
       other_names: data.first_name,
-      qualifications: [data.educational_qualification],
+      qualifications: tags.data,
       loan_received: 0,
       loan_refunded: 0,
       loan_debt: 0,
@@ -126,15 +137,15 @@ export default function NewStaff() {
   } = useForm<NewStaffSchemaType>({
     resolver: zodResolver(newStaffSchema),
   });
-
   return (
-    <ReactHookForm.Provider value={{ register, errors }}>
+    <ReactHookForm.Provider value={{ register, errors, tags, setTags }}>
       <Container headerTitle="New Staff">
         {staffNo.isLoading ? (
           <Spinner />
         ) : (
           <main className="p-10 bg-white h-full">
             {contextHolder}
+
             <Link
               href={DASHBOARD_TEACHER}
               className="flex items-center gap-2 mb-10"
