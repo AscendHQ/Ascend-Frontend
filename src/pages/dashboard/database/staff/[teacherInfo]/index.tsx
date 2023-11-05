@@ -21,6 +21,7 @@ import {
   EditStaffContextType,
   editStaffSchema,
   EditStaffSchemaType,
+  UpdateStaffSchemaType,
 } from "@/types/form";
 
 export const ReactHookForm = React.createContext<
@@ -30,16 +31,10 @@ export const ReactHookForm = React.createContext<
 export default function DatabaseTeacherBiodata() {
   const router = useRouter();
   const usernameStaffId = router.query.teacherInfo as string;
-  const initialValuesRef = React.useRef<EditStaffSchemaType | null>(null);
   const queryClient = useQueryClient();
   const [api, contextHolder] = notification.useNotification();
-  const [tags, setTags] = React.useState<{
-    data: string[];
-    message: string;
-  }>({
-    data: [],
-    message: "",
-  });
+  const toast = api;
+
   const fetchStaffData = () =>
     axiosInstance
       .get(
@@ -63,47 +58,23 @@ export default function DatabaseTeacherBiodata() {
     enabled: !!usernameStaffId,
   });
 
+  const staffDataFromBackend = staffData.data;
+
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors, isDirty },
   } = useForm<EditStaffSchemaType>({
     resolver: zodResolver(editStaffSchema),
+    values: {
+      ...staffDataFromBackend,
+      qualifications: staffDataFromBackend?.qualifications[0],
+    },
   });
 
-  React.useEffect(() => {
-    if (staffData.data) {
-      setValue("last_name", staffData.data.surname);
-      setValue("first_name", staffData.data.other_names);
-      setValue("job_title", staffData.data.post);
-      setValue("home_address", staffData.data.address);
-      setValue("denomination", staffData.data.denomination);
-      setValue("phone_number", staffData.data.phone_number);
-      setValue("sex", staffData.data.sex);
-      setValue("status", staffData.data.status);
-      setValue("type", staffData.data.type);
-      setValue("department", staffData.data.department);
-      setTags({ data: staffData.data.qualification, message: "" });
-      initialValuesRef.current = {
-        last_name: staffData.data.surname,
-        first_name: staffData.data.other_names,
-        job_title: staffData.data.post,
-        denomination: staffData.data.denomination,
-        home_address: staffData.data.address,
-        phone_number: staffData.data.phone_number,
-        sex: staffData.data.sex,
-        type: staffData.data.type,
-        status: staffData.data.status,
-        department: staffData.data.department,
-        educational_qualification: staffData.data.qualifications,
-      };
-    }
-  }, [staffData.data]);
-
-  const { mutate: mutateExistingStaff, isPending: isPendingExistingStaff } =
+  const { mutate: updateStaffInfo, isPending: isPendingExistingStaff } =
     useMutation({
-      mutationFn: data => {
+      mutationFn: (data: UpdateStaffSchemaType) => {
         return axiosInstance
           .put(
             `/staffs/${(usernameStaffId as string)
@@ -115,14 +86,13 @@ export default function DatabaseTeacherBiodata() {
           .then(res => res.data);
       },
       onSuccess: () => {
-        api.open({
+        toast.open({
           message: (
             <h3 className="text-secondary-green-600 font-semibold">Success!</h3>
           ),
           description: "Staff has been update successfully",
           className: "ant-toast",
         });
-        router.push(DASHBOARD_TEACHER);
       },
       onError: (error: Error & { response: { data: string } }) => {
         console.log(error, "onerror");
@@ -137,37 +107,19 @@ export default function DatabaseTeacherBiodata() {
     });
 
   const onSubmit = (data: EditStaffSchemaType) => {
-    const keyMapping = {
-      ...staffDataFields,
-      educational_qualification: "qualification",
-    };
-    const changedData = {} as any;
-    const keys = Object.keys(data) as Array<keyof EditStaffSchemaType>;
-    keys.forEach(key => {
-      if (
-        data.hasOwnProperty(key) &&
-        initialValuesRef.current &&
-        initialValuesRef.current[key] !== data[key]
-      ) {
-        if (key === "educational_qualification") {
-          changedData[keyMapping[key]] = [data[key]];
-          return;
-        }
-        const backendKey = keyMapping[key] || key;
-        changedData[backendKey] = data[key];
-      }
-    });
-    mutateExistingStaff(changedData);
+    const staffQualification = data?.qualifications ? data.qualifications : "";
+    updateStaffInfo({ ...data, qualifications: [staffQualification] });
   };
 
   return (
-    <ReactHookForm.Provider value={{ register, errors, tags, setTags }}>
+    <ReactHookForm.Provider value={{ register, errors }}>
       <Container headerTitle={"Edit Staff"}>
         <>
           {staffData.isLoading && <Spinner />}
           {contextHolder}
           {staffData.data && (
             <div className="bg-white p-10 h-full">
+              {contextHolder}
               <div className="flex justify-between">
                 <div>
                   <h3 className="text-Text-high-emphasis text-xl font-semibold tracking-tight">
@@ -207,16 +159,3 @@ export default function DatabaseTeacherBiodata() {
     </ReactHookForm.Provider>
   );
 }
-
-const staffDataFields = {
-  last_name: "surname",
-  first_name: "other_names",
-  job_title: "post",
-  home_address: "address",
-  denomination: "denomination",
-  phone_number: "phone_number",
-  sex: "sex",
-  status: "status",
-  type: "type",
-  department: "department",
-} as const;
