@@ -25,7 +25,7 @@ axiosInstance.interceptors.response.use(
     const statusCode = response?.status;
 
     if (statusCode === 403) {
-      window.sessionStorage.clear();
+      window.localStorage.clear();
       window.location.href = "/auth/login";
     }
   }

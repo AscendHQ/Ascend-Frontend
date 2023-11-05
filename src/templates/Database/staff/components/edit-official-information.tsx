@@ -17,12 +17,12 @@ export default function EditOfficialInformation() {
       </div>
       <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
         <TextField
-          id="job_title"
+          id="post"
           label="Job title"
           placeholder="Teacher"
           required
           register={register}
-          errorMessage={errors.job_title?.message || ""}
+          errorMessage={errors.post?.message || ""}
         />
         <SelectField
           id="status"
@@ -47,11 +47,11 @@ export default function EditOfficialInformation() {
           errorMessage={errors.department?.message || ""}
         />
         <SelectField
-          id="educational_qualification"
+          id="qualifications"
           label="Highest Educational Qualification"
           register={register}
           options={["PhD", "BSc", "MD/JD/MBA", "MSc", "HND", "OND", "SSCE"]}
-          errorMessage={errors.educational_qualification?.message || ""}
+          errorMessage={errors.qualifications?.message || ""}
         />
       </div>
     </div>
