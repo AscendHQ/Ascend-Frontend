@@ -7,6 +7,8 @@ import { ReactHookForm } from "@/pages/dashboard/database/staff/[teacherInfo]";
 export default function EditPersonalInformation() {
   const { register, errors } = useFormContext(ReactHookForm);
 
+  console.log({ errors });
+
   return (
     <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">
@@ -19,20 +21,20 @@ export default function EditPersonalInformation() {
       </div>
       <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
         <TextField
-          id="first_name"
+          id="surname"
           label="First name"
           placeholder="Babalola"
           required
           register={register}
-          errorMessage={errors.first_name?.message || ""}
+          errorMessage={errors.surname?.message || ""}
         />
         <TextField
-          id="last_name"
+          id="other_names"
           label="Last name"
           placeholder="Okowah"
           required
           register={register}
-          errorMessage={errors.last_name?.message || ""}
+          errorMessage={errors?.other_names?.message || ""}
         />
 
         <SelectField
@@ -62,14 +64,14 @@ export default function EditPersonalInformation() {
           errorMessage={errors.phone_number?.message || ""}
         />
         <TextAreaWithLabelAndCount
-          id="home_address"
+          id="address"
           label="Home Address"
           placeholder="Enter your home address"
           maxLength={50}
           showCharacterCount={false}
           register={register}
           isFullWidth
-          errorMessage={errors.home_address?.message || ""}
+          errorMessage={errors.address?.message || ""}
         />
       </div>
     </div>
