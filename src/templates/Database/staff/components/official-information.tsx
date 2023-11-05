@@ -5,8 +5,6 @@ import TextField from "@/components/ui/form/textfield";
 import { useFormContext } from "@/hooks/useFormContext";
 import { ReactHookForm } from "@/pages/dashboard/database/staff/new-staff";
 
-import EducationQualification from "./education-qualification";
-
 export default function OfficialInformation() {
   const { register, errors } = useFormContext(ReactHookForm);
   return (
@@ -50,7 +48,13 @@ export default function OfficialInformation() {
           register={register}
           errorMessage={errors.department?.message || ""}
         />
-        <EducationQualification />
+        <SelectField
+          id="educational_qualification"
+          label="Highest Educational Qualification"
+          register={register}
+          options={["PhD", "BSc", "MD/JD/MBA", "MSc", "HND", "OND", "SSCE"]}
+          errorMessage={errors.educational_qualification?.message || ""}
+        />
       </div>
     </div>
   );

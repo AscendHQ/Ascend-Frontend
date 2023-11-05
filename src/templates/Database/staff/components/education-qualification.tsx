@@ -129,7 +129,7 @@ export default function EducationQualification() {
           </Tag>
         )}
       </Space>
-      {tags.message === "Errorr!!" && (
+      {tags.message === "Error" && (
         <span className="text-red-800 block text-xs lg:text-sm mt-2">
           Education qualification is compulsory
         </span>

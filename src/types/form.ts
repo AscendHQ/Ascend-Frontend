@@ -299,7 +299,9 @@ export const newStaffSchema = z.object({
   job_title: z
     .string()
     .min(2, { message: "Job title should be at least 2 characters long" }),
-
+  educational_qualification: z.string().min(2, {
+    message: "Educational qualification must be selected",
+  }),
   department: z
     .string()
     .min(2, { message: "Department should be at least 2 characters long" }),
@@ -319,6 +321,8 @@ type NewStaffFieldValues = {
   home_address: string;
   job_title: string;
   department: string;
+  educational_qualification: string;
+
   date_of_birth: string;
   denomination: string;
   status: string;
@@ -432,16 +436,6 @@ export type HostelInfoContextType = {
 export type NewStaffContextType = {
   register: UseFormRegister<NewStaffFieldValues>;
   errors: FieldErrors<NewStaffFieldValues>;
-  setTags: React.Dispatch<
-    React.SetStateAction<{
-      data: string[];
-      message: string;
-    }>
-  >;
-  tags: {
-    data: string[];
-    message: string;
-  };
 };
 
 export type EditStaffContextType = {
