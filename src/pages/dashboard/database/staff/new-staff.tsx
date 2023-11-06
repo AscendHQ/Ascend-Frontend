@@ -1,20 +1,19 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { notification } from "antd";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
 
-import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
-import LoadingState from "@/components/ui/Loading";
+import LoadingState, { Spinner } from "@/components/ui/Loading";
 import { DASHBOARD_TEACHER } from "@/config/links";
+import useMutateNewStaff, {
+  useFetchStaffNo,
+} from "@/templates/Database/staff/components/add-new-staff.hook";
 import OfficialInformation from "@/templates/Database/staff/components/official-information";
 import PersonalInformation from "@/templates/Database/staff/components/personal-information";
-import { StaffProp } from "@/templates/Database/staff/hooks";
 import {
   NewStaffContextType,
   newStaffSchema,
@@ -25,77 +24,28 @@ export const ReactHookForm = React.createContext<
   NewStaffContextType | undefined
 >(undefined);
 
-type NewStaffProp = Omit<
-  StaffProp,
-  "sex" | "denomination" | "status" | "type"
-> & {
-  sex: string;
-  denomination: string;
-  status: string;
-  type: string;
-};
-
 export default function NewStaff() {
-  const router = useRouter();
   const [api, contextHolder] = notification.useNotification();
-  const queryClient = useQueryClient();
+  const toast = api;
 
-  const { mutate: mutateNewStaff, isPending: isPendingAddNewStaff } =
-    useMutation({
-      mutationFn: (data: NewStaffProp) => {
-        return axiosInstance.post("/staffs", data).then(res => res.data);
-      },
-      onSuccess: () => {
-        api.open({
-          message: (
-            <h3 className="text-secondary-green-600 font-semibold">Success!</h3>
-          ),
-          description: "New Teacher has been added successfully",
-          duration: 3,
-          className: "ant-toast",
-        });
-        queryClient.invalidateQueries({ queryKey: ["staffNo"] });
-        router.push(DASHBOARD_TEACHER);
-      },
-      onError: (error: Error & { response: { data: string } }) => {
-        console.log(error, "onerror");
-        api.open({
-          message: (
-            <h3 className="text-secondary-red-600 font-semibold">Error!</h3>
-          ),
-          description: error.response.data,
-          duration: 8,
-          className: "ant-toast",
-        });
-      },
-      onSettled(data, error, variables) {
-        console.log(error, data, variables, "onerror");
-        reset({
-          first_name: "",
-          last_name: "",
-          sex: "",
-          phone_number: "",
-          home_address: "",
-          job_title: "",
-          department: "",
-          date_of_birth: "",
-          educational_qualification: "",
-          denomination: "",
-          status: "",
-          type: "",
-        });
-      },
-    });
-  const fetchNewStaffNo = () =>
-    axiosInstance.get("/staffs/new_staff_no").then(res => res.data);
-
-  const staffNo = useQuery({
-    queryKey: ["staffNo"],
-    queryFn: fetchNewStaffNo,
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<NewStaffSchemaType>({
+    resolver: zodResolver(newStaffSchema),
   });
+
+  const { mutateNewStaff, isPendingAddNewStaff } = useMutateNewStaff(
+    toast,
+    reset
+  );
+  const staffNo = useFetchStaffNo();
 
   const onSubmit = (data: NewStaffSchemaType) => {
     const date = new Date();
+
     mutateNewStaff({
       address: data.home_address,
       department: data.department,
@@ -118,25 +68,15 @@ export default function NewStaff() {
     });
   };
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<NewStaffSchemaType>({
-    resolver: zodResolver(newStaffSchema),
-  });
-
   return (
     <ReactHookForm.Provider value={{ register, errors }}>
       <Container headerTitle="New Staff">
         {staffNo.isLoading ? (
-          <div className="flex justify-center item-center min-h-full">
-            <p>Loading...</p>
-          </div>
+          <Spinner />
         ) : (
           <main className="p-10 bg-white h-full">
             {contextHolder}
+
             <Link
               href={DASHBOARD_TEACHER}
               className="flex items-center gap-2 mb-10"

@@ -1,10 +1,10 @@
 export function setSecureStorage(name: string, value: string): void {
-  sessionStorage.setItem(name, value);
+  localStorage.setItem(name, value);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getSecureStorage(name: string): any {
-  const sessionValue = window?.sessionStorage?.getItem(name);
+  const sessionValue = window?.localStorage?.getItem(name);
   if (sessionValue !== null) {
     return JSON.parse(sessionValue);
   }

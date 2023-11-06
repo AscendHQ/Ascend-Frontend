@@ -5,6 +5,7 @@ import React from "react";
 import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
+import { Spinner } from "@/components/ui/Loading";
 import { NEW_TEACHER_BIODATA } from "@/config/links";
 import {
   Tab,
@@ -55,24 +56,30 @@ export default function StaffDatabase() {
   return (
     <Container headerTitle="Staff">
       <main className="px-10 py-5 h-full bg-white">
-        <StaffStatistics data={statisticsData} />
-        <div className="flex justify-between items-center mt-10">
-          <Tab
-            tabNumbers={tabNumbers}
-            currentCategory={currentStaffCategory}
-            setCurrentCategory={setCurrentStaffCategory}
-          />
-          <DashboardButton
-            isLink
-            path={NEW_TEACHER_BIODATA}
-            variant="primary"
-            leftElement={<Icon icon="tabler:plus" />}
-            className="mb-0"
-          >
-            Add Staff
-          </DashboardButton>
-        </div>
-        <Table data={filteredData} />
+        {staffData.isLoading ? (
+          <Spinner />
+        ) : (
+          <>
+            <StaffStatistics data={statisticsData} />
+            <div className="flex justify-between items-center mt-10">
+              <Tab
+                tabNumbers={tabNumbers}
+                currentCategory={currentStaffCategory}
+                setCurrentCategory={setCurrentStaffCategory}
+              />
+              <DashboardButton
+                isLink
+                path={NEW_TEACHER_BIODATA}
+                variant="primary"
+                leftElement={<Icon icon="tabler:plus" />}
+                className="mb-0"
+              >
+                Add Staff
+              </DashboardButton>
+            </div>
+            <Table data={filteredData} />
+          </>
+        )}
       </main>
     </Container>
   );

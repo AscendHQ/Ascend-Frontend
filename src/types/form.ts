@@ -321,21 +321,22 @@ type NewStaffFieldValues = {
   home_address: string;
   job_title: string;
   department: string;
-  date_of_birth: string;
   educational_qualification: string;
+
+  date_of_birth: string;
   denomination: string;
   status: string;
   type: string;
   staff_no: string;
 };
 export const editStaffSchema = z.object({
-  first_name: z.string().optional(),
-  last_name: z.string().optional(),
+  surname: z.string().optional(),
+  other_names: z.string().optional(),
   sex: z.string().optional(),
-  home_address: z.string().optional(),
+  address: z.string().optional(),
   phone_number: z.string().optional(),
-  job_title: z.string().optional(),
-  educational_qualification: z.string().optional(),
+  post: z.string().optional(),
+  qualifications: z.string().optional(),
   department: z.string().optional(),
   denomination: z.string().optional(),
   status: z.string().optional(),
@@ -343,14 +344,14 @@ export const editStaffSchema = z.object({
 });
 
 export type EditStaffFieldValues = {
-  first_name?: string;
-  last_name?: string;
+  surname?: string;
+  other_names?: string;
   sex?: string;
   phone_number?: string;
-  home_address?: string;
-  job_title?: string;
+  address?: string;
+  post?: string;
   department?: string;
-  educational_qualification?: string;
+  qualifications?: string;
   denomination?: string;
   status?: string;
   type?: string;
@@ -473,6 +474,12 @@ export type HostelInfoSchemaType = z.infer<typeof hostelInfoSchema>;
 export type NewStaffSchemaType = z.infer<typeof newStaffSchema>;
 
 export type EditStaffSchemaType = z.infer<typeof editStaffSchema>;
+export type UpdateStaffSchemaType = Omit<
+  EditStaffSchemaType,
+  "qualifications"
+> & {
+  qualifications: string[];
+};
 
 export type NewTeacherPermissionSchemaType = z.infer<
   typeof newTeacherPermissionSchema

@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import { ACCOUNT_SETTING_DETAILS } from "@/config/links";
+import { ACCOUNT_SETTING_DETAILS, LOGIN_PAGE } from "@/config/links";
 import useClickOutside from "@/hooks/useClickOutside";
 
 export default function DashboardHeader({
@@ -431,6 +431,10 @@ function AccountDropDownSection({
   const accountRef = React.useRef<HTMLDivElement>(null);
 
   useClickOutside(accountRef, onClose, targetRef);
+  const logUserOut = () => {
+    window.localStorage.clear();
+    window.location.href = LOGIN_PAGE;
+  };
 
   return (
     <motion.section
@@ -469,7 +473,10 @@ function AccountDropDownSection({
           </Link>
         </li>
         <li>
-          <button className="flex w-full gap-2 hover:bg-primary-purple-200 hover:text-Text-high-emphasis text-gray-800 py-2 px-3 transition-all duration-700 rounded-md items-center">
+          <button
+            className="flex w-full gap-2 hover:bg-primary-purple-200 hover:text-Text-high-emphasis text-gray-800 py-2 px-3 transition-all duration-700 rounded-md items-center"
+            onClick={logUserOut}
+          >
             <Icon icon="solar:logout-linear" fontSize={20} />
             <span>Log out</span>
           </button>

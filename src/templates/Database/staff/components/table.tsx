@@ -72,7 +72,7 @@ export function Table({ data }: { data: StaffProp[] }) {
               const columnInfo =
                 modalDetails && (modalDetails[infoKey] as string | string[]);
               const columnInfoToShow = Array.isArray(columnInfo)
-                ? columnInfo?.join(",")
+                ? columnInfo?.join(", ")
                 : columnInfo;
               return (
                 <li

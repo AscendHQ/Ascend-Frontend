@@ -1,11 +1,9 @@
-import React from "react";
-
 import SelectField from "@/components/ui/form/selectfield";
 import TextField from "@/components/ui/form/textfield";
 import { useFormContext } from "@/hooks/useFormContext";
-import { ReactHookForm } from "@/pages/dashboard/database/staff/new-staff";
+import { ReactHookForm } from "@/pages/dashboard/database/staff/[teacherInfo]";
 
-export default function OfficialInformation() {
+export default function EditOfficialInformation() {
   const { register, errors } = useFormContext(ReactHookForm);
   return (
     <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
@@ -19,12 +17,12 @@ export default function OfficialInformation() {
       </div>
       <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
         <TextField
-          id="job_title"
+          id="post"
           label="Job title"
           placeholder="Teacher"
           required
           register={register}
-          errorMessage={errors.job_title?.message || ""}
+          errorMessage={errors.post?.message || ""}
         />
         <SelectField
           id="status"
@@ -49,11 +47,11 @@ export default function OfficialInformation() {
           errorMessage={errors.department?.message || ""}
         />
         <SelectField
-          id="educational_qualification"
+          id="qualifications"
           label="Highest Educational Qualification"
           register={register}
           options={["PhD", "BSc", "MD/JD/MBA", "MSc", "HND", "OND", "SSCE"]}
-          errorMessage={errors.educational_qualification?.message || ""}
+          errorMessage={errors.qualifications?.message || ""}
         />
       </div>
     </div>

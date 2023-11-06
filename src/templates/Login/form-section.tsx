@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import LoadingState from "@/components/ui/Loading";
 import { DASHBOARD_OVERVIEW, HOME_PAGE } from "@/config/links";
 import { formSchema, FormSchemaType } from "@/types/form";
-import { setSecureStorage } from "@/utils/cookieStorage";
+import { setSecureStorage } from "@/utils/localStorage";
 
 export default function FormSection() {
   const router = useRouter();
@@ -161,7 +161,7 @@ export default function FormSection() {
           onClick={handleSubmit(onSubmit)}
           className={`${
             isSubmitting ? "bg-primary-purple-400" : "bg-primary-purple-700"
-          }  py-4 text-white rounded-lg mt-11 active:scale-90 transition-all`}
+          }  py-4 text-white rounded-lg mt-11 active:scale-90 transition-all flex justify-center items-center`}
         >
           <LoadingState
             label="Sign in"
