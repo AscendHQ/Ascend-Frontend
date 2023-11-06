@@ -136,7 +136,7 @@ export type TextAreaProps = {
 export type SelectFieldProps = {
   id: string;
   label: string;
-  options: string[];
+  options: string[] | { value: string; label: string }[];
   isFullWidth?: boolean;
   value?: string;
   labelStyle?: string;
@@ -178,4 +178,18 @@ export type PayrollRowProps = {
   };
   index: number;
   api: NotificationInstance;
+};
+
+export type userInfoTypes = {
+  access_token: string;
+  account: {
+    _id: string;
+    email: string;
+    access_level: string;
+    first_name: string;
+    last_name: string;
+    organization: string;
+    is_email_verified: boolean;
+    is_verified: boolean;
+  };
 };

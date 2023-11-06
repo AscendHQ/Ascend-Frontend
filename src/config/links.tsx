@@ -36,21 +36,18 @@ export const DASHBOARD_CLASS_INFO = (slug: string) =>
   `/dashboard/database/classes/${slug}`;
 
 // TEACHER
-export const DASHBOARD_TEACHER = "/dashboard/database/teachers";
-export const NEW_TEACHER_BIODATA =
-  "/dashboard/database/teachers/new-teacher-biodata";
+export const DASHBOARD_TEACHER = "/dashboard/database/staff";
+export const NEW_TEACHER_BIODATA = "/dashboard/database/staff/new-staff";
 export const NEW_TEACHER_PERMISSION =
-  "/dashboard/database/teachers/new-teacher-permission";
-export const NEW_TEACHER_OFFICIAL_INFO =
-  "/dashboard/database/teachers/new-teacher-official-information";
+  "/dashboard/database/staff/new-teacher-permission";
 export const DASHBOARD_TEACHER_INFO_BIODATA = (slug: string) =>
-  `/dashboard/database/teachers/${slug}/biodata`;
+  `/dashboard/database/staff/${slug}`;
 export const DASHBOARD_TEACHER_INFO_OFFICIAL_INFO = (slug: string) =>
-  `/dashboard/database/teachers/${slug}/official-information`;
+  `/dashboard/database/staff/${slug}/official-information`;
 export const DASHBOARD_TEACHER_INFO_PERMISSION = (slug: string) =>
-  `/dashboard/database/teachers/${slug}/permission`;
+  `/dashboard/database/staff/${slug}/permission`;
 export const DASHBOARD_TEACHER_SECURITY_INFO = (slug: string) =>
-  `/dashboard/database/teachers/${slug}/security-information`;
+  `/dashboard/database/staff/${slug}/security-information`;
 
 // HOSTEL
 export const DASHBOARD_HOSTEL = "/dashboard/database/hostels";

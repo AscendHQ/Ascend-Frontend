@@ -9,10 +9,7 @@ import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
 import PermissionCheckboxGroup from "@/components/ui/form/PermissionCheckboxGroup";
 import LoadingState from "@/components/ui/Loading";
-import {
-  DASHBOARD_TEACHER_INFO_BIODATA,
-  NEW_TEACHER_OFFICIAL_INFO,
-} from "@/config/links";
+import { DASHBOARD_TEACHER_INFO_BIODATA } from "@/config/links";
 import { useFormContext } from "@/hooks/useFormContext";
 import {
   NewTeacherPermissionContextType,
@@ -70,10 +67,7 @@ export default function NewTeacherPermissions() {
     <ReactHookForm.Provider value={{ register, errors }}>
       <Container headerTitle="New Teacher">
         <main className="p-10 bg-white h-full">
-          <Link
-            href={NEW_TEACHER_OFFICIAL_INFO}
-            className="flex items-center gap-2"
-          >
+          <Link href={"/"} className="flex items-center gap-2">
             <Icon icon="teenyicons:arrow-left-solid" />
             Back
           </Link>

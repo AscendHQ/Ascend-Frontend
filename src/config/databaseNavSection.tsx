@@ -20,7 +20,6 @@ import {
   NEW_STUDENT_BIODATA,
   NEW_SUBJECT,
   NEW_TEACHER_BIODATA,
-  NEW_TEACHER_OFFICIAL_INFO,
   NEW_TEACHER_PERMISSION,
   STUDENT_ACADEMIC_INFORMATION,
   STUDENT_BIODATA,
@@ -58,13 +57,12 @@ const databaseNavSection = [
     ],
   },
   {
-    title: "Teachers",
+    title: "Staff",
     path: DASHBOARD_TEACHER,
     isActivepath: [
       DASHBOARD_TEACHER,
       NEW_TEACHER_BIODATA,
       NEW_TEACHER_PERMISSION,
-      NEW_TEACHER_OFFICIAL_INFO,
       DASHBOARD_TEACHER_INFO_BIODATA("[teacherInfo]"),
       DASHBOARD_TEACHER_INFO_OFFICIAL_INFO("[teacherInfo]"),
       DASHBOARD_TEACHER_INFO_PERMISSION("[teacherInfo]"),

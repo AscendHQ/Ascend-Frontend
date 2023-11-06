@@ -1,46 +1,79 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
+import { useMutation } from "@tanstack/react-query";
+import { notification } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
+import { axiosInstance } from "@/api";
 import { Button } from "@/components/ui/button";
 import LoadingState from "@/components/ui/Loading";
-import { HOME_PAGE } from "@/config/links";
-import { useLoginMutation } from "@/store/api";
+import { DASHBOARD_OVERVIEW, HOME_PAGE } from "@/config/links";
 import { formSchema, FormSchemaType } from "@/types/form";
+import { setSecureStorage } from "@/utils/localStorage";
 
 export default function FormSection() {
   const router = useRouter();
-  const [loginMutation] = useLoginMutation();
 
+  const [api, contextHolder] = notification.useNotification();
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitting },
   } = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "ascendafrica.dev@gmail.com",
+      password: "Passw0rd",
+    },
+  });
+
+  const loginMutation = useMutation({
+    mutationFn: (data: FormSchemaType) => {
+      return axiosInstance.post("/auth/login", data);
+    },
+    onSuccess: data => {
+      console.log({ data });
+      setSecureStorage(
+        "userInfoAccessToken",
+        JSON.stringify(data.data.access_token)
+      );
+      setSecureStorage("userInfoData", JSON.stringify(data.data.account));
+      router.push(DASHBOARD_OVERVIEW);
+    },
+    onError: (error: Error & { response: { data: string } }) => {
+      console.log(error, "onerror");
+      api.open({
+        message: (
+          <h3 className="text-secondary-red-600 font-semibold">Error!</h3>
+        ),
+        description: error.response.data,
+        duration: 8,
+        className: "ant-toast",
+      });
+    },
+    onSettled() {
+      reset({
+        email: "",
+        password: "",
+      });
+    },
   });
 
   const onSubmit: SubmitHandler<FormSchemaType> = async data => {
-    console.log(data);
-    const response = await loginMutation(data);
-    console.log(response, "response response response");
-    router.push("/dashboard");
-  };
-
-  React.useEffect(() => {
-    reset({
-      email: "",
-      password: "",
+    loginMutation.mutate({
+      email: data.email,
+      password: data.password,
     });
-  }, [isSubmitSuccessful, reset]);
+  };
 
   return (
     <section className="mx-auto space-y-7 max-w-[450px]">
+      {contextHolder}
       <Link href={HOME_PAGE}>
         <Image
           src="/Ascend-Logo.svg"
@@ -124,22 +157,16 @@ export default function FormSection() {
             {errors.password?.message}
           </span>
         )}
-        <div className="flex justify-between mt-7 flex-wrap gap-2">
-          <div className="flex items-center gap-2 text-sm">
-            <input type="checkbox" name="check" id="check" />
-            <label htmlFor="check">Remember me for this device</label>
-          </div>
-          <Link href={HOME_PAGE} className="text-primary-purple-700 text-sm">
-            Forgot Password?
-          </Link>
-        </div>
         <button
           onClick={handleSubmit(onSubmit)}
           className={`${
             isSubmitting ? "bg-primary-purple-400" : "bg-primary-purple-700"
-          }  py-4 text-white rounded-lg mt-4 active:scale-90 transition-all`}
+          }  py-4 text-white rounded-lg mt-11 active:scale-90 transition-all flex justify-center items-center`}
         >
-          <LoadingState label="Sign in" isSubmitting={isSubmitting} />
+          <LoadingState
+            label="Sign in"
+            isSubmitting={loginMutation.isPending}
+          />
         </button>
       </div>
     </section>

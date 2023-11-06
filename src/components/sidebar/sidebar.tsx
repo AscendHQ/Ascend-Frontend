@@ -112,12 +112,6 @@ export default function Sidebar() {
           isActive={router.pathname === "/dashboard/roles"}
           urlPath="/dashboard/roles"
         />
-        <SideBarItem
-          title={"Staff"}
-          icon="healthicons:people-outline"
-          isActive={router.pathname === "/dashboard/staff"}
-          urlPath="/dashboard/staff"
-        />
       </div>
       <span className="text-primary-purple-600 absolute bottom-0">
         ©product of Ascend

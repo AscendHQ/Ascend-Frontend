@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { ReactNode } from "react";
+import React, { MouseEventHandler, ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 
 export default function Button({
@@ -51,8 +51,31 @@ export default function Button({
   );
 }
 
+type BaseProps = {
+  leftElement?: JSX.Element;
+  rightElement?: JSX.Element;
+  className?: string;
+  children: ReactNode;
+  variant: "primary" | "secondary";
+};
+
+type LinkProps = BaseProps & {
+  isLink: true;
+  path: string;
+  onClick?: never;
+};
+
+type ButtonProps = BaseProps & {
+  isLink?: false;
+  path?: never;
+  disabled?: boolean;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+};
+
+type Props = LinkProps | ButtonProps;
+
 export function DashboardButton({
-  isLink = false,
+  isLink,
   leftElement,
   rightElement,
   path,
@@ -60,37 +83,28 @@ export function DashboardButton({
   className,
   children,
   onClick,
-}: {
-  isLink?: boolean;
-  leftElement?: JSX.Element;
-  rightElement?: JSX.Element;
-  path?: string;
-  className?: string;
-  children: ReactNode;
-  variant: "primary" | "secondary";
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-}) {
+  ...rest
+}: Props) {
   if (isLink && !path) {
     throw new Error("Path is required when isLink is set to true");
   }
-  if (isLink && path) {
+
+  const CommonProps = {
+    className: `${variantStyle[variant]} ${className}`,
+    ...rest,
+  };
+
+  if (isLink) {
     return (
-      <Link
-        href={path}
-        className={`${twMerge(variantStyle[variant], className)}`}
-      >
+      <Link href={path} {...CommonProps}>
         {leftElement}
         {children}
         {rightElement}
       </Link>
     );
-  }
-  if (!isLink) {
+  } else {
     return (
-      <button
-        className={`${twMerge(variantStyle[variant], className)}`}
-        onClick={onClick}
-      >
+      <button onClick={onClick} {...CommonProps}>
         {leftElement}
         {children}
         {rightElement}
