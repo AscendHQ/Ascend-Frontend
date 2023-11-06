@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import LoadingState from "@/components/ui/Loading";
 import { DASHBOARD_OVERVIEW, HOME_PAGE } from "@/config/links";
 import { formSchema, FormSchemaType } from "@/types/form";
-import { setSecureStorage } from "@/utils/secureStorage";
+import { setSecureStorage } from "@/utils/localStorage";
 
 export default function FormSection() {
   const router = useRouter();

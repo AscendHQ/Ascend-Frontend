@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { LOGIN_PAGE } from "@/config/links";
-import { getSecureStorage } from "@/utils/secureStorage";
+import { getSecureStorage } from "@/utils/localStorage";
 
 export const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
