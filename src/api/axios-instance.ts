@@ -1,6 +1,7 @@
 import axios from "axios";
 
-import { getSecureStorage } from "@/utils/cookieStorage";
+import { LOGIN_PAGE } from "@/config/links";
+import { getSecureStorage } from "@/utils/secureStorage";
 
 export const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
@@ -26,7 +27,7 @@ axiosInstance.interceptors.response.use(
 
     if (statusCode === 403) {
       window.localStorage.clear();
-      window.location.href = "/auth/login";
+      window.location.href = LOGIN_PAGE;
     }
   }
 );
