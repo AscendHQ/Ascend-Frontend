@@ -137,41 +137,28 @@ type NewSubjectFieldValues = {
 };
 
 export const classInfoSchema = z.object({
-  class_name: z.string().min(1, "Subject name is required"),
-  status: z.string().min(1, "Subject name is required"),
-  additional_notes: z.string().min(1, "Subject name is required"),
-  class_teacher: z.string().min(1, "Subject name is required"),
-  class_teacher_contact: z.string().min(1, "Subject name is required"),
-  academic_year: z.string().min(1, "Subject name is required"),
+  class_name: z.string().min(1, "Class name is required"),
+  level: z.string({ required_error: "Level is required" }),
 });
 
 type ClassInfoFieldValues = {
   class_name: string;
-  status: string;
-  additional_notes: string;
-  class_teacher: string;
-  class_teacher_contact: string;
-  academic_year: string;
+  level: string;
 };
 
 export const newClassSchema = z.object({
-  class_name: z.string().min(1, "Subject name is required"),
-  additional_notes: z.string().min(1, "Subject name is required"),
-  students: z.string().min(1, "Subject name is required"),
-  status: z.string().min(1, "Subject name is required"),
-  class_teacher_contact: z.string().min(1, "Subject name is required"),
-  class_teacher: z.string().min(1, "Subject name is required"),
-  academic_year: z.string().min(1, "Subject name is required"),
+  class_name: z.string().min(1, "Class name is required"),
+  // level: z.string().min(1, "Level is required"),
+  level: z
+    .string({ required_error: "Level is required" })
+    .refine(value => value === "junior" || value === "senior", {
+      message: "Level must be 'Junior' or 'Senior'",
+    }),
 });
 
 type NewClassFieldValues = {
   class_name: string;
-  additional_notes: string;
-  students: string;
-  status: string;
-  class_teacher_contact: string;
-  class_teacher: string;
-  academic_year: string;
+  level: string;
 };
 
 export const newLessonPlanSchema = z.object({

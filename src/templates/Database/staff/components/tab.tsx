@@ -48,7 +48,7 @@ export const staffCategory = {
     number: 0,
   },
   "non-teaching": {
-    name: "None Teaching",
+    name: "Non Teaching",
     number: 0,
   },
   permanent: {
