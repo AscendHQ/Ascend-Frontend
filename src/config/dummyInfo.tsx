@@ -396,7 +396,7 @@ export const subjectInfo = [
     teacher: "Kevin Momusa, Abram... +2",
     class: "Grade 4",
     studentsOffering: "12",
-    level: "jnr",
+    statusIsActive: false,
   },
   {
     subjectName: "Biology",

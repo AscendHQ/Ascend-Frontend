@@ -1,15 +1,10 @@
 import { useMemo } from "react";
 
 import { classInfoProp } from "./classInfo.data";
-// import { classCategory } from "./tab";
 
 export const useClassStatistics = ({ data }: { data: classInfoProp[] }) => {
   const totalNumberOfClassLevel = data.length;
-  console.log(totalNumberOfClassLevel, "totalNumberOfClassLevel");
-
-  //   classCategory.all?.number = totalNumberOfClassLevel;
-
-  const juniorClass = data.filter(item => item.level === "jnr");
+  const juniorClass = data.filter(item => item.level === "junior");
   const noOfJuniorClass = juniorClass.length;
   const noOfSeniorClass = totalNumberOfClassLevel - noOfJuniorClass;
 
@@ -32,9 +27,9 @@ export const useFilterData = ({
       if (criteria === "all") {
         return true;
       } else if (criteria === "junior") {
-        return item.level === "jnr";
+        return item.level === "junior";
       } else if (criteria === "senior") {
-        return item.level === "snr";
+        return item.level === "senior";
       }
     });
   }, [data, criteria]);

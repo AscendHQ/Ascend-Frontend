@@ -6,6 +6,7 @@ import ErrorModal from "@/components/ui/modal/errormodal";
 import { TableCell } from "@/components/ui/table";
 import { DASHBOARD_CLASS_INFO } from "@/config/links";
 import { ClassRowProps } from "@/types";
+import truncateAndDisplay from "@/utils/truncateAndDisplay";
 
 export default function ClassRow({ item, index }: ClassRowProps) {
   const handleOk = () => {
@@ -15,6 +16,7 @@ export default function ClassRow({ item, index }: ClassRowProps) {
   const handleCancel = () => {
     console.log("Cancel");
   };
+
   const items: MenuProps["items"] = [
     {
       label: (
@@ -63,24 +65,10 @@ export default function ClassRow({ item, index }: ClassRowProps) {
     <tr className="bg-white border-b ">
       <TableCell content={index + 1} isCentered />
       <TableCell content={item.className} isCentered />
+      <TableCell content={<span>{truncateAndDisplay(item.subject)}</span>} />
       <TableCell
         content={
-          <span>
-            {item.subject
-              .split(",")
-              .map(name => name.trim())
-              .slice(0, 10)
-              .join(", ")}
-
-            {item.subject.split(",").length > 10
-              ? ` +${item.subject.split(",").length - 10} more`
-              : ""}
-          </span>
-        }
-      />
-      <TableCell
-        content={
-          item.level === "jnr" ? (
+          item.level === "junior" ? (
             <span className="border-primary-purple-400 border rounded-lg px-3 py-2 text-primary-purple-700">
               Junior
             </span>

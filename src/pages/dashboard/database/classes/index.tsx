@@ -13,13 +13,9 @@ import { ClassList } from "@/templates/Database/class/tab";
 import Table from "@/templates/Database/class/table";
 
 export default function Classes() {
-  const initialState: { viewStudent: "all" | "junior" | "senior" } = {
-    viewStudent: "all",
-  };
-
-  const [viewStudent, setViewStudent] = React.useState(
-    initialState.viewStudent
-  );
+  const [viewStudent, setViewStudent] = React.useState<
+    "all" | "junior" | "senior"
+  >("all");
   const { filteredData } = useFilterData({
     data: classInfo,
     criteria: viewStudent,

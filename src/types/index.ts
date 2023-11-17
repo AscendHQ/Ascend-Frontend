@@ -82,7 +82,7 @@ export type ClassRowProps = {
   item: {
     className: string;
     subject: string;
-    level: "jnr" | "snr";
+    level: "junior" | "senior";
   };
   index: number;
 };

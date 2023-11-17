@@ -12,9 +12,6 @@ export default function ClassInformation() {
         <h4 className="text-Text-high-emphasis font-semibold">
           Class information
         </h4>
-        <p className="text-sm tracking-tight text-gray-800">
-          This will be displayed on your organization profile.
-        </p>
       </div>
       <div className="flex flex-1 flex-wrap gap-5">
         <TextField
