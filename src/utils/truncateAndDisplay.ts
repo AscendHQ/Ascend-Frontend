@@ -7,6 +7,8 @@ type SubjectType = string;
  * @param subject - The comma-separated list of names.
  * @param maxItems - The maximum number of items to display. Default is 10.
  * @returns The formatted string with trimmed names and a "+ more" message if applicable.
+ *
+ * `Example`: truncateAndDisplay("Joseph,John,Stephen,Jude",2)
  */
 export default function truncateAndDisplay(
   subject: SubjectType,

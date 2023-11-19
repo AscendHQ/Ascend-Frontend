@@ -13,12 +13,12 @@ import { ClassList } from "@/templates/Database/class/tab";
 import Table from "@/templates/Database/class/table";
 
 export default function Classes() {
-  const [viewStudent, setViewStudent] = React.useState<
+  const [currentStudentLevel, setCurrentStudentLevel] = React.useState<
     "all" | "junior" | "senior"
   >("all");
   const { filteredData } = useFilterData({
     data: classInfo,
-    criteria: viewStudent,
+    criteria: currentStudentLevel,
   });
 
   const { totalNumberOfClassLevel, noOfSeniorClass, noOfJuniorClass } =
@@ -46,8 +46,8 @@ export default function Classes() {
         </div>
         <ClassList
           tabNumbers={tabNumbers}
-          currentCategory={viewStudent}
-          setCurrentCategory={setViewStudent}
+          currentCategory={currentStudentLevel}
+          setCurrentCategory={setCurrentStudentLevel}
         />
         <Table data={filteredData} />
       </main>
