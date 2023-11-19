@@ -9,6 +9,8 @@ type SubjectType = string;
  * @returns The formatted string with trimmed names and a "+ more" message if applicable.
  *
  * `Example`: truncateAndDisplay("Joseph,John,Stephen,Jude",2)
+ *
+ * `Output`: `Joseph,John, +2 more`
  */
 export default function truncateAndDisplay(
   subject: SubjectType,
