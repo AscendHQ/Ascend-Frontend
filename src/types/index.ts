@@ -81,29 +81,22 @@ export type LessonPlanTableRowProps = {
 export type ClassRowProps = {
   item: {
     className: string;
-    numberOfStudents: number;
-    teacher: string;
-    class: string;
-    studentsOffering: string;
-    statusIsActive: boolean;
+    subject: string;
+    level: "junior" | "senior";
   };
   index: number;
 };
 
 export type ClassDemographic = {
-  name: "All" | "Inactive" | "Active";
+  name: "All" | "Junior" | "Senior";
   number: number;
 };
 
-export type ClassDemographicsState = {
-  viewStudent: "All" | "Active" | "Inactive";
-  studentClassDemographics: ClassDemographic[];
-};
 export type ClassListProps = {
   studentClassDemographics: ClassDemographic[];
   viewStudent: string;
   setViewStudent: React.Dispatch<
-    React.SetStateAction<"All" | "Active" | "Inactive">
+    React.SetStateAction<"All" | "Junior" | "Senior">
   >;
 };
 
@@ -117,6 +110,8 @@ export type TextFieldProps = {
   isFullWidth?: boolean;
   register: NewType;
   value?: string;
+  labelStyle?: string;
+  inputStyle?: string;
   errorMessage: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 } & React.InputHTMLAttributes<HTMLInputElement>;

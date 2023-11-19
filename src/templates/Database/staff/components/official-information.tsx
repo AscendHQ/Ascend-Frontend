@@ -52,7 +52,7 @@ export default function OfficialInformation() {
           id="educational_qualification"
           label="Highest Educational Qualification"
           register={register}
-          options={["PhD", "BSc", "MD/JD/MBA", "MSc", "HND", "OND", "SSCE"]}
+          options={["PhD", "MD/JD/MBA", "MSc", "BSc", "HND", "OND", "SSCE"]}
           errorMessage={errors.educational_qualification?.message || ""}
         />
       </div>

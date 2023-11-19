@@ -50,7 +50,7 @@ export default function EditOfficialInformation() {
           id="qualifications"
           label="Highest Educational Qualification"
           register={register}
-          options={["PhD", "BSc", "MD/JD/MBA", "MSc", "HND", "OND", "SSCE"]}
+          options={["PhD", "MD/JD/MBA", "MSc", "BSc", "HND", "OND", "SSCE"]}
           errorMessage={errors.qualifications?.message || ""}
         />
       </div>
