@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import AddSubjectToClassModal from "./add-subject-class";
+import AddSubjectToClassModal from "./add-subject-to-class";
 import ClassRow from "./class-row";
 import { classInfoProp } from "./classInfo.data";
 import TableHeaders from "./table-headers";
