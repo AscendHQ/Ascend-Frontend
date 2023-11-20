@@ -10,6 +10,7 @@ export default function TableHeaders() {
         <TableHeader text="Class name" isCentered />
         <TableHeader text="Subject(s)" />
         <TableHeader text="Level" isCentered />
+        <TableHeader text="Action" isCentered />
         <th scope="col" className="px-6 py-3">
           <Icon icon="ion:filter" />
         </th>
