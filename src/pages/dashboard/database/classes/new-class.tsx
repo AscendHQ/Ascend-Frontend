@@ -40,6 +40,7 @@ export default function NewClass() {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<NewClassSchemaType>({
     resolver: zodResolver(newClassSchema),
@@ -50,7 +51,7 @@ export default function NewClass() {
   }, [isSubmitSuccessful, reset]);
 
   return (
-    <ReactHookForm.Provider value={{ register, errors }}>
+    <ReactHookForm.Provider value={{ register, errors, watch }}>
       <Container headerTitle="New Class">
         <main className="px-10 py-5 bg-white h-full">
           <Link
