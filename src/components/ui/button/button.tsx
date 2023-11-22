@@ -85,7 +85,7 @@ export function DashboardButton({
   }
 
   const CommonProps = {
-    className: `${variantStyle[variant]} ${className}`,
+    className: twMerge(`${variantStyle[variant]}, ${className}`),
     ...rest,
   };
 
@@ -110,7 +110,7 @@ export function DashboardButton({
 
 const variantStyle = {
   primary:
-    "ml-auto w-fit text-sm flex gap-2 items-center bg-primary-purple-700 text-white px-5 py-3 rounded-lg",
+    "ml-auto w-fit text-sm flex gap-2 bg-primary-purple-700 rounded-lg text-white px-5 py-3 items-center ",
   secondary:
-    "text-Text-high-emphasis border-1.5 border-border-colour-light rounded-lg py-3 px-6 font-semibold text-sm",
+    "text-Text-high-emphasis border-1.5 border-border-colour-light rounded-lg py-3 px-6 font-semibold text-sm ",
 };
