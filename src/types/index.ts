@@ -85,6 +85,7 @@ export type ClassRowProps = {
     level: "junior" | "senior";
   };
   index: number;
+  action: (value: string) => void;
 };
 
 export type ClassDemographic = {

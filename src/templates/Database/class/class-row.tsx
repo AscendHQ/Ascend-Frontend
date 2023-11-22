@@ -2,13 +2,14 @@ import { Icon } from "@iconify/react";
 import { Dropdown, MenuProps } from "antd";
 import Link from "next/link";
 
+import { DashboardButton } from "@/components/ui/button/button";
 import ErrorModal from "@/components/ui/modal/errormodal";
 import { TableCell } from "@/components/ui/table";
 import { DASHBOARD_CLASS_INFO } from "@/config/links";
 import { ClassRowProps } from "@/types";
 import truncateAndDisplay from "@/utils/truncateAndDisplay";
 
-export default function ClassRow({ item, index }: ClassRowProps) {
+export default function ClassRow({ item, index, action }: ClassRowProps) {
   const handleOk = () => {
     console.log("OK");
   };
@@ -69,7 +70,11 @@ export default function ClassRow({ item, index }: ClassRowProps) {
       <TableCell
         content={
           item.level === "junior" ? (
-            <span className="border-primary-purple-400 border rounded-lg px-3 py-2 text-primary-purple-700">
+            <span
+              className={
+                "border-primary-purple-400 border rounded-lg px-3 py-2 text-primary-purple-700"
+              }
+            >
               Junior
             </span>
           ) : (
@@ -79,6 +84,16 @@ export default function ClassRow({ item, index }: ClassRowProps) {
           )
         }
         isCentered
+      />
+      <TableCell
+        content={
+          <DashboardButton
+            variant="primary"
+            onClick={() => action(item.className)}
+          >
+            <>Add Subject</>
+          </DashboardButton>
+        }
       />
       <TableCell
         content={
