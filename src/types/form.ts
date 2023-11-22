@@ -1,4 +1,5 @@
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
 import { z } from "zod";
 
 export const formSchema = z.object({
@@ -148,17 +149,19 @@ type ClassInfoFieldValues = {
 
 export const newClassSchema = z.object({
   class_name: z.string().min(1, "Class name is required"),
-  // level: z.string().min(1, "Level is required"),
-  level: z
-    .string({ required_error: "Level is required" })
-    .refine(value => value === "junior" || value === "senior", {
-      message: "Level must be 'Junior' or 'Senior'",
-    }),
+  level: z.string().refine(value => value === "junior" || value === "senior", {
+    message: "Level must be 'Junior' or 'Senior'",
+  }),
+  radioButtonValue: z
+    .string()
+    .refine(value => ["Science", "Art", "Commercial"].includes(value))
+    .optional(),
 });
 
 type NewClassFieldValues = {
   class_name: string;
   level: string;
+  radioButtonValue?: string;
 };
 
 export const newLessonPlanSchema = z.object({
@@ -391,6 +394,7 @@ export type NewSubjectContextType = {
 export type NewClassContextType = {
   register: UseFormRegister<NewClassFieldValues>;
   errors: FieldErrors<NewClassFieldValues>;
+  watch: UseFormWatch<NewClassFieldValues>;
 };
 
 export type ClassInfoContextType = {

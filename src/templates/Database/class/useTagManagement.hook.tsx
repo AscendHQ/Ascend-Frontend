@@ -9,7 +9,6 @@ function useTagManagement(
     }>
   >
 ): UseTagManagement {
-  // const [tags, setTags] = React.useState(initialTags);
   const [inputVisible, setInputVisible] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
   const [editInputIndex, setEditInputIndex] = React.useState(-1);
