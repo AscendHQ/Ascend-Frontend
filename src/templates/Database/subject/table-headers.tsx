@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 
 import { TableHeader } from "@/components/ui/table";
 
-export default function TableHeaders() {
+export default function SubjectTableHeaders() {
   return (
     <thead className="text-xs text-gray-700 normal-case border-b border-grey-300 bg-gray-50 ">
       <tr>
@@ -10,7 +10,7 @@ export default function TableHeaders() {
         <TableHeader text="Subject name" />
         <TableHeader text="Subject Code" />
         <TableHeader text="Classes" />
-        <TableHeader text="Status" isCentered />
+        <TableHeader text="Level" isCentered />
         <th scope="col" className="px-6 py-3">
           <Icon icon="ion:filter" />
         </th>

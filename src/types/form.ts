@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
+import {
+  FieldArrayWithId,
+  FieldErrors,
+  UseFormRegister,
+  UseFormWatch,
+} from "react-hook-form";
 import { z } from "zod";
 
 export const formSchema = z.object({
@@ -120,21 +125,32 @@ type AcademicInfoFieldValues = {
 export const newSubjectSchema = z.object({
   subject_name: z.string().min(1, "Subject name is required"),
   subject_code: z.string().min(1, "Subject code is required"),
-  description: z.string().min(1, "Description is required"),
-  classes_offering: z.string().min(1, "Classes offering is required"),
-  teachers: z.string().min(1, "Teachers is required"),
-  status: z.string().min(1, "Status is required"),
-  hours_per_week: z.string().min(1, "Hours per week is required"),
+  level: z.string().refine(value => value === "Junior" || value === "Senior", {
+    message: "Level must be 'Junior' or 'Senior'",
+  }),
+  juniorClasses: z.array(
+    z.object({
+      label: z.string(),
+      checked: z.boolean(),
+    })
+  ),
+  seniorClasses: z.array(
+    z.object({
+      label: z.string(),
+      checked: z.boolean(),
+    })
+  ),
+  name: z.any(),
 });
 
 type NewSubjectFieldValues = {
   subject_name: string;
   subject_code: string;
-  description: string;
-  classes_offering: string;
-  teachers: string;
-  status: string;
-  hours_per_week: string;
+  level: string;
+  juniorClasses: { label: string; checked: boolean }[];
+  seniorClasses: { label: string; checked: boolean }[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  name?: any;
 };
 
 export const classInfoSchema = z.object({
@@ -389,6 +405,29 @@ export type AcademicInfoContextType = {
 export type NewSubjectContextType = {
   register: UseFormRegister<NewSubjectFieldValues>;
   errors: FieldErrors<NewSubjectFieldValues>;
+  watch: UseFormWatch<NewSubjectFieldValues>;
+  juniorFields: FieldArrayWithId<
+    {
+      subject_name: string;
+      subject_code: string;
+      level: string;
+      juniorClasses: { label: string; checked: boolean }[];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      name?: any;
+    },
+    "juniorClasses"
+  >[];
+  seniorFields: FieldArrayWithId<
+    {
+      subject_name: string;
+      subject_code: string;
+      level: string;
+      seniorClasses: { label: string; checked: boolean }[];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      name?: any;
+    },
+    "seniorClasses"
+  >[];
 };
 
 export type NewClassContextType = {

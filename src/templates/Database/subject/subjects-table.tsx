@@ -7,15 +7,15 @@ import { TableCell } from "@/components/ui/table";
 import { DASHBOARD_SUBJECT_INFO } from "@/config/links";
 import truncateAndDisplay from "@/utils/truncateAndDisplay";
 
-import { subjectInfo } from "./subject-info";
-import TableHeaders from "./tableHeaders";
+import { subjectInfoProp } from "./subject-info";
+import TableHeaders from "./table-headers";
 
-function Table() {
+function SubjectsTable({ data }: { data: subjectInfoProp[] }) {
   const items: MenuProps["items"] = [
     {
       label: (
         <Link
-          href={DASHBOARD_SUBJECT_INFO("Chemistry")}
+          href={DASHBOARD_SUBJECT_INFO("chemistry")}
           className="flex gap-2 w-full transition-all py-1 rounded-sm items-center"
         >
           <Icon icon="ep:more" fontSize={20} />
@@ -34,26 +34,32 @@ function Table() {
       key: "1",
     },
   ];
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
       <table className="w-full text-sm text-left text-gray-500">
         <TableHeaders />
         <tbody>
-          {subjectInfo.map((item, index) => (
+          {data.map((item, index) => (
             <tr className="bg-white border-b " key={item.subjectName}>
               <TableCell content={index + 1} isCentered />
               <TableCell content={item.subjectName} />
               <TableCell content={item.subjectCode} />
               <TableCell content={truncateAndDisplay(item.classes, 3)} />
               <TableCell
+                isCentered
                 content={
-                  item.statusIsActive ? (
-                    <span className="bg-success-light rounded-lg px-3 py-2 text-Text-high-emphasis">
-                      Active
+                  item.level === "Junior" ? (
+                    <span
+                      className={
+                        "border-primary-purple-400 border rounded-lg px-3 py-2 text-primary-purple-700"
+                      }
+                    >
+                      Junior
                     </span>
                   ) : (
-                    <span className="bg-white border border-border-colour-light rounded-lg px-3 py-2 text-Text-high-emphasis">
-                      Inactive
+                    <span className="bg-white border border-secondary-green-500 rounded-lg px-3 py-2 text-secondary-green-500">
+                      Senior
                     </span>
                   )
                 }
@@ -74,4 +80,4 @@ function Table() {
     </div>
   );
 }
-export default Table;
+export default SubjectsTable;
