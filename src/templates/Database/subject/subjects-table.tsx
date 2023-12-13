@@ -49,7 +49,7 @@ function SubjectsTable({ data }: { data: subjectInfoProp[] }) {
               <TableCell
                 isCentered
                 content={
-                  item.level === "Junior" ? (
+                  item.level === "junior" ? (
                     <span
                       className={
                         "border-primary-purple-400 border rounded-lg px-3 py-2 text-primary-purple-700"
