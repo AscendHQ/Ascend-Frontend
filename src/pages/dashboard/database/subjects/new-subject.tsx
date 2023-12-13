@@ -22,7 +22,7 @@ export default function NewSubject() {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [submitInfo, setSubmitInfo] = React.useState("");
 
-  const showModal = () => {
+  const openModal = () => {
     setIsModalOpen(true);
   };
 
@@ -33,7 +33,7 @@ export default function NewSubject() {
   const onSubmit = (data: object) => {
     console.log(data, "data");
     setSubmitInfo(JSON.stringify(data));
-    showModal();
+    openModal();
   };
 
   const {

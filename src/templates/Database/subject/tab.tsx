@@ -39,15 +39,15 @@ export default function SubjectLevel({
 }
 
 export const subjectCategory = {
-  All: {
+  all: {
     name: "All",
     number: 0,
   },
-  Junior: {
+  junior: {
     name: "Junior",
     number: 0,
   },
-  Senior: {
+  senior: {
     name: "Senior",
     number: 0,
   },

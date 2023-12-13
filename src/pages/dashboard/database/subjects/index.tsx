@@ -14,8 +14,8 @@ import SubjectLevel from "@/templates/Database/subject/tab";
 
 export default function Subjects() {
   const [currentSubjectLevel, setCurrentSubjectLevel] = React.useState<
-    "All" | "Junior" | "Senior"
-  >("All");
+    "all" | "junior" | "senior"
+  >("all");
   const { filteredData } = useFilterData({
     data: subjectInfo,
     criteria: currentSubjectLevel,

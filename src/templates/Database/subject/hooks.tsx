@@ -4,7 +4,7 @@ import { subjectInfoProp } from "./subject-info";
 
 export const useSubjectStatistics = ({ data }: { data: subjectInfoProp[] }) => {
   const totalNumberOfClassLevel = data.length;
-  const juniorClass = data.filter(item => item.level === "Junior");
+  const juniorClass = data.filter(item => item.level === "junior");
   const noOfJuniorClass = juniorClass.length;
   const noOfSeniorClass = totalNumberOfClassLevel - noOfJuniorClass;
 
@@ -20,16 +20,16 @@ export const useFilterData = ({
   criteria,
 }: {
   data: subjectInfoProp[];
-  criteria: "All" | "Junior" | "Senior";
+  criteria: "all" | "junior" | "senior";
 }) => {
   const filteredData = useMemo(() => {
     return data.filter(item => {
-      if (criteria === "All") {
+      if (criteria === "all") {
         return true;
-      } else if (criteria === "Junior") {
-        return item.level === "Junior";
-      } else if (criteria === "Senior") {
-        return item.level === "Senior";
+      } else if (criteria === "junior") {
+        return item.level === "junior";
+      } else if (criteria === "senior") {
+        return item.level === "senior";
       }
     });
   }, [data, criteria]);
