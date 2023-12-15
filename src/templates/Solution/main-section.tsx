@@ -18,9 +18,9 @@ export default function MainSection() {
             heading="Student Management"
             direction="left"
             outlines={[
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit bibendum viverra.",
-              "Lorem ipsum dolor sit amet, adipiscing consectetur elit bibendum viverra.",
-              "Lorem ipsum dolor sit amet, consectetur elit adipiscing bibendum viverra.",
+              "Ascend's tools ensure that student progress and challenges are closely tracked.",
+              "Ascend simplifies student enrollment for administrators and parents.",
+              "Promote collaboration with Ascend's platform for seamless communication between teachers, students and parents.",
             ]}
           >
             <div className="bg-warning-main relative h-[350px] md:h-[600px] w-full lg:w-[520px] overflow-hidden rounded-3xl bg-[url('/kids-checking-a-book.png')] bg-cover"></div>
@@ -29,9 +29,9 @@ export default function MainSection() {
             heading="Staff Management"
             direction="left"
             outlines={[
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit bibendum viverra.",
-              "Lorem ipsum dolor sit amet, adipiscing consectetur elit bibendum viverra.",
-              "Lorem ipsum dolor sit amet, consectetur elit adipiscing bibendum viverra.",
+              "Ascend simplifies employee onboarding, ensuring a smooth and efficient process.",
+              "Ascend's tools enable operational monitoring for better employee management.",
+              "Enhance teamwork with the Ascend platform, facilitating seamless communication between employees and employees.",
             ]}
           >
             <div className="bg-warning-main relative h-[350px] md:h-[600px] w-full lg:w-[520px] overflow-hidden rounded-3xl bg-[url('/group-of-people-smiling.png')] bg-cover"></div>
@@ -40,9 +40,9 @@ export default function MainSection() {
             heading="Automated Payroll System"
             direction="left"
             outlines={[
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit bibendum viverra.",
-              "Lorem ipsum dolor sit amet, adipiscing consectetur elit bibendum viverra.",
-              "Lorem ipsum dolor sit amet, consectetur elit adipiscing bibendum viverra.",
+              "Ascend ensures accurate and timely payroll processing, eliminating manual errors.",
+              "Experience simplified payroll processing in Ascend, saving time and resources.",
+              "Ascend provides a reliable means of efficiently managing finances, ensuring that payroll is processed accurately and efficiently.",
             ]}
           >
             <div className="bg-warning-main relative h-[350px] md:h-[600px] w-full lg:w-[520px] overflow-hidden rounded-3xl bg-[url('/dollar-note.png')] bg-cover"></div>
