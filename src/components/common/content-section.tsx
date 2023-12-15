@@ -7,7 +7,6 @@ export default function ContentSection({
   direction = "right",
   heading,
   button,
-  // subHeading,
   outlines,
   children,
 }: {
@@ -15,7 +14,6 @@ export default function ContentSection({
   heading: string;
   button?: JSX.Element;
   children: ReactNode;
-  subHeading?: string;
   outlines: string[];
 }) {
   return (
@@ -33,21 +31,16 @@ export default function ContentSection({
         <h4 className="text-step-3 font-bold tracking-tighter text-accent-200">
           {heading}
         </h4>
-        <p className="text-accent-500 text-step-0 leading-8">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Bibendum
-          viverra praesent arcu diam et interdum volutpat. Lacus, egestas purus
-          etiam volutpat sagittis et neque diam.
-        </p>
-        <ul className="space-y-2">
+        <ul className="space-y-3">
           {outlines.map(each => (
-            <li className="flex gap-3 md:gap-6 items-center" key={each}>
-              <div className="bg-accent-600 rounded-full p-1">
+            <li className="flex gap-3 md:gap-6 items-start" key={each}>
+              <div className="bg-accent-600 rounded-full p-1 mt-1">
                 <Icon
                   icon="fluent:checkmark-12-regular"
                   className="text-lg md:text-xl"
                 />
               </div>
-              <span className="text-accent-500 leading-8 text-step-0">
+              <span className="text-accent-500 !leading-6 text-step-0">
                 {each}
               </span>
             </li>
