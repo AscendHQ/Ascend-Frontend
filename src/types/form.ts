@@ -1,4 +1,5 @@
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
 import { z } from "zod";
 
 export const formSchema = z.object({
@@ -137,41 +138,30 @@ type NewSubjectFieldValues = {
 };
 
 export const classInfoSchema = z.object({
-  class_name: z.string().min(1, "Subject name is required"),
-  status: z.string().min(1, "Subject name is required"),
-  additional_notes: z.string().min(1, "Subject name is required"),
-  class_teacher: z.string().min(1, "Subject name is required"),
-  class_teacher_contact: z.string().min(1, "Subject name is required"),
-  academic_year: z.string().min(1, "Subject name is required"),
+  class_name: z.string().min(1, "Class name is required"),
+  level: z.string({ required_error: "Level is required" }),
 });
 
 type ClassInfoFieldValues = {
   class_name: string;
-  status: string;
-  additional_notes: string;
-  class_teacher: string;
-  class_teacher_contact: string;
-  academic_year: string;
+  level: string;
 };
 
 export const newClassSchema = z.object({
-  class_name: z.string().min(1, "Subject name is required"),
-  additional_notes: z.string().min(1, "Subject name is required"),
-  students: z.string().min(1, "Subject name is required"),
-  status: z.string().min(1, "Subject name is required"),
-  class_teacher_contact: z.string().min(1, "Subject name is required"),
-  class_teacher: z.string().min(1, "Subject name is required"),
-  academic_year: z.string().min(1, "Subject name is required"),
+  class_name: z.string().min(1, "Class name is required"),
+  level: z.string().refine(value => value === "junior" || value === "senior", {
+    message: "Level must be 'Junior' or 'Senior'",
+  }),
+  radioButtonValue: z
+    .string()
+    .refine(value => ["Science", "Art", "Commercial"].includes(value))
+    .optional(),
 });
 
 type NewClassFieldValues = {
   class_name: string;
-  additional_notes: string;
-  students: string;
-  status: string;
-  class_teacher_contact: string;
-  class_teacher: string;
-  academic_year: string;
+  level: string;
+  radioButtonValue?: string;
 };
 
 export const newLessonPlanSchema = z.object({
@@ -404,6 +394,7 @@ export type NewSubjectContextType = {
 export type NewClassContextType = {
   register: UseFormRegister<NewClassFieldValues>;
   errors: FieldErrors<NewClassFieldValues>;
+  watch: UseFormWatch<NewClassFieldValues>;
 };
 
 export type ClassInfoContextType = {

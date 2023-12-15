@@ -39,7 +39,7 @@ function SelectField<T>({
         {...selectProps}
         required
       >
-        <option value="" className="capitalize ">
+        <option value="" className="capitalize">
           Please choose an option
         </option>
         {options.map(option => {

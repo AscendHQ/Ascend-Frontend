@@ -1,22 +1,22 @@
-export type TeacherOptions = keyof typeof staffCategory;
+export type LevelOptions = keyof typeof classCategory;
 
-export function Tab({
+export function ClassList({
   tabNumbers,
   currentCategory,
   setCurrentCategory,
 }: {
   tabNumbers: object;
-  currentCategory: TeacherOptions;
-  setCurrentCategory: React.Dispatch<React.SetStateAction<TeacherOptions>>;
+  currentCategory: LevelOptions;
+  setCurrentCategory: React.Dispatch<React.SetStateAction<LevelOptions>>;
 }) {
   return (
     <ul className="flex bg-neutral-300 border-1.5 items-center w-fit my-2 border-border-colour-light rounded px-2 py-1 gap-2">
-      {staffCategoryKeys.map(item => {
-        const selectItem = item as TeacherOptions;
+      {classCategoryKeys.map(item => {
+        const selectItem = item as LevelOptions;
         const selectedTabIndex =
           selectItem as unknown as keyof typeof tabNumbers;
 
-        const selectedCategory = staffCategory[selectItem];
+        const selectedCategory = classCategory[selectItem];
 
         const isCurrentItem = selectItem === currentCategory;
         return (
@@ -38,27 +38,19 @@ export function Tab({
   );
 }
 
-export const staffCategory = {
+export const classCategory = {
   all: {
     name: "All",
     number: 0,
   },
-  teaching: {
-    name: "Teaching",
+  junior: {
+    name: "Junior",
     number: 0,
   },
-  "non-teaching": {
-    name: "Non Teaching",
-    number: 0,
-  },
-  permanent: {
-    name: "Permanent",
-    number: 0,
-  },
-  "part-time": {
-    name: "Part-Time",
+  senior: {
+    name: "Senior",
     number: 0,
   },
 };
 
-const staffCategoryKeys = Object.keys(staffCategory);
+const classCategoryKeys = Object.keys(classCategory);
