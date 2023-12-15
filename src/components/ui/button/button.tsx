@@ -9,9 +9,13 @@ export default function Button({
   variant,
   className,
   styles,
+  isLink,
+  path,
   ...rest
 }: {
   leftElement?: JSX.Element;
+  isLink?: boolean;
+  path?: string;
   rightElement?: JSX.Element;
   children: ReactNode;
   variant?: "primary" | "secondary";
@@ -33,6 +37,15 @@ export default function Button({
       variantClasses =
         "bg-grey-100 border-border-colour-light px-6 py-2 rounded-md text-step--2";
       break;
+  }
+  if (isLink && path) {
+    return (
+      <Link href={path} className={`${twMerge(variantClasses, className)}`}>
+        {leftElement}
+        {children}
+        {rightElement}
+      </Link>
+    );
   }
   return (
     <button
