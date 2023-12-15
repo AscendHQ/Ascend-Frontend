@@ -26,19 +26,19 @@ export default function TailoredSolutions() {
               displayImg: "/school-management-solution.avif",
               title: "Student Management",
               description:
-                "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, quo. Delectus sed reiciendis odit, voluptas magnam ducimus quas quia nesciunt suscipit id, minus labore maiores nobis debitis eligendi pariatur eveniet!",
+                "Ascend's school management tool provides careful tracking of students’ academic progress and personal challenges, providing nuanced insights into their educational journey.",
             },
             {
               displayImg: "/staff-management.avif",
               title: "Staff Management",
               description:
-                "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, quo. Delectus sed reiciendis odit, voluptas magnam ducimus quas quia nesciunt suscipit id, minus labore maiores nobis debitis eligendi pariatur eveniet!",
+                "Ascend's school management tool encourage collaboration, enabling effortless communication and communication between staff and administrators. Remove seamless communication for easier teamwork and increased productivity.",
             },
             {
               displayImg: "/automated-payroll.avif",
               title: "Automated Payroll System",
               description:
-                "Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, quo. Delectus sed reiciendis odit, voluptas magnam ducimus quas quia nesciunt suscipit id, minus labore maiores nobis debitis eligendi pariatur eveniet!",
+                "Ascend assures accuracy and timeliness in the payroll process, eliminating the risk of manual errors. Get an easy and flawless reward that improves your budget.",
             },
           ].map(item => (
             <div
