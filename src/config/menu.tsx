@@ -3,7 +3,7 @@ import {
   BOOK_A_DEMO,
   CONTACT_PAGE,
   HOME_PAGE,
-  LOGIN_PAGE,
+  // LOGIN_PAGE,
   SOLUTION_PAGE,
 } from "./links";
 
@@ -24,10 +24,10 @@ const menuData = [
     title: "Contact",
     to: CONTACT_PAGE,
   },
-  {
-    title: "Sign up",
-    to: LOGIN_PAGE,
-  },
+  // {
+  //   title: "Sign up",
+  //   to: LOGIN_PAGE,
+  // },
   {
     title: "Book a Demo",
     to: BOOK_A_DEMO,

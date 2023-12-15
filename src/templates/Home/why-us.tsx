@@ -6,9 +6,10 @@ import Link from "next/link";
 import React from "react";
 
 import { ContentSection } from "@/components/common";
+import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { whyAscendData } from "@/config";
-import { SOLUTION_PAGE } from "@/config/links";
+import { BOOK_A_DEMO, SOLUTION_PAGE } from "@/config/links";
 
 export function SchoolStat() {
   return (
@@ -99,9 +100,14 @@ function WhyUs() {
         <ContentSection
           heading="Effortlessly handle school administration"
           button={
-            <button className="bg-primary-purple-500 text-step--2 text-grey-100 border-2 px-14 py-2 border-accent-300 rounded-md hover:shadow-[4px_4px_0px_0px_#000000] transition-all">
-              Book a free demo
-            </button>
+            <Button
+              isLink
+              path={BOOK_A_DEMO}
+              variant="primary"
+              className="text-step--2 px-14 py-2 text-grey-100 inline-block "
+            >
+              Book a Demo
+            </Button>
           }
           outlines={[
             "Ascend simplifies school management, enabling easy and efficient management of administration.",

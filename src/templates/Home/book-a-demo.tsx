@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Button } from "@/components/ui/button";
+import { BOOK_A_DEMO } from "@/config/links";
 
 export default function BookADemo() {
   return (
@@ -9,7 +10,9 @@ export default function BookADemo() {
         Give your school administration an
         <span className="text-secondary-green-500"> edge</span>.
       </h4>
-      <Button>Book a Demo</Button>
+      <Button isLink path={BOOK_A_DEMO}>
+        Book a Demo
+      </Button>
     </div>
   );
 }
