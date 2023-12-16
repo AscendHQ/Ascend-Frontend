@@ -117,8 +117,8 @@ function WhyUs() {
         >
           <div className="bg-warning-main relative h-[350px] md:h-[650px] w-full lg:w-[520px] overflow-hidden rounded-3xl border-2 border-black">
             <Image
-              src="/Dashboardd.png"
-              alt="Database __ Students"
+              src="/database-student.png"
+              alt="Database Students"
               fill
               className="transform translate-x-16 translate-y-14 lg:translate-y-40"
             />
