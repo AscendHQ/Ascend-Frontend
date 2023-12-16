@@ -1,7 +1,7 @@
 export const HOME_PAGE = "/";
 export const SOLUTION_PAGE = "/solutions";
 export const ABOUT_US_PAGE = "/about-us";
-export const CONTACT_PAGE = "/";
+export const CONTACT_PAGE = "/contact-us";
 export const SIGN_UP_PAGE = "/";
 export const LOGIN_PAGE = "/auth/login";
 
