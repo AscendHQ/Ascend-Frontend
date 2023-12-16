@@ -30,7 +30,7 @@ export function InputWithIcon({
         <input
           type="text"
           placeholder={placeholder}
-          className="pl-11 border-t-transparent border-x-transparent border-secondary-color-1 placeholder:text-Text-meduim-emphasis py-3 border-b w-full"
+          className="pl-11 border-t-transparent text-sm md:text-base border-x-transparent border-secondary-color-1 placeholder:text-Text-meduim-emphasis py-3 border-b w-full"
           id={id}
           {...registerValues}
         />
@@ -67,7 +67,7 @@ export function TextAreaWithIcon({
         <textarea
           rows={5}
           placeholder={placeholder}
-          className="pl-11 border-t-transparent border-x-transparent border-secondary-color-1 placeholder:text-Text-meduim-emphasis py-3 border-b w-full"
+          className="pl-11 border-t-transparent text-sm md:text-base border-x-transparent border-secondary-color-1 placeholder:text-Text-meduim-emphasis py-3 border-b w-full"
           id={id}
           {...registerValues}
         />
