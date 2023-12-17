@@ -16,7 +16,7 @@ import {
   NewClassSchemaType,
 } from "@/types/form";
 
-export const ReactHookForm = React.createContext<
+export const NewClassFormContext = React.createContext<
   NewClassContextType | undefined
 >(undefined);
 
@@ -51,7 +51,7 @@ export default function NewClass() {
   }, [isSubmitSuccessful, reset]);
 
   return (
-    <ReactHookForm.Provider value={{ register, errors, watch }}>
+    <NewClassFormContext.Provider value={{ register, errors, watch }}>
       <Container headerTitle="New Class">
         <main className="px-10 py-5 bg-white h-full">
           <Link
@@ -73,6 +73,6 @@ export default function NewClass() {
         </main>
       </Container>
       {contextHolder}
-    </ReactHookForm.Provider>
+    </NewClassFormContext.Provider>
   );
 }

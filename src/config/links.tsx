@@ -18,9 +18,7 @@ export const DASHBOARD_STUDENT = "/dashboard/database/students";
 export const STUDENT_ACADEMIC_INFORMATION =
   "/dashboard/database/students/update-academic-information";
 export const STUDENT_BIODATA = "/dashboard/database/students/update-biodata";
-export const NEW_STUDENT_BIODATA = "/dashboard/database/students/biodata";
-export const NEW_STUDENT_ACADEMIC_INFORMATION =
-  "/dashboard/database/students/academic-information";
+export const NEW_STUDENT = "/dashboard/database/students/new-student";
 
 // SUBJECT
 export const DASHBOARD_SUBJECT = "/dashboard/database/subjects";
