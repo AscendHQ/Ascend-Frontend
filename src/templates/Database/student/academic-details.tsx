@@ -7,7 +7,7 @@ export default function AcademicDetails() {
   const { register, errors } = useFormContext(NewStudentFormContext);
 
   return (
-    <div className="flex justify-between flex-col lg:flex-row gap-10 pb-16 mb-8 border-b-2 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 mb-8 border-b-2 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Academic Details
@@ -38,7 +38,6 @@ export default function AcademicDetails() {
           register={register}
           errorMessage={errors.enrollment_year?.message || ""}
         />
-
         <SelectField
           id="graduation_year"
           label="Graduation Year"
@@ -46,7 +45,6 @@ export default function AcademicDetails() {
           register={register}
           errorMessage={errors.graduation_year?.message || ""}
         />
-
         <TextField
           id="extracurricular_activities"
           label="Extracurricular Activities"

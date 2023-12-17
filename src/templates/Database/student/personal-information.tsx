@@ -9,7 +9,9 @@ export default function PersonalInformation() {
 
   return (
     <div
-      className={`flex flex-col lg:flex-row justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light`}
+      className={
+        "flex flex-col lg:flex-row justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light"
+      }
     >
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
@@ -66,7 +68,6 @@ export default function PersonalInformation() {
           register={register}
           errorMessage={errors.religion?.message || ""}
         />
-
         <SelectField
           id="nationality"
           label="Nationality"
@@ -74,7 +75,6 @@ export default function PersonalInformation() {
           register={register}
           errorMessage={errors.nationality?.message || ""}
         />
-
         {nationalityOption === "Nigeria" && (
           <SelectField
             id="state_of_origin"

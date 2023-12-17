@@ -11,12 +11,15 @@ import { DashboardButton } from "@/components/ui/button/button";
 import LoadingState from "@/components/ui/Loading";
 import { DASHBOARD_STUDENT } from "@/config/links";
 import {
+  AcademicDetails,
+  AdditionalInformation,
   ContactInformation,
   GuardianInformation,
+  HostelAccommodation,
+  MedicalInformation,
   PersonalInformation,
   StudentBiodataHeading,
 } from "@/templates/Database/student";
-import AcademicDetails from "@/templates/Database/student/academic-details";
 import {
   NewStudentContextType,
   NewStudentSchema,
@@ -65,13 +68,10 @@ export default function NewStudent() {
             <ContactInformation />
             <GuardianInformation />
             <AcademicDetails />
+            <HostelAccommodation />
+            <MedicalInformation />
+            <AdditionalInformation />
             <div className="flex justify-end gap-6">
-              <DashboardButton
-                variant="secondary"
-                className="font-semibold px-7"
-              >
-                Cancel
-              </DashboardButton>
               <DashboardButton
                 variant="primary"
                 className="font-semibold px-7 ml-0"
