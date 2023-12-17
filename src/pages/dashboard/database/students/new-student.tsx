@@ -77,10 +77,7 @@ export default function NewStudent() {
                 className="font-semibold px-7 ml-0"
                 onClick={handleSubmit(onSubmit)}
               >
-                <LoadingState
-                  label="Save and continue"
-                  isSubmitting={isSubmitting}
-                />
+                <LoadingState label="Submit" isSubmitting={isSubmitting} />
               </DashboardButton>
             </div>
           </main>
