@@ -10,7 +10,7 @@ export default function PersonalInformation() {
   return (
     <div
       className={
-        "flex flex-col lg:flex-row justify-between gap-16 pb-16 border-b-2 mb-8 border-border-colour-light"
+        "flex flex-col lg:flex-row justify-between gap-16 pb-16 border-b-2 mb-8 mt-5 border-border-colour-light"
       }
     >
       <div className="w-96">

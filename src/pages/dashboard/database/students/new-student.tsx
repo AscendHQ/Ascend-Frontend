@@ -18,7 +18,7 @@ import {
   HostelAccommodation,
   MedicalInformation,
   PersonalInformation,
-  StudentBiodataHeading,
+  // StudentBiodataHeading,
 } from "@/templates/Database/student";
 import {
   NewStudentContextType,
@@ -57,13 +57,13 @@ export default function NewStudent() {
       <div className="grid font-inter grid-cols-9 min-w-[900px]">
         <Sidebar />
         <div className="col-[3/-1] 3xl:col-[2/-1] bg-white">
-          <DashboardHeader headerTitle="Student Biodata" />
+          <DashboardHeader headerTitle="New Student" />
           <main className="p-10">
             <Link href={DASHBOARD_STUDENT} className="flex items-center gap-2">
               <Icon icon="teenyicons:arrow-left-solid" />
               Back
             </Link>
-            <StudentBiodataHeading />
+            {/* <StudentBiodataHeading /> */}
             <PersonalInformation />
             <ContactInformation />
             <GuardianInformation />

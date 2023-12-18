@@ -1,4 +1,9 @@
-import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
+import {
+  FieldArrayWithId,
+  FieldErrors,
+  UseFormRegister,
+  UseFormWatch,
+} from "react-hook-form";
 import { z } from "zod";
 
 export const formSchema = z.object({
