@@ -7,6 +7,7 @@ export const useSubjectStatistics = ({ data }: { data: subjectInfoProp[] }) => {
   const juniorClass = data.filter(item => item.level === "junior");
   const noOfJuniorClass = juniorClass.length;
   const noOfSeniorClass = totalNumberOfClassLevel - noOfJuniorClass;
+  console.log(noOfJuniorClass);
 
   return {
     totalNumberOfClassLevel,

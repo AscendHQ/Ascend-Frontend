@@ -51,6 +51,10 @@ function Header() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  // var for seperating menu data
+  const endingMenu = -2;
+
   return (
     <div
       className={`fixed w-full z-[999] bg-white ${
@@ -83,14 +87,14 @@ function Header() {
             )}
           >
             <ul className="flex order-2 lg:order-1 flex-col w-full lg:flex-row lg:items-center gap-9">
-              {menuData.slice(0, -1).map(item => (
+              {menuData.slice(0, endingMenu).map(item => (
                 <li key={item.title} className="font-medium whitespace-nowrap">
                   <Link href={item.to}>{item.title}</Link>
                 </li>
               ))}
             </ul>
             <ul className="flex order-1 mt-3 lg:mt-0 lg:order-2 flex-col w-full lg:flex-row lg:items-center justify-end gap-9">
-              {menuData.slice(-1).map(item => (
+              {menuData.slice(endingMenu).map(item => (
                 <li key={item.title} className="font-medium">
                   <Link
                     href={item.to}

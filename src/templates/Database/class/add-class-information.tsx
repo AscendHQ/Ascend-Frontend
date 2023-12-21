@@ -3,12 +3,12 @@ import React from "react";
 import SelectField from "@/components/ui/form/selectfield";
 import TextField from "@/components/ui/form/textfield";
 import { useFormContext } from "@/hooks/useFormContext";
-import { ReactHookForm } from "@/pages/dashboard/database/classes/new-class";
+import { NewClassFormContext } from "@/pages/dashboard/database/classes/new-class";
 
 import JuniorLevelSections from "./JuniorLevelSections";
 
 export default function ClassInformation() {
-  const { register, errors, watch } = useFormContext(ReactHookForm);
+  const { register, errors, watch } = useFormContext(NewClassFormContext);
 
   const levelOption = watch("level");
 

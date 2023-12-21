@@ -22,7 +22,7 @@ const FinancialSummaryChart = dynamic(
 export default function MainSection() {
   // const [showAd, setshowAd] = React.useState(true);
   return (
-    <main className="p-6">
+    <main className="p-6 bg-neutral-300">
       {/* {showAd && (
         <section className="pl-11 pr-4 py-7 bg-primary-purple-300 rounded-lg flex items-start justify-between">
           <div className="">

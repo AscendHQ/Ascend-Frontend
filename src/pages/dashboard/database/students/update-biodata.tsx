@@ -2,7 +2,7 @@ import React from "react";
 
 import DatabaseStudentContainer from "@/components/layout/database-student/container";
 import { DashboardButton } from "@/components/ui/button/button";
-import { NEW_STUDENT_BIODATA } from "@/config/links";
+import { NEW_STUDENT } from "@/config/links";
 
 export default function Biodata() {
   return (
@@ -361,11 +361,7 @@ function BioUpdate() {
         </p>
       </div>
 
-      <DashboardButton
-        variant="primary"
-        isLink={true}
-        path={NEW_STUDENT_BIODATA}
-      >
+      <DashboardButton variant="primary" isLink={true} path={NEW_STUDENT}>
         Update
       </DashboardButton>
     </div>
