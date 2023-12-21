@@ -2,7 +2,7 @@ import TextField from "@/components/ui/form/textfield";
 import { useFormContext } from "@/hooks/useFormContext";
 import { NewStudentFormContext } from "@/pages/dashboard/database/students/new-student";
 
-export default function HostelAccommodation() {
+export default function AddHostelAccommodation() {
   const { register, errors } = useFormContext(NewStudentFormContext);
 
   return (

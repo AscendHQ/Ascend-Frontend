@@ -1,5 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
 import { z } from "zod";
+
+// function makeAllFieldsOptional<T extends z.ZodType<any, any>>(schema: T): T {
+//   console.log(schema, "ngjh");
+
+//   // const newShape: Record<string, any> = {};
+
+//   // for (const key in shape) {
+//   //   newShape[key] = shape[key].optional();
+//   // }
+
+//   // return z.object(newShape) as unknown as T;
+// }
 
 export const NewStudentSchema = z.object({
   first_name: z.string().min(1, "First Name is required"),
@@ -96,3 +109,15 @@ export type NewStudentContextType = {
 };
 
 export type NewStudentSchemaType = z.infer<typeof NewStudentSchema>;
+
+type StudentInfoFieldValues = Partial<NewStudentFieldValues>;
+
+export const studentInfoSchema = NewStudentSchema.partial();
+
+export type StudentInfoContextType = {
+  register: UseFormRegister<StudentInfoFieldValues>;
+  errors: FieldErrors<StudentInfoFieldValues>;
+  watch: UseFormWatch<StudentInfoFieldValues>;
+};
+
+export type StudentInfoSchemaType = z.infer<typeof studentInfoSchema>;

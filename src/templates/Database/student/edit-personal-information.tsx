@@ -1,11 +1,11 @@
 import SelectField from "@/components/ui/form/selectfield";
 import TextField from "@/components/ui/form/textfield";
 import { useFormContext } from "@/hooks/useFormContext";
-import { NewStudentFormContext } from "@/pages/dashboard/database/students/new-student";
+import { StudentInfoContext } from "@/pages/dashboard/database/students/[studentInfo]";
 
-export default function PersonalInformation() {
-  const { register, errors, watch } = useFormContext(NewStudentFormContext);
-  const nationalityOption = watch("nationality");
+export default function EditPersonalInformation() {
+  const { register, errors } = useFormContext(StudentInfoContext);
+  // const nationalityOption = watch("nationality");
 
   return (
     <div
@@ -26,7 +26,7 @@ export default function PersonalInformation() {
           id="first_name"
           label="First name"
           placeholder="Rhoda"
-          required
+          defaultValue={"Alma"}
           register={register}
           errorMessage={errors.first_name?.message || ""}
         />
@@ -35,6 +35,7 @@ export default function PersonalInformation() {
           label="Middle name"
           placeholder="Lily"
           required
+          defaultValue={"Amy"}
           register={register}
           errorMessage={errors.middle_name?.message || ""}
         />
@@ -42,6 +43,7 @@ export default function PersonalInformation() {
           id="last_name"
           label="Last name"
           placeholder="Curtis"
+          defaultValue={"Lambert"}
           required
           register={register}
           errorMessage={errors.last_name?.message || ""}
@@ -51,6 +53,7 @@ export default function PersonalInformation() {
           label="Gender"
           options={["Male", "Female"]}
           register={register}
+          defaultValue={"Male"}
           errorMessage={errors.gender?.message || ""}
         />
         <TextField
@@ -59,6 +62,7 @@ export default function PersonalInformation() {
           type="date"
           required
           register={register}
+          defaultValue={"2023-04-01"}
           errorMessage={errors.date_of_birth?.message || ""}
         />
         <SelectField
@@ -66,33 +70,25 @@ export default function PersonalInformation() {
           label="Religion"
           options={["Christain", "Muslim"]}
           register={register}
+          defaultValue={"Christain"}
           errorMessage={errors.religion?.message || ""}
         />
         <SelectField
-          id="nationality"
-          label="Nationality"
-          options={["Nigeria", "Ghana"]}
+          id="state_of_origin"
+          label="State of Origin"
+          options={["Ondo", "Ekiti", "Edo", "Oyo", "Lagos", "Kwara"]}
           register={register}
-          errorMessage={errors.nationality?.message || ""}
+          defaultValue={"Ondo"}
+          errorMessage={errors.state_of_origin?.message || ""}
         />
-        {nationalityOption === "Nigeria" && (
-          <SelectField
-            id="state_of_origin"
-            label="State of Origin"
-            options={["Ondo", "Ekiti", "Edo", "Oyo", "Lagos", "Kwara"]}
-            register={register}
-            errorMessage={errors.state_of_origin?.message || ""}
-          />
-        )}
-        {nationalityOption === "Nigeria" && (
-          <SelectField
-            id="local_government_area"
-            label="Local Government Area"
-            options={["Odigbo", "Ifon", "Okitipupa", "Ikorodu", "Oshodi"]}
-            register={register}
-            errorMessage={errors.state_of_origin?.message || ""}
-          />
-        )}
+        <SelectField
+          id="local_government_area"
+          label="Local Government Area"
+          options={["Odigbo", "Ifon", "Okitipupa", "Ikorodu", "Oshodi"]}
+          register={register}
+          defaultValue={"Ifon"}
+          errorMessage={errors.state_of_origin?.message || ""}
+        />
       </div>
     </div>
   );

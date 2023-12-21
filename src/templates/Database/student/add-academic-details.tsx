@@ -3,7 +3,7 @@ import TextField from "@/components/ui/form/textfield";
 import { useFormContext } from "@/hooks/useFormContext";
 import { NewStudentFormContext } from "@/pages/dashboard/database/students/new-student";
 
-export default function AcademicDetails() {
+export default function AddAcademicDetails() {
   const { register, errors } = useFormContext(NewStudentFormContext);
 
   return (

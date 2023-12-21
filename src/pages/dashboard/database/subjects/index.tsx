@@ -27,9 +27,9 @@ export default function Subjects() {
     });
 
   const tabNumbers = {
-    All: totalNumberOfClassLevel,
-    Junior: noOfJuniorClass,
-    Senior: noOfSeniorClass,
+    all: totalNumberOfClassLevel,
+    junior: noOfJuniorClass,
+    senior: noOfSeniorClass,
   };
   return (
     <Container headerTitle="Subjects">

@@ -18,6 +18,7 @@ import {
 export const NewSubjectContext = React.createContext<
   NewSubjectContextType | undefined
 >(undefined);
+
 export default function NewSubject() {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [submitInfo, setSubmitInfo] = React.useState("");

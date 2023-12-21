@@ -1,10 +1,10 @@
 import TextAreaWithLabelAndCount from "@/components/ui/form/textarea";
 import TextField from "@/components/ui/form/textfield";
 import { useFormContext } from "@/hooks/useFormContext";
-import { NewStudentFormContext } from "@/pages/dashboard/database/students/new-student";
+import { StudentInfoContext } from "@/pages/dashboard/database/students/[studentInfo]";
 
-export default function MedicalInformation() {
-  const { register, errors } = useFormContext(NewStudentFormContext);
+export default function EditMedicalInformation() {
+  const { register, errors } = useFormContext(StudentInfoContext);
 
   return (
     <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">

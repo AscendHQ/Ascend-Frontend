@@ -11,13 +11,13 @@ import { DashboardButton } from "@/components/ui/button/button";
 import LoadingState from "@/components/ui/Loading";
 import { DASHBOARD_STUDENT } from "@/config/links";
 import {
-  AcademicDetails,
-  AdditionalInformation,
-  ContactInformation,
-  GuardianInformation,
-  HostelAccommodation,
-  MedicalInformation,
-  PersonalInformation,
+  AddAcademicDetails,
+  AddAdditionalInformation,
+  AddContactInformation,
+  AddGuardianInformation,
+  AddHostelAccommodation,
+  AddMedicalInformation,
+  AddPersonalInformation,
   // StudentBiodataHeading,
 } from "@/templates/Database/student";
 import {
@@ -64,13 +64,13 @@ export default function NewStudent() {
               Back
             </Link>
             {/* <StudentBiodataHeading /> */}
-            <PersonalInformation />
-            <ContactInformation />
-            <GuardianInformation />
-            <AcademicDetails />
-            <HostelAccommodation />
-            <MedicalInformation />
-            <AdditionalInformation />
+            <AddPersonalInformation />
+            <AddContactInformation />
+            <AddGuardianInformation />
+            <AddAcademicDetails />
+            <AddHostelAccommodation />
+            <AddMedicalInformation />
+            <AddAdditionalInformation />
             <div className="flex justify-end gap-6">
               <DashboardButton
                 variant="primary"

@@ -9,7 +9,7 @@ export interface TableHeaderProps {
 }
 export function TableHeaders({ data }: TableHeaderProps) {
   return (
-    <thead className="text-xs text-gray-700 normal-case border-b border-grey-300 bg-gray-50 ">
+    <thead className="text-xs text-gray-700 normal-case border-b border-grey-300 bg-neutral-300">
       <tr>
         {data.map(item => {
           return <TableHeader text={item.name} key={item.name} />;

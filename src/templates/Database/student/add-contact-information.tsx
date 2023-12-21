@@ -2,7 +2,7 @@ import TextField from "@/components/ui/form/textfield";
 import { useFormContext } from "@/hooks/useFormContext";
 import { NewStudentFormContext } from "@/pages/dashboard/database/students/new-student";
 
-export default function ContactInformation() {
+export default function AddContactInformation() {
   const { register, errors } = useFormContext(NewStudentFormContext);
   return (
     <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
