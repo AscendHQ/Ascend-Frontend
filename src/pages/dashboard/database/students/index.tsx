@@ -10,8 +10,8 @@ import {
   studentInfo,
   studentInfoProp,
   StudentsTable,
-  StudentTabNav,
 } from "@/templates/Database/student";
+// import StatOverview from "@/templates/Database/stat-overview";
 import {
   useFilterData,
   useStudentStatistics,
