@@ -21,6 +21,7 @@ export default function EditHostelAccommodation() {
           label="Block"
           placeholder="Block 2"
           required
+          defaultValue={"Adeyemo Hostel"}
           register={register}
           errorMessage={errors["hostel_block"]?.message || ""}
         />
@@ -30,6 +31,7 @@ export default function EditHostelAccommodation() {
           label="Room number"
           placeholder="09"
           required
+          defaultValue={"107"}
           register={register}
           errorMessage={errors["hostel_room-number"]?.message || ""}
         />

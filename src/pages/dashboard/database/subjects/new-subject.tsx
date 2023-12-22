@@ -13,7 +13,7 @@ import {
   NewSubjectContextType,
   newSubjectSchema,
   NewSubjectSchemaType,
-} from "@/types/form";
+} from "@/templates/Database/subject/subject-types";
 
 export const NewSubjectContext = React.createContext<
   NewSubjectContextType | undefined
