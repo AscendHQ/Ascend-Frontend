@@ -21,6 +21,7 @@ export default function EditGuardianInformation() {
           label="First name"
           placeholder="Cameron"
           required
+          defaultValue={"Fred"}
           register={register}
           errorMessage={errors.guardian_first_name?.message || ""}
         />
@@ -28,6 +29,7 @@ export default function EditGuardianInformation() {
           id="guardian_last_name"
           label="Last name"
           placeholder="Huff"
+          defaultValue={"Ogundipe"}
           required
           register={register}
           errorMessage={errors.guardian_last_name?.message || ""}
@@ -38,6 +40,7 @@ export default function EditGuardianInformation() {
           placeholder="Parent"
           required
           register={register}
+          defaultValue={"Parent"}
           errorMessage={
             errors.guardian_relationship_with_student?.message || ""
           }
@@ -47,6 +50,7 @@ export default function EditGuardianInformation() {
           label="Contact Details"
           placeholder="(217) 555-0113"
           required
+          defaultValue={"(234)9034430564"}
           register={register}
           errorMessage={errors.guardian_contact_details?.message || ""}
         />
@@ -55,6 +59,7 @@ export default function EditGuardianInformation() {
           label="Email Address"
           placeholder="carson@gmail.com"
           required
+          defaultValue={"micheal809@gmail.com"}
           register={register}
           errorMessage={errors.guardian_email_address?.message || ""}
         />

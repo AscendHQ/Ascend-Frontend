@@ -55,22 +55,25 @@ export default function DatabaseStudents() {
     <Container headerTitle="Students">
       <div className="bg-white p-10">
         {/* <StatOverview /> */}
-        <div className="relative flex">
+
+        <DashboardButton
+          variant="primary"
+          leftElement={<Icon icon="tabler:plus" />}
+          isLink
+          path={NEW_STUDENT}
+        >
+          Register student
+        </DashboardButton>
+        <div className="relative max-w-sm mt-5">
           <input
             type="search"
             placeholder="Search Student"
-            className="rounded text-sm"
+            className="rounded text-sm w-full"
           />
-          <DashboardButton
-            variant="primary"
-            leftElement={<Icon icon="tabler:plus" />}
-            isLink
-            path={NEW_STUDENT}
-          >
-            Register student
-          </DashboardButton>
+          <button className="absolute bottom-1/2 translate-y-1/2 right-2">
+            <Icon icon="mingcute:search-line" />
+          </button>
         </div>
-
         {/* <StudentTabNav
           tabNumbers={tabNumbers}
           currentCategory={currentStudentGender}

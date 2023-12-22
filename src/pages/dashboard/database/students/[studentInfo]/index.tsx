@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
@@ -30,6 +31,11 @@ export const StudentInfoContext = React.createContext<
 
 export default function StudentInfo() {
   const router = useRouter();
+  const [isActive, setIsActive] = React.useState(false);
+
+  const toggle = () => {
+    setIsActive(!isActive);
+  };
   const studentRegId = router.query.studentInfo as string;
   const onSubmit = (data: object) => {
     console.log(data, "data");
@@ -62,6 +68,54 @@ export default function StudentInfo() {
           <EditHostelAccommodation />
           <EditMedicalInformation />
           <EditAdditionalInformation />
+          <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
+            <div className="w-96">
+              <h4 className="text-Text-high-emphasis font-semibold">
+                Student Status
+              </h4>
+              <p className="text-sm tracking-tight text-gray-800">
+                This will be displayed on your organization profile.
+              </p>
+            </div>
+            <div className="flex flex-1 flex-col lg:flex-row flex-wrap">
+              <div className="flex items-center gap-3">
+                <span>Inactive</span>
+                <label
+                  htmlFor="toggle"
+                  className={`flex items-center cursor-pointer`}
+                >
+                  <div className="relative">
+                    <input
+                      type="checkbox"
+                      id="toggle"
+                      className="sr-only"
+                      onChange={toggle}
+                      checked={isActive}
+                    />
+                    <div
+                      className={`block ${
+                        isActive ? "bg-green-600" : "bg-gray-600"
+                      } w-14 h-8 rounded-full`}
+                    ></div>
+                    <div
+                      className={`dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition ${
+                        isActive ? "transform translate-x-full" : ""
+                      }`}
+                    ></div>
+                  </div>
+                </label>
+                <span>Active</span>
+              </div>
+              <p className="text-sm mt-4 mb-2">
+                <span className="font-bold">Active:</span> This student is
+                currently enrolled in the school
+              </p>
+              <p className="text-sm">
+                <span className="font-bold">Inactive:</span> This student is not
+                currently enrolled in the school
+              </p>
+            </div>
+          </div>
           <div className="flex justify-end gap-6">
             <DashboardButton
               variant="primary"

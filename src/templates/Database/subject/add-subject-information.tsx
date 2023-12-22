@@ -7,6 +7,7 @@ export default function AddSubjectInformation() {
   const { register, errors, watch, juniorFields, seniorFields } =
     useFormContext(NewSubjectContext);
   const levelOption = watch("level");
+
   return (
     <div className="flex justify-between gap-16 pb-16 mt-14 mb-8 border-b-2 border-border-colour-light">
       <div className="w-96">
@@ -30,6 +31,13 @@ export default function AddSubjectInformation() {
           required
           register={register}
           errorMessage={errors.subject_code?.message || ""}
+        />
+        <SelectField
+          id="type"
+          label="Subject Type"
+          options={["Core", "Elective"]}
+          register={register}
+          errorMessage={errors.type?.message || ""}
         />
         <SelectField
           id="level"

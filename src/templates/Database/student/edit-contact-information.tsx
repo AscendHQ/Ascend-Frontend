@@ -23,6 +23,7 @@ export default function EditContactInformation() {
           required
           register={register}
           isFullWidth
+          defaultValue={"32 Kudirat Abiola Road, Ikeja."}
           errorMessage={errors.residential_address?.message || ""}
         />
         <TextField
@@ -31,6 +32,7 @@ export default function EditContactInformation() {
           placeholder="(217) 555-0113"
           required
           register={register}
+          defaultValue={"(234)8058189620"}
           errorMessage={errors.contact_details?.message || ""}
         />
       </div>

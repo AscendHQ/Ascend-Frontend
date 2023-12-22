@@ -31,27 +31,14 @@ export default function AddAcademicDetails() {
           register={register}
           errorMessage={errors.previous_school_attended?.message || ""}
         />
-        <SelectField
-          id="enrollment_year"
-          label="Enrollment Year"
-          options={["2023", "2022", "2021", "2020", "2019", "2018"]}
-          register={register}
-          errorMessage={errors.enrollment_year?.message || ""}
-        />
-        <SelectField
-          id="graduation_year"
-          label="Graduation Year"
-          options={["2023", "2022", "2021", "2020", "2019", "2018"]}
-          register={register}
-          errorMessage={errors.graduation_year?.message || ""}
-        />
-        <TextField
+
+        {/* <TextField
           id="extracurricular_activities"
           label="Extracurricular Activities"
           register={register}
           isFullWidth
           errorMessage={errors["extracurricular_activities"]?.message || ""}
-        />
+        /> */}
       </div>
     </div>
   );

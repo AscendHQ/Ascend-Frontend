@@ -31,6 +31,7 @@ export default function EditMedicalInformation() {
           placeholder="(217) 555-0113"
           required
           register={register}
+          defaultValue={"(234)8037735625"}
           errorMessage={errors.student_emergency_contact?.message || ""}
         />
         <TextAreaWithLabelAndCount
