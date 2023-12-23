@@ -1,0 +1,48 @@
+const dataArray = [
+  "ABEJIDE ABDULLAH G.",
+  "ADAMU ADEWALE O.",
+  "AKANDE ADEOLA M.",
+  "AMINU AISHA B.",
+  "ANIFOWOSE ADEWUMI T.",
+  "AWODELE AYOOLA F.",
+  "BELLO BUKOLA S.",
+  "CHUKWU CHIJIOKE E.",
+  "DANIEL DAMILOLA A.",
+  "EZENWA EBUKA U.",
+  "FALADE FUNMILAYO O.",
+  "GBADAMOSI GABRIEL A.",
+  "IBRAHIM ISRAEL K.",
+  "JOHNSON JUMOKE T.",
+  "KANU KENECHUKWU C.",
+  "LAWAL LATEEF O.",
+  "MOMOH MERCY O.",
+  "NGIGE NGOZI P.",
+  "OBASI OLUCHI A.",
+  "OKONKWO OBINNA E.",
+];
+export const formattedDataArray = dataArray.map((name, index) => ({
+  id: `AH15830${(index + 1).toString().padStart(2, "0")}`,
+  name,
+  class: `JSS1A`,
+}));
+export const juniorSecondarySubjects = [
+  "English Language",
+  "Mathematics",
+  "Basic Science",
+  "Basic Technology",
+  "Social Studies",
+  "Civic Education",
+];
+export const juniorSecondaryElectives = [
+  "Basic Electricity",
+  "Introductory Technology",
+  "Agricultural Science",
+  "Computer Studies",
+  "Creative and Cultural Arts",
+  "Physical and Health Education",
+  "Home Economics",
+  "French",
+  "Islamic Studies",
+  "Christian Religious Studies",
+  "Business Studies",
+];
