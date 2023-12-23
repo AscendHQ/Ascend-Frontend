@@ -54,9 +54,9 @@ function SubjectRegistration() {
             handleCheckboxChange={handleCheckboxChange}
           />
         )}
+
       </main>
     </Container>
   );
 }
-
 export default SubjectRegistration;
