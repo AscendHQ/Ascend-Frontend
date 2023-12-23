@@ -23,6 +23,7 @@ import {
   NEW_TEACHER_PERMISSION,
   STUDENT_ACADEMIC_INFORMATION,
   STUDENT_BIODATA,
+  SUBJECT_REGISTRATION,
 } from "@/config/links";
 
 const databaseNavSection = [
@@ -43,6 +44,7 @@ const databaseNavSection = [
     isActivepath: [
       DASHBOARD_SUBJECT,
       NEW_SUBJECT,
+      SUBJECT_REGISTRATION,
       DASHBOARD_SUBJECT_INFO("[subjectInfo]"),
     ],
   },
