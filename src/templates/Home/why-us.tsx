@@ -70,8 +70,7 @@ function WhyUs() {
           Why our clients choose Ascend
         </h3>
         <p className="mt-5 w-[80%] mx-auto text-accent-300 text-step-0 text-opacity-60">
-          Invoicing, bill pay, and cash flow control for freelancers and small
-          businesses.
+          Save time and resources with efficient school management.
         </p>
         <div className="flex text-left flex-wrap gap-10 mt-24 justify-center">
           {whyAscendData.map(item => (
@@ -113,12 +112,15 @@ function WhyUs() {
             "Ascend simplifies school management, enabling easy and efficient management of administration.",
             "Get the convenience of a streamlined process, as Ascend automates business processes, reducing workload and increasing efficiency.",
             "Ascend provides an intuitive, user-friendly interface, ensuring that school management management is a seamless and effortless task.",
+            "Ascend simplifies school management, enabling easy and efficient management of administration.",
+            "Get the convenience of a streamlined process, as Ascend automates business processes, reducing workload and increasing efficiency.",
+            "Ascend provides an intuitive, user-friendly interface, ensuring that school management management is a seamless and effortless task.",
           ]}
         >
           <div className="bg-warning-main relative h-[350px] md:h-[650px] w-full lg:w-[520px] overflow-hidden rounded-3xl border-2 border-black">
             <Image
-              src="/Dashboardd.png"
-              alt="Database __ Students"
+              src="/database-student.png"
+              alt="Database Students"
               fill
               className="transform translate-x-16 translate-y-14 lg:translate-y-40"
             />
@@ -136,6 +138,9 @@ function WhyUs() {
             </Link>
           }
           outlines={[
+            "Ascend ensures accurate and timely payments to employees, eliminating errors.",
+            "Experience simplified processes in Ascend, to make salary distribution to employees seamless.",
+            "Ascend provides a reliable means of efficiently managing finances, ensuring that employees get paid quickly and hassle-free.",
             "Ascend ensures accurate and timely payments to employees, eliminating errors.",
             "Experience simplified processes in Ascend, to make salary distribution to employees seamless.",
             "Ascend provides a reliable means of efficiently managing finances, ensuring that employees get paid quickly and hassle-free.",

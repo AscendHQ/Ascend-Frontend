@@ -4,7 +4,7 @@ import { TableHeader } from "@/components/ui/table";
 
 export default function TableHeaders() {
   return (
-    <thead className="text-xs text-gray-700 normal-case border-b border-grey-300 bg-gray-50 ">
+    <thead className="text-xs text-gray-700 normal-case border-b border-grey-300 bg-neutral-300">
       <tr>
         <TableHeader text="S/N" styles="pl-6 pr-3" />
         <TableHeader text="Class name" isCentered />

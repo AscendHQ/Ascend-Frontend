@@ -1,7 +1,7 @@
 export const HOME_PAGE = "/";
 export const SOLUTION_PAGE = "/solutions";
 export const ABOUT_US_PAGE = "/about-us";
-export const CONTACT_PAGE = "/";
+export const CONTACT_PAGE = "/contact-us";
 export const SIGN_UP_PAGE = "/";
 export const LOGIN_PAGE = "/auth/login";
 
@@ -18,13 +18,15 @@ export const DASHBOARD_STUDENT = "/dashboard/database/students";
 export const STUDENT_ACADEMIC_INFORMATION =
   "/dashboard/database/students/update-academic-information";
 export const STUDENT_BIODATA = "/dashboard/database/students/update-biodata";
-export const NEW_STUDENT_BIODATA = "/dashboard/database/students/biodata";
-export const NEW_STUDENT_ACADEMIC_INFORMATION =
-  "/dashboard/database/students/academic-information";
+export const NEW_STUDENT = "/dashboard/database/students/new-student";
+export const DASHBOARD_STUDENT_INFO = (slug: string) =>
+  `/dashboard/database/students/${slug}`;
 
 // SUBJECT
 export const DASHBOARD_SUBJECT = "/dashboard/database/subjects";
 export const NEW_SUBJECT = "/dashboard/database/subjects/new-subject";
+export const SUBJECT_REGISTRATION =
+  "/dashboard/database/subjects/register-subject";
 export const DASHBOARD_SUBJECT_INFO = (slug: string) =>
   `/dashboard/database/subjects/${slug}`;
 

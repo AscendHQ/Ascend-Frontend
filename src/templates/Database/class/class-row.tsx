@@ -90,8 +90,9 @@ export default function ClassRow({ item, index, action }: ClassRowProps) {
           <DashboardButton
             variant="primary"
             onClick={() => action(item.className)}
+            className="py-2 rounded-lg"
           >
-            <>Add Subject</>
+            Add Subject
           </DashboardButton>
         }
       />

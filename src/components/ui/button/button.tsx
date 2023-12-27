@@ -98,7 +98,7 @@ export function DashboardButton({
   }
 
   const CommonProps = {
-    className: twMerge(`${variantStyle[variant]}, ${className}`),
+    className: twMerge(`${variantStyle[variant]} ${className}`),
     ...rest,
   };
 
