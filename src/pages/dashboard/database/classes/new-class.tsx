@@ -34,6 +34,14 @@ export default function NewClass() {
       duration: 3,
       className: "ant-toast",
     });
+    toast.open({
+      message: (
+        <h3 className="text-secondary-green-600 font-semibold">Success!</h3>
+      ),
+      description: "New Teacher has been added successfully",
+      duration: 3,
+      className: "ant-toast",
+    });
   };
 
   const {
