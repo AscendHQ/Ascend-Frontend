@@ -70,8 +70,7 @@ function WhyUs() {
           Why our clients choose Ascend
         </h3>
         <p className="mt-5 w-[80%] mx-auto text-accent-300 text-step-0 text-opacity-60">
-          Invoicing, bill pay, and cash flow control for freelancers and small
-          businesses.
+          Save time and resources with efficient school management.
         </p>
         <div className="flex text-left flex-wrap gap-10 mt-24 justify-center">
           {whyAscendData.map(item => (
