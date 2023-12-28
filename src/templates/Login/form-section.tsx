@@ -26,6 +26,10 @@ export default function FormSection() {
     formState: { errors, isSubmitting },
   } = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "ascendafrica.dev@gmail.com",
+      password: "Passw0rd",
+    },
   });
 
   const loginMutation = useMutation({
@@ -93,9 +97,9 @@ export default function FormSection() {
         Continue with google
       </Button>
       <div className="flex items-center gap-3">
-        <hr className="flex-1" />
+        <hr className="flex-1 border-grey-300" />
         <p>or</p>
-        <hr className="flex-1" />
+        <hr className="flex-1 border-grey-300" />
       </div>
 
       <div className="grid">

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
 import Head from "next/head";
@@ -38,7 +39,7 @@ export default function DashboardHeader({
         {headerTitle}
       </h2>
       <div className="flex items-center gap-11">
-        <button
+        {/* <button
           ref={notificationRef}
           onClick={() => setNotificationDropDown(prev => !prev)}
         >
@@ -47,7 +48,7 @@ export default function DashboardHeader({
             fontSize={23}
             className="text-gray-800"
           />
-        </button>
+        </button> */}
         <button
           className="flex items-center gap-3"
           ref={accountTargetRef}
@@ -463,7 +464,7 @@ function AccountDropDownSection({
         blessingokowah@gmail.com
       </span>
       <ul className="w-full py-3 space-y-1">
-        <li>
+        {/* <li>
           <Link
             href={ACCOUNT_SETTING_DETAILS}
             className="flex w-full gap-2 hover:bg-primary-purple-200 hover:text-Text-high-emphasis text-gray-800 py-2 px-3 transition-all duration-700 rounded-md items-center"
@@ -471,7 +472,7 @@ function AccountDropDownSection({
             <Icon icon="ep:setting" fontSize={20} />
             <span>Settings</span>
           </Link>
-        </li>
+        </li> */}
         <li>
           <button
             className="flex w-full gap-2 hover:bg-primary-purple-200 hover:text-Text-high-emphasis text-gray-800 py-2 px-3 transition-all duration-700 rounded-md items-center"

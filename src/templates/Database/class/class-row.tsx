@@ -63,7 +63,7 @@ export default function ClassRow({ item, index, action }: ClassRowProps) {
   ];
 
   return (
-    <tr className="bg-white border-b ">
+    <tr className="bg-white border-grey-300 border-b">
       <TableCell content={index + 1} isCentered />
       <TableCell content={item.className} isCentered />
       <TableCell content={<span>{truncateAndDisplay(item.subject)}</span>} />

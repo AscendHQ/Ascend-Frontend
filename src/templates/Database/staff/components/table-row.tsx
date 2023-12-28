@@ -58,7 +58,7 @@ export function TableRow({
     },
   ];
   return (
-    <tr className="bg-white border-b " key={item.surname}>
+    <tr className="bg-white border-b border-grey-300" key={item.surname}>
       <TableCell
         content={`${item.surname} ${item.other_names}`}
         styles="whitespace-nowrap"

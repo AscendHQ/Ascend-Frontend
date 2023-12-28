@@ -68,7 +68,7 @@ export default function DatabaseStudents() {
           <input
             type="search"
             placeholder="Search Student"
-            className="rounded text-sm w-full"
+            className="rounded text-sm w-full px-2 py-3 border border-grey-800"
           />
           <button className="absolute bottom-1/2 translate-y-1/2 right-2">
             <Icon icon="mingcute:search-line" />

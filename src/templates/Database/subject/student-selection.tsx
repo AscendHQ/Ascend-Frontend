@@ -14,7 +14,7 @@ export default function StudentSelection({
 }: StudentSelectionSectionProps) {
   return (
     <SubjectInfoWrapper heading="Choose Student from provided class">
-      <div className="bg-gray-200 w-full p-1 h-[250px] overflow-y-scroll cursor-pointer rounded">
+      <div className="bg-grey-300 w-full p-1 h-[250px] overflow-y-scroll cursor-pointer rounded">
         <main>
           {formattedDataArray.map(data => (
             <button

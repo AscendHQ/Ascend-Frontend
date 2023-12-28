@@ -82,6 +82,8 @@ module.exports = {
         500: "#A1A1AA",
       },
       white: "#ffffff",
+      black: "#000000",
+      transparent: "#FFFFFF00",
       "default-black": "#333333",
       "default-link-color": "#3D5CFF",
       bgColour: {
@@ -103,6 +105,7 @@ module.exports = {
       "border-colour-light": "#E4E4E7",
     },
     screens: {
+      base: "0px",
       sm: "640px",
       md: "768px",
       lg: "1024px",
@@ -127,5 +130,4 @@ module.exports = {
       },
     },
   },
-  plugins: [require("flowbite/plugin")],
 };

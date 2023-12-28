@@ -32,7 +32,7 @@ function SelectField<T>({
       <select
         id={id}
         className={twMerge(
-          "border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis",
+          "border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis p-2 text-Text-high-emphasis",
           selectStyle
         )}
         {...restRegister}

@@ -38,7 +38,7 @@ function SubjectRegistration() {
           <span>Back</span>
         </button>
         <SubjectInfoWrapper heading="Select Class">
-          <select name="" id="" className="w-full rounded">
+          <select name="" id="" className="w-full rounded p-2">
             <option value="JSS1A">JSS1A</option>
             <option value="JSS1B">JSS1B</option>
             <option value="JSS2A">JSS2A</option>
@@ -54,7 +54,6 @@ function SubjectRegistration() {
             handleCheckboxChange={handleCheckboxChange}
           />
         )}
-
       </main>
     </Container>
   );
