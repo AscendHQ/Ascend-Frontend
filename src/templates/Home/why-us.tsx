@@ -112,9 +112,6 @@ function WhyUs() {
             "Ascend simplifies school management, enabling easy and efficient management of administration.",
             "Get the convenience of a streamlined process, as Ascend automates business processes, reducing workload and increasing efficiency.",
             "Ascend provides an intuitive, user-friendly interface, ensuring that school management management is a seamless and effortless task.",
-            "Ascend simplifies school management, enabling easy and efficient management of administration.",
-            "Get the convenience of a streamlined process, as Ascend automates business processes, reducing workload and increasing efficiency.",
-            "Ascend provides an intuitive, user-friendly interface, ensuring that school management management is a seamless and effortless task.",
           ]}
         >
           <div className="bg-warning-main relative h-[350px] md:h-[650px] w-full lg:w-[520px] overflow-hidden rounded-3xl border-2 border-black">
@@ -138,9 +135,6 @@ function WhyUs() {
             </Link>
           }
           outlines={[
-            "Ascend ensures accurate and timely payments to employees, eliminating errors.",
-            "Experience simplified processes in Ascend, to make salary distribution to employees seamless.",
-            "Ascend provides a reliable means of efficiently managing finances, ensuring that employees get paid quickly and hassle-free.",
             "Ascend ensures accurate and timely payments to employees, eliminating errors.",
             "Experience simplified processes in Ascend, to make salary distribution to employees seamless.",
             "Ascend provides a reliable means of efficiently managing finances, ensuring that employees get paid quickly and hassle-free.",

@@ -35,7 +35,7 @@ export default function MainSection() {
               "Ascend eliminates the administrative burden and dedicates it to school improvement, allowing it to focus on active learning environments.",
             ]}
           >
-            <div className="bg-warning-main relative h-[350px] md:h-[600px] w-full lg:w-[520px] overflow-hidden rounded-3xl bg-no-repeat bg-[url('/a-boy-writing.png')] bg-cover bg-center"></div>
+            <div className="bg-warning-main relative h-[350px] md:h-[600px] w-full lg:w-[520px] overflow-hidden rounded-3xl bg-no-repeat bg-[url('/a-boy-writing.png')] bg-cover bg-center" />
           </ContentSection>
 
           <div className="space-y-10 mt-32">
