@@ -96,69 +96,45 @@ function ResultInformation() {
         <div className="flex flex-1 min-w-[60%] flex-wrap gap-5">
           <div className="lg:min-w-[250px] flex-1">
             <label
-              htmlFor="academic_year"
+              htmlFor="student_class/grade"
               className="block mb-2 text-sm font-medium text-Text-high-emphasis"
             >
-              Academic year
-            </label>
-            <input
-              type="text"
-              id="academic_year"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-              placeholder="2023"
-              required
-            />
-          </div>
-          <div className="lg:min-w-[250px] flex-1">
-            <label
-              htmlFor="academic_session"
-              className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-            >
-              Academic session
+              Student class
             </label>
             <select
-              id="academic_session"
-              name="academic_session"
+              id="student_class"
+              name="student_class"
               className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
             >
-              <option>Select a session</option>
-              <option value="2022/2023">2022/2023</option>
-              <option value="2021/2022">2021/2022</option>
-              <option value="2020/2021">2020/2021</option>
+              <option>Select a class</option>
+              <option value="SS3">SS3</option>
+              <option value="SS2">SS2</option>
+              <option value="SS1">SS1</option>
+              <option value="JSS3">JSS3</option>
+              <option value="JSS2">JSS2</option>
+              <option value="JSS1">JSS1</option>
             </select>
           </div>
           <div className="lg:min-w-[250px] flex-1">
             <label
-              htmlFor="academic_term"
+              htmlFor="student_class/grade"
               className="block mb-2 text-sm font-medium text-Text-high-emphasis"
             >
-              Academic Term
+              Select Student
             </label>
             <select
-              id="academic_term"
-              name="academic_term"
+              id="student_class"
+              name="student_class"
               className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
             >
-              <option>Select a term</option>
-              <option value="2022/2023">2022/2023</option>
-              <option value="2021/2022">2021/2022</option>
-              <option value="2020/2021">2020/2021</option>
+              <option>Select a student</option>
+              <option value="Billy Wilson">Justin Herrera</option>
+              <option value="Jean Sparks">Juan Campbell</option>
+              <option value="Randall Brady">Fanny Russell</option>
+              <option value="Ray Harper">Amelia Erickson</option>
+              <option value="Jimmy Snyder">Vernon Wells</option>
+              <option value="Shane Green">Glen Kennedy</option>
             </select>
-          </div>
-          <div className="lg:min-w-[250px] flex-1">
-            <label
-              htmlFor="duration"
-              className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-            >
-              Duration
-            </label>
-            <input
-              type="text"
-              id="duration"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-              placeholder="1 week"
-              required
-            />
           </div>
           <div className="lg:min-w-[250px] flex-1">
             <label
@@ -172,7 +148,7 @@ function ResultInformation() {
               id="student_name"
               className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
               placeholder="Ivan Stevens"
-              required
+              readOnly
             />
           </div>
           <div className="lg:min-w-[250px] flex-1">
@@ -187,31 +163,11 @@ function ResultInformation() {
               id="student_registration_number"
               className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
               placeholder="DEMO/2023/1888"
-              required
+              readOnly
             />
           </div>
-          <div className="lg:min-w-[250px] flex-1">
-            <label
-              htmlFor="student_class/grade"
-              className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-            >
-              Student class/Grade
-            </label>
-            <select
-              id="student_class/grade"
-              name="student_class/grade"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            >
-              <option>Select a class</option>
-              <option value="SS3">SS3</option>
-              <option value="SS2">SS2</option>
-              <option value="SS1">SS1</option>
-              <option value="JSS3">JSS3</option>
-              <option value="JSS2">JSS2</option>
-              <option value="JSS1">JSS1</option>
-            </select>
-          </div>
-          <div className="lg:min-w-[250px] flex-1">
+
+          {/* <div className="lg:min-w-[250px] flex-1">
             <label
               htmlFor="class_teacher"
               className="block mb-2 text-sm font-medium text-Text-high-emphasis"
@@ -225,7 +181,7 @@ function ResultInformation() {
               placeholder="Anne Fernandez"
               required
             />
-          </div>
+          </div> */}
           <Table />
           <div className="lg:min-w-full flex-1 ">
             <label
@@ -237,6 +193,20 @@ function ResultInformation() {
             <textarea
               name="teacher's_remark"
               id="teacher's_remark"
+              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis h-28"
+              placeholder="What can you say about this child?"
+            />
+          </div>
+          <div className="lg:min-w-full flex-1 ">
+            <label
+              htmlFor="principal's_remark"
+              className="block mb-2 text-sm font-medium text-Text-high-emphasis"
+            >
+              Principal's remark
+            </label>
+            <textarea
+              name="principal's_remark"
+              id="principal's_remark"
               className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis h-28"
               placeholder="What can you say about this child?"
             />
@@ -279,12 +249,12 @@ function Table() {
             <th scope="col" className="px-6 py-3">
               Exam score
             </th>
-            <th scope="col" className="px-6 py-3">
+            {/* <th scope="col" className="px-6 py-3">
               Total
             </th>
             <th scope="col" className="px-6 py-3">
               Grade
-            </th>
+            </th> */}
           </tr>
         </thead>
         <tbody>
@@ -324,12 +294,12 @@ function Table() {
                   placeholder="0.00"
                 />
               </td>
-              <td className="px-6 py-4">
+              {/* <td className="px-6 py-4">
                 <span>N/A</span>
               </td>
               <td className="px-6 py-4">
                 <span>N/A</span>
-              </td>
+              </td> */}
             </tr>
           ))}
         </tbody>

@@ -8,6 +8,7 @@
     }
   },
   "extends": [
+    "next",
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:sonarjs/recommended",
@@ -76,7 +77,6 @@
         }
       }
     ]
-    // "jsx-a11y/label-has-for": "error"
   },
   "globals": {
     "React": "writable"

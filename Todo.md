@@ -1,2 +1,0 @@
--- Move student offering to classes
---

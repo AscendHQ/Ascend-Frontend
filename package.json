@@ -2,37 +2,17 @@
   "name": "school-management",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=14.0.0",
+    "yarn": ">=1.22.0",
+    "npm": "please-use-yarn"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
-    "lint-staged": "lint-staged",
-    "precommit": "npm run lint-staged && npm run lint"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "git add"
-    ],
-    "*.jsx": [
-      "eslint --fix",
-      "git add"
-    ],
-    "*.ts": [
-      "eslint --fix",
-      "git add"
-    ],
-    "*.tsx": [
-      "eslint --fix",
-      "git add"
-    ]
+    "lint": "next lint",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",
@@ -66,6 +46,8 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
     "@iconify/react": "^4.1.1",
     "@tanstack/react-query-devtools": "^5.4.2",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
