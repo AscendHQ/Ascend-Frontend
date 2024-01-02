@@ -38,12 +38,14 @@ export default function App({ Component, pageProps }: AppProps) {
         height={3}
       />
       <Head>
-        <title>School Management System Dashboard</title>
         <meta
           name="description"
           content="This is the school management system dashboard."
         />
-        <meta name="keywords" content="school, management, system, dashboard" />
+        <meta
+          name="keywords"
+          content="school, management, system, dashboard, education, student, enrollment, attendance, grades, curriculum, teachers, parents, communication, administration, online, learning, academic, records, scheduling, timetable, examinations, assessments, performance, analytics, reports, integrated, platform, user-friendly, efficient, secure, school software, educational technology, digital, information system, school administration, learning management, institute, institution, college, university, educational management, student information, progress tracking, communication, data management, school portal, e-learning, educational resources, academic performance, student records, school records, parent-teacher communication, education technology, school operations, administration software, school data, education management, classroom management, school app, academic planning, student management, teacher management, parent portal, educational software, student success, school leadership, educational administration, student engagement, learning analytics, academic excellence, educational platform, school improvement, curriculum management, school organization, education software, academic planning, educational leadership, school communication, educational innovation, school technology, school efficiency, educational resources, school development, school progress, educational insights, learning outcomes, institutional management, school productivity, academic success, student success, educational insights, digital transformation, school information system, education administration, school performance, educational insights, digital transformation, school information system, education administration, school performance"
+        />
         <meta name="robots" content="index, follow" />
         <link
           rel="apple-touch-icon"

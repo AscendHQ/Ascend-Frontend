@@ -8,7 +8,7 @@ import { menuData } from "@/config";
 
 import { Container } from "../ui/container";
 
-function Header() {
+function Header({ title }: { title: string }) {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const [isScrolled, setIsScrolled] = React.useState(false);
@@ -62,11 +62,11 @@ function Header() {
       } transition-all`}
     >
       <Head>
-        <title>School Management System Dashboard</title>
+        <title>{title} - Ascend School Management System</title>
 
         <meta
           property="og:title"
-          content="School Management System Dashboard"
+          content={`${title} - Ascend School Management System`}
         />
       </Head>
       <Container>
