@@ -10,7 +10,7 @@ const LottieAnimation = dynamic(() => import("../templates/lottie-animation"), {
 export default function Dashboard404() {
   return (
     <div>
-      <Header title="Page not found" />
+      <Header title="Page not found" canonicalTag="/" />
       <Container>
         <main className="px-10 py-5 h-full flex justify-center items-center bg-white">
           <LottieAnimation />

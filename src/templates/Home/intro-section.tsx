@@ -10,9 +10,9 @@ export default function IntroSection() {
   return (
     <Container>
       <section className="text-center pt-40 top-0 space-y-9">
-        <h2 className="text-step-4 font-bold max-w-[67rem] mx-auto tracking-tighter">
+        <h1 className="text-step-4 font-bold max-w-[67rem] mx-auto tracking-tighter">
           Streamlining School Administration, Management, and Payroll Processes.
-        </h2>
+        </h1>
         <p className="max-w-[53rem] mx-auto text-step-0 lg:text-step-1 !leading-6 lg:!leading-7 font-normal text-accent-300 text-opacity-60">
           With our complete platform, you can quickly manage your school's
           administrative responsibilities, automate payroll processes and

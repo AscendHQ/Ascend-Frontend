@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"> 
+<url>
+  <loc>http://www.ascend.africa/</loc>
+  <priority>1.0</priority>
+  <changefreq>daily</changefreq>
+  <lastmod>2024-01-03</lastmod>
+</url>
+<url>
+  <loc>http://www.ascend.africa/solutions</loc>
+  <priority>1.0</priority>
+  <changefreq>daily</changefreq>
+  <lastmod>2024-01-03</lastmod>
+</url>
+<url>
+  <loc>http://www.ascend.africa/about-us</loc>
+  <priority>1.0</priority>
+  <changefreq>daily</changefreq>
+  <lastmod>2024-01-03</lastmod>
+</url>
+<url>
+  <loc>http://www.ascend.africa/contact-us</loc>
+  <priority>1.0</priority>
+  <changefreq>daily</changefreq>
+  <lastmod>2024-01-03</lastmod>
+</url>
+<url>
+  <loc>http://www.ascend.africa/auth/login</loc>
+  <priority>1.0</priority>
+  <changefreq>daily</changefreq>
+  <lastmod>2024-01-03</lastmod>
+</url>
+</urlset>
