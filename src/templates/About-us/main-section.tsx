@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import { ContentSection } from "@/components/common";
 import { Container } from "@/components/ui/container";
 
