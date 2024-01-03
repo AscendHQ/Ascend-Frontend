@@ -86,6 +86,7 @@ module.exports = {
       transparent: "#FFFFFF00",
       "default-black": "#333333",
       "default-link-color": "#3D5CFF",
+      "purple-100": "#edebfe",
       bgColour: {
         "variant-1": "#FFFFFF",
         "variant-2": "#F9FBFC",
