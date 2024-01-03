@@ -104,7 +104,7 @@ function Header({
               ))}
             </ul>
             <ul className="flex order-1 mt-3 lg:mt-0 lg:order-2 flex-col w-full lg:flex-row lg:items-center justify-end gap-9">
-              {menuData.slice(endingMenu).map(item => (
+              {menuData.slice(-1).map(item => (
                 <li key={item.title} className="font-medium">
                   <Link
                     href={item.to}
