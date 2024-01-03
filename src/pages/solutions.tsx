@@ -7,7 +7,7 @@ function Solutions() {
   return (
     <div className="font-GTWalsheimPro">
       <div className="bg-purple-100">
-        <Header title="Solutions" />
+        <Header title="Solutions" canonicalTag="/solutions" />
         <IntroSection />
       </div>
       <MainSection />

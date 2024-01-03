@@ -8,7 +8,13 @@ import { menuData } from "@/config";
 
 import { Container } from "../ui/container";
 
-function Header({ title }: { title: string }) {
+function Header({
+  title,
+  canonicalTag,
+}: {
+  title: string;
+  canonicalTag: string;
+}) {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const [isScrolled, setIsScrolled] = React.useState(false);
@@ -67,6 +73,10 @@ function Header({ title }: { title: string }) {
         <meta
           property="og:title"
           content={`${title} - Ascend School Management System`}
+        />
+        <link
+          rel="canonical"
+          href={`https://www.ascend.africa${canonicalTag}`}
         />
       </Head>
       <Container>

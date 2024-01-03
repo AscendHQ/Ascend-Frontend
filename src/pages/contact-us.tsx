@@ -39,7 +39,7 @@ function ContactUs() {
   return (
     <div className="font-GTWalsheimPro">
       <div className="bg-purple-100">
-        <Header title="Contact us" />
+        <Header title="Contact us" canonicalTag="/contact-us" />
         <ContactIntroSection />
       </div>
       <div className="flex flex-col-reverse lg:flex-row w-[90%] mx-auto gap-10 max-w-[79rem] py-7">
