@@ -22,7 +22,7 @@ export default function SubjectInfo({
         <span className="font-semibold">{currentStudent.class}</span>
       </div>
       <SubjectInfoWrapper heading="General Subjects">
-        <div className="bg-gray-200 w-full p-3 h-[250px] overflow-y-scroll cursor-pointer rounded">
+        <div className="bg-grey-300 w-full p-3 h-[250px] overflow-y-scroll cursor-pointer rounded">
           {juniorSecondarySubjects.map(item => (
             <span className="block" key={item}>
               {item}
@@ -31,7 +31,7 @@ export default function SubjectInfo({
         </div>
       </SubjectInfoWrapper>
       <SubjectInfoWrapper heading="Choose Additional Subjects">
-        <div className="bg-gray-200 w-full p-3 h-[250px] overflow-y-scroll rounded">
+        <div className="bg-grey-300 w-full p-3 h-[250px] overflow-y-scroll rounded">
           {juniorSecondaryElectives.map(subject => (
             <div key={subject} className="flex items-center">
               <input

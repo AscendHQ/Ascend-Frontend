@@ -54,7 +54,10 @@ function StudentsTable({ data }: { data: studentInfoProp[] }) {
               },
             ];
             return (
-              <tr className="bg-white border-b" key={item.regNo}>
+              <tr
+                className="bg-white border-grey-300 border-b"
+                key={item.regNo}
+              >
                 <TableCell
                   content={"AHS/717/" + item.regNo.slice(0, 4)}
                   styles="uppercase"

@@ -8,7 +8,7 @@ import { menuData } from "@/config";
 
 import { Container } from "../ui/container";
 
-function Header() {
+function Header({ title }: { title: string }) {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const [isScrolled, setIsScrolled] = React.useState(false);
@@ -62,11 +62,11 @@ function Header() {
       } transition-all`}
     >
       <Head>
-        <title>School Management System Dashboard</title>
+        <title>{title} - Ascend School Management System</title>
 
         <meta
           property="og:title"
-          content="School Management System Dashboard"
+          content={`${title} - Ascend School Management System`}
         />
       </Head>
       <Container>
@@ -94,7 +94,7 @@ function Header() {
               ))}
             </ul>
             <ul className="flex order-1 mt-3 lg:mt-0 lg:order-2 flex-col w-full lg:flex-row lg:items-center justify-end gap-9">
-              {menuData.slice(-1).map(item => (
+              {menuData.slice(endingMenu).map(item => (
                 <li key={item.title} className="font-medium">
                   <Link
                     href={item.to}

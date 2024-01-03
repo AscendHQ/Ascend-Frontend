@@ -2,37 +2,17 @@
   "name": "school-management",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=14.0.0",
+    "yarn": ">=1.22.0",
+    "npm": "please-use-yarn"
+  },
   "scripts": {
-    "dev": "next dev",
+    "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
-    "lint-staged": "lint-staged",
-    "precommit": "npm run lint-staged && npm run lint"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "git add"
-    ],
-    "*.jsx": [
-      "eslint --fix",
-      "git add"
-    ],
-    "*.ts": [
-      "eslint --fix",
-      "git add"
-    ],
-    "*.tsx": [
-      "eslint --fix",
-      "git add"
-    ]
+    "lint": "next lint",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",
@@ -47,10 +27,7 @@
     "axios": "^1.5.1",
     "classnames": "^2.3.2",
     "eslint-config-next": "13.4.9",
-    "flowbite": "^1.8.1",
-    "flowbite-react": "^0.5.0",
     "framer-motion": "^10.16.0",
-    "lint-staged": "^13.2.3",
     "next": "13.4.9",
     "nextjs-progressbar": "^0.0.16",
     "postcss": "8.4.25",
@@ -68,10 +45,13 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
     "@iconify/react": "^4.1.1",
     "@tanstack/react-query-devtools": "^5.4.2",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@typescript-eslint/parser": "^6.1.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.45.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^5.0.0",

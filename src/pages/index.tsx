@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="font-GTWalsheimPro">
       <div className="bg-accent-100">
-        <Header />
+        <Header title="Home" />
         <IntroSection />
       </div>
       <MainSection />

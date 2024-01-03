@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import Image from "next/image";
 import Link from "next/link";
 
-import { HOME_PAGE } from "@/config/links";
+import { ABOUT_US_PAGE, CONTACT_PAGE, SOLUTION_PAGE } from "@/config/links";
 
 import { Button } from "../ui/button";
 import { Container } from "../ui/container";
@@ -15,7 +15,7 @@ export default function Footer() {
       <div className="bg-neutral-100 py-10 font-medium">
         <Container>
           <section className="flex flex-col md:flex-row flex-wrap gap-5 justify-between">
-            <div className="">
+            <div>
               <Image
                 src="/Ascend-Logo.svg"
                 alt="Vercel Logo"
@@ -28,14 +28,13 @@ export default function Footer() {
                 hassle-free process.
               </p>
             </div>
-            <div className="">
+            <div>
               <h4 className="text-gray-500 mb-3">Company</h4>
               <ul>
                 {[
-                  { title: "About us", url: HOME_PAGE },
-                  { title: "Careers", url: HOME_PAGE },
-                  { title: "Solutions", url: HOME_PAGE },
-                  { title: "Contact", url: HOME_PAGE },
+                  { title: "About us", url: ABOUT_US_PAGE },
+                  { title: "Solutions", url: SOLUTION_PAGE },
+                  { title: "Contact", url: CONTACT_PAGE },
                 ].map(item => (
                   <li key={item.title} className="text-gray-600">
                     <Link href={item.url}>{item.title}</Link>
@@ -44,7 +43,7 @@ export default function Footer() {
               </ul>
             </div>
 
-            <div className="">
+            {/* <div >
               <h4 className="text-gray-500 mb-3">Legal</h4>
               <ul>
                 {[
@@ -57,14 +56,14 @@ export default function Footer() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </div> */}
             <div className="w-full md:w-fit">
               <h4>Subscribe to our newsletter</h4>
-              <div className="relative">
+              <div className="relative border rounded-md ">
                 <input
                   type="email"
                   placeholder="Enter your email address"
-                  className="w-full rounded-md md:min-w-[370px] py-5"
+                  className="w-full rounded-md md:min-w-[370px] px-3 py-5"
                 />
                 <Button
                   variant="primary"

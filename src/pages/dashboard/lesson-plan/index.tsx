@@ -72,7 +72,7 @@ export default function LessonPlan() {
 
   return (
     <Container headerTitle="Lesson Plan">
-      <main className="px-10 py-5 h-full bg-white">
+      <main className="px-10 py-5 bg-white relative">
         <div className="flex">
           <Dropdown menu={{ items }} trigger={["click"]}>
             <DashboardButton
@@ -162,6 +162,21 @@ export default function LessonPlan() {
           setCurrentLessonPlan={setCurrentLessonPlan}
         />
         <Table />
+        <div className="flex flex-col bg-black bg-opacity-95 text-white items-center gap-3 justify-center absolute inset-0">
+          <span className="text-2xl">COMING</span>
+          <div className="flex items-center gap-3 justify-center">
+            <span className="text-9xl font-GTWalsheimPro">S</span>
+            <div className="relative">
+              <div className="h-24 w-24 rounded-full border-t-8 border-b-8 border-grey-400"></div>
+              <div className="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-primary-purple-500 animate-spin"></div>
+            </div>
+            <div className="relative">
+              <div className="h-24 w-24 rounded-full border-t-8 border-b-8 border-grey-400"></div>
+              <div className="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-primary-purple-500 animate-spin"></div>
+            </div>
+            <span className="text-9xl font-GTWalsheimPro">N</span>
+          </div>
+        </div>
       </main>
     </Container>
   );

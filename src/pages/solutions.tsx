@@ -7,7 +7,7 @@ function Solutions() {
   return (
     <div className="font-GTWalsheimPro">
       <div className="bg-purple-100">
-        <Header />
+        <Header title="Solutions" />
         <IntroSection />
       </div>
       <MainSection />

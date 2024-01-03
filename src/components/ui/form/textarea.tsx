@@ -28,7 +28,7 @@ function TextAreaWithLabelAndCount<T>({
       </label>
       <textarea
         id={id}
-        className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis h-28"
+        className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis p-2 text-Text-high-emphasis h-28"
         defaultValue={textareaProps.value}
         maxLength={maxLength}
         required
