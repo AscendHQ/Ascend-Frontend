@@ -122,7 +122,7 @@ export default function Results() {
           </div>
         </div>
         <Table />
-        <div className="flex flex-col bg-black bg-opacity-95 text-white items-center gap-3 justify-center absolute inset-0">
+        {/* <div className="flex flex-col bg-black bg-opacity-95 text-white items-center gap-3 justify-center absolute inset-0">
           <span className="text-2xl">COMING</span>
           <div className="flex items-center gap-3 justify-center">
             <span className="text-9xl font-GTWalsheimPro">S</span>
@@ -136,7 +136,7 @@ export default function Results() {
             </div>
             <span className="text-9xl font-GTWalsheimPro">N</span>
           </div>
-        </div>
+        </div> */}
       </main>
     </Container>
   );
@@ -318,14 +318,14 @@ function Table() {
         </div>
       )}
       <table className="w-full text-sm text-left text-gray-500">
-        <thead className="text-xs text-gray-700 normal-case border-b border-grey-300 bg-gray-50 ">
+        <thead className="text-xs text-gray-700 normal-case border-b bg-neutral-300 border-grey-300 bg-gray-50 ">
           <tr>
-            <TableHeadingText title="S/N" />
+            <TableHeadingText title="S/N" styles="text-center" />
             <TableHeadingText title="Student name" />
             <TableHeadingText title="Class" />
             <TableHeadingText title="Date added" />
             <TableHeadingText title="Transcript" />
-            <TableHeadingText title="Action" />
+            {/* <TableHeadingText title="Action" /> */}
             <th scope="col" className="px-6 py-3">
               <Icon icon="ion:filter" />
             </th>
@@ -333,7 +333,10 @@ function Table() {
         </thead>
         <tbody>
           {resultInfo.map((item, index) => (
-            <tr className="bg-white border-b " key={item.studentName}>
+            <tr
+              className="bg-white border-b  border-grey-300 "
+              key={item.studentName}
+            >
               <TableBodyText
                 title={(index + 1).toString()}
                 styles="text-center"
@@ -361,7 +364,7 @@ function Table() {
                   <ComponentToPrint ref={componentRef} text={text} />
                 </div>
               </td>
-
+              {/* 
               <td className="px-1 py-4 text-center">
                 {item.statusIsActive === 0 && (
                   <div className="flex gap-1">
@@ -390,7 +393,7 @@ function Table() {
                     Rejected
                   </span>
                 )}
-              </td>
+              </td> */}
               <td className="px-6 py-4">
                 <Dropdown
                   menu={{ items }}

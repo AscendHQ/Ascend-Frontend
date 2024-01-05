@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Icon } from "@iconify/react";
 import { Dropdown, MenuProps } from "antd";
 import Link from "next/link";
@@ -85,7 +86,7 @@ export default function ClassRow({ item, index, action }: ClassRowProps) {
         }
         isCentered
       />
-      <TableCell
+      {/* <TableCell
         content={
           <DashboardButton
             variant="primary"
@@ -95,7 +96,7 @@ export default function ClassRow({ item, index, action }: ClassRowProps) {
             Add Subject
           </DashboardButton>
         }
-      />
+      /> */}
       <TableCell
         content={
           <Dropdown menu={{ items }} trigger={["click"]}>
