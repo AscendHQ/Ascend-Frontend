@@ -1,60 +1,130 @@
-import { InboxOutlined } from "@ant-design/icons";
+/* eslint-disable react/no-array-index-key */
 import { Icon } from "@iconify/react";
-import type { UploadProps } from "antd";
-import { message, Upload } from "antd";
 import Link from "next/link";
-import React from "react";
+import React, { ChangeEvent, DragEvent, useRef, useState } from "react";
 
 import { Container } from "@/components/layout/dashboard";
-import { DASHBOARD_CLASS, MOCK_API_LINK } from "@/config/links";
+import { DASHBOARD_CLASS } from "@/config/links";
 
-const { Dragger } = Upload;
+function NewBulkClass() {
+  const [dragActive, setDragActive] = useState<boolean>(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
 
-const props: UploadProps = {
-  name: "file",
-  multiple: true,
-  action: MOCK_API_LINK,
-  onChange(info) {
-    const { status } = info.file;
-    if (status !== "uploading") {
-      console.log(info.file, info.fileList);
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    e.preventDefault();
+    console.log("File has been added");
+
+    // Use optional chaining to handle null or undefined
+    const selectedFiles = e.target.files?.length
+      ? Array.from(e.target.files)
+      : [];
+
+    if (selectedFiles.length > 0) {
+      console.log(selectedFiles);
+      setFiles(prevState => [...prevState, ...selectedFiles]);
     }
-    if (status === "done") {
-      message.success(`${info.file.name} file uploaded successfully.`);
-    } else if (status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-  onDrop(e) {
-    console.log("Dropped files", e.dataTransfer.files);
-  },
-};
+  }
 
-const NewBulkClass: React.FC = () => (
-  <Container headerTitle="New Class">
-    <main className="px-10 pt-10 pb-36 h-full bg-white">
-      <Link
-        href={DASHBOARD_CLASS}
-        className="flex items-center gap-3 mb-3 text-sm"
-      >
-        <Icon icon="teenyicons:arrow-left-solid" />
-        <span>Back</span>
-      </Link>
-      <Dragger {...props}>
-        <p className="ant-upload-drag-icon">
-          <InboxOutlined />
-        </p>
-        <p className="ant-upload-text">
-          Click or drag class file to this area to upload
-        </p>
-        <p className="ant-upload-hint">
-          Support for a single or bulk upload. Strictly prohibited from
-          uploading other data aside class file.
-        </p>
-      </Dragger>
-    </main>
-  </Container>
-);
+  function handleDrop(e: DragEvent<HTMLFormElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      for (let i = 0; i < e.dataTransfer.files.length; i++) {
+        setFiles(prevState => [...prevState, e.dataTransfer.files[i]]);
+      }
+    }
+  }
+
+  function handleDragLeave(e: DragEvent<HTMLFormElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+  }
+
+  function handleDragAction(e: DragEvent<HTMLFormElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(true);
+  }
+
+  function removeFile(fileName: string, idx: number) {
+    const newArr = [...files];
+    newArr.splice(idx, 1);
+    setFiles([]);
+    setFiles(newArr);
+  }
+
+  function openFileExplorer() {
+    if (inputRef.current) {
+      inputRef.current.value = "";
+      inputRef.current.click();
+    }
+  }
+
+  return (
+    <Container headerTitle="New Class">
+      <main className="px-10 pt-10 pb-36 h-full bg-white">
+        <Link
+          href={DASHBOARD_CLASS}
+          className="flex items-center gap-3 mb-3 text-sm"
+        >
+          <Icon icon="teenyicons:arrow-left-solid" />
+          <span>Back</span>
+        </Link>
+        <div className="flex items-center justify-center h-screen">
+          <form
+            className={`${
+              dragActive ? "bg-blue-400" : "bg-blue-100"
+            }  p-4 max-w-lg rounded-lg  min-h-[10rem] text-center flex flex-col items-center justify-center`}
+            onDragEnter={handleDragAction}
+            onSubmit={e => e.preventDefault()}
+            onDrop={handleDrop}
+            onDragLeave={handleDragLeave}
+            onDragOver={handleDragAction}
+          >
+            <input
+              placeholder="fileInput"
+              className="hidden"
+              ref={inputRef}
+              type="file"
+              multiple={true}
+              onChange={handleChange}
+              accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf"
+            />
+            <p>
+              Drag & Drop files or{" "}
+              <button
+                className="font-bold text-blue-600 cursor-pointer"
+                onClick={openFileExplorer}
+              >
+                <u>Select files</u>
+              </button>{" "}
+              to upload
+            </p>
+            <ol className="flex flex-col p-3 space-y-2" start={0}>
+              {files.map((file, idx) => (
+                <li
+                  key={`${idx}_${file.name}`}
+                  className="flex flex-row space-x-5 justify-between items-center py-3 px-3 border border-primary-purple-700 rounded"
+                >
+                  <span className="text-secondary-green-500">{file.name}</span>
+                  <button
+                    className="text-red-500 border border-primary-purple-800 hover:bg-primary-purple-800 hover:border-transparent hover:text-white transition-all py-1 px-2 rounded"
+                    onClick={() => removeFile(file.name, idx)}
+                  >
+                    Remove
+                  </button>
+                </li>
+              ))}
+            </ol>
+          </form>
+        </div>
+      </main>
+    </Container>
+  );
+}
 
 export default NewBulkClass;
 /* 
