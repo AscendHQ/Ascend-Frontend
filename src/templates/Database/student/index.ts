@@ -13,7 +13,7 @@ import EditHostelAccommodation from "./edit-hostel-accommodation";
 import EditMedicalInformation from "./edit-medical-information";
 import EditPersonalInformation from "./edit-personal-information";
 import StudentBiodataHeading from "./student-biodata-heading";
-import { studentInfo, studentInfoProp } from "./student-info";
+import { studentInfoProp } from "./student-info";
 import { GenderOptions, studentGender, StudentTabNav } from "./student-tab-nav";
 import StudentsTable from "./student-table";
 
@@ -34,7 +34,6 @@ export {
   EditPersonalInformation,
   StudentBiodataHeading,
   studentGender,
-  studentInfo,
   StudentsTable,
   StudentTabNav,
 };

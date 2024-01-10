@@ -78,16 +78,6 @@ export type LessonPlanTableRowProps = {
   index: number;
 };
 
-export type ClassRowProps = {
-  item: {
-    className: string;
-    subject: string;
-    level: "junior" | "senior";
-  };
-  index: number;
-  action: (value: string) => void;
-};
-
 export type ClassDemographic = {
   name: "All" | "Junior" | "Senior";
   number: number;

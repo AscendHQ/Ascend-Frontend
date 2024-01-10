@@ -1,27 +1,13 @@
 import { useMemo } from "react";
 
-import { subjectInfoProp } from "./subject-info";
-
-export const useSubjectStatistics = ({ data }: { data: subjectInfoProp[] }) => {
-  const totalNumberOfClassLevel = data.length;
-  const juniorClass = data.filter(item => item.level === "junior");
-  const noOfJuniorClass = juniorClass.length;
-  const noOfSeniorClass = totalNumberOfClassLevel - noOfJuniorClass;
-  console.log(noOfJuniorClass);
-
-  return {
-    totalNumberOfClassLevel,
-    noOfSeniorClass,
-    noOfJuniorClass,
-  };
-};
+import { subjectInfoProp, subjectLevelType } from "./subject-info";
 
 export const useFilterData = ({
   data,
   criteria,
 }: {
   data: subjectInfoProp[];
-  criteria: "all" | "junior" | "senior";
+  criteria: subjectLevelType;
 }) => {
   const filteredData = useMemo(() => {
     return data.filter(item => {

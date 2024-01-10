@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Icon } from "@iconify/react";
 import { Dropdown, MenuProps } from "antd";
 import Link from "next/link";
@@ -11,6 +12,8 @@ import { subjectInfoProp } from "./subject-info";
 import TableHeaders from "./table-headers";
 
 function SubjectsTable({ data }: { data: subjectInfoProp[] }) {
+  console.log(data);
+
   const items: MenuProps["items"] = [
     {
       label: (
@@ -41,14 +44,11 @@ function SubjectsTable({ data }: { data: subjectInfoProp[] }) {
         <TableHeaders />
         <tbody>
           {data.map((item, index) => (
-            <tr
-              className="bg-white border-b border-grey-300"
-              key={item.subjectName}
-            >
+            <tr className="bg-white border-b border-grey-300" key={item.name}>
               <TableCell content={index + 1} isCentered />
-              <TableCell content={item.subjectName} />
-              <TableCell content={item.subjectCode} />
-              <TableCell content={truncateAndDisplay(item.classes, 3)} />
+              <TableCell content={item.name} />
+              <TableCell content={item.code} />
+              {/* <TableCell content={truncateAndDisplay(item.classes, 3)} /> */}
               <TableCell
                 isCentered
                 content={
