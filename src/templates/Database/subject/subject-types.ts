@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   FieldArrayWithId,
   FieldErrors,
@@ -9,22 +10,24 @@ import { z } from "zod";
 export const newSubjectSchema = z.object({
   subject_name: z.string().min(1, "Subject name is required"),
   subject_code: z.string().min(1, "Subject code is required"),
-  level: z.string().refine(value => value === "Junior" || value === "Senior", {
+  level: z.string().refine(value => value === "junior" || value === "senior", {
     message: "Level must be 'Junior' or 'Senior'",
   }),
-  type: z.string().refine(value => value === "Core" || value === "Elective", {
+  type: z.string().refine(value => value === "core" || value === "elective", {
     message: "Type must be 'Core' or 'Elective'",
   }),
   juniorClasses: z.array(
     z.object({
       label: z.string(),
       checked: z.boolean(),
+      class_id: z.string(),
     })
   ),
   seniorClasses: z.array(
     z.object({
       label: z.string(),
       checked: z.boolean(),
+      class_id: z.string(),
     })
   ),
   name: z.any(),
@@ -35,9 +38,8 @@ type NewSubjectFieldValues = {
   subject_code: string;
   level: string;
   type: string;
-  juniorClasses: { label: string; checked: boolean }[];
-  seniorClasses: { label: string; checked: boolean }[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  juniorClasses: { label: string; class_id: string; checked: boolean }[];
+  seniorClasses: { label: string; class_id: string; checked: boolean }[];
   name?: any;
 };
 export type NewSubjectContextType = {
@@ -49,8 +51,7 @@ export type NewSubjectContextType = {
       subject_name: string;
       subject_code: string;
       level: string;
-      juniorClasses: { label: string; checked: boolean }[];
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      juniorClasses: { label: string; checked: boolean; class_id: string }[];
       name?: any;
     },
     "juniorClasses"
@@ -60,8 +61,7 @@ export type NewSubjectContextType = {
       subject_name: string;
       subject_code: string;
       level: string;
-      seniorClasses: { label: string; checked: boolean }[];
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      seniorClasses: { label: string; checked: boolean; class_id: string }[];
       name?: any;
     },
     "seniorClasses"

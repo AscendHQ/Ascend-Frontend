@@ -11,17 +11,20 @@ import { useFilterData } from "@/templates/Database/class/hooks";
 import { ClassList, LevelOptions } from "@/templates/Database/class/tab";
 import Table from "@/templates/Database/class/table";
 
+export const fetchAllClass = () =>
+  axiosInstance.get("/classes").then(res => res.data);
+
+export function useFetchClassInfo() {
+  return useQuery({
+    queryKey: ["allClass"],
+    queryFn: fetchAllClass,
+  });
+}
 export default function Classes() {
   const [currentStudentLevel, setCurrentStudentLevel] =
     React.useState<LevelOptions>("all");
 
-  const fetchAllClass = () =>
-    axiosInstance.get("/classes").then(res => res.data);
-
-  const classData = useQuery({
-    queryKey: ["allClass"],
-    queryFn: fetchAllClass,
-  });
+  const classData = useFetchClassInfo();
 
   const { filteredData } = useFilterData({
     data: classData.isLoading ? [] : classData.data.classes,

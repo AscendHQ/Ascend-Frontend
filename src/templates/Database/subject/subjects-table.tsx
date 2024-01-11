@@ -44,7 +44,7 @@ function SubjectsTable({ data }: { data: subjectInfoProp[] }) {
         <TableHeaders />
         <tbody>
           {data.map((item, index) => (
-            <tr className="bg-white border-b border-grey-300" key={item.name}>
+            <tr className="bg-white border-b border-grey-300" key={item._id}>
               <TableCell content={index + 1} isCentered />
               <TableCell content={item.name} />
               <TableCell content={item.code} />
