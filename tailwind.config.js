@@ -87,6 +87,7 @@ module.exports = {
       "default-black": "#333333",
       "default-link-color": "#3D5CFF",
       "purple-100": "#edebfe",
+      "red-800": "#d1001f",
       bgColour: {
         "variant-1": "#FFFFFF",
         "variant-2": "#F9FBFC",

@@ -23,7 +23,7 @@ import {
   StudentInfoContextType,
   studentInfoSchema,
   StudentInfoSchemaType,
-} from "@/templates/Database/student/new-student-types";
+} from "@/templates/Database/student/student-types";
 
 export const StudentInfoContext = React.createContext<
   StudentInfoContextType | undefined

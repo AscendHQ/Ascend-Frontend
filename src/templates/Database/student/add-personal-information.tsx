@@ -1,11 +1,30 @@
+import { useState } from "react";
+
 import SelectField from "@/components/ui/form/selectfield";
 import TextField from "@/components/ui/form/textfield";
 import { useFormContext } from "@/hooks/useFormContext";
 import { NewStudentFormContext } from "@/pages/dashboard/database/students/new-student";
 
+import { useFetchStateAndLGA } from "./add-new-student.hook";
+import { NigerianStates } from "./student-types";
+
 export default function AddPersonalInformation() {
-  const { register, errors, watch } = useFormContext(NewStudentFormContext);
-  const nationalityOption = watch("nationality");
+  const { register, errors } = useFormContext(NewStudentFormContext);
+  const [currentState, setCurrentState] = useState("");
+
+  const {
+    stateAndLGA,
+    getStatesArray,
+  }: { stateAndLGA: NigerianStates | undefined; getStatesArray: string[] } =
+    useFetchStateAndLGA();
+
+  function getLocalGovernments(state: string) {
+    const selectedStateData =
+      stateAndLGA !== undefined
+        ? stateAndLGA.find(s => s.state === state)
+        : null;
+    return selectedStateData ? selectedStateData.lgas : [];
+  }
 
   return (
     <div
@@ -69,30 +88,20 @@ export default function AddPersonalInformation() {
           errorMessage={errors.religion?.message || ""}
         />
         <SelectField
-          id="nationality"
-          label="Nationality"
-          options={["Nigeria", "Ghana"]}
+          id="state_of_origin"
+          label="State of Origin"
+          options={getStatesArray}
           register={register}
-          errorMessage={errors.nationality?.message || ""}
+          errorMessage={errors.state_of_origin?.message || ""}
+          onChange={e => setCurrentState(e.target.value)}
         />
-        {nationalityOption === "Nigeria" && (
-          <SelectField
-            id="state_of_origin"
-            label="State of Origin"
-            options={["Ondo", "Ekiti", "Edo", "Oyo", "Lagos", "Kwara"]}
-            register={register}
-            errorMessage={errors.state_of_origin?.message || ""}
-          />
-        )}
-        {nationalityOption === "Nigeria" && (
-          <SelectField
-            id="local_government_area"
-            label="Local Government Area"
-            options={["Odigbo", "Ifon", "Okitipupa", "Ikorodu", "Oshodi"]}
-            register={register}
-            errorMessage={errors.state_of_origin?.message || ""}
-          />
-        )}
+        <SelectField
+          id="local_government_area"
+          label="Local Government Area"
+          options={getLocalGovernments(currentState)}
+          register={register}
+          errorMessage={errors.state_of_origin?.message || ""}
+        />
       </div>
     </div>
   );

@@ -42,7 +42,7 @@ function SelectField<T>({
         <option value="" className="capitalize">
           Please choose an option
         </option>
-        {options.map(option => {
+        {options?.map(option => {
           let value = "";
           let label = "";
           const isObject = typeof option === "string";

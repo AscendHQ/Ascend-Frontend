@@ -4,13 +4,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useEffect, useState } from "react";
 
 import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
@@ -18,40 +12,9 @@ import { DashboardButton } from "@/components/ui/button/button";
 import { Spinner } from "@/components/ui/Loading";
 import { NEW_STUDENT } from "@/config/links";
 import { StudentsTable } from "@/templates/Database/student";
+import { showAllStudentContext } from "@/templates/Database/student/student-types";
 
-type showAllStudentContext = {
-  totalNumberOfStudent: number;
-  currentPage: number;
-  limitOfStudent: number;
-  setCurrentPage: Dispatch<SetStateAction<number>>;
-};
-
-export const AllStudentContext = createContext<
-  showAllStudentContext | undefined
->(undefined);
-const fetchAllStudent = async (currentPage: number) => {
-  return await axiosInstance
-    .get(`/students?limit=4&page=${currentPage}`)
-    .then(res => res.data);
-};
 export default function DatabaseStudents() {
-  // useEffect(() => {
-  //   const url =
-  //     "https://raw.githubusercontent.com/Eniolayo/Nigeria-s-State-and-LGA/main/nigeria-state-and-lgas.json";
-
-  //   fetch(url)
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       // Handle the JSON data
-  //       console.log(data);
-  //     })
-  //     .catch(error => {
-  //       console.error("Error fetching JSON:", error);
-  //     });
-  // }, []);
-  // const [currentStudentGender, setCurrentStudentGender] = React.useState<
-  //   "all" | studentInfoProp["personal_information"]["gender"]
-  // >("all");
   const [currentPage, setCurrentPage] = useState(1);
   const queryClient = useQueryClient();
 
@@ -60,7 +23,7 @@ export default function DatabaseStudents() {
     queryFn: () => fetchAllStudent(currentPage),
     placeholderData: keepPreviousData,
   });
-  console.log(studentData.isPlaceholderData);
+
   // Prefetch the next page!
   useEffect(() => {
     if (studentData.isPlaceholderData && studentData.data?.hasMore) {
@@ -89,8 +52,6 @@ export default function DatabaseStudents() {
     //   refetchInactive: false,
     // });
   }
-
-  console.log(studentData.data);
 
   // const { totalNumberOfStudent, noOfFemaleStudent, noOfMaleStudent } =
   //   useStudentStatistics({
@@ -139,10 +100,11 @@ export default function DatabaseStudents() {
                 </button>
               </div>
               {/* <StudentTabNav
-          tabNumbers={tabNumbers}
-          currentCategory={currentStudentGender}
-          setCurrentCategory={setCurrentStudentGender}
-        /> */}
+                    tabNumbers={tabNumbers}
+                    currentCategory={currentStudentGender}
+                    setCurrentCategory={setCurrentStudentGender}
+                  /> 
+              */}
               <StudentsTable
                 data={studentData.data.students}
                 invalidateAllStudentData={invalidateAllStudentData}
@@ -153,4 +115,14 @@ export default function DatabaseStudents() {
       </Container>
     </AllStudentContext.Provider>
   );
+}
+
+export const AllStudentContext = createContext<
+  showAllStudentContext | undefined
+>(undefined);
+
+async function fetchAllStudent(currentPage: number) {
+  return await axiosInstance
+    .get(`/students?limit=50&page=${currentPage}`)
+    .then(res => res.data);
 }
