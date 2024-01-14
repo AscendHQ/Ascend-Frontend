@@ -18,6 +18,7 @@ export function useFetchClassInfo() {
   return useQuery({
     queryKey: ["allClass"],
     queryFn: fetchAllClass,
+    initialData: { classes: [] },
   });
 }
 export default function Classes() {

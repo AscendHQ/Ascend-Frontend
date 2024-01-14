@@ -11,20 +11,14 @@ import { AllStudentContext } from "@/pages/dashboard/database/students";
 import { studentInfoProp } from "./student-info";
 import TableHeaders from "./table-headers";
 
-function StudentsTable({
-  data,
-  invalidateAllStudentData,
-}: {
-  data: studentInfoProp[];
-  invalidateAllStudentData: () => void;
-}) {
+function StudentsTable({ data }: { data: studentInfoProp[] }) {
   const { currentPage, limitOfStudent, setCurrentPage, totalNumberOfStudent } =
     useFormContext(AllStudentContext);
 
   const totalPages = Math.ceil(totalNumberOfStudent / limitOfStudent);
 
   const handlePageChange = (page: number) => {
-    invalidateAllStudentData();
+    // invalidateAllStudentData();
     setCurrentPage(page);
   };
 

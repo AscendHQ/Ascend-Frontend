@@ -2,9 +2,10 @@ import { DashboardButton } from "@/components/ui/button/button";
 
 import { juniorSecondaryElectives, juniorSecondarySubjects } from "./data";
 import SubjectInfoWrapper from "./subject-info-wrapper";
+import { Student } from "./subject-types";
 
 type SubjectInfoSectionProps = {
-  currentStudent: { id: string; name: string; class: string };
+  currentStudent: Student & { currentClass: string };
   selectedSubjects: string[];
   handleCheckboxChange: (subject: string) => void;
 };
@@ -16,10 +17,14 @@ export default function SubjectInfo({
 }: SubjectInfoSectionProps) {
   return (
     <main>
-      <div className="flex justify-between mb-9">
-        <span className="font-semibold">{currentStudent.id}</span>
-        <h3 className="font-bold text-xl">{currentStudent.name}</h3>
-        <span className="font-semibold">{currentStudent.class}</span>
+      <div className="flex justify-between my-9">
+        <span className="font-semibold text-lg">
+          {currentStudent.registration_number}
+        </span>
+        <h3 className="font-bold text-2xl">{`${currentStudent.last_name} ${currentStudent.middle_name} ${currentStudent.first_name}`}</h3>
+        <span className="font-semibold text-lg">
+          {currentStudent.currentClass}
+        </span>
       </div>
       <SubjectInfoWrapper heading="General Subjects">
         <div className="bg-grey-300 w-full p-3 h-[250px] overflow-y-scroll cursor-pointer rounded">

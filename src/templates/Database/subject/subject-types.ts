@@ -69,3 +69,21 @@ export type NewSubjectContextType = {
 };
 
 export type NewSubjectSchemaType = z.infer<typeof newSubjectSchema>;
+
+export type Student = {
+  _id: string;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  registration_number: string;
+};
+
+export type ClassInfo = {
+  _id: string;
+  name: string;
+  students: Student[];
+};
+
+export type SubjectRegisterContextType = {
+  students: ClassInfo[];
+};
