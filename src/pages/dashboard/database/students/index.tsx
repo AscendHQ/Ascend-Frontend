@@ -1,9 +1,5 @@
 import { Icon } from "@iconify/react";
-import {
-  keepPreviousData,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { createContext, useEffect, useState } from "react";
 
 import { axiosInstance } from "@/api";
@@ -16,42 +12,18 @@ import { showAllStudentContext } from "@/templates/Database/student/student-type
 
 export default function DatabaseStudents() {
   const [currentPage, setCurrentPage] = useState(1);
-  const queryClient = useQueryClient();
+  const [searchName, setSearchName] = useState("");
 
   const studentData = useQuery({
     queryKey: ["allStudent"],
-    queryFn: () => fetchAllStudent(currentPage),
+    queryFn: () => fetchAllStudent(currentPage, searchName),
     placeholderData: keepPreviousData,
   });
 
-  // Prefetch the next page!
   useEffect(() => {
-    if (studentData.isPlaceholderData && studentData.data?.hasMore) {
-      queryClient.prefetchQuery({
-        queryKey: ["allStudent", currentPage],
-        queryFn: () => {
-          return fetchAllStudent(currentPage);
-        },
-      });
-    }
-  }, [
-    studentData.data,
-    studentData.isPlaceholderData,
-    currentPage,
-    queryClient,
-  ]);
-
-  function invalidateAllStudentData() {
-    queryClient.invalidateQueries({
-      queryKey: ["allStudent", currentPage],
-      type: "active",
-      refetchType: "active",
-    });
-    // queryClient.invalidateQueries("allStudent", {
-    //   refetchActive: true,
-    //   refetchInactive: false,
-    // });
-  }
+    studentData.refetch(); // Manually trigger a refetch
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, searchName]);
 
   // const { totalNumberOfStudent, noOfFemaleStudent, noOfMaleStudent } =
   //   useStudentStatistics({
@@ -94,6 +66,8 @@ export default function DatabaseStudents() {
                   type="search"
                   placeholder="Search Student"
                   className="rounded text-sm w-full px-2 py-3 border border-grey-800"
+                  value={searchName}
+                  onChange={e => setSearchName(e.target.value)}
                 />
                 <button className="absolute bottom-1/2 translate-y-1/2 right-2">
                   <Icon icon="mingcute:search-line" />
@@ -105,10 +79,7 @@ export default function DatabaseStudents() {
                     setCurrentCategory={setCurrentStudentGender}
                   /> 
               */}
-              <StudentsTable
-                data={studentData.data.students}
-                invalidateAllStudentData={invalidateAllStudentData}
-              />
+              <StudentsTable data={studentData.data.students} />
             </div>
           </>
         )}
@@ -121,8 +92,8 @@ export const AllStudentContext = createContext<
   showAllStudentContext | undefined
 >(undefined);
 
-async function fetchAllStudent(currentPage: number) {
+async function fetchAllStudent(currentPage: number, searchedName: string) {
   return await axiosInstance
-    .get(`/students?limit=50&page=${currentPage}`)
+    .get(`/students?limit=4&page=${currentPage}&name=${searchedName}`)
     .then(res => res.data);
 }
