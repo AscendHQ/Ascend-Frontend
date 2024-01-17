@@ -87,3 +87,13 @@ export type ClassInfo = {
 export type SubjectRegisterContextType = {
   students: ClassInfo[];
 };
+type Subject = {
+  _id: string;
+  name: string;
+  type: "core" | "elective";
+};
+
+export type studentRegistrationType = {
+  registration: null;
+  subjects: Subject[];
+};

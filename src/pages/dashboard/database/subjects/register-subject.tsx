@@ -1,7 +1,8 @@
 import { Icon } from "@iconify/react";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { notification } from "antd";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
@@ -13,6 +14,7 @@ import SubjectInfoWrapper from "@/templates/Database/subject/subject-info-wrappe
 import {
   ClassInfo,
   Student,
+  studentRegistrationType,
   SubjectRegisterContextType,
 } from "@/templates/Database/subject/subject-types";
 
@@ -23,9 +25,15 @@ type ClassInfoData = {
 };
 
 function SubjectRegistration() {
-  const [currentClass, setCurrentClass] = useState("");
+  const [currentClass, setCurrentClass] = React.useState<classInfoProp>({
+    _id: "",
+    level: "junior",
+    name: "",
+    section: "",
+    other_section: "",
+  });
 
-  const [currentStudent, setCurrentStudent] = useState<
+  const [currentStudent, setCurrentStudent] = React.useState<
     Student & { currentClass: string }
   >({
     _id: "",
@@ -33,12 +41,12 @@ function SubjectRegistration() {
     middle_name: "",
     last_name: "",
     registration_number: "",
-    currentClass,
+    currentClass: currentClass.name,
   });
 
   const router = useRouter();
 
-  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
+  const [selectedSubjects, setSelectedSubjects] = React.useState<string[]>([]);
 
   const classData: UseQueryResult<ClassInfoData, Error> = useFetchClassInfo();
 
@@ -53,16 +61,46 @@ function SubjectRegistration() {
   };
 
   const fetchStudentsQuery: UseQueryResult<ClassInfo[], Error> = useQuery({
-    queryKey: ["fetchStudents"],
-    queryFn: () =>
-      axiosInstance
-        .get(`/registrations?class_name=${currentClass}`)
-        .then(res => res.data),
-    enabled: currentClass !== "",
+    queryKey: ["fetchStudents", currentClass._id],
+    queryFn: ({ queryKey }) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const [_key, currentClass] = queryKey;
+      return axiosInstance
+        .get(`/registrations?class_id=${currentClass}`)
+        .then(res => res.data);
+    },
+    enabled: currentClass._id !== "",
+  });
+  const [api, contextHolder] = notification.useNotification();
+  const toast = api;
+
+  const fetchStudentRegistrationQuery: UseQueryResult<
+    studentRegistrationType,
+    Error
+  > = useQuery({
+    queryKey: [
+      "fetchStudentRegistration",
+      currentStudent._id,
+      currentClass._id,
+    ],
+    queryFn: ({ queryKey }) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const [_key, student_id, class_id] = queryKey;
+
+      return axiosInstance
+        .get(`/registrations/${student_id}?class_id=${class_id}`)
+        .then(res => res.data);
+    },
+    enabled: currentStudent._id !== "",
   });
 
-  useEffect(() => {
-    if (currentClass !== "") {
+  const handleClassChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedClassId = event.target.value;
+    const selectedClass = classData.data.classes.find(
+      data => data._id === selectedClassId
+    );
+    if (selectedClass) {
+      setCurrentClass(selectedClass);
       fetchStudentsQuery.refetch();
       setCurrentStudent({
         _id: "",
@@ -73,14 +111,13 @@ function SubjectRegistration() {
         currentClass: "",
       });
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentClass]);
+  };
 
   return (
     <SubjectRegister.Provider
       value={{ students: fetchStudentsQuery.data || [] }}
     >
+      {contextHolder}
       <Container headerTitle="Subject Registration">
         {classData.isLoading ? (
           <div className="flex justify-center min-h-full items-center">
@@ -97,16 +134,17 @@ function SubjectRegistration() {
             </button>
 
             <SubjectInfoWrapper heading="Select Class">
-              <select name="" id="" className="w-full rounded p-2">
+              <select
+                name=""
+                id=""
+                className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis p-2 text-Text-high-emphasis"
+                onChange={handleClassChange}
+              >
                 <option value="" className="capitalize">
                   Please choose an option
                 </option>
                 {classData.data.classes.map(data => (
-                  <option
-                    value={data._id}
-                    key={data._id}
-                    onClick={() => setCurrentClass(data.name)}
-                  >
+                  <option value={data._id} key={data._id}>
                     {data.level === "junior"
                       ? `${data.name} - ${data.other_section}`
                       : `${data.name} - ${data.section}`}
@@ -114,26 +152,29 @@ function SubjectRegistration() {
                 ))}
               </select>
             </SubjectInfoWrapper>
-
-            {fetchStudentsQuery.data && currentClass !== "" && (
-              <StudentSelection
-                setCurrentStudent={setCurrentStudent}
-                currentClass={currentClass}
-              />
-            )}
-
-            {fetchStudentsQuery.isLoading && currentClass !== "" && (
-              <div className="flex justify-center items-center mt-4">
+            <StudentSelection
+              setCurrentStudent={setCurrentStudent}
+              currentClass={currentClass.name}
+              loading={fetchStudentsQuery.isFetching}
+              fetchStudentRegistrationQuery={fetchStudentRegistrationQuery}
+            />
+            {fetchStudentRegistrationQuery.isFetching ? (
+              <div className="flex justify-center items-center relative min-h-[200px]">
                 <Spinner />
               </div>
-            )}
-
-            {currentStudent.first_name !== "" && (
-              <SubjectInfo
-                currentStudent={currentStudent}
-                selectedSubjects={selectedSubjects}
-                handleCheckboxChange={handleCheckboxChange}
-              />
+            ) : (
+              fetchStudentRegistrationQuery.data && (
+                <SubjectInfo
+                  currentStudent={currentStudent}
+                  selectedSubjects={selectedSubjects}
+                  handleCheckboxChange={handleCheckboxChange}
+                  currentStudentSubjects={
+                    fetchStudentRegistrationQuery.data?.subjects
+                  }
+                  currentClass={currentClass}
+                  toast={toast}
+                />
+              )
             )}
           </main>
         )}

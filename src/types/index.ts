@@ -123,10 +123,10 @@ export type SelectFieldProps = {
   id: string;
   label: string;
   options: string[] | { value: string; label: string }[];
+  register: NewType;
   isFullWidth?: boolean;
   value?: string;
   labelStyle?: string;
-  register: NewType;
   errorMessage: string;
   selectStyle?: string;
   wrapperStyle?: string;

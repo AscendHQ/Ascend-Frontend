@@ -46,7 +46,7 @@ export default function Timetable() {
             );
           })}
         </div>
-        <div className="flex flex-col bg-black bg-opacity-95 text-white items-center gap-3 justify-center absolute inset-0">
+        {/* <div className="flex flex-col bg-black bg-opacity-95 text-white items-center gap-3 justify-center absolute inset-0">
           <span className="text-2xl">COMING</span>
           <div className="flex items-center gap-3 justify-center">
             <span className="text-9xl font-GTWalsheimPro">S</span>
@@ -60,7 +60,7 @@ export default function Timetable() {
             </div>
             <span className="text-9xl font-GTWalsheimPro">N</span>
           </div>
-        </div>
+        </div> */}
       </main>
     </Container>
   );
