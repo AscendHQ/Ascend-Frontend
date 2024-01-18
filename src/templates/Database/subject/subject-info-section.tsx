@@ -33,7 +33,7 @@ export default function SubjectInfo({
   );
 
   const { isPendingAddSubjectRegistration, mutateSubjectRegistration } =
-    useMutateSubjectRegistration(toast);
+    useMutateSubjectRegistration(toast, currentClass._id, currentStudent._id);
 
   const submitSubjectRegistration = () => {
     console.log(selectedSubjects, "selectedSubjects");

@@ -4,8 +4,13 @@ import { useRouter } from "next/router";
 import React from "react";
 
 import { axiosInstance } from "@/api";
+import { DASHBOARD_SUBJECT } from "@/config/links";
 
-function useMutateSubjectRegistration(toast: NotificationInstance) {
+function useMutateSubjectRegistration(
+  toast: NotificationInstance,
+  class_id: string,
+  student: string
+) {
   const queryClient = useQueryClient();
   const router = useRouter();
 
@@ -39,8 +44,10 @@ function useMutateSubjectRegistration(toast: NotificationInstance) {
         duration: 3,
         className: "ant-toast",
       });
-      queryClient.invalidateQueries({ queryKey: [""] });
-      router.back();
+      queryClient.invalidateQueries({
+        queryKey: ["fetchStudentRegistration", student, class_id],
+      });
+      router.push(DASHBOARD_SUBJECT);
     },
     onError: (error: Error & { response: { data: string } }) => {
       toast.open({
