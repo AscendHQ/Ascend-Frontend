@@ -20,7 +20,7 @@ import {
 
 import { useFetchClassInfo } from "../classes";
 
-type ClassInfoData = {
+export type ClassInfoData = {
   classes: classInfoProp[];
 };
 

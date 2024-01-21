@@ -19,6 +19,7 @@ export function useFetchClassInfo() {
     queryKey: ["allClass"],
     queryFn: fetchAllClass,
     initialData: { classes: [] },
+    enabled: true,
   });
 }
 export default function Classes() {

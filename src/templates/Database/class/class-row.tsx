@@ -69,7 +69,11 @@ export default function ClassRow({ item, index, action }: ClassRowProps) {
       <TableCell content={index + 1} isCentered />
       <TableCell content={item.name} isCentered />
       {/* <TableCell content={<span>{truncateAndDisplay(item.subject)}</span>} /> */}
-      <TableCell content={item.section} styles="capitalize" isCentered />
+      <TableCell
+        content={item.level === "junior" ? item.other_section : item.section}
+        styles="capitalize"
+        isCentered
+      />
       <TableCell
         content={
           item.level === "junior" ? (

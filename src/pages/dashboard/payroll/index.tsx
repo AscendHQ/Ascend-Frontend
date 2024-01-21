@@ -211,8 +211,7 @@ function ClassRow({ item, index, api }: PayrollRowProps) {
   };
   const copyToClipboard = (text: string) => {
     const textToCopy = text;
-    const success = navigator.clipboard.writeText(textToCopy);
-    console.log(success);
+    navigator.clipboard.writeText(textToCopy);
     openNotification("topRight");
   };
   return (

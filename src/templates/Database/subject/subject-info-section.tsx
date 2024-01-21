@@ -36,7 +36,6 @@ export default function SubjectInfo({
     useMutateSubjectRegistration(toast, currentClass._id, currentStudent._id);
 
   const submitSubjectRegistration = () => {
-    console.log(selectedSubjects, "selectedSubjects");
     mutateSubjectRegistration({
       class_id: currentClass._id,
       student: currentStudent._id,

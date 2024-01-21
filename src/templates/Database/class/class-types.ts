@@ -1,10 +1,18 @@
-export type classInfoProp = {
-  _id: string;
-  level: "junior" | "senior";
-  name: string;
-  section: string;
-  other_section?: string;
-};
+export type classInfoProp =
+  | {
+      _id: string;
+      level: "junior";
+      name: string;
+      section: string;
+      other_section: string;
+    }
+  | {
+      _id: string;
+      level: "senior";
+      name: string;
+      section: string;
+      other_section?: string | undefined;
+    };
 
 export type ClassRowProps = {
   item: classInfoProp;

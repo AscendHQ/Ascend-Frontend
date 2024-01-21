@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable sonarjs/no-duplicate-string */
 import {
   DASHBOARD_CLASS,
@@ -71,16 +72,16 @@ const databaseNavSection = [
       DASHBOARD_TEACHER_SECURITY_INFO("[teacherInfo]"),
     ],
   },
-  {
-    title: "Hostels",
-    path: DASHBOARD_HOSTEL,
-    isActivepath: [
-      DASHBOARD_HOSTEL,
-      NEW_HOSTEL,
-      NEW_BULK_HOSTEL,
-      DASHBOARD_HOSTEL_INFO("[hostelInfo]"),
-    ],
-  },
+  // {
+  //   title: "Hostels",
+  //   path: DASHBOARD_HOSTEL,
+  //   isActivepath: [
+  //     DASHBOARD_HOSTEL,
+  //     NEW_HOSTEL,
+  //     NEW_BULK_HOSTEL,
+  //     DASHBOARD_HOSTEL_INFO("[hostelInfo]"),
+  //   ],
+  // },
 ];
 
 export default databaseNavSection;
