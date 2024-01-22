@@ -32,6 +32,13 @@ export const newSubjectSchema = z.object({
   ),
   name: z.any(),
 });
+export const subjectInfoSchema = z.object({
+  subject_name: z.string().min(1, "Subject name is required"),
+  subject_code: z.string().min(1, "Subject code is required"),
+  type: z.string().refine(value => value === "core" || value === "elective", {
+    message: "Type must be 'Core' or 'Elective'",
+  }),
+});
 
 type NewSubjectFieldValues = {
   subject_name: string;
@@ -42,6 +49,7 @@ type NewSubjectFieldValues = {
   seniorClasses: { label: string; class_id: string; checked: boolean }[];
   name?: any;
 };
+
 export type NewSubjectContextType = {
   register: UseFormRegister<NewSubjectFieldValues>;
   errors: FieldErrors<NewSubjectFieldValues>;
@@ -69,6 +77,7 @@ export type NewSubjectContextType = {
 };
 
 export type NewSubjectSchemaType = z.infer<typeof newSubjectSchema>;
+export type SubjectInfoSchemaType = z.infer<typeof subjectInfoSchema>;
 
 export type Student = {
   _id: string;

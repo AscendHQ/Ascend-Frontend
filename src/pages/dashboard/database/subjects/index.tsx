@@ -12,17 +12,22 @@ import { useFilterData } from "@/templates/Database/subject/hooks";
 import { subjectLevelType } from "@/templates/Database/subject/subject-info";
 import SubjectLevel from "@/templates/Database/subject/tab";
 
+const fetchAllSubject = () =>
+  axiosInstance.get("/subjects").then(res => res.data);
+
+export function useFetchSubjectInfo() {
+  return useQuery({
+    queryKey: ["allSubject"],
+    queryFn: fetchAllSubject,
+    initialData: { subjects: [] },
+  });
+}
+
 export default function Subjects() {
   const [currentSubjectLevel, setCurrentSubjectLevel] =
     React.useState<subjectLevelType>("all");
 
-  const fetchAllSubject = () =>
-    axiosInstance.get("/subjects").then(res => res.data);
-
-  const subjectData = useQuery({
-    queryKey: ["allSubject"],
-    queryFn: fetchAllSubject,
-  });
+  const subjectData = useFetchSubjectInfo();
 
   const { filteredData } = useFilterData({
     data: subjectData.isLoading ? [] : subjectData.data.subjects,
