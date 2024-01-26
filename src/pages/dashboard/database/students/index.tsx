@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { createContext, useEffect, useState } from "react";
 
 import { axiosInstance } from "@/api";
@@ -17,31 +17,20 @@ export default function DatabaseStudents() {
   const studentData = useQuery({
     queryKey: ["allStudent"],
     queryFn: () => fetchAllStudent(currentPage, searchName),
-    placeholderData: keepPreviousData,
   });
 
   useEffect(() => {
-    studentData.refetch(); // Manually trigger a refetch
+    studentData.refetch();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, searchName]);
-
-  // const { totalNumberOfStudent, noOfFemaleStudent, noOfMaleStudent } =
-  //   useStudentStatistics({
-  //     data: studentInfo,
-  //   });
-
-  // const tabNumbers = {
-  //   all: totalNumberOfStudent,
-  //   male: noOfMaleStudent,
-  //   female: noOfFemaleStudent,
-  // };
 
   return (
     <AllStudentContext.Provider
       value={{
-        totalNumberOfStudent: studentData.data?.total_documents,
-        limitOfStudent: studentData.data?.limit,
-        currentPage: studentData.data?.page,
+        totalNumberOfStudent: studentData?.data?.total_documents,
+        limitOfStudent: studentData?.data?.limit,
+        currentPage: studentData?.data?.page,
         setCurrentPage,
       }}
     >
@@ -73,13 +62,11 @@ export default function DatabaseStudents() {
                   <Icon icon="mingcute:search-line" />
                 </button>
               </div>
-              {/* <StudentTabNav
-                    tabNumbers={tabNumbers}
-                    currentCategory={currentStudentGender}
-                    setCurrentCategory={setCurrentStudentGender}
-                  /> 
-              */}
-              <StudentsTable data={studentData.data.students} />
+
+              <StudentsTable
+                data={studentData?.data.students}
+                isFetching={studentData?.isFetching}
+              />
             </div>
           </>
         )}
@@ -94,6 +81,6 @@ export const AllStudentContext = createContext<
 
 async function fetchAllStudent(currentPage: number, searchedName: string) {
   return await axiosInstance
-    .get(`/students?limit=4&page=${currentPage}&name=${searchedName}`)
+    .get(`/students?limit=6&page=${currentPage}&name=${searchedName}`)
     .then(res => res.data);
 }

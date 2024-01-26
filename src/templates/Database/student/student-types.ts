@@ -9,8 +9,8 @@ export const NewStudentSchema = z.object({
   middle_name: z.string().min(1, "Middle Name is required"),
   last_name: z.string().min(1, "Last Name is required"),
   date_of_birth: z.string().min(1, "Date of birth is required"),
-  local_government_area: z.string().min(1, "Local government area is required"),
-  state_of_origin: z.string().min(1, "State of origin is required"),
+  // local_government_area: z.string().min(1, "Local government area is required"),
+  // state_of_origin: z.string().min(1, "State of origin is required"),
   residential_address: z.string().min(1, "Residential address is required"),
   gender: z.string().min(1, "Gender is required"),
   guardian_first_name: z.string().min(1, "Guardian's first name is required"),
@@ -53,8 +53,8 @@ type NewStudentFieldValues = {
   gender: string;
   date_of_birth: string;
   religion: string;
-  state_of_origin: string;
-  local_government_area: string;
+  // state_of_origin: string;
+  // local_government_area: string;
 
   residential_address: string;
   contact_details: string;
@@ -84,14 +84,17 @@ type NewStudentFieldValues = {
 
 export type NewStudentSchemaType = z.infer<typeof NewStudentSchema>;
 
-type StudentInfoFieldValues = Partial<NewStudentFieldValues>;
+type StudentInfoFieldValues = NewStudentFieldValues;
+// type StudentInfoFieldValues = Partial<NewStudentFieldValues>;
 
-export const studentInfoSchema = NewStudentSchema.partial();
+export const studentInfoSchema = NewStudentSchema;
+// export const studentInfoSchema = NewStudentSchema.partial();
 
 export type StudentInfoContextType = {
   register: UseFormRegister<StudentInfoFieldValues>;
   errors: FieldErrors<StudentInfoFieldValues>;
   watch: UseFormWatch<StudentInfoFieldValues>;
+  classData: classInfoProp[];
 };
 
 export type StudentInfoSchemaType = z.infer<typeof studentInfoSchema>;
@@ -159,4 +162,19 @@ export type NewStudentData = {
     medication: string;
     nature_of_disability: string;
   };
+};
+
+export type BackendStudentData = NewStudentData & {
+  academic_details: {
+    class: { [key: string]: string };
+    previous_school: string;
+  };
+  is_active: boolean;
+};
+export type StudentDataWithActive = NewStudentData & {
+  academic_details: {
+    class: { [key: string]: string };
+    previous_school: string;
+  };
+  is_active: boolean;
 };

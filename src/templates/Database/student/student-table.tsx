@@ -11,7 +11,13 @@ import { AllStudentContext } from "@/pages/dashboard/database/students";
 import { studentInfoProp } from "./student-info";
 import TableHeaders from "./table-headers";
 
-function StudentsTable({ data }: { data: studentInfoProp[] }) {
+function StudentsTable({
+  data,
+  isFetching,
+}: {
+  data: studentInfoProp[];
+  isFetching: boolean;
+}) {
   const { currentPage, limitOfStudent, setCurrentPage, totalNumberOfStudent } =
     useFormContext(AllStudentContext);
 
@@ -26,29 +32,32 @@ function StudentsTable({ data }: { data: studentInfoProp[] }) {
     <div className="relative overflow-x-auto min-h-[450px] pb-16 shadow-md sm:rounded-lg mt-10">
       <table className="w-full text-sm text-left text-gray-500">
         <TableHeaders />
-        <tbody>
+        <tbody className="relative">
+          {isFetching && (
+            <tr className="absolute inset-0 bg-white bg-opacity-70 flex justify-center items-center text-black">
+              <td>Loading...</td>
+            </tr>
+          )}
           {data.map(item => {
             const items: MenuProps["items"] = [
               {
                 label: (
-                  <Link
-                    href={DASHBOARD_STUDENT_INFO(
-                      "AHS-717-" + item.registration_number.slice(0, 4)
-                    )}
-                    className="flex gap-2 w-full transition-all py-1 rounded-sm items-center"
-                  >
+                  <button className="flex gap-2 w-full transition-all py-1 rounded-sm">
                     <Icon icon="ep:more" fontSize={20} />
                     <span className="text-sm">View details</span>
-                  </Link>
+                  </button>
                 ),
                 key: "0",
               },
               {
                 label: (
-                  <button className="flex gap-2 w-full transition-all py-1 rounded-sm">
-                    <Icon icon="solar:trash-bin-2-broken" fontSize={20} />
-                    <span className="text-sm">Remove</span>
-                  </button>
+                  <Link
+                    href={DASHBOARD_STUDENT_INFO(item.registration_number)}
+                    className="flex gap-2 w-full transition-all py-1 rounded-sm items-center"
+                  >
+                    <Icon icon="ep:edit" fontSize={20} />
+                    <span className="text-sm">Edit details</span>
+                  </Link>
                 ),
                 key: "1",
               },
@@ -59,14 +68,14 @@ function StudentsTable({ data }: { data: studentInfoProp[] }) {
                 key={item.registration_number}
               >
                 <TableCell
-                  content={"AHS/717/" + item.registration_number.slice(0, 4)}
+                  content={item.registration_number}
                   styles="uppercase"
                 />
                 <TableCell
                   content={`${item.personal_information.first_name} ${item.personal_information.last_name}`}
                 />
                 <TableCell
-                  content={item.academic_details?.class?.name || "JSS2"}
+                  content={item.academic_details?.class?.name || "JSS 2"}
                 />
                 <TableCell
                   content={item.personal_information.gender}

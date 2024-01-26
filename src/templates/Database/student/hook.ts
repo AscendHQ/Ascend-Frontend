@@ -1,4 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
+
+import { axiosInstance } from "@/api";
 
 import { studentInfoProp } from "./student-info";
 
@@ -24,4 +27,16 @@ export const useFilterData = ({
   return {
     filteredData: filteredData.reverse(),
   };
+};
+const fetchStudent = (regNo: string) =>
+  axiosInstance
+    .get(`/students?registration_number=${regNo}`)
+    .then(res => res.data);
+
+export const useStudentData = (studentRegId: string) => {
+  return useQuery({
+    queryKey: ["currentStudentInfo", studentRegId],
+    queryFn: () => fetchStudent(studentRegId),
+    initialData: { students: [] },
+  });
 };

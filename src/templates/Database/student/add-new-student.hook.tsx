@@ -79,7 +79,9 @@ export function useFetchStateAndLGA() {
   return { stateAndLGA, isLoading, getStatesArray };
 }
 
-function transformData(originalData: NewStudentSchemaType): NewStudentData {
+export function transformData(
+  originalData: NewStudentSchemaType
+): NewStudentData {
   return {
     personal_information: {
       first_name: originalData.first_name,
