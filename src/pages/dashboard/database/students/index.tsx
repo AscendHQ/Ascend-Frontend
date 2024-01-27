@@ -13,17 +13,28 @@ import { showAllStudentContext } from "@/templates/Database/student/student-type
 export default function DatabaseStudents() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchName, setSearchName] = useState("");
+  const [debouncedSearchName, setDebouncedSearchName] = useState("");
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchName(searchName);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchName]);
 
   const studentData = useQuery({
     queryKey: ["allStudent"],
-    queryFn: () => fetchAllStudent(currentPage, searchName),
+    queryFn: () => fetchAllStudent(currentPage, debouncedSearchName),
   });
 
   useEffect(() => {
     studentData.refetch();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, searchName]);
+  }, [currentPage, debouncedSearchName]);
 
   return (
     <AllStudentContext.Provider
@@ -40,8 +51,6 @@ export default function DatabaseStudents() {
         ) : (
           <>
             <div className="bg-white p-10">
-              {/* <StatOverview /> */}
-
               <DashboardButton
                 variant="primary"
                 leftElement={<Icon icon="tabler:plus" />}
@@ -58,9 +67,10 @@ export default function DatabaseStudents() {
                   value={searchName}
                   onChange={e => setSearchName(e.target.value)}
                 />
-                <button className="absolute bottom-1/2 translate-y-1/2 right-2">
-                  <Icon icon="mingcute:search-line" />
-                </button>
+                <Icon
+                  className="absolute bottom-1/2 translate-y-1/2 right-2"
+                  icon="mingcute:search-line"
+                />
               </div>
 
               <StudentsTable

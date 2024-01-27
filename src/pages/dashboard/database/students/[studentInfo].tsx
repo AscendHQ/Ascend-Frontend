@@ -270,6 +270,6 @@ function BioUpdate({
     </div>
   );
 }
-function formatDateToYYYYMMDD(isoString: string) {
+export function formatDateToYYYYMMDD(isoString: string) {
   return isoString?.split("T")[0];
 }
