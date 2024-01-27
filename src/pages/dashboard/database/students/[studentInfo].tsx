@@ -68,7 +68,10 @@ export default function StudentInfo() {
     useMutation({
       mutationFn: (data: StudentInfoSchemaType) => {
         return axiosInstance
-          .put(`/students/${studentRegId}`, transformData(data))
+          .put(
+            `/students/${studentDataFromBackend?.students[0]?._id}`,
+            transformData(data)
+          )
           .then(res => res.data);
       },
       onSuccess: () => {
@@ -257,7 +260,7 @@ function BioUpdate({
         </h3>
         <span className="text-base text-gray-800 font-medium">
           Registration Number:
-          {typeof regNo === "string" ? regNo : null}
+          {regNo}
         </span>
       </div>
       <Link href={DASHBOARD_STUDENT} className="flex items-center gap-2">

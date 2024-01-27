@@ -11,6 +11,7 @@ import {
   NewStudentData,
   NewStudentSchemaType,
   NigerianStates,
+  StudentInfoSchemaType,
 } from "./student-types";
 
 function useMutateNewStudent(
@@ -80,7 +81,7 @@ export function useFetchStateAndLGA() {
 }
 
 export function transformData(
-  originalData: NewStudentSchemaType
+  originalData: NewStudentSchemaType | StudentInfoSchemaType
 ): NewStudentData {
   return {
     personal_information: {
