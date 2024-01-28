@@ -141,7 +141,7 @@ const heatmapChartSeries = [
   },
 ];
 
-const ApexChart = () => {
+const StudentClassAttendanceChart = () => {
   return (
     <div id="heatmap-chart" className="max-w-[350px]">
       <ReactApexChart
@@ -154,4 +154,4 @@ const ApexChart = () => {
   );
 };
 
-export default ApexChart;
+export default StudentClassAttendanceChart;
