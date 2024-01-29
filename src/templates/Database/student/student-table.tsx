@@ -44,25 +44,23 @@ function StudentsTable({
 
   return (
     <div className="overflow-x-auto shadow-md sm:rounded-lg mt-10">
-      <table className="w-full text-sm text-left text-gray-500">
-        <TableHeaders />
-      </table>
-
       <div className="relative h-[400px] overflow-y-auto">
         <table className="w-full text-sm text-left text-gray-500">
+          <TableHeaders />
           <tbody>
             {isFetching && (
               <tr className="absolute inset-0 bg-white bg-opacity-70 flex justify-center items-center text-black">
                 <td>Loading...</td>
               </tr>
             )}
-            {data.map(item => (
-              <StudentTableRow
-                key={item.registration_number}
-                item={item}
-                openModal={openStudentDetailsModal}
-              />
-            ))}
+            {data &&
+              data.map(item => (
+                <StudentTableRow
+                  key={item.registration_number}
+                  item={item}
+                  openModal={openStudentDetailsModal}
+                />
+              ))}
           </tbody>
         </table>
       </div>

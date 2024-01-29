@@ -1,4 +1,5 @@
 /* eslint-disable react/no-array-index-key */
+import { motion } from "framer-motion";
 
 export default function LoadingState({
   isSubmitting,
@@ -50,3 +51,79 @@ export function Spinner() {
     </div>
   );
 }
+
+export const LoadingAnimation: React.FC = () => {
+  const loadingContainer = {
+    display: "flex",
+    gap: 4,
+    justifyContent: "space-around",
+  };
+  const loadingCircle = {
+    display: "block",
+    width: "0.5rem",
+    height: "0.5rem",
+    backgroundColor: "#000",
+    borderRadius: "0.5rem",
+  };
+
+  const loadingContainerVariants = {
+    start: {
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+    end: {
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const loadingCircleVariants = {
+    start: {
+      y: "0%",
+    },
+    middle: {
+      y: "50%",
+      transition: {
+        duration: 1.5,
+        ease: "easeOut",
+      },
+    },
+    end: {
+      y: "100%",
+    },
+  };
+  const loadingCircleTransition = {
+    duration: 1,
+    repeat: Infinity,
+    yoyo: Infinity,
+    ease: [0.34, 1.56, 0.64, 1],
+  };
+  return (
+    <div className="flex gap-2 justify-center items-center">
+      <p className="text-xl text-black">Loading</p>
+      <motion.div
+        style={loadingContainer}
+        variants={loadingContainerVariants}
+        animate={["start", "middle", "end"]}
+      >
+        <motion.span
+          style={loadingCircle}
+          variants={loadingCircleVariants}
+          transition={loadingCircleTransition}
+        ></motion.span>
+        <motion.span
+          style={loadingCircle}
+          variants={loadingCircleVariants}
+          transition={loadingCircleTransition}
+        ></motion.span>
+        <motion.span
+          style={loadingCircle}
+          variants={loadingCircleVariants}
+          transition={loadingCircleTransition}
+        ></motion.span>
+      </motion.div>
+    </div>
+  );
+};

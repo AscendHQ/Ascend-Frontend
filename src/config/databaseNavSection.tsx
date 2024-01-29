@@ -45,7 +45,6 @@ const databaseNavSection = [
     isActivepath: [
       DASHBOARD_SUBJECT,
       NEW_SUBJECT,
-      SUBJECT_REGISTRATION,
       DASHBOARD_SUBJECT_INFO("[subjectInfo]"),
     ],
   },

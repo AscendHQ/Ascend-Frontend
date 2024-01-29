@@ -6,7 +6,7 @@ import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
 import { Spinner } from "@/components/ui/Loading";
-import { NEW_SUBJECT, SUBJECT_REGISTRATION } from "@/config/links";
+import { NEW_SUBJECT } from "@/config/links";
 import { SubjectsTable } from "@/templates/Database/subject";
 import { useFilterData } from "@/templates/Database/subject/hooks";
 import { subjectLevelType } from "@/templates/Database/subject/subject-info";
@@ -48,13 +48,6 @@ export default function Subjects() {
         ) : (
           <>
             <div className="flex gap-2 justify-end">
-              <DashboardButton
-                variant="secondary"
-                isLink
-                path={SUBJECT_REGISTRATION}
-              >
-                Subject Registration
-              </DashboardButton>
               <DashboardButton
                 isLink
                 variant="primary"

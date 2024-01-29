@@ -74,7 +74,7 @@ export default function DatabaseStudents() {
               </div>
 
               <StudentsTable
-                data={studentData?.data.students}
+                data={studentData?.data?.students}
                 isFetching={studentData?.isFetching}
               />
             </div>

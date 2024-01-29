@@ -18,7 +18,7 @@ import {
   SubjectRegisterContextType,
 } from "@/templates/Database/subject/subject-types";
 
-import { useFetchClassInfo } from "../classes";
+import { useFetchClassInfo } from "./database/classes";
 
 export type ClassInfoData = {
   classes: classInfoProp[];

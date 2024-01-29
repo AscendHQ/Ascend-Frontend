@@ -3,7 +3,7 @@ import React from "react";
 
 import { Spinner } from "@/components/ui/Loading";
 import { useFormContext } from "@/hooks/useFormContext";
-import { SubjectRegister } from "@/pages/dashboard/database/subjects/register-subject";
+import { SubjectRegister } from "@/pages/dashboard/register-subject22";
 
 // import { formattedDataArray } from "./data";
 import SubjectInfoWrapper from "./subject-info-wrapper";

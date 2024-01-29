@@ -15,6 +15,7 @@ import {
   GENERATE_PAYROLL,
   NEW_LESSON_PLAN,
   NEW_TIMETABLE,
+  SUBJECT_REGISTRATION,
 } from "@/config/links";
 
 import SideBarItem from "./sidebar-item";
@@ -77,6 +78,14 @@ export default function Sidebar() {
           urlPath={DASHBOARD_LESSON_PLAN}
         />
         <SideBarItem
+          title={"Subject Registration"}
+          icon="material-symbols-light:app-registration-outline-sharp"
+          isActive={[SUBJECT_REGISTRATION].some(
+            path => router.pathname === path
+          )}
+          urlPath={SUBJECT_REGISTRATION}
+        />
+        <SideBarItem
           title={"Timetable"}
           icon="solar:calendar-linear"
           urlPath={DASHBOARD_TIMETABLE}
@@ -113,9 +122,7 @@ export default function Sidebar() {
           urlPath="/dashboard/roles"
         />
       </div>
-      <span className="text-primary-purple-600 absolute bottom-0">
-        ©product of Ascend
-      </span>
+      <span className="text-primary-purple-600">©product of Ascend</span>
     </aside>
   );
 }
