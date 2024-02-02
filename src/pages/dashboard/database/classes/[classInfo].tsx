@@ -19,7 +19,7 @@ import {
   ClassInfoSchemaType,
 } from "@/types/form";
 
-import { ClassInfoData } from "../../register-subject22";
+import { ClassInfoData } from "../../register-subject";
 import { useFetchClassInfo } from ".";
 
 export const ReactHookForm = React.createContext<
