@@ -82,30 +82,82 @@ export default function RegisterStudentTable({
       additional_subjects: selectedSubjects,
     });
   };
+  const NoStudentFound = () => (
+    <div className="flex items-center justify-center h-full">
+      <div className="text-center">
+        <div className="animate-bounce text-gray-500 mb-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            className="h-16 w-16 mx-auto"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M19 14l-7 7m0 0l-7-7m7 7V3"
+            />
+          </svg>
+        </div>
+        <p className="text-gray-600">No Student Found</p>
+      </div>
+    </div>
+  );
+  const RenderStudentRows = () => {
+    if (!data) {
+      return (
+        <tr className="absolute inset-0 flex justify-center items-center">
+          <td>
+            <Spinner />
+          </td>
+        </tr>
+      );
+    }
 
+    if (data[0].students.length === 0) {
+      return <NoStudentFound />;
+    }
+
+    return data[0].students.map((item, index) => (
+      <RegisterStudentTableRow
+        item={item}
+        key={item._id}
+        index={index}
+        className={data[0].name}
+        registerModal={openDetailsModal}
+      />
+    ));
+  };
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
       <div className="relative h-[400px] overflow-y-auto">
         <table className="w-full relative text-sm text-left  text-gray-500">
           <RegisterStudentTableHeader />
           <tbody>
-            {data ? (
-              data[0].students.map((item, index) => (
-                <RegisterStudentTableRow
-                  item={item}
-                  key={item._id}
-                  index={index}
-                  className={data[0].name}
-                  registerModal={openDetailsModal}
-                />
-              ))
+            {/* {data ? (
+              data[0].students.length > 0 ? (
+                data[0].students.map((item, index) => (
+                  <RegisterStudentTableRow
+                    item={item}
+                    key={item._id}
+                    index={index}
+                    className={data[0].name}
+                    registerModal={openDetailsModal}
+                  />
+                ))
+              ) : (
+                <NoStudentFound />
+              )
             ) : (
               <tr className="absolute flex justify-center mt-5 items-center w-full h-full">
                 <td>
                   <Spinner />
                 </td>
               </tr>
-            )}
+            )} */}
+            <RenderStudentRows />
           </tbody>
         </table>
       </div>
