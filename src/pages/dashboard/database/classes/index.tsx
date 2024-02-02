@@ -38,10 +38,11 @@ export default function Classes() {
     junior: classData.data ? classData.data.total_junior_class : 0,
     senior: classData.data ? classData.data.total_senior_class : 0,
   };
+
   return (
     <Container headerTitle="Classes">
       <main className="px-10 py-5 h-full bg-white">
-        {classData.isLoading ? (
+        {classData.data.classes.length <= 0 ? (
           <Spinner />
         ) : (
           <>

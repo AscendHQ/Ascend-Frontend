@@ -43,7 +43,7 @@ export default function Subjects() {
   return (
     <Container headerTitle="Subjects">
       <main className="px-10 py-5 h-full bg-white">
-        {subjectData.isLoading ? (
+        {subjectData.data.subjects.length <= 0 ? (
           <Spinner />
         ) : (
           <>

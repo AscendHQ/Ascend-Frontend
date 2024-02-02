@@ -28,7 +28,7 @@ export default function Sidebar() {
     React.useState(false);
 
   return (
-    <aside className="col-span-2 3xl:col-span-1 border-r border-neutral-200 py-6 px-4 bg-white relative">
+    <aside className="col-span-2 4xl:col-span-1 border-r border-neutral-200 py-6 px-4 bg-white relative">
       <Image
         src="/Ascend-Logo.svg"
         alt="Ascend Logo"

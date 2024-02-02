@@ -4,10 +4,7 @@ import React from "react";
 
 import { axiosInstance } from "@/api";
 import { DashboardButton } from "@/components/ui/button/button";
-import LoadingState, {
-  LoadingAnimation,
-  Spinner,
-} from "@/components/ui/Loading";
+import LoadingState, { Spinner } from "@/components/ui/Loading";
 
 import ViewDetailsModal from "../staff/components/view-details";
 import SubjectInfoWrapper from "../subject/subject-info-wrapper";
@@ -103,9 +100,9 @@ export default function RegisterStudentTable({
                 />
               ))
             ) : (
-              <tr className="absolute flex justify-center items-center w-full h-full">
+              <tr className="absolute flex justify-center mt-5 items-center w-full h-full">
                 <td>
-                  <LoadingAnimation />
+                  <Spinner />
                 </td>
               </tr>
             )}

@@ -1,5 +1,6 @@
 import React from "react";
 
+import { Spinner } from "@/components/ui/Loading";
 import { useFormContext } from "@/hooks/useFormContext";
 import { AllStudentContext } from "@/pages/dashboard/database/students";
 
@@ -49,8 +50,10 @@ function StudentsTable({
           <TableHeaders />
           <tbody>
             {isFetching && (
-              <tr className="absolute inset-0 bg-white bg-opacity-70 flex justify-center items-center text-black">
-                <td>Loading...</td>
+              <tr className="absolute inset-0 bg-white bg-opacity-70 flex h-[445px] justify-center items-center">
+                <td>
+                  <Spinner />
+                </td>
               </tr>
             )}
             {data &&

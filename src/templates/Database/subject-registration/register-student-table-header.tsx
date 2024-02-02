@@ -7,7 +7,7 @@ function RegisterStudentTableHeader() {
         <TableHeader text="Reg No." isCentered />
         <TableHeader text="Name" />
         <TableHeader text="Section" isCentered />
-        <TableHeader text="Progress status" isCentered />
+        <TableHeader text="Registration status" isCentered />
         <TableHeader text="Action" isCentered />
       </tr>
     </thead>
