@@ -83,32 +83,34 @@ export default function RegisterStudentTable({
     });
   };
   const NoStudentFound = () => (
-    <div className="flex items-center justify-center h-full">
-      <div className="text-center">
-        <div className="animate-bounce text-gray-500 mb-4">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            className="h-16 w-16 mx-auto"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M19 14l-7 7m0 0l-7-7m7 7V3"
-            />
-          </svg>
+    <tr className="absolute flex justify-center mt-20 items-center w-full h-full">
+      <td>
+        <div className="text-center">
+          <div className="animate-bounce text-gray-500 mb-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="h-16 w-16 mx-auto"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M19 14l-7 7m0 0l-7-7m7 7V3"
+              />
+            </svg>
+          </div>
+          <p className="text-gray-600">No Student Found</p>
         </div>
-        <p className="text-gray-600">No Student Found</p>
-      </div>
-    </div>
+      </td>
+    </tr>
   );
   const RenderStudentRows = () => {
     if (!data) {
       return (
-        <tr className="absolute inset-0 flex justify-center items-center">
+        <tr className="absolute flex justify-center mt-5 items-center w-full h-full">
           <td>
             <Spinner />
           </td>
