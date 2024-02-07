@@ -86,6 +86,14 @@ export default function Sidebar() {
           urlPath={SUBJECT_REGISTRATION}
         />
         <SideBarItem
+          title={"Learning"}
+          icon="material-symbols:school-outline"
+          isActive={["/dashboard/learning"].some(
+            path => router.pathname === path
+          )}
+          urlPath={"/dashboard/learning"}
+        />
+        <SideBarItem
           title={"Timetable"}
           icon="solar:calendar-linear"
           urlPath={DASHBOARD_TIMETABLE}
