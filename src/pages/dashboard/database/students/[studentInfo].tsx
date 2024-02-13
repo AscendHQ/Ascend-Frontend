@@ -8,6 +8,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 import { axiosInstance } from "@/api";
+import ErrorBoundary from "@/components/common/error-boundary";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
 import LoadingState, { Spinner } from "@/components/ui/Loading";
@@ -145,101 +146,105 @@ export default function StudentInfo() {
   }, [currentSubjectData.data]);
 
   return (
-    <StudentInfoContext.Provider
-      value={{ register, watch, errors, classData: classData.data?.classes }}
-    >
-      <Container headerTitle="Student">
-        <>
-          {!currentSubjectData.data.students[0] ? (
-            <Spinner />
-          ) : (
-            <div className="bg-white p-10">
-              <BioUpdate
-                regNo={studentRegId}
-                firstName={
-                  studentDataFromBackend?.students[0]?.personal_information
-                    ?.first_name
-                }
-                lastName={
-                  studentDataFromBackend?.students[0]?.personal_information
-                    ?.last_name
-                }
-              />
-              <EditPersonalInformation />
-              <EditContactInformation />
-              <EditGuardianInformation />
-              <EditAcademicDetails />
-              <EditHostelAccommodation />
-              <EditMedicalInformation />
-              <EditAdditionalInformation />
-              <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
-                <div className="w-96">
-                  <h4 className="text-Text-high-emphasis font-semibold">
-                    Student Status
-                  </h4>
-                  <p className="text-sm tracking-tight text-gray-800">
-                    This will be displayed on your organization profile.
-                  </p>
-                </div>
-                <div className="flex flex-1 flex-col lg:flex-row flex-wrap">
-                  <div className="flex items-center gap-3">
-                    <span>Inactive</span>
-                    <label
-                      htmlFor="toggle"
-                      className={`flex items-center cursor-pointer`}
-                    >
-                      <div className="relative">
-                        <input
-                          type="checkbox"
-                          id="toggle"
-                          className="sr-only"
-                          onChange={toggle}
-                          checked={isStudentActive}
-                        />
-                        <div
-                          className={`block ${
-                            isStudentActive
-                              ? "bg-secondary-green-500"
-                              : "bg-gray-600"
-                          } w-14 h-8 rounded-full`}
-                        ></div>
-                        <div
-                          className={`dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition ${
-                            isStudentActive ? "transform translate-x-full" : ""
-                          }`}
-                        ></div>
-                      </div>
-                    </label>
-                    <span>Active</span>
+    <ErrorBoundary fallback="Unexpected Error">
+      <StudentInfoContext.Provider
+        value={{ register, watch, errors, classData: classData.data?.classes }}
+      >
+        <Container headerTitle="Student">
+          <>
+            {!currentSubjectData.data.students[0] ? (
+              <Spinner />
+            ) : (
+              <div className="bg-white p-10">
+                <BioUpdate
+                  regNo={studentRegId}
+                  firstName={
+                    studentDataFromBackend?.students[0]?.personal_information
+                      ?.first_name
+                  }
+                  lastName={
+                    studentDataFromBackend?.students[0]?.personal_information
+                      ?.last_name
+                  }
+                />
+                <EditPersonalInformation />
+                <EditContactInformation />
+                <EditGuardianInformation />
+                <EditAcademicDetails />
+                <EditHostelAccommodation />
+                <EditMedicalInformation />
+                <EditAdditionalInformation />
+                <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
+                  <div className="w-96">
+                    <h4 className="text-Text-high-emphasis font-semibold">
+                      Student Status
+                    </h4>
+                    <p className="text-sm tracking-tight text-gray-800">
+                      This will be displayed on your organization profile.
+                    </p>
                   </div>
-                  <p className="text-sm mt-4 mb-2">
-                    <span className="font-bold">Active:</span> This student is
-                    currently enrolled in the school
-                  </p>
-                  <p className="text-sm">
-                    <span className="font-bold">Inactive:</span> This student is
-                    not currently enrolled in the school
-                  </p>
+                  <div className="flex flex-1 flex-col lg:flex-row flex-wrap">
+                    <div className="flex items-center gap-3">
+                      <span>Inactive</span>
+                      <label
+                        htmlFor="toggle"
+                        className={`flex items-center cursor-pointer`}
+                      >
+                        <div className="relative">
+                          <input
+                            type="checkbox"
+                            id="toggle"
+                            className="sr-only"
+                            onChange={toggle}
+                            checked={isStudentActive}
+                          />
+                          <div
+                            className={`block ${
+                              isStudentActive
+                                ? "bg-secondary-green-500"
+                                : "bg-gray-600"
+                            } w-14 h-8 rounded-full`}
+                          ></div>
+                          <div
+                            className={`dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition ${
+                              isStudentActive
+                                ? "transform translate-x-full"
+                                : ""
+                            }`}
+                          ></div>
+                        </div>
+                      </label>
+                      <span>Active</span>
+                    </div>
+                    <p className="text-sm mt-4 mb-2">
+                      <span className="font-bold">Active:</span> This student is
+                      currently enrolled in the school
+                    </p>
+                    <p className="text-sm">
+                      <span className="font-bold">Inactive:</span> This student
+                      is not currently enrolled in the school
+                    </p>
+                  </div>
                 </div>
+                <div className="flex justify-end gap-6">
+                  <DashboardButton
+                    variant="primary"
+                    className="font-semibold px-7 ml-0"
+                    onClick={handleSubmit(onSubmit)}
+                  >
+                    <LoadingState
+                      label="Update"
+                      isSubmitting={isPendingExistingStudent}
+                    />
+                  </DashboardButton>
+                </div>
+                {contextHolder}
               </div>
-              <div className="flex justify-end gap-6">
-                <DashboardButton
-                  variant="primary"
-                  className="font-semibold px-7 ml-0"
-                  onClick={handleSubmit(onSubmit)}
-                >
-                  <LoadingState
-                    label="Update"
-                    isSubmitting={isPendingExistingStudent}
-                  />
-                </DashboardButton>
-              </div>
-              {contextHolder}
-            </div>
-          )}
-        </>
-      </Container>
-    </StudentInfoContext.Provider>
+            )}
+          </>
+        </Container>
+      </StudentInfoContext.Provider>
+    </ErrorBoundary>
   );
 }
 
