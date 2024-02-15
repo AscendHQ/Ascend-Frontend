@@ -56,7 +56,12 @@ export default function FormSection() {
         className: "ant-toast",
       });
     },
-    onSettled() {
+    onSettled(data, error, variable, context) {
+      console.log(data, "data");
+      console.log(error, "error");
+      console.log(variable, "variable");
+      console.log(context, "context");
+
       reset({
         email: "",
         password: "",
