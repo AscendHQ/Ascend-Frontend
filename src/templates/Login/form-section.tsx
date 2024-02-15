@@ -26,10 +26,10 @@ export default function FormSection() {
     formState: { errors, isSubmitting },
   } = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "ascendafrica.dev@gmail.com",
-      password: "Passw0rd",
-    },
+    // defaultValues: {
+    //   email: "ascendafrica.dev@gmail.com",
+    //   password: "Passw0rd",
+    // },
   });
 
   const loginMutation = useMutation({
