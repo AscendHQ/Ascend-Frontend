@@ -90,9 +90,10 @@ export default function FormSection() {
       </Link>
       <div>
         <h2 className="text-step-2 font-bold mt-14">Welcome Back 👋</h2>
+
         <p className="text-step--2 !leading-tight mt-3">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis morbi
-          pulvinar venenatis non.
+          Let's make learning and professional growth effortless and more
+          engaging than ever.
         </p>
       </div>
       <Button
