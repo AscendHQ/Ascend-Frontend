@@ -26,10 +26,10 @@ export default function FormSection() {
     formState: { errors, isSubmitting },
   } = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
-    // defaultValues: {
-    //   email: "ascendafrica.dev@gmail.com",
-    //   password: "Passw0rd",
-    // },
+    defaultValues: {
+      email: "ascendafrica.dev@gmail.com",
+      password: "Passw0rd",
+    },
   });
 
   const loginMutation = useMutation({
@@ -38,6 +38,20 @@ export default function FormSection() {
     },
     onSuccess: data => {
       console.log({ data });
+      if (!data) {
+        api.open({
+          message: (
+            <h3 className="text-secondary-red-600 font-semibold">
+              Login Failed!
+            </h3>
+          ),
+          description:
+            "We encountered an unexpected issue during your login attempt. Please try again.",
+          duration: 8,
+          className: "ant-toast",
+        });
+        return;
+      }
       setSecureStorage(
         "userInfoAccessToken",
         JSON.stringify(data.data.access_token)

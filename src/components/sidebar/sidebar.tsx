@@ -3,20 +3,7 @@ import { useRouter } from "next/router";
 import React from "react";
 
 import databaseNavSection from "@/config/databaseNavSection";
-import {
-  DASHBOARD_LESSON_PLAN,
-  DASHBOARD_LESSON_PLAN_INFO,
-  DASHBOARD_OVERVIEW,
-  DASHBOARD_PAYROLL,
-  DASHBOARD_PAYROLL_INFO,
-  DASHBOARD_RESULT,
-  DASHBOARD_RESULT_INFO,
-  DASHBOARD_TIMETABLE,
-  GENERATE_PAYROLL,
-  NEW_LESSON_PLAN,
-  NEW_TIMETABLE,
-  SUBJECT_REGISTRATION,
-} from "@/config/links";
+import { adminSidebarItems, mainSidebarItems } from "@/config/sidebarItems";
 
 import SideBarItem from "./sidebar-item";
 import SidebarMenu from "./sidebar-menu";
@@ -39,96 +26,59 @@ export default function Sidebar() {
       />
       <div className="mt-16 pb-4 border-b border-neutral-200 space-y-2">
         <h3 className="text-base mb-4 text-gray-800">MAIN</h3>
-        <SideBarItem
-          title={"Overview"}
-          icon="iconamoon:category-light"
-          isActive={router.pathname === DASHBOARD_OVERVIEW}
-          urlPath={DASHBOARD_OVERVIEW}
-        />
-        <SidebarMenu
-          heading={"Database"}
-          collapse={Boolean(
-            !databaseNavSection.find(each =>
-              each.isActivepath.some(path => router.pathname === path)
-            )
-          )}
-          collapseAction={showCollapsibleSideNav}
-          setCollapse={setshowCollapsibleSideNav}
-        >
-          {databaseNavSection.map(each => (
-            <SideBarItem
-              title={each.title}
-              isActive={each.isActivepath.some(
-                path => router.pathname === path
-              )}
-              urlPath={each.path}
-              isSideBarMenu
-              key={each.title}
-            />
-          ))}
-        </SidebarMenu>
-        <SideBarItem
-          title={"Lesson plan"}
-          icon="material-symbols:menu-book-outline"
-          isActive={[
-            DASHBOARD_LESSON_PLAN,
-            NEW_LESSON_PLAN,
-            DASHBOARD_LESSON_PLAN_INFO("[lessonPlanInfo]"),
-          ].some(path => router.pathname === path)}
-          urlPath={DASHBOARD_LESSON_PLAN}
-        />
-        <SideBarItem
-          title={"Subject Registration"}
-          icon="material-symbols-light:app-registration-outline-sharp"
-          isActive={[SUBJECT_REGISTRATION].some(
-            path => router.pathname === path
-          )}
-          urlPath={SUBJECT_REGISTRATION}
-        />
-        <SideBarItem
-          title={"Learning"}
-          icon="material-symbols:school-outline"
-          isActive={["/dashboard/learning"].some(
-            path => router.pathname === path
-          )}
-          urlPath={"/dashboard/learning"}
-        />
-        <SideBarItem
-          title={"Timetable"}
-          icon="solar:calendar-linear"
-          urlPath={DASHBOARD_TIMETABLE}
-          isActive={[NEW_TIMETABLE, DASHBOARD_TIMETABLE].some(
-            path => router.pathname === path
-          )}
-        />
-        <SideBarItem
-          title={"Results"}
-          icon="fluent:trophy-16-regular"
-          isActive={[
-            DASHBOARD_RESULT,
-            DASHBOARD_RESULT_INFO("[resultInfo]"),
-          ].some(path => router.pathname === path)}
-          urlPath={DASHBOARD_RESULT}
-        />
+        {mainSidebarItems.map(item => {
+          if (item.isDatabaseNav) {
+            return (
+              <SidebarMenu
+                heading={"Database"}
+                key={"OMYRTSy"}
+                collapse={Boolean(
+                  !databaseNavSection.find(each =>
+                    each.isActivepath.some(path => router.pathname === path)
+                  )
+                )}
+                collapseAction={showCollapsibleSideNav}
+                setCollapse={setshowCollapsibleSideNav}
+              >
+                {databaseNavSection.map(each => (
+                  <SideBarItem
+                    title={each.title}
+                    isActive={each.isActivepath.some(
+                      path => router.pathname === path
+                    )}
+                    urlPath={each.path}
+                    isSideBarMenu
+                    key={each.title}
+                  />
+                ))}
+              </SidebarMenu>
+            );
+          } else {
+            return (
+              <SideBarItem
+                key={item.title}
+                title={item.title}
+                icon={item.icon}
+                isActive={item.isActivePaths.some(
+                  path => router.pathname === path
+                )}
+                urlPath={item.urlPath}
+              />
+            );
+          }
+        })}
       </div>
       <div className="mt-10 mb-5 pb-4 border-b border-neutral-200 space-y-2">
         <h3 className="text-base mb-4 text-gray-800">ADMINISTRATION</h3>
-        <SideBarItem
-          title={"Payroll"}
-          icon="icon-park-outline:transaction-order"
-          isActive={[
-            DASHBOARD_PAYROLL,
-            GENERATE_PAYROLL,
-            DASHBOARD_PAYROLL_INFO("[payrollInfo]"),
-          ].some(path => router.pathname === path)}
-          urlPath={DASHBOARD_PAYROLL}
-        />
-        <SideBarItem
-          title={"Roles"}
-          icon="la:award"
-          isActive={router.pathname === "/dashboard/roles"}
-          urlPath="/dashboard/roles"
-        />
+        {adminSidebarItems.map(item => (
+          <SideBarItem
+            title={item.title}
+            icon={item.icon}
+            key={item.title}
+            isActive={item.isActivePaths.some(path => router.pathname === path)}
+            urlPath={item.urlPath}
+          />
+        ))}
       </div>
       <span className="text-primary-purple-600">©product of Ascend</span>
     </aside>
