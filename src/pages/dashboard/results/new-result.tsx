@@ -104,7 +104,7 @@ function ResultInformation() {
             <select
               id="student_class"
               name="student_class"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis p-2"
             >
               <option>Select a class</option>
               <option value="SS3">SS3</option>
@@ -125,7 +125,7 @@ function ResultInformation() {
             <select
               id="student_class"
               name="student_class"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis p-2"
             >
               <option>Select a student</option>
               <option value="Billy Wilson">Justin Herrera</option>
@@ -146,7 +146,7 @@ function ResultInformation() {
             <input
               type="text"
               id="student_name"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis p-2"
               placeholder="Ivan Stevens"
               readOnly
             />
@@ -161,7 +161,7 @@ function ResultInformation() {
             <input
               type="text"
               id="student_registration_number"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis p-2"
               placeholder="DEMO/2023/1888"
               readOnly
             />
@@ -183,6 +183,7 @@ function ResultInformation() {
             />
           </div> */}
           <Table />
+          <NewFunction />
           <div className="lg:min-w-full flex-1 ">
             <label
               htmlFor="teacher's_remark"
@@ -193,7 +194,7 @@ function ResultInformation() {
             <textarea
               name="teacher's_remark"
               id="teacher's_remark"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis h-28"
+              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis h-28 p-2"
               placeholder="What can you say about this child?"
             />
           </div>
@@ -207,7 +208,7 @@ function ResultInformation() {
             <textarea
               name="principal's_remark"
               id="principal's_remark"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis h-28"
+              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis h-28 p-2"
               placeholder="What can you say about this child?"
             />
           </div>
@@ -231,6 +232,43 @@ function ResultInformation() {
     </section>
   );
 }
+function NewFunction() {
+  return (
+    <div className="overflow-scroll w-full border rounded-md py-5">
+      <table className="w-full">
+        <thead>
+          <tr>
+            <th className="">Psychomotor</th>
+            <th className="text-left">Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          {["Obedience", "Neatness", "Politeness", "Dedication"].map(item => (
+            <tr key={item}>
+              <td className="text-center">{item}</td>
+              <td className="pt-2 ">
+                <select
+                  name=""
+                  id=""
+                  className="p-2 bg-white border rounded-md"
+                  // defaultValue={""}
+                >
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+                  <option value="E">E</option>
+                  <option value="F">F</option>
+                </select>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 function Table() {
   return (
     <div className="overflow-scroll shadow-md sm:rounded-lg w-full">

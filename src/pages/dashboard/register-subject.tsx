@@ -152,6 +152,7 @@ export default function RegisterStudent() {
             selectedSubjects={selectedSubjects}
             toast={toast}
             setSelectedSubjects={setSelectedSubjects}
+            fetchStudentsQuery={fetchStudentsQuery}
           />
         </main>
       )}
