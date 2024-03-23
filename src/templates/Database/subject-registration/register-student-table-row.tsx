@@ -4,12 +4,10 @@ import { Student } from "../subject/subject-types";
 
 function RegisterStudentTableRow({
   item,
-  index,
   registerModal,
   className,
 }: {
   item: Student;
-  index: number;
   className: string;
   registerModal: (id: string) => void;
 }) {
@@ -24,11 +22,11 @@ function RegisterStudentTableRow({
       <TableCell
         content={
           <span
-            className={`rounded-full p-2 w-24 mx-auto ${
-              index % 2 === 0 ? "bg-grey-900" : "bg-secondary-green-600"
-            } text-white block`}
+            className={`rounded-full py-1.5 px-3 text-sm mx-auto ${
+              item.is_registered ? "bg-secondary-green-600" : "bg-grey-900"
+            } text-white inline-block`}
           >
-            {index % 2 === 0 ? "Pending" : "Completed"}
+            {item.is_registered ? "Completed" : "Pending"}
           </span>
         }
         isCentered
@@ -39,7 +37,7 @@ function RegisterStudentTableRow({
             className="border p-2 rounded w-20"
             onClick={() => registerModal(item._id)}
           >
-            {index % 2 === 0 ? "Register" : "Update"}
+            {item.is_registered ? "Update" : "Register"}
           </button>
         }
         isCentered

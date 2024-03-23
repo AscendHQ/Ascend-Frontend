@@ -85,6 +85,7 @@ export type Student = {
   middle_name: string;
   last_name: string;
   registration_number: string;
+  is_registered?: boolean;
 };
 
 export type ClassInfo = {
