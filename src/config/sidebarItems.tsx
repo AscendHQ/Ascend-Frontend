@@ -22,6 +22,7 @@ type SideBarItemType = {
 };
 
 type DatabaseNavType = {
+  title:string;
   isDatabaseNav: true;
 };
 
@@ -36,6 +37,7 @@ export const mainSidebarItems: SidebarItemType[] = [
     urlPath: DASHBOARD_OVERVIEW,
   },
   {
+    title: "DatabaseNav",
     isDatabaseNav: true,
   },
   {

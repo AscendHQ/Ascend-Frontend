@@ -31,7 +31,7 @@ export default function Sidebar() {
             return (
               <SidebarMenu
                 heading={"Database"}
-                key={"OMYRTSy"}
+                key={item.title}
                 collapse={Boolean(
                   !databaseNavSection.find(each =>
                     each.isActivepath.some(path => router.pathname === path)
