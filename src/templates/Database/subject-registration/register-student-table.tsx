@@ -34,14 +34,27 @@ export default function RegisterStudentTable({
   const [currentStudentId, setCurrentStudentId] = React.useState("");
   console.log(data, "datadatadatadata");
 
-  const openDetailsModal = (id: string) => {
+  const openDetailsModal = async (id: string) => {
     setCurrentStudentId(id);
     // TODO: Give user feedback
     console.log("Loading...");
 
-    if (fetchStudentRegistrationQuery.data) {
-      setIsOpenDetails(true);
+    // if (fetchStudentRegistrationQuery.data) {
+    //   setIsOpenDetails(true);
+    // }
+    // Fetch data if it's not available yet
+    if (!fetchStudentRegistrationQuery.data) {
+      try {
+        await fetchStudentRegistrationQuery.refetch();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Handle error if necessary
+        return;
+      }
     }
+
+    // Now that data is available, open the modal
+    setIsOpenDetails(true);
   };
   const closeDetailsModal = () => {
     fetchStudentsQuery.refetch();
