@@ -36,6 +36,7 @@ export const mainSidebarItems: SidebarItemType[] = [
     urlPath: DASHBOARD_OVERVIEW,
   },
   {
+     title: "DatabaseNav",
     isDatabaseNav: true,
   },
   {
