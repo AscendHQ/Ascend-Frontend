@@ -3,23 +3,32 @@ import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
 
-export default function ContentSection({
-  direction = "right",
+const FeaturePoint = ({ text }: { text: string }) => (
+  <li className="flex gap-3 md:gap-6 items-start">
+    <div className="bg-accent-600 rounded-full p-1 mt-1">
+      <Icon icon="fluent:checkmark-12-regular" className="text-lg md:text-xl" />
+    </div>
+    <span className="text-accent-500 !leading-6 text-step-0">{text}</span>
+  </li>
+);
+
+export default function FeatureSection({
+  contentAlignment = "right",
   heading,
-  button,
-  outlines,
+  callToAction,
+  featurePoints,
   children,
 }: {
-  direction?: "right" | "left";
+  contentAlignment?: "right" | "left";
   heading: string;
-  button?: JSX.Element;
+  callToAction?: JSX.Element;
   children: ReactNode;
-  outlines: string[];
+  featurePoints: string[];
 }) {
   return (
     <motion.div
       className={`flex gap-5 flex-col ${
-        direction === "right" ? "lg:flex-row" : "lg:flex-row-reverse"
+        contentAlignment === "right" ? "lg:flex-row" : "lg:flex-row-reverse"
       }  justify-between mt-44 items-center`}
       initial={{ opacity: 0, y: 100 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -32,21 +41,11 @@ export default function ContentSection({
           {heading}
         </h4>
         <ul className="space-y-3">
-          {outlines.map(each => (
-            <li className="flex gap-3 md:gap-6 items-start" key={each}>
-              <div className="bg-accent-600 rounded-full p-1 mt-1">
-                <Icon
-                  icon="fluent:checkmark-12-regular"
-                  className="text-lg md:text-xl"
-                />
-              </div>
-              <span className="text-accent-500 !leading-6 text-step-0">
-                {each}
-              </span>
-            </li>
+          {featurePoints.map((point, index) => (
+            <FeaturePoint key={`${heading}-${index}`} text={point} />
           ))}
         </ul>
-        {button}
+        {callToAction}
       </div>
     </motion.div>
   );

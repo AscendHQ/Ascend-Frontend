@@ -1,6 +1,6 @@
-import ContentSection from "./content-section";
+import FeatureSection from "./feature-section";
 import Footer from "./footer-landing-page";
 import DashboardHeader from "./header-dashboard";
 import Header from "./header-landing-page";
 
-export { ContentSection, DashboardHeader, Footer, Header };
+export { DashboardHeader, FeatureSection, Footer, Header };

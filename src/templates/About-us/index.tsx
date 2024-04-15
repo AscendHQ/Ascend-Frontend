@@ -1,4 +1,4 @@
-import IntroSection from "./intro-section";
-import MainSection from "./main-section";
+import AboutUsIntroSection from "./about-us-intro-section";
+import AboutUsMainSection from "./about-us-main-section";
 
-export { IntroSection, MainSection };
+export { AboutUsIntroSection, AboutUsMainSection };

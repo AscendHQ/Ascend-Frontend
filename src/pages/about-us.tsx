@@ -1,16 +1,16 @@
 import React from "react";
 
 import { Footer, Header } from "@/components/common";
-import { IntroSection, MainSection } from "@/templates/About-us";
+import { AboutUsIntroSection, AboutUsMainSection } from "@/templates/About-us";
 
 function AboutUS() {
   return (
     <div className="font-GTWalsheimPro">
       <div className="bg-purple-100">
         <Header title="About us" canonicalTag="/about-us" />
-        <IntroSection />
+        <AboutUsIntroSection />
       </div>
-      <MainSection />
+      <AboutUsMainSection />
       <Footer />
     </div>
   );
