@@ -20,6 +20,7 @@ export default function RegisterStudentTable({
   selectedSubjects,
   handleCheckboxChange,
   setSelectedSubjects,
+  fetchStudentsQuery,
 }: {
   data?: ClassInfo[];
   selectedSubjects: string[];
@@ -27,18 +28,36 @@ export default function RegisterStudentTable({
   toast: NotificationInstance;
   handleCheckboxChange: (subject: string) => void;
   setSelectedSubjects: React.Dispatch<React.SetStateAction<string[]>>;
+  fetchStudentsQuery: UseQueryResult<ClassInfo[], Error>;
 }) {
   const [isOpenDetails, setIsOpenDetails] = React.useState(false);
   const [currentStudentId, setCurrentStudentId] = React.useState("");
+  console.log(data, "datadatadatadata");
 
-  const openDetailsModal = (id: string) => {
+  const openDetailsModal = async (id: string) => {
     setCurrentStudentId(id);
+    // TODO: Give user feedback
+    console.log("Loading...");
 
-    if (fetchStudentRegistrationQuery.data) {
-      setIsOpenDetails(true);
+    // if (fetchStudentRegistrationQuery.data) {
+    //   setIsOpenDetails(true);
+    // }
+    // Fetch data if it's not available yet
+    if (!fetchStudentRegistrationQuery.data) {
+      try {
+        await fetchStudentRegistrationQuery.refetch();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Handle error if necessary
+        return;
+      }
     }
+
+    // Now that data is available, open the modal
+    setIsOpenDetails(true);
   };
   const closeDetailsModal = () => {
+    fetchStudentsQuery.refetch();
     setIsOpenDetails(false);
     setSelectedSubjects([]);
   };
@@ -118,15 +137,16 @@ export default function RegisterStudentTable({
       );
     }
 
-    if (data[0].students.length === 0) {
+    if (!data || data.length === 0) {
       return <NoStudentFound />;
     }
-
-    return data[0].students.map((item, index) => (
+    if (data?.[0].students.length === 0) {
+      return <NoStudentFound />;
+    }
+    return data?.[0].students.map(item => (
       <RegisterStudentTableRow
         item={item}
         key={item._id}
-        index={index}
         className={data[0].name}
         registerModal={openDetailsModal}
       />
@@ -135,7 +155,7 @@ export default function RegisterStudentTable({
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
       <div className="relative h-[400px] overflow-y-auto">
-        <table className="w-full relative text-sm text-left  text-gray-500">
+        <table className={`w-full relative text-sm text-left  text-gray-500`}>
           <RegisterStudentTableHeader />
           <tbody>
             {/* {data ? (

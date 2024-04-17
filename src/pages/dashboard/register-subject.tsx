@@ -1,6 +1,5 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { notification } from "antd";
-import { motion } from "framer-motion";
 import React from "react";
 
 import { axiosInstance } from "@/api";
@@ -8,6 +7,8 @@ import { Container } from "@/components/layout/dashboard";
 import { Spinner } from "@/components/ui/Loading";
 import { classInfoProp } from "@/templates/Database/class/class-types";
 import { ClassInfo } from "@/templates/Database/subject/subject-types";
+import FilterStudentTab from "@/templates/Database/subject-registration/filter-student-tab";
+import { useFilterData } from "@/templates/Database/subject-registration/hooks";
 import RegisterStudentTable from "@/templates/Database/subject-registration/register-student-table";
 
 import { useFetchClassInfo } from "./database/classes";
@@ -15,10 +16,10 @@ import { useFetchClassInfo } from "./database/classes";
 export type ClassInfoData = {
   classes: classInfoProp[];
 };
-
+export type registrationSubjectType = "pending" | "completed" | "all";
 export default function RegisterStudent() {
   const [currentStudentStatusFilter, setCurrentStudentStatusFilter] =
-    React.useState("All");
+    React.useState<registrationSubjectType>("all");
   const [currentClassId, setCurrentClassId] = React.useState("");
   const [selectedSubjects, setSelectedSubjects] = React.useState<string[]>([]);
 
@@ -69,6 +70,29 @@ export default function RegisterStudent() {
     }
   };
 
+  /* 
+  
+  */
+  const { filteredData } = useFilterData({
+    data: fetchStudentsQuery.isLoading ? [] : fetchStudentsQuery.data ?? [],
+    criteria: currentStudentStatusFilter,
+  });
+  const tabNumbers = {
+    all: fetchStudentsQuery.data
+      ? fetchStudentsQuery.data[0].students.length
+      : 0,
+    completed: fetchStudentsQuery.data
+      ? fetchStudentsQuery.data[0].students.filter(
+          student => student.is_registered === true
+        ).length
+      : 0,
+    pending: fetchStudentsQuery.data
+      ? fetchStudentsQuery.data[0].students.filter(
+          student => !student.is_registered
+        ).length
+      : 0,
+  };
+
   return (
     <Container headerTitle="Subject Registration">
       {classInfoQueryResult.data.classes.length <= 0 ? (
@@ -111,47 +135,20 @@ export default function RegisterStudent() {
             </div>
           </section>
           <nav>
-            <ul className="flex bg-neutral-300 border-1.5 items-center border-border-colour-light rounded px-2 py-1 gap-2 mt-10 w-fit">
-              {[
-                { label: "All", studentCount: 3 },
-                { label: "Pending", studentCount: 3 },
-                { label: "Completed", studentCount: 3 },
-              ].map(each => (
-                <motion.li
-                  className={`relative px-3 text-center rounded ${
-                    each.label === currentStudentStatusFilter
-                      ? "text-primary-purple-700"
-                      : "text-gray-800"
-                  }`}
-                  key={each.label}
-                >
-                  {each.label === currentStudentStatusFilter && (
-                    <motion.span
-                      layoutId="active pill"
-                      className={`absolute inset-0 rounded -z-0 ${
-                        each.label === currentStudentStatusFilter
-                          ? "bg-white shadow-[0px_2px_12px_0px_#18181B36]"
-                          : ""
-                      }`}
-                    />
-                  )}
-                  <button
-                    onClick={() => setCurrentStudentStatusFilter(each.label)}
-                    className={`px-3 py-1 font-medium tracking-tight relative`}
-                  >
-                    {each.label} ({each.studentCount})
-                  </button>
-                </motion.li>
-              ))}
-            </ul>
+            <FilterStudentTab
+              tabNumbers={tabNumbers}
+              currentCategory={currentStudentStatusFilter}
+              setCurrentCategory={setCurrentStudentStatusFilter}
+            />
           </nav>
           <RegisterStudentTable
-            data={fetchStudentsQuery.data}
+            data={filteredData}
             currentClassId={currentClassId}
             handleCheckboxChange={handleCheckboxChange}
             selectedSubjects={selectedSubjects}
             toast={toast}
             setSelectedSubjects={setSelectedSubjects}
+            fetchStudentsQuery={fetchStudentsQuery}
           />
         </main>
       )}
