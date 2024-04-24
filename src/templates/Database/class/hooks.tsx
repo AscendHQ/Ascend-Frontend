@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { classInfoProp } from "./classInfo.data";
+import { classInfoProp } from "./class-types";
 
 export const useClassStatistics = ({ data }: { data: classInfoProp[] }) => {
   const totalNumberOfClassLevel = data.length;
@@ -33,7 +33,6 @@ export const useFilterData = ({
       }
     });
   }, [data, criteria]);
-
   return {
     filteredData: filteredData.reverse(),
   };

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Icon } from "@iconify/react";
 import { Dropdown, MenuProps } from "antd";
 import Link from "next/link";
@@ -6,8 +7,9 @@ import { DashboardButton } from "@/components/ui/button/button";
 import ErrorModal from "@/components/ui/modal/errormodal";
 import { TableCell } from "@/components/ui/table";
 import { DASHBOARD_CLASS_INFO } from "@/config/links";
-import { ClassRowProps } from "@/types";
 import truncateAndDisplay from "@/utils/truncateAndDisplay";
+
+import { ClassRowProps } from "./class-types";
 
 export default function ClassRow({ item, index, action }: ClassRowProps) {
   const handleOk = () => {
@@ -22,7 +24,7 @@ export default function ClassRow({ item, index, action }: ClassRowProps) {
     {
       label: (
         <Link
-          href={DASHBOARD_CLASS_INFO(item.className)}
+          href={DASHBOARD_CLASS_INFO(item.name)}
           className="flex gap-2 w-full transition-all py-1 rounded-sm items-center"
         >
           <Icon icon="ep:more" fontSize={20} />
@@ -65,8 +67,13 @@ export default function ClassRow({ item, index, action }: ClassRowProps) {
   return (
     <tr className="bg-white border-grey-300 border-b">
       <TableCell content={index + 1} isCentered />
-      <TableCell content={item.className} isCentered />
-      <TableCell content={<span>{truncateAndDisplay(item.subject)}</span>} />
+      <TableCell content={item.name} isCentered />
+      {/* <TableCell content={<span>{truncateAndDisplay(item.subject)}</span>} /> */}
+      <TableCell
+        content={item.level === "junior" ? item.other_section : item.section}
+        styles="capitalize"
+        isCentered
+      />
       <TableCell
         content={
           item.level === "junior" ? (
@@ -85,17 +92,7 @@ export default function ClassRow({ item, index, action }: ClassRowProps) {
         }
         isCentered
       />
-      <TableCell
-        content={
-          <DashboardButton
-            variant="primary"
-            onClick={() => action(item.className)}
-            className="py-2 rounded-lg"
-          >
-            Add Subject
-          </DashboardButton>
-        }
-      />
+
       <TableCell
         content={
           <Dropdown menu={{ items }} trigger={["click"]}>

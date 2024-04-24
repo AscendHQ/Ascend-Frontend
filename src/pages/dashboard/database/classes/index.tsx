@@ -1,55 +1,69 @@
 import { Icon } from "@iconify/react";
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
+import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
+import { Spinner } from "@/components/ui/Loading";
 import { NEW_CLASS } from "@/config/links";
-import { classInfo } from "@/templates/Database/class/classInfo.data";
-import {
-  useClassStatistics,
-  useFilterData,
-} from "@/templates/Database/class/hooks";
-import { ClassList } from "@/templates/Database/class/tab";
+import { useFilterData } from "@/templates/Database/class/hooks";
+import { ClassList, LevelOptions } from "@/templates/Database/class/tab";
 import Table from "@/templates/Database/class/table";
 
+export const fetchAllClass = () =>
+  axiosInstance.get("/classes").then(res => res.data);
+
+export function useFetchClassInfo() {
+  return useQuery({
+    queryKey: ["allClass"],
+    queryFn: fetchAllClass,
+    initialData: { classes: [] },
+    enabled: true,
+  });
+}
 export default function Classes() {
-  const [currentStudentLevel, setCurrentStudentLevel] = React.useState<
-    "all" | "junior" | "senior"
-  >("all");
+  const [currentStudentLevel, setCurrentStudentLevel] =
+    React.useState<LevelOptions>("all");
+
+  const classData = useFetchClassInfo();
+
   const { filteredData } = useFilterData({
-    data: classInfo,
+    data: classData.isLoading ? [] : classData.data.classes,
     criteria: currentStudentLevel,
   });
 
-  const { totalNumberOfClassLevel, noOfSeniorClass, noOfJuniorClass } =
-    useClassStatistics({
-      data: classInfo,
-    });
-
   const tabNumbers = {
-    all: totalNumberOfClassLevel,
-    junior: noOfJuniorClass,
-    senior: noOfSeniorClass,
+    all: classData.data ? classData.data.classes.length : 0,
+    junior: classData.data ? classData.data.total_junior_class : 0,
+    senior: classData.data ? classData.data.total_senior_class : 0,
   };
+
   return (
     <Container headerTitle="Classes">
       <main className="px-10 py-5 h-full bg-white">
-        <div className="flex">
-          <DashboardButton
-            variant="primary"
-            isLink
-            path={NEW_CLASS}
-            leftElement={<Icon icon="tabler:plus" />}
-          >
-            Add Class
-          </DashboardButton>
-        </div>
-        <ClassList
-          tabNumbers={tabNumbers}
-          currentCategory={currentStudentLevel}
-          setCurrentCategory={setCurrentStudentLevel}
-        />
-        <Table data={filteredData} />
+        {classData.data.classes.length <= 0 ? (
+          <Spinner />
+        ) : (
+          <>
+            <div className="flex">
+              <DashboardButton
+                variant="primary"
+                isLink
+                path={NEW_CLASS}
+                leftElement={<Icon icon="tabler:plus" />}
+              >
+                Add Class
+              </DashboardButton>
+            </div>
+            <ClassList
+              tabNumbers={tabNumbers}
+              currentCategory={currentStudentLevel}
+              setCurrentCategory={setCurrentStudentLevel}
+            />
+            <Table data={filteredData} />
+          </>
+        )}
       </main>
     </Container>
   );

@@ -9,7 +9,6 @@ export default function SubjectTableHeaders() {
         <TableHeader text="S/N" styles="pl-6 pr-3" />
         <TableHeader text="Subject name" />
         <TableHeader text="Subject Code" />
-        <TableHeader text="Classes" />
         <TableHeader text="Level" isCentered />
         <th scope="col" className="px-6 py-3">
           <Icon icon="ion:filter" />

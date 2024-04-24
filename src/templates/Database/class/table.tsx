@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import AddSubjectToClassModal from "./add-subject-to-class";
 import ClassRow from "./class-row";
-import { classInfoProp } from "./classInfo.data";
+import { classInfoProp } from "./class-types";
 import TableHeaders from "./table-headers";
 
 type OpenModal = (selectedClass: string) => void;
@@ -28,7 +28,7 @@ export default function Table({ data }: { data: classInfoProp[] }) {
             <ClassRow
               item={item}
               index={index}
-              key={item.className}
+              key={item._id}
               action={openModal}
             />
           ))}

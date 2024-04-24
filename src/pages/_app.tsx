@@ -18,9 +18,11 @@ import MetaTag from "@/config/metaTag";
 
 import theme from "../styles/themeConfig";
 
+const queryClient = new QueryClient();
+
 export default function App({ Component, pageProps }: AppProps) {
   const TuftsBlue = "#3498DB";
-  const [queryClient] = React.useState(() => new QueryClient());
+  // const [queryClient] = React.useState(() => new QueryClient());
   return (
     <>
       <style jsx global>

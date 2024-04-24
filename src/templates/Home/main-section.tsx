@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import { ContentSection } from "@/components/common";
+import { FeatureSection } from "@/components/common";
 import { Container } from "@/components/ui/container";
 import { commentData } from "@/config";
 import { ABOUT_US_PAGE } from "@/config/links";
@@ -19,9 +19,9 @@ export default function MainSection() {
       <TailoredSolutions />
       <Container>
         <div className="mb-32">
-          <ContentSection
+          <FeatureSection
             heading="Why we do what we do at Ascend"
-            button={
+            callToAction={
               <Link
                 href={ABOUT_US_PAGE}
                 className="bg-primary-purple-500 text-step--2 text-grey-100 border-2 px-24 py-2 border-accent-300 rounded-md hover:shadow-[4px_4px_0px_0px_#000000] block w-fit  transition-all"
@@ -29,14 +29,14 @@ export default function MainSection() {
                 About us
               </Link>
             }
-            outlines={[
+            featurePoints={[
               "Ascend is revolutionizing school management, and saving time and resources with a comprehensive platform.",
               "Ascend embraces innovation to improve school management effectiveness, creating a lasting impact on education.",
               "Ascend eliminates the administrative burden and dedicates it to school improvement, allowing it to focus on active learning environments.",
             ]}
           >
             <div className="bg-warning-main relative h-[350px] md:h-[600px] w-full lg:w-[520px] overflow-hidden rounded-3xl bg-no-repeat bg-[url('/a-boy-writing.png')] bg-cover bg-center" />
-          </ContentSection>
+          </FeatureSection>
 
           <div className="space-y-10 mt-32">
             <h4 className="text-step-3 font-bold tracking-tighter text-accent-200">

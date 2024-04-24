@@ -4,7 +4,7 @@ import { useFormContext } from "@/hooks/useFormContext";
 import { NewStudentFormContext } from "@/pages/dashboard/database/students/new-student";
 
 export default function AddAcademicDetails() {
-  const { register, errors } = useFormContext(NewStudentFormContext);
+  const { register, errors, classData } = useFormContext(NewStudentFormContext);
 
   return (
     <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 mb-8 border-b-2 border-border-colour-light">
@@ -13,17 +13,22 @@ export default function AddAcademicDetails() {
           Academic Details
         </h4>
         <p className="text-sm tracking-tight text-gray-800">
-          This will be displayed on the student’s profile.
+          This will be displayed on the student's profile.
         </p>
       </div>
       <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
         <SelectField
           id="class"
           label="Class"
-          options={["SS3B", "SS3A", "SS2B", "SS2A", "SS1B", "SS1A"]}
+          options={classData?.map(data => ({
+            value: data._id,
+            label:
+              data.level === "junior"
+                ? `${data.name} - ${data.other_section}`
+                : `${data.name} - ${data.section}`,
+          }))}
           register={register}
           errorMessage={errors.class?.message || ""}
-          onChange={e => console.log(e.target.value)}
         />
         <TextField
           id="previous_school_attended"

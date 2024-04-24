@@ -19,6 +19,7 @@ export function ClassList({
         const selectedCategory = classCategory[selectItem];
 
         const isCurrentItem = selectItem === currentCategory;
+
         return (
           <li key={selectItem}>
             <button

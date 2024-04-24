@@ -14,8 +14,8 @@ export default function DatabaseTeacherContainer({
   teacherInfo,
 }: Props) {
   const router = useRouter();
-  console.log(router.pathname);
-  console.log(teacherInfo);
+  console.log(router.pathname, "DatabaseTeacherContainer");
+  console.log(teacherInfo, "DatabaseTeacherContainer");
 
   return (
     <Container headerTitle={headerTitle}>

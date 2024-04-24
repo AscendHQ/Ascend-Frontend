@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import { ContentSection } from "@/components/common";
+import { FeatureSection } from "@/components/common";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { whyAscendData } from "@/config";
@@ -96,9 +96,9 @@ function WhyUs() {
           ))}
         </div>
 
-        <ContentSection
+        <FeatureSection
           heading="Effortlessly handle school administration"
-          button={
+          callToAction={
             <Button
               isLink
               path={BOOK_A_DEMO}
@@ -108,7 +108,7 @@ function WhyUs() {
               Book a Demo
             </Button>
           }
-          outlines={[
+          featurePoints={[
             "Ascend simplifies school management, enabling easy and efficient management of administration.",
             "Get the convenience of a streamlined process, as Ascend automates business processes, reducing workload and increasing efficiency.",
             "Ascend provides an intuitive, user-friendly interface, ensuring that school management management is a seamless and effortless task.",
@@ -122,11 +122,11 @@ function WhyUs() {
               className="transform translate-x-16 translate-y-14 lg:translate-y-40"
             />
           </div>
-        </ContentSection>
-        <ContentSection
-          direction="left"
+        </FeatureSection>
+        <FeatureSection
+          contentAlignment="left"
           heading="Disburse staff payment effectively"
-          button={
+          callToAction={
             <Link
               href={SOLUTION_PAGE}
               className="bg-primary-purple-500 text-step--2 text-grey-100 border-2 px-14 py-2 border-accent-300 rounded-md hover:shadow-[4px_4px_0px_0px_#000000] block w-fit  transition-all"
@@ -134,7 +134,7 @@ function WhyUs() {
               Explore our solutions
             </Link>
           }
-          outlines={[
+          featurePoints={[
             "Ascend ensures accurate and timely payments to employees, eliminating errors.",
             "Experience simplified processes in Ascend, to make salary distribution to employees seamless.",
             "Ascend provides a reliable means of efficiently managing finances, ensuring that employees get paid quickly and hassle-free.",
@@ -158,7 +158,7 @@ function WhyUs() {
               />
             </div>
           </div>
-        </ContentSection>
+        </FeatureSection>
         <SchoolStat />
       </motion.div>
     </Container>

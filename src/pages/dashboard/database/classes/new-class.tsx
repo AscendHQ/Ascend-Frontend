@@ -10,6 +10,8 @@ import { DashboardButton } from "@/components/ui/button/button";
 import LoadingState from "@/components/ui/Loading";
 import { DASHBOARD_CLASS } from "@/config/links";
 import ClassInformation from "@/templates/Database/class/add-class-information";
+import useMutateNewClass from "@/templates/Database/class/add-new-class.hook";
+import { addClassType, tagsType } from "@/templates/Database/class/class-types";
 import {
   NewClassContextType,
   newClassSchema,
@@ -24,42 +26,46 @@ export default function NewClass() {
   const [api, contextHolder] = notification.useNotification();
   const toast = api;
 
-  const onSubmit = (data: object) => {
-    console.log(data, "data");
-    toast.open({
-      message: (
-        <h3 className="text-secondary-green-600 font-semibold">Success!</h3>
-      ),
-      description: "New Teacher has been added successfully",
-      duration: 3,
-      className: "ant-toast",
-    });
-    toast.open({
-      message: (
-        <h3 className="text-secondary-green-600 font-semibold">Success!</h3>
-      ),
-      description: "New Teacher has been added successfully",
-      duration: 3,
-      className: "ant-toast",
-    });
-  };
+  const [tags, setTags] = React.useState<tagsType>({
+    data: [],
+    message: "",
+  });
 
   const {
     register,
     handleSubmit,
     reset,
     watch,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors },
   } = useForm<NewClassSchemaType>({
     resolver: zodResolver(newClassSchema),
   });
 
-  React.useEffect(() => {
-    reset({});
-  }, [isSubmitSuccessful, reset]);
+  const { mutateNewClass, isPendingAddNewClass } = useMutateNewClass(
+    toast,
+    reset
+  );
+
+  const onSubmit = (data: addClassType) => {
+    mutateNewClass({
+      level: data.level,
+      name: data.class_name,
+      //  Junior section
+      ...(data.level === "junior" && {
+        other_section: tags.data.join(","),
+      }),
+      //  Senior section
+      section:
+        data.level !== "junior"
+          ? data.radioButtonValue?.toLowerCase() || ""
+          : "others",
+    });
+  };
 
   return (
-    <NewClassFormContext.Provider value={{ register, errors, watch }}>
+    <NewClassFormContext.Provider
+      value={{ register, errors, watch, tags, setTags }}
+    >
       <Container headerTitle="New Class">
         <main className="px-10 py-5 bg-white h-full">
           <Link
@@ -76,7 +82,10 @@ export default function NewClass() {
             onClick={handleSubmit(onSubmit)}
             className="text-base px-7"
           >
-            <LoadingState label="Save Class" isSubmitting={isSubmitting} />
+            <LoadingState
+              label="Save Class"
+              isSubmitting={isPendingAddNewClass}
+            />
           </DashboardButton>
         </main>
       </Container>

@@ -1,58 +1,75 @@
-export type studentInfoProp = {
-  regNo: string;
-  studentName: string;
-  class: string;
+// export type studentInfoProp = {
+//   registration_number: string;
+//   first_name: string;
+//   middle_name: string;
+//   last_name: string;
+//   class: string;
+//   gender: "female" | "male";
+//   guardianInfo: string;
+// };
+
+type PersonalInformation = {
+  first_name: string;
+  middle_name: string;
+  last_name: string;
   gender: "female" | "male";
-  guardianInfo: string;
+  dob: string;
+  religion: string;
+  nationality: string;
 };
-export const studentInfo: studentInfoProp[] = [
-  {
-    regNo: "FWOAU",
-    studentName: "Dapo Odunayo",
-    class: "JSS2A",
-    gender: "male",
-    guardianInfo: "Mr. Odunayo Kelvin",
-  },
-  {
-    regNo: "GnL7",
-    studentName: "Tobi idowu",
-    class: "JSS1C",
-    gender: "female",
-    guardianInfo: "Mrs. Idowu Christiana",
-  },
-  {
-    regNo: "dPeKmB",
-    studentName: "Cynthia Okechukwu",
-    class: "JSS1A",
-    gender: "female",
-    guardianInfo: "Mr. Okechukwu Mike",
-  },
-  {
-    regNo: "fngtQJ",
-    studentName: "Adam Ogunneye",
-    class: "SS2B",
-    gender: "male",
-    guardianInfo: "Mrs. Ogunneye Allie",
-  },
-  {
-    regNo: "14LfnH",
-    studentName: "Hilda Balci",
-    class: "SS3A",
-    gender: "female",
-    guardianInfo: "Mrs. Balci Vera",
-  },
-  {
-    regNo: "PBdsL",
-    studentName: "Larry Bakare",
-    class: "SS3A",
-    gender: "male",
-    guardianInfo: "Mr. Bakare Wayne",
-  },
-  {
-    regNo: "Aw5zX",
-    studentName: "Isaac Koko",
-    class: "SS1B",
-    gender: "male",
-    guardianInfo: "Mrs. Ajanaku Maria",
-  },
-];
+
+type ContactInformation = {
+  residential_address: string;
+  contact_number: string;
+};
+
+type GuardianInformation = {
+  first_name: string;
+  last_name: string;
+  relationship_with_student: string;
+  contact_number: string;
+  email: string;
+};
+
+type Class = {
+  _id: string;
+  name: string;
+};
+
+type AcademicDetails = {
+  class: Class;
+  previous_school: string;
+};
+
+type Accommodation = {
+  hostel: string;
+  block: string;
+  room: string;
+};
+
+type MedicalInformation = {
+  allergies: string;
+  emergency_contact: string;
+  medication: string;
+};
+
+type AdditionalInformation = {
+  disabilities: string;
+  nature_of_disability: string;
+  medication: string;
+};
+
+export type studentInfoProp = {
+  personal_information: PersonalInformation;
+  contact_information: ContactInformation;
+  guardian_information: GuardianInformation;
+  academic_details: AcademicDetails;
+  accommodation: Accommodation;
+  medical_information: MedicalInformation;
+  additional_information: AdditionalInformation;
+  _id: string;
+  registration_number: string;
+  organization: string;
+  is_active: boolean;
+  is_deleted: boolean;
+};

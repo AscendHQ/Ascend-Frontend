@@ -162,7 +162,7 @@ export default function LessonPlan() {
           setCurrentLessonPlan={setCurrentLessonPlan}
         />
         <Table />
-        <div className="flex flex-col bg-black bg-opacity-95 text-white items-center gap-3 justify-center absolute inset-0">
+        {/* <div className="flex flex-col bg-black bg-opacity-95 text-white items-center gap-3 justify-center absolute inset-0">
           <span className="text-2xl">COMING</span>
           <div className="flex items-center gap-3 justify-center">
             <span className="text-9xl font-GTWalsheimPro">S</span>
@@ -176,7 +176,7 @@ export default function LessonPlan() {
             </div>
             <span className="text-9xl font-GTWalsheimPro">N</span>
           </div>
-        </div>
+        </div> */}
       </main>
     </Container>
   );
@@ -352,7 +352,10 @@ function LessonPlanTableRow({
   ];
 
   return (
-    <tr className="bg-white border-b" key={item.staffName}>
+    <tr
+      className="bg-white items-start border-grey-300 border-b"
+      key={item.staffName}
+    >
       <TableCell content={index + 1} styles="text-center" />
       <TableCell content={item.subject} styles="whitespace-nowrap" />
       <TableCell content={item.staffName} styles="whitespace-nowrap" />
@@ -417,7 +420,7 @@ function LessonPlanTableRow({
 
 function TableHeaders() {
   return (
-    <thead className="text-xs text-gray-700 normal-case border-b border-grey-300 bg-gray-50 ">
+    <thead className="text-xs text-gray-700 sticky top-0 w-full normal-case border-b border-grey-300 bg-neutral-300">
       <tr>
         <TableHeader text="S/N" styles="pl-6 pr-3" />
         <TableHeader text="Subject" />

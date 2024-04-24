@@ -1,68 +1,52 @@
 import { Icon } from "@iconify/react";
-import { MenuProps, Modal, Select, Spin } from "antd";
-import { Dropdown } from "antd";
-import Link from "next/link";
+import { Modal, Select } from "antd";
 import React from "react";
-import ReactToPrint from "react-to-print";
 import { twMerge } from "tailwind-merge";
 
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
-import ComponentToPrint from "@/config/componentToPrint";
 import { resultInfo } from "@/config/dummyInfo";
-import { DASHBOARD_RESULT_INFO, NEW_RESULT } from "@/config/links";
+import { NEW_RESULT } from "@/config/links";
 
 export default function Results() {
   const handleChange = (value: string | string[]) => {
     console.log(`Selected: ${value}`);
   };
 
-  const items: MenuProps["items"] = [
-    {
-      label: (
-        <button className="flex gap-1 w-full transition-all py-1 rounded-sm">
-          <Icon icon="bx:data" fontSize={25} />
-          <span>Bulk Upload</span>
-        </button>
-      ),
-      key: "0",
-    },
-    {
-      label: (
-        <Link
-          href={NEW_RESULT}
-          className="flex gap-1 w-full transition-all py-1 rounded-sm"
-        >
-          <Icon icon="grommet-icons:form-edit" fontSize={25} />
-          <span>Single Upload</span>
-        </Link>
-      ),
-      key: "1",
-    },
-  ];
   return (
     <Container headerTitle="Results">
       <main className="px-10 py-5 relative bg-white">
         <div className="flex">
-          <Dropdown menu={{ items }} trigger={["click"]}>
-            <DashboardButton
-              variant="primary"
-              leftElement={<Icon icon="tabler:plus" />}
-              onClick={e => e.preventDefault()}
-            >
-              Add Results
-            </DashboardButton>
-          </Dropdown>
-        </div>
-        <div className="flex justify-between mt-6">
           <h3 className="text-Text-high-emphasis font-semibold text-xl">
-            2020/2021 Sesssion - All Terms
+            2023/2024 Sesssion - 3rd Term
           </h3>
+
+          <DashboardButton
+            variant="primary"
+            isLink
+            leftElement={<Icon icon="tabler:plus" />}
+            path={NEW_RESULT}
+          >
+            Add Results
+          </DashboardButton>
+        </div>
+        <div className="flex justify-between items-center mt-6">
+          <div className="relative block border min-w-[300px]">
+            <input
+              type="search"
+              placeholder="Search student's name or S/N"
+              className="rounded text-sm w-full px-2 py-3 border border-grey-800"
+            />
+            <Icon
+              className="absolute bottom-1/2 translate-y-1/2 right-2"
+              icon="mingcute:search-line"
+            />
+          </div>
           <div className="flex items-center gap-2">
             <div className="flex items-center border border-default-black pl-2 rounded">
               <span className="text-sm font-bold text-gray-800">Session :</span>
               <Select
-                defaultValue="2020/2021"
+                defaultValue="2023/2024"
                 style={{
                   width: 110,
                   fontSize: 14,
@@ -71,6 +55,9 @@ export default function Results() {
                 onChange={handleChange}
                 className="[&>*]:!text-sm [&>*]:!border-none"
                 options={[
+                  { value: "2023/2024", label: "2023/2024" },
+                  { value: "2022/2023", label: "2022/2023" },
+                  { value: "2021/2022", label: "2021/2022" },
                   { value: "2020/2021", label: "2020/2021" },
                   { value: "2019/2020", label: "2019/2020" },
                   { value: "2018/2019", label: "2018/2019" },
@@ -83,7 +70,7 @@ export default function Results() {
             <div className="flex items-center border border-default-black pl-2 rounded">
               <span className="text-sm font-bold text-gray-800">Term :</span>
               <Select
-                defaultValue="All Term"
+                defaultValue="3rd Term"
                 style={{
                   width: 110,
                   fontSize: 14,
@@ -92,16 +79,16 @@ export default function Results() {
                 onChange={handleChange}
                 className="[&>*]:!text-sm [&>*]:!border-none"
                 options={[
-                  { value: "First Term", label: "First Term" },
-                  { value: "Second Term", label: "Second Term" },
-                  { value: "Third Term", label: "Third Term" },
+                  { value: "1st Term", label: "1st Term" },
+                  { value: "2nd Term", label: "2nd Term" },
+                  { value: "3rd Term", label: "3rd Term" },
                 ]}
               />
             </div>
             <div className="flex items-center border border-default-black pl-2 rounded">
               <span className="text-sm font-bold text-gray-800">Class :</span>
               <Select
-                defaultValue="All"
+                defaultValue="JSS1"
                 style={{
                   width: 80,
                   fontSize: 14,
@@ -122,21 +109,6 @@ export default function Results() {
           </div>
         </div>
         <Table />
-        <div className="flex flex-col bg-black bg-opacity-95 text-white items-center gap-3 justify-center absolute inset-0">
-          <span className="text-2xl">COMING</span>
-          <div className="flex items-center gap-3 justify-center">
-            <span className="text-9xl font-GTWalsheimPro">S</span>
-            <div className="relative">
-              <div className="h-24 w-24 rounded-full border-t-8 border-b-8 border-grey-400"></div>
-              <div className="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-primary-purple-500 animate-spin"></div>
-            </div>
-            <div className="relative">
-              <div className="h-24 w-24 rounded-full border-t-8 border-b-8 border-grey-400"></div>
-              <div className="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-primary-purple-500 animate-spin"></div>
-            </div>
-            <span className="text-9xl font-GTWalsheimPro">N</span>
-          </div>
-        </div>
       </main>
     </Container>
   );
@@ -144,83 +116,6 @@ export default function Results() {
 function Table() {
   const [openResultApproved, setOpenResultApproved] = React.useState(false);
   const [openResultRejected, setOpenResultRejected] = React.useState(false);
-
-  const [currentStudent, setCurrentStudent] = React.useState({
-    name: "",
-    activeStatus: 0,
-  });
-
-  const items: MenuProps["items"] = [
-    {
-      label: (
-        <Link
-          href={DASHBOARD_RESULT_INFO(
-            currentStudent.name.split(" ").join("-").toLowerCase()
-          )}
-          className="flex gap-2 w-full transition-all py-1 rounded-sm items-center"
-          onClick={() => console.log(currentStudent)}
-        >
-          <Icon icon="ep:more" fontSize={20} />
-          <span className="text-sm">View details</span>
-        </Link>
-      ),
-      key: "0",
-    },
-    {
-      label: (
-        <button className="flex gap-2 w-full transition-all py-1 rounded-sm">
-          <Icon icon="solar:trash-bin-2-broken" fontSize={20} />
-          <span className="text-sm">Remove</span>
-        </button>
-      ),
-      key: "1",
-      disabled: currentStudent.activeStatus !== 0 ? true : false,
-    },
-  ];
-
-  const componentRef = React.useRef<HTMLDivElement>(null);
-
-  const onBeforeGetContentResolve = React.useRef<(() => void) | null>(null);
-
-  const [loading, setLoading] = React.useState(false);
-  const [text, setText] = React.useState("old boring text");
-
-  const handleOnBeforeGetContent = React.useCallback(() => {
-    console.log("`onBeforeGetContent` called");
-    setLoading(true);
-    setText("Loading new text...");
-
-    return new Promise<void>(resolve => {
-      onBeforeGetContentResolve.current = resolve;
-
-      setTimeout(() => {
-        setLoading(false);
-        setText("New, Updated Text!");
-        resolve();
-      }, 2000);
-    });
-  }, [setLoading, setText]);
-
-  React.useEffect(() => {
-    if (
-      text === "New, Updated Text!" &&
-      typeof onBeforeGetContentResolve.current === "function"
-    ) {
-      onBeforeGetContentResolve.current();
-    }
-  }, [text]);
-
-  const reactToPrintContent = React.useCallback(() => {
-    return componentRef.current;
-  }, []);
-
-  const reactToPrintTrigger = React.useCallback(() => {
-    return (
-      <button className="border-1.5 rounded border-border-colour-light text-gray-800 py-2 px-3">
-        Download
-      </button>
-    );
-  }, []);
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
@@ -312,28 +207,23 @@ function Table() {
           </p>
         </section>
       </Modal>
-      {loading && (
-        <div className="fixed z-50 inset-0 justify-center items-center flex bg-black bg-opacity-10">
-          <Spin size="large" />
-        </div>
-      )}
+
       <table className="w-full text-sm text-left text-gray-500">
-        <thead className="text-xs text-gray-700 normal-case border-b border-grey-300 bg-gray-50 ">
+        <thead className="text-xs text-gray-700 normal-case border-b bg-neutral-300 border-grey-300 bg-gray-50 ">
           <tr>
-            <TableHeadingText title="S/N" />
-            <TableHeadingText title="Student name" />
-            <TableHeadingText title="Class" />
+            <TableHeadingText title="S/N" styles="text-center" />
+            <TableHeadingText title="Full name" />
             <TableHeadingText title="Date added" />
-            <TableHeadingText title="Transcript" />
-            <TableHeadingText title="Action" />
-            <th scope="col" className="px-6 py-3">
-              <Icon icon="ion:filter" />
-            </th>
+            <TableHeadingText title="Status" styles="text-center" />
+            <TableHeadingText title="Action" styles="text-center" />
           </tr>
         </thead>
         <tbody>
           {resultInfo.map((item, index) => (
-            <tr className="bg-white border-b " key={item.studentName}>
+            <tr
+              className="bg-white border-b  border-grey-300 "
+              key={item.studentName}
+            >
               <TableBodyText
                 title={(index + 1).toString()}
                 styles="text-center"
@@ -342,70 +232,39 @@ function Table() {
                 title={item.studentName}
                 styles="whitespace-nowrap"
               />
-              <TableBodyText title={item.class} styles="whitespace-nowrap" />
               <TableBodyText
                 title={"12 May, 2023"}
                 styles="whitespace-nowrap"
               />
-
-              <td className="p-4">
-                <ReactToPrint
-                  content={reactToPrintContent}
-                  documentTitle={item.studentName}
-                  onBeforeGetContent={handleOnBeforeGetContent}
-                  removeAfterPrint
-                  trigger={reactToPrintTrigger}
-                />
-
-                <div className="sr-only">
-                  <ComponentToPrint ref={componentRef} text={text} />
-                </div>
-              </td>
-
-              <td className="px-1 py-4 text-center">
-                {item.statusIsActive === 0 && (
-                  <div className="flex gap-1">
-                    <button
-                      className="bg-primary-purple-700 text-white flex-1 rounded-full px-3 py-2 "
-                      onClick={() => setOpenResultApproved(true)}
-                    >
-                      Approve
+              <TableBodyText
+                title={
+                  index % 2
+                    ? "Pending"
+                    : index % 3
+                    ? "Completed"
+                    : "In Progress"
+                }
+                styles="whitespace-nowrap text-center"
+              />
+              <td>
+                {index % 2 ? (
+                  <button className="border-1.5 rounded border-border-colour-light text-gray-800 py-2 px-3 my-4 mx-auto block">
+                    Register
+                  </button>
+                ) : index % 3 ? (
+                  <div className="flex py-4 justify-center gap-3">
+                    <button className="border-1.5 rounded border-border-colour-light text-gray-800 py-2 px-3">
+                      View Result
                     </button>
-                    <button
-                      className="bg-secondary-red-600 text-white flex-1 rounded-full px-3 py-2 "
-                      onClick={() => setOpenResultRejected(true)}
-                    >
-                      Reject
+                    <button className="border-1.5 rounded border-border-colour-light text-gray-800 py-2 px-3">
+                      Download Transcript
                     </button>
                   </div>
-                )}
-                {item.statusIsActive === 1 && (
-                  <span className="bg-transparent border-Text-high-emphasis border block w-full rounded-full px-3 py-2 text-Text-meduim-emphasis">
-                    Approved
-                  </span>
-                )}
-
-                {item.statusIsActive === 2 && (
-                  <span className="bg-transparent border border-red-700 block w-full rounded-full px-3 py-2 text-red-400">
-                    Rejected
-                  </span>
-                )}
-              </td>
-              <td className="px-6 py-4">
-                <Dropdown
-                  menu={{ items }}
-                  trigger={["click"]}
-                  onOpenChange={() =>
-                    setCurrentStudent({
-                      name: item.studentName,
-                      activeStatus: item.statusIsActive,
-                    })
-                  }
-                >
-                  <button>
-                    <Icon icon="ri:more-2-fill" />
+                ) : (
+                  <button className="border-1.5 rounded border-border-colour-light text-gray-800 py-2 px-3 my-4 mx-auto block">
+                    Resume
                   </button>
-                </Dropdown>
+                )}
               </td>
             </tr>
           ))}

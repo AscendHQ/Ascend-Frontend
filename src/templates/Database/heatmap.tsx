@@ -1,30 +1,18 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-const ApexChart = () => {
-  return (
-    <div id="chart" className="max-w-[350px] pointer-events-none">
-      <ReactApexChart
-        options={options}
-        series={seriesData}
-        type="heatmap"
-        height={250}
-      />
-    </div>
-  );
-};
 const customColors = {
   "purple-200": "#C9C1FF",
   "grey-500": "#C2C2C2",
   "purple-500": "#7864FF",
 };
-const options = {
+const heatmapChartOptions = {
   dataLabels: {
     enabled: false,
   },
   plotOptions: {
     heatmap: {
-      radius: 16,
+      radius: 0,
       colorScale: {
         ranges: [
           {
@@ -50,7 +38,7 @@ const options = {
     },
   },
 };
-const seriesData = [
+const heatmapChartSeries = [
   {
     name: "Week 4",
     data: [
@@ -152,4 +140,18 @@ const seriesData = [
     ],
   },
 ];
+
+const ApexChart = () => {
+  return (
+    <div id="heatmap-chart" className="max-w-[350px]">
+      <ReactApexChart
+        options={heatmapChartOptions}
+        series={heatmapChartSeries}
+        type="heatmap"
+        height={250}
+      />
+    </div>
+  );
+};
+
 export default ApexChart;

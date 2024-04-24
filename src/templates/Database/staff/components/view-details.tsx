@@ -22,7 +22,7 @@ const ViewDetailsModal: React.FC<ModalProps> = ({
           : "opacity-0 pointer-events-none"
       }`}
     >
-      <div className="absolute inset-0 bg-gray-800  opacity-75"></div>
+      <div className="absolute inset-0 bg-black  opacity-75"></div>
       <div
         ref={modalRef}
         className="bg-white rounded-xl relative z-50 p-6 max-w-[650px] w-[95%] mx-auto"

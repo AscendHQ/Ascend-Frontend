@@ -1,14 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
+import { notification } from "antd";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
 
 import { DashboardHeader } from "@/components/common";
 import { Sidebar } from "@/components/sidebar";
 import { DashboardButton } from "@/components/ui/button/button";
-import LoadingState from "@/components/ui/Loading";
+import LoadingState, { Spinner } from "@/components/ui/Loading";
 import { DASHBOARD_STUDENT } from "@/config/links";
 import {
   AddAcademicDetails,
@@ -20,69 +20,93 @@ import {
   AddPersonalInformation,
   // StudentBiodataHeading,
 } from "@/templates/Database/student";
+import useMutateNewStudent, {
+  useFetchStateAndLGA,
+} from "@/templates/Database/student/add-new-student.hook";
 import {
   NewStudentContextType,
   NewStudentSchema,
   NewStudentSchemaType,
-} from "@/templates/Database/student/new-student-types";
+} from "@/templates/Database/student/student-types";
 
-export const NewStudentFormContext = React.createContext<
-  NewStudentContextType | undefined
->(undefined);
+import { useFetchClassInfo } from "../classes";
 
 export default function NewStudent() {
-  const router = useRouter();
-
-  const onSubmit = (data: object) => {
-    console.log(data, "data");
-
-    router.push(DASHBOARD_STUDENT);
-  };
   const {
     register,
     handleSubmit,
     reset,
     watch,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors },
   } = useForm<NewStudentSchemaType>({
     resolver: zodResolver(NewStudentSchema),
   });
 
-  React.useEffect(() => {
-    reset({});
-  }, [isSubmitSuccessful, reset]);
+  const [api, contextHolder] = notification.useNotification();
+  const toast = api;
+
+  const { isLoading }: { isLoading: boolean } = useFetchStateAndLGA();
+  const classData = useFetchClassInfo();
+
+  const { mutateNewStudent, isPendingAddNewStudent } = useMutateNewStudent(
+    toast,
+    reset
+  );
+
+  const onSubmit = (data: NewStudentSchemaType) => {
+    mutateNewStudent(data);
+  };
 
   return (
-    <NewStudentFormContext.Provider value={{ register, watch, errors }}>
+    <NewStudentFormContext.Provider
+      value={{ register, watch, errors, classData: classData.data?.classes }}
+    >
       <div className="grid font-inter grid-cols-9 min-w-[900px]">
         <Sidebar />
-        <div className="col-[3/-1] 3xl:col-[2/-1] bg-white">
-          <DashboardHeader headerTitle="New Student" />
-          <main className="p-10">
-            <Link href={DASHBOARD_STUDENT} className="flex items-center gap-2">
-              <Icon icon="teenyicons:arrow-left-solid" />
-              Back
-            </Link>
-            {/* <StudentBiodataHeading /> */}
-            <AddPersonalInformation />
-            <AddContactInformation />
-            <AddGuardianInformation />
-            <AddAcademicDetails />
-            <AddHostelAccommodation />
-            <AddMedicalInformation />
-            <AddAdditionalInformation />
-            <div className="flex justify-end gap-6">
-              <DashboardButton
-                variant="primary"
-                className="font-semibold px-7 ml-0"
-                onClick={handleSubmit(onSubmit)}
+        {isLoading && classData.isLoading ? (
+          <div className="col-[3/-1] 3xl:col-[2/-1]">
+            <Spinner />
+          </div>
+        ) : (
+          <div className="col-[3/-1] 3xl:col-[2/-1] bg-white">
+            <DashboardHeader headerTitle="New Student" />
+            <main className="p-10">
+              <Link
+                href={DASHBOARD_STUDENT}
+                className="flex items-center gap-2"
               >
-                <LoadingState label="Submit" isSubmitting={isSubmitting} />
-              </DashboardButton>
-            </div>
-          </main>
-        </div>
+                <Icon icon="teenyicons:arrow-left-solid" />
+                Back
+              </Link>
+              {/* <StudentBiodataHeading /> */}
+              <AddPersonalInformation />
+              <AddContactInformation />
+              <AddGuardianInformation />
+              <AddAcademicDetails />
+              <AddHostelAccommodation />
+              <AddMedicalInformation />
+              <AddAdditionalInformation />
+              <div className="flex justify-end gap-6">
+                <DashboardButton
+                  variant="primary"
+                  className="font-semibold px-7 ml-0"
+                  onClick={handleSubmit(onSubmit)}
+                >
+                  <LoadingState
+                    label="Submit"
+                    isSubmitting={isPendingAddNewStudent}
+                  />
+                </DashboardButton>
+              </div>
+            </main>
+          </div>
+        )}
+        {contextHolder}
       </div>
     </NewStudentFormContext.Provider>
   );
 }
+
+export const NewStudentFormContext = React.createContext<
+  NewStudentContextType | undefined
+>(undefined);

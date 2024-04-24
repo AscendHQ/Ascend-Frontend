@@ -38,6 +38,20 @@ export default function FormSection() {
     },
     onSuccess: data => {
       console.log({ data });
+      if (!data) {
+        api.open({
+          message: (
+            <h3 className="text-secondary-red-600 font-semibold">
+              Login Failed!
+            </h3>
+          ),
+          description:
+            "We encountered an unexpected issue during your login attempt. Please try again.",
+          duration: 8,
+          className: "ant-toast",
+        });
+        return;
+      }
       setSecureStorage(
         "userInfoAccessToken",
         JSON.stringify(data.data.access_token)
@@ -56,7 +70,12 @@ export default function FormSection() {
         className: "ant-toast",
       });
     },
-    onSettled() {
+    onSettled(data, error, variable, context) {
+      console.log(data, "data");
+      console.log(error, "error");
+      console.log(variable, "variable");
+      console.log(context, "context");
+
       reset({
         email: "",
         password: "",
@@ -85,9 +104,10 @@ export default function FormSection() {
       </Link>
       <div>
         <h2 className="text-step-2 font-bold mt-14">Welcome Back 👋</h2>
+
         <p className="text-step--2 !leading-tight mt-3">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis morbi
-          pulvinar venenatis non.
+          Let's make learning and professional growth effortless and more
+          engaging than ever.
         </p>
       </div>
       <Button

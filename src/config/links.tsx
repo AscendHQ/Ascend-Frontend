@@ -25,10 +25,10 @@ export const DASHBOARD_STUDENT_INFO = (slug: string) =>
 // SUBJECT
 export const DASHBOARD_SUBJECT = "/dashboard/database/subjects";
 export const NEW_SUBJECT = "/dashboard/database/subjects/new-subject";
-export const SUBJECT_REGISTRATION =
-  "/dashboard/database/subjects/register-subject";
 export const DASHBOARD_SUBJECT_INFO = (slug: string) =>
   `/dashboard/database/subjects/${slug}`;
+
+export const SUBJECT_REGISTRATION = "/dashboard/register-subject";
 
 // CLASS
 export const DASHBOARD_CLASS = "/dashboard/database/classes";

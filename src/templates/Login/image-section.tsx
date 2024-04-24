@@ -4,9 +4,11 @@ export default function ImageSection() {
       <h4 className="text-step-2 font-medium max-w-[400px] [word-spacing:-2px]">
         Changing the face of African education
       </h4>
+
       <p className="text-Text-meduim-emphasis tracking-tighter max-w-[400px]">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis morbi
-        pulvinar venenatis non.
+        We're dedicated to revolutionizing education in Africa by integrating
+        technology and fostering community growth. Our goal is to unlock youth
+        potential, creating a future filled with leaders and innovators.
       </p>
     </section>
   );

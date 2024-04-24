@@ -28,7 +28,9 @@ export default function DashboardHeader({
   return (
     <header className="flex justify-between max-h-[80px] bg-white items-center p-10 relative">
       <Head>
-        <title>{headerTitle} - Ascend School Management System Dashboard</title>
+        <title>
+          {`${headerTitle} - Ascend School Management System Dashboard`}
+        </title>
         <meta
           property="og:title"
           content="School Management System Dashboard"

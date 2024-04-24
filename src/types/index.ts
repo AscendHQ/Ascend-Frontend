@@ -78,16 +78,6 @@ export type LessonPlanTableRowProps = {
   index: number;
 };
 
-export type ClassRowProps = {
-  item: {
-    className: string;
-    subject: string;
-    level: "junior" | "senior";
-  };
-  index: number;
-  action: (value: string) => void;
-};
-
 export type ClassDemographic = {
   name: "All" | "Junior" | "Senior";
   number: number;
@@ -133,10 +123,10 @@ export type SelectFieldProps = {
   id: string;
   label: string;
   options: string[] | { value: string; label: string }[];
+  register: NewType;
   isFullWidth?: boolean;
   value?: string;
   labelStyle?: string;
-  register: NewType;
   errorMessage: string;
   selectStyle?: string;
   wrapperStyle?: string;

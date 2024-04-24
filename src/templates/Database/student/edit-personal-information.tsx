@@ -5,7 +5,6 @@ import { StudentInfoContext } from "@/pages/dashboard/database/students/[student
 
 export default function EditPersonalInformation() {
   const { register, errors } = useFormContext(StudentInfoContext);
-  // const nationalityOption = watch("nationality");
 
   return (
     <div
@@ -26,7 +25,6 @@ export default function EditPersonalInformation() {
           id="first_name"
           label="First name"
           placeholder="Rhoda"
-          defaultValue={"Alma"}
           register={register}
           errorMessage={errors.first_name?.message || ""}
         />
@@ -35,7 +33,6 @@ export default function EditPersonalInformation() {
           label="Middle name"
           placeholder="Lily"
           required
-          defaultValue={"Amy"}
           register={register}
           errorMessage={errors.middle_name?.message || ""}
         />
@@ -43,7 +40,6 @@ export default function EditPersonalInformation() {
           id="last_name"
           label="Last name"
           placeholder="Curtis"
-          defaultValue={"Lambert"}
           required
           register={register}
           errorMessage={errors.last_name?.message || ""}
@@ -51,9 +47,8 @@ export default function EditPersonalInformation() {
         <SelectField
           id="gender"
           label="Gender"
-          options={["Male", "Female"]}
+          options={["male", "female"]}
           register={register}
-          defaultValue={"Male"}
           errorMessage={errors.gender?.message || ""}
         />
         <TextField
@@ -62,23 +57,20 @@ export default function EditPersonalInformation() {
           type="date"
           required
           register={register}
-          defaultValue={"2023-04-01"}
           errorMessage={errors.date_of_birth?.message || ""}
         />
         <SelectField
           id="religion"
           label="Religion"
-          options={["Christain", "Muslim"]}
+          options={["christain", "muslim"]}
           register={register}
-          defaultValue={"Christain"}
           errorMessage={errors.religion?.message || ""}
         />
-        <SelectField
+        {/* <SelectField
           id="state_of_origin"
           label="State of Origin"
           options={["Ondo", "Ekiti", "Edo", "Oyo", "Lagos", "Kwara"]}
           register={register}
-          defaultValue={"Ondo"}
           errorMessage={errors.state_of_origin?.message || ""}
         />
         <SelectField
@@ -86,9 +78,8 @@ export default function EditPersonalInformation() {
           label="Local Government Area"
           options={["Odigbo", "Ifon", "Okitipupa", "Ikorodu", "Oshodi"]}
           register={register}
-          defaultValue={"Ifon"}
           errorMessage={errors.state_of_origin?.message || ""}
-        />
+        /> */}
       </div>
     </div>
   );

@@ -28,9 +28,11 @@ type ClassInfoFieldValues = {
 
 export const newClassSchema = z.object({
   class_name: z.string().min(1, "Class name is required"),
-  level: z.string().refine(value => value === "junior" || value === "senior", {
-    message: "Level must be 'Junior' or 'Senior'",
-  }),
+  level: z
+    .enum(["junior", "senior"])
+    .refine(value => value === "junior" || value === "senior", {
+      message: "Level must be 'Junior' or 'Senior'",
+    }),
   radioButtonValue: z
     .string()
     .refine(value => ["Science", "Art", "Commercial"].includes(value))
@@ -39,7 +41,7 @@ export const newClassSchema = z.object({
 
 type NewClassFieldValues = {
   class_name: string;
-  level: string;
+  level: "junior" | "senior";
   radioButtonValue?: string;
 };
 
@@ -260,6 +262,16 @@ export type NewClassContextType = {
   register: UseFormRegister<NewClassFieldValues>;
   errors: FieldErrors<NewClassFieldValues>;
   watch: UseFormWatch<NewClassFieldValues>;
+  tags: {
+    data: string[] | never[];
+    message: string;
+  };
+  setTags: React.Dispatch<
+    React.SetStateAction<{
+      data: string[] | never[];
+      message: string;
+    }>
+  >;
 };
 
 export type ClassInfoContextType = {

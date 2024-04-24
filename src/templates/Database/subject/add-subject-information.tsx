@@ -9,13 +9,13 @@ export default function AddSubjectInformation() {
   const levelOption = watch("level");
 
   return (
-    <div className="flex justify-between gap-16 pb-16 mt-14 mb-8 border-b-2 border-border-colour-light">
+    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mt-14 mb-8 border-border-colour-light">
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Subject information
         </h4>
       </div>
-      <div className="flex flex-1 flex-wrap gap-5">
+      <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
         <TextField
           id="subject_name"
           label="Subject name"
@@ -35,18 +35,18 @@ export default function AddSubjectInformation() {
         <SelectField
           id="type"
           label="Subject Type"
-          options={["Core", "Elective"]}
+          options={["core", "elective"]}
           register={register}
           errorMessage={errors.type?.message || ""}
         />
         <SelectField
           id="level"
           label="Level"
-          options={["Junior", "Senior"]}
+          options={["junior", "senior"]}
           register={register}
           errorMessage={errors.level?.message || ""}
         />
-        {levelOption === "Junior" && (
+        {levelOption === "junior" && (
           <div className="min-w-full flex flex-wrap space-x-4">
             {juniorFields.map((field, index) => (
               <div key={field.id}>
@@ -63,7 +63,7 @@ export default function AddSubjectInformation() {
             ))}
           </div>
         )}
-        {levelOption === "Senior" && (
+        {levelOption === "senior" && (
           <div className="grid grid-cols-3 gap-3">
             {seniorFields.map((field, index) => (
               <div key={field.id}>

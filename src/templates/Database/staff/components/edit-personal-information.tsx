@@ -7,8 +7,6 @@ import { ReactHookForm } from "@/pages/dashboard/database/staff/[teacherInfo]";
 export default function EditPersonalInformation() {
   const { register, errors } = useFormContext(ReactHookForm);
 
-  console.log({ errors });
-
   return (
     <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
       <div className="w-96">

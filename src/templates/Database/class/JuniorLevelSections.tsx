@@ -3,17 +3,14 @@ import { Icon } from "@iconify/react";
 import { Input, InputRef, Space, Tag, theme, Tooltip } from "antd";
 import React from "react";
 
+import { useFormContext } from "@/hooks/useFormContext";
+import { NewClassFormContext } from "@/pages/dashboard/database/classes/new-class";
+
 import useTagManagement from "./useTagManagement.hook";
 
 export default function JuniorLevelSections() {
+  const { tags, setTags } = useFormContext(NewClassFormContext);
   const { token } = theme.useToken();
-  const [tags, setTags] = React.useState<{
-    data: string[] | never[];
-    message: string;
-  }>({
-    data: [],
-    message: "",
-  });
 
   const [
     { inputVisible, inputValue, editInputIndex, editInputValue },
