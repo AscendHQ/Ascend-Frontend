@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
-import { Modal } from "antd";
+import { Modal, notification } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
@@ -11,15 +11,19 @@ import SelectField from "@/components/ui/form/selectfield";
 import TextAreaWithLabelAndCount from "@/components/ui/form/textarea";
 import TextField from "@/components/ui/form/textfield";
 import LoadingState from "@/components/ui/Loading";
-import {
-  DASHBOARD_LESSON_PLAN,
-  DASHBOARD_LESSON_PLAN_INFO,
-} from "@/config/links";
+import { Spinner } from "@/components/ui/Loading";
+import { DASHBOARD_LESSON_PLAN } from "@/config/links";
 import {
   LessonPlanInfoContextType,
   lessonPlanInfoSchema,
   LessonPlanInfoSchemaType,
 } from "@/types/form";
+import {
+  useAllClassesForLesson,
+  useAllSubjectsForLesson,
+  useLessonById,
+  useUpdateLesson,
+} from "@/templates/LessonPlan/hooks";
 
 const ReactHookForm = React.createContext<
   LessonPlanInfoContextType | undefined
@@ -28,30 +32,72 @@ const ReactHookForm = React.createContext<
 export default function LessonPlanInfo() {
   const router = useRouter();
   const id = router.query.lessonPlanInfo as string;
+  const [api, contextHolder] = notification.useNotification();
   const [open, setOpen] = React.useState(false);
 
-  const onSubmit = (data: object) => {
-    console.log(data, "data");
-    setOpen(true);
-    router.push("/");
-  };
+  const { data: lesson, isLoading } = useLessonById(id);
+  const { data: classesData } = useAllClassesForLesson();
+  const { data: subjectsData } = useAllSubjectsForLesson();
+  const { updateLesson, isUpdatingLesson } = useUpdateLesson(api);
+
+  const classOptions = (classesData?.classes ?? []).map(
+    (c: { _id: string; name: string }) => ({ value: c._id, label: c.name })
+  );
+  const subjectOptions = (subjectsData?.subjects ?? []).map(
+    (s: { _id: string; name: string }) => ({ value: s.name, label: s.name })
+  );
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors },
   } = useForm<LessonPlanInfoSchemaType>({
     resolver: zodResolver(lessonPlanInfoSchema),
   });
 
   React.useEffect(() => {
-    reset({});
-  }, [isSubmitSuccessful, reset]);
+    if (lesson) {
+      reset({
+        lesson_title: lesson.title,
+        subject: lesson.subject,
+        class: lesson.class?.[0]?._id ?? "",
+        duration: `${lesson.duration?.number ?? ""} ${
+          lesson.duration?.period ?? ""
+        }`.trim(),
+        lesson_plan_overview: lesson.lesson_plan,
+        weekly_plan_objectives: lesson.objectives,
+      });
+    }
+  }, [lesson, reset]);
+
+  const onSubmit = (data: LessonPlanInfoSchemaType) => {
+    const match = data.duration.match(/\d+/);
+    const number = match ? parseInt(match[0], 10) : 1;
+    let period: "hour" | "week" | "month" = "week";
+    if (/hour/i.test(data.duration)) period = "hour";
+    else if (/month/i.test(data.duration)) period = "month";
+
+    updateLesson(
+      {
+        id,
+        data: {
+          title: data.lesson_title,
+          subject: data.subject,
+          class_id: [data.class],
+          duration: { number, period },
+          lesson_plan: data.lesson_plan_overview,
+          objectives: data.weekly_plan_objectives,
+        },
+      },
+      { onSuccess: () => setOpen(true) }
+    );
+  };
 
   return (
     <ReactHookForm.Provider value={{ register, errors, open }}>
-      <Container headerTitle={id?.split("-")?.join(" ")}>
+      {contextHolder}
+      <Container headerTitle={lesson?.title ?? "Lesson Plan"}>
         <main className="bg-white px-10 pt-7 h-full">
           <div className="flex justify-between">
             <Link
@@ -62,14 +108,30 @@ export default function LessonPlanInfo() {
               <span>Back</span>
             </Link>
           </div>
-          <LessonInformation />
+          {isLoading ? (
+            <div className="flex justify-center py-16">
+              <Spinner />
+            </div>
+          ) : !lesson ? (
+            <div className="flex justify-center py-16 text-Text-meduim-emphasis">
+              Lesson plan not found.
+            </div>
+          ) : (
+            <>
+              <LessonInformation
+                classOptions={classOptions}
+                subjectOptions={subjectOptions}
+              />
 
-          <button
-            className="text-white bg-primary-purple-700 rounded-lg py-3 px-16 font-semibold text-sm block ml-auto"
-            onClick={handleSubmit(onSubmit)}
-          >
-            <LoadingState label="Save" isSubmitting={isSubmitting} />
-          </button>
+              <button
+                className="text-white bg-primary-purple-700 rounded-lg py-3 px-16 font-semibold text-sm block ml-auto disabled:opacity-50"
+                onClick={handleSubmit(onSubmit)}
+                disabled={isUpdatingLesson}
+              >
+                <LoadingState label="Save" isSubmitting={isUpdatingLesson} />
+              </button>
+            </>
+          )}
         </main>
       </Container>
     </ReactHookForm.Provider>
@@ -82,8 +144,13 @@ const useFormContext = () => {
   }
   return context;
 };
-function LessonInformation() {
-  const router = useRouter();
+function LessonInformation({
+  classOptions,
+  subjectOptions,
+}: {
+  classOptions: { value: string; label: string }[];
+  subjectOptions: { value: string; label: string }[];
+}) {
   const { register, errors, open } = useFormContext();
 
   return (
@@ -91,13 +158,6 @@ function LessonInformation() {
       <Modal
         centered
         open={open}
-        onOk={() =>
-          router.push(
-            DASHBOARD_LESSON_PLAN_INFO(
-              "Physics".split(" ").join("-").toLowerCase()
-            )
-          )
-        }
         okButtonProps={{
           style: {
             color: "#ffffff",
@@ -112,7 +172,7 @@ function LessonInformation() {
           },
         }}
         width={400}
-        okText={"View lesson plan"}
+        okText={"Done"}
         closeIcon={false}
       >
         <section className="text-center">
@@ -124,10 +184,10 @@ function LessonInformation() {
             />
           </div>
           <h2 className="text-2xl font-semibold mb-2 mt-4 text-Text-high-emphasis">
-            New lesson plan added
+            Lesson plan updated
           </h2>
           <p className="text-gray-700 font-medium px-5">
-            You have successfully added a 1 week lesson plan for physics.
+            Your changes have been saved.
           </p>
         </section>
       </Modal>
@@ -146,7 +206,6 @@ function LessonInformation() {
             label="Lesson title"
             placeholder="Enter a lesson title"
             required
-            defaultValue="Mr Jordan's Lesson"
             register={register}
             errorMessage={errors.lesson_title?.message || ""}
           />
@@ -154,24 +213,14 @@ function LessonInformation() {
           <SelectField
             id="subject"
             label="Subject"
-            options={[
-              "Use of English Language",
-              "Mathematics",
-              "Chemistry",
-              "Physics",
-              "Biology",
-              "Further Mathematics",
-              "Civic Education",
-            ]}
-            defaultValue="Mathematics"
+            options={subjectOptions}
             register={register}
             errorMessage={errors.subject?.message || ""}
           />
           <SelectField
             id="class"
             label="Class"
-            options={["JSS1", "JSS2", "JSS3", "SS1", "SS2", "SS3"]}
-            defaultValue="JSS3"
+            options={classOptions}
             register={register}
             errorMessage={errors.class?.message || ""}
           />
@@ -180,7 +229,6 @@ function LessonInformation() {
             label="Duration"
             placeholder="1 week"
             required
-            defaultValue="4 weeks"
             register={register}
             errorMessage={errors.duration?.message || ""}
           />
@@ -192,9 +240,6 @@ function LessonInformation() {
             maxLength={3000}
             showCharacterCount={false}
             isFullWidth
-            defaultValue={
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. enim, sint. magni architecto eos voluptate maiores consectetur odio iste expedita fugit id non iure rem fugiat, repellat quibusdam ut reprehenderit aliquid!"
-            }
             register={register}
             errorMessage={errors.lesson_plan_overview?.message || ""}
           />
@@ -206,9 +251,6 @@ function LessonInformation() {
             maxLength={3000}
             showCharacterCount={false}
             isFullWidth
-            defaultValue={
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim, sint. Magni architecto eos voluptate maiores consectetur odio iste.Expedita fugit id non iure rem fugiat, repellat quibusdam ut reprehenderit aliquid!"
-            }
             register={register}
             errorMessage={errors.weekly_plan_objectives?.message || ""}
           />

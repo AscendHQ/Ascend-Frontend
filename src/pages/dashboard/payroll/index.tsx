@@ -8,10 +8,10 @@ import { twMerge } from "tailwind-merge";
 
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
+import { Spinner } from "@/components/ui/Loading";
 import { TableCell, TableHeader } from "@/components/ui/table";
-import { payrollInfo } from "@/config/dummyInfo";
 import { DASHBOARD_PAYROLL_INFO, GENERATE_PAYROLL } from "@/config/links";
-import { PayrollRowProps } from "@/types";
+import { PayrollRecord, useAllPayroll } from "@/templates/Payroll/hooks";
 
 export default function Payroll() {
   const [openPayrollOption, setPayrollOption] = React.useState(false);
@@ -110,27 +110,34 @@ export default function Payroll() {
           </h3>
         </div>
         <Table />
-        {/* <div className="flex flex-col bg-black bg-opacity-95 text-white items-center gap-3 justify-center absolute inset-0">
-          <span className="text-2xl">COMING</span>
-          <div className="flex items-center gap-3 justify-center">
-            <span className="text-9xl font-GTWalsheimPro">S</span>
-            <div className="relative">
-              <div className="h-24 w-24 rounded-full border-t-8 border-b-8 border-grey-400"></div>
-              <div className="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-primary-purple-500 animate-spin"></div>
-            </div>
-            <div className="relative">
-              <div className="h-24 w-24 rounded-full border-t-8 border-b-8 border-grey-400"></div>
-              <div className="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-primary-purple-500 animate-spin"></div>
-            </div>
-            <span className="text-9xl font-GTWalsheimPro">N</span>
-          </div>
-        </div> */}
       </main>
     </Container>
   );
 }
 function Table() {
   const [api, contextHolder] = notification.useNotification();
+  const { data, isLoading } = useAllPayroll();
+
+  const payrolls: PayrollRecord[] = data?.payrolls ?? [];
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-16">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (!payrolls.length) {
+    return (
+      <div className="flex flex-col items-center gap-2 py-16 text-Text-meduim-emphasis">
+        <p>No payroll records yet.</p>
+        <p className="text-sm">
+          Click &quot;Generate payroll&quot; to create the first one.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
@@ -139,13 +146,8 @@ function Table() {
       <table className="w-full text-sm text-left text-gray-500">
         <TableHeaders />
         <tbody className="text-xs">
-          {payrollInfo.map((item, index) => (
-            <ClassRow
-              key={item.staffName}
-              item={item}
-              index={index}
-              api={api}
-            />
+          {payrolls.map((item, index) => (
+            <PayrollRow key={item._id} item={item} index={index} api={api} />
           ))}
         </tbody>
       </table>
@@ -163,41 +165,34 @@ function TableHeaders() {
         <TableHeader text="Account details" />
         <TableHeader text="Basic Salary" isCentered />
         <TableHeader text="Deductions" isCentered />
+        <TableHeader text="Net pay" isCentered />
         <TableHeader text={<Icon icon="ion:filter" />} isCentered />
       </tr>
     </thead>
   );
 }
 
-function ClassRow({ item, index, api }: PayrollRowProps) {
-  const [currentStudent, setCurrentStudent] = React.useState({
-    name: "",
-  });
-
+function PayrollRow({
+  item,
+  index,
+  api,
+}: {
+  item: PayrollRecord;
+  index: number;
+  api: ReturnType<typeof notification.useNotification>[0];
+}) {
   const items: MenuProps["items"] = [
     {
       label: (
         <Link
-          href={DASHBOARD_PAYROLL_INFO(
-            currentStudent.name.split(" ").join("-").toLowerCase()
-          )}
+          href={DASHBOARD_PAYROLL_INFO(item._id)}
           className="flex gap-2 w-full transition-all py-1 rounded-sm items-center"
-          onClick={() => console.log(currentStudent)}
         >
           <Icon icon="ep:more" fontSize={20} />
           <span className="text-sm">View details</span>
         </Link>
       ),
       key: "0",
-    },
-    {
-      label: (
-        <button className="flex gap-2 w-full transition-all py-1 rounded-sm">
-          <Icon icon="solar:trash-bin-2-broken" fontSize={20} />
-          <span className="text-sm">Remove</span>
-        </button>
-      ),
-      key: "1",
     },
   ];
   const openNotification = (placement: NotificationPlacement) => {
@@ -210,20 +205,21 @@ function ClassRow({ item, index, api }: PayrollRowProps) {
     });
   };
   const copyToClipboard = (text: string) => {
-    const textToCopy = text;
-    navigator.clipboard.writeText(textToCopy);
+    navigator.clipboard.writeText(text);
     openNotification("topRight");
   };
   return (
-    <tr className="bg-white border-b " key={item.staffName}>
+    <tr className="bg-white border-b " key={item._id}>
       <TableCell content={index + 1} isCentered />
-      <TableCell content={item.staffName} styles="whitespace-nowrap" />
-      <TableCell content={item.jobTitle} styles="whitespace-nowrap" />
+      <TableCell content={item.staff_name} styles="whitespace-nowrap" />
+      <TableCell content={item.job_title ?? "-"} styles="whitespace-nowrap" />
       <TableCell
         content={
           <>
-            {item.accountNumberDetails + " | " + item.bankAccountDetails}
-            <button onClick={() => copyToClipboard(item.accountNumberDetails)}>
+            {(item.account_number ?? "-") + " | " + (item.bank_name ?? "-")}
+            <button
+              onClick={() => copyToClipboard(item.account_number ?? "")}
+            >
               <Icon icon="fluent:document-copy-20-regular" />
             </button>
           </>
@@ -231,24 +227,20 @@ function ClassRow({ item, index, api }: PayrollRowProps) {
         styles="p-4 text-info-main flex items-center"
       />
       <TableBodyText
-        title={"₦" + item.basicSalary.toLocaleString() + ".00"}
+        title={"₦" + item.basic_salary.toLocaleString() + ".00"}
         styles="whitespace-nowrap text-center"
       />
       <TableBodyText
-        title={"-₦" + item.deductions.toLocaleString() + ".00"}
+        title={"-₦" + item.total_deductions.toLocaleString() + ".00"}
         styles="whitespace-nowrap text-secondary-red-600 text-center"
+      />
+      <TableBodyText
+        title={"₦" + item.net_pay.toLocaleString() + ".00"}
+        styles="whitespace-nowrap text-secondary-green-600 text-center"
       />
 
       <td className="px-6 py-4">
-        <Dropdown
-          menu={{ items }}
-          trigger={["click"]}
-          onOpenChange={() =>
-            setCurrentStudent({
-              name: item.staffName,
-            })
-          }
-        >
+        <Dropdown menu={{ items }} trigger={["click"]}>
           <button>
             <Icon icon="ri:more-2-fill" />
           </button>

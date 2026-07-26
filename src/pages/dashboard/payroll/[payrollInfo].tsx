@@ -6,15 +6,24 @@ import { useRouter } from "next/router";
 import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
+import { Spinner } from "@/components/ui/Loading";
 import { DASHBOARD_PAYROLL } from "@/config/links";
+import { usePayrollById } from "@/templates/Payroll/hooks";
 
 export default function PayrollInfo() {
   const router = useRouter();
   const id = router.query.payrollInfo as string;
 
+  const { data, isLoading } = usePayrollById(id);
+  const payroll = data;
+
   return (
     <div>
-      <Container headerTitle={id + `'s Payroll`}>
+      <Container
+        headerTitle={
+          (payroll?.staff_name ?? "Payroll") + `'s Payroll`
+        }
+      >
         <main className="bg-white px-10 pt-7 h-full">
           <div className="flex justify-between">
             <Link
@@ -24,16 +33,49 @@ export default function PayrollInfo() {
               <Icon icon="teenyicons:arrow-left-solid" />
               <span>Back</span>
             </Link>
-            {/* <p className="uppercase">{formattedDate}</p> */}
+            {payroll && (
+              <p className="uppercase">
+                {payroll.month} {payroll.academic_year}
+              </p>
+            )}
           </div>
-          <PayrollInformation />
+          {isLoading ? (
+            <div className="flex justify-center py-16">
+              <Spinner />
+            </div>
+          ) : !payroll ? (
+            <div className="flex justify-center py-16 text-Text-meduim-emphasis">
+              Payroll record not found.
+            </div>
+          ) : (
+            <PayrollInformation payroll={payroll} />
+          )}
         </main>
       </Container>
     </div>
   );
 }
 
-function PayrollInformation() {
+type BreakdownItem = { label: string; amount: number; type: string };
+
+function PayrollInformation({
+  payroll,
+}: {
+  payroll: {
+    staff_no: string;
+    staff_name: string;
+    job_title?: string;
+    bank_name?: string;
+    account_number?: string;
+    academic_year: string;
+    month: string;
+    basic_salary: number;
+    breakdown: BreakdownItem[];
+    total_allowances: number;
+    total_deductions: number;
+    net_pay: number;
+  };
+}) {
   const [openPayrollOption, setPayrollOption] = React.useState(false);
   const [selectedOption, setSelectedOption] = React.useState<"basic" | "full">(
     "basic"
@@ -110,129 +152,24 @@ function PayrollInformation() {
           </p>
         </div>
         <div className="flex flex-1 min-w-[60%] flex-wrap gap-5">
-          <div className="lg:min-w-[250px] flex-1">
-            <label
-              htmlFor="academic_year"
-              className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-            >
-              Academic year
-            </label>
-            <select
-              id="academic_year"
-              name="academic_year"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            >
-              <option>Select a session</option>
-              <option value="2023">2023</option>
-              <option value="2022">2022</option>
-              <option value="2021">2021</option>
-              <option value="2020">2020</option>
-            </select>
-          </div>
-          <div className="lg:min-w-[250px] flex-1">
-            <label
-              htmlFor="month"
-              className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-            >
-              Month
-            </label>
-            <select
-              id="month"
-              name="month"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            >
-              <option>Select a option</option>
-              <option value="January">January</option>
-              <option value="Feburary">Feburary</option>
-              <option value="March">March</option>
-              <option value="April">April</option>
-              <option value="May">May</option>
-              <option value="June">June</option>
-              <option value="July">July</option>
-              <option value="August">August</option>
-              <option value="September">September</option>
-              <option value="October">October</option>
-              <option value="November">November</option>
-              <option value="December">December</option>
-            </select>
-          </div>
-
-          <div className="lg:min-w-[250px] flex-1">
-            <label
-              htmlFor="staff_name"
-              className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-            >
-              Staff name
-            </label>
-            <input
-              type="text"
-              id="staff_name"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-              placeholder="Gary Mendez"
-              required
-            />
-          </div>
-          <div className="lg:min-w-[250px] flex-1">
-            <label
-              htmlFor="staff_ID"
-              className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-            >
-              Staff ID
-            </label>
-            <input
-              type="text"
-              id="staff_ID"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-              placeholder="STAFF529"
-              required
-            />
-          </div>
-          <div className="lg:min-w-full flex-1">
-            <label
-              htmlFor="class_teacher"
-              className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-            >
-              Job title
-            </label>
-            <input
-              type="text"
-              id="class_teacher"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-              placeholder="E.g. Teacher"
-              required
-            />
-          </div>
-          <div className="lg:min-w-[250px] flex-1">
-            <label
-              htmlFor="bank_name"
-              className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-            >
-              Bank name
-            </label>
-            <input
-              type="text"
-              id="bank_name"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-              placeholder="E.g. Access Bank"
-              required
-            />
-          </div>
-
-          <div className="lg:min-w-[250px] flex-1">
-            <label
-              htmlFor="account_number"
-              className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-            >
-              Account number
-            </label>
-            <input
-              type="text"
-              id="account_number"
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-              placeholder="0000 000 000"
-              required
-            />
-          </div>
+          <InfoField label="Academic year" value={payroll.academic_year} />
+          <InfoField label="Month" value={payroll.month} />
+          <InfoField label="Staff name" value={payroll.staff_name} />
+          <InfoField label="Staff ID" value={payroll.staff_no} />
+          <InfoField
+            label="Job title"
+            value={payroll.job_title ?? "-"}
+            fullWidth
+          />
+          <InfoField label="Bank name" value={payroll.bank_name ?? "-"} />
+          <InfoField
+            label="Account number"
+            value={payroll.account_number ?? "-"}
+          />
+          <InfoField
+            label="Basic salary"
+            value={"₦" + payroll.basic_salary.toLocaleString() + ".00"}
+          />
         </div>
       </div>
       <div className="flex justify-between gap-16 pb-16 mt-14 mb-8 border-b-2 border-border-colour-light">
@@ -244,20 +181,20 @@ function PayrollInformation() {
             This will be displayed on the salary breakdown.
           </p>
         </div>
-        <Table />
+        <BreakdownReadOnlyTable breakdown={payroll.breakdown} />
+      </div>
+      <div className="flex justify-end gap-10 pb-10">
+        <SummaryStat label="Total allowances" value={payroll.total_allowances} />
+        <SummaryStat label="Total deductions" value={payroll.total_deductions} />
+        <SummaryStat label="Net pay" value={payroll.net_pay} highlight />
       </div>
       <ul className="flex gap-2 justify-end">
-        <li>
-          <button className="text-Text-high-emphasis border-1.5 border-border-colour-light rounded-lg py-3 px-10 font-semibold text-sm">
-            Generate
-          </button>
-        </li>
         <li>
           <button
             className="text-white bg-primary-purple-700 rounded-lg py-3 px-10 font-semibold text-sm"
             onClick={() => setPayrollOption(true)}
           >
-            Generate and Export
+            Export
           </button>
         </li>
       </ul>
@@ -265,7 +202,28 @@ function PayrollInformation() {
   );
 }
 
-function Table() {
+function InfoField({
+  label,
+  value,
+  fullWidth,
+}: {
+  label: string;
+  value: string;
+  fullWidth?: boolean;
+}) {
+  return (
+    <div className={fullWidth ? "lg:min-w-full flex-1" : "lg:min-w-[250px] flex-1"}>
+      <p className="block mb-2 text-sm font-medium text-Text-high-emphasis">
+        {label}
+      </p>
+      <p className="border border-border-colour-light w-full rounded-lg bg-neutral-300 px-3 py-2 text-Text-high-emphasis">
+        {value}
+      </p>
+    </div>
+  );
+}
+
+function BreakdownReadOnlyTable({ breakdown }: { breakdown: BreakdownItem[] }) {
   return (
     <div className="overflow-scroll shadow-md sm:rounded-lg w-full">
       <table className="w-full text-sm text-left text-gray-500">
@@ -280,44 +238,50 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {[
-            "Basic salary",
-            "Leave Bonus",
-            "Employer pension",
-            "NIG social INS",
-            "HOD Allowance",
-            "Absentee",
-            "POST AU School Fees",
-            "Graduating shirt",
-            "Honorarium",
-            "Refund of Uniform",
-            "Mortgage Bank",
-            "Cooperative",
-            "Medical Bill",
-            "Salary Advance",
-            "Staff School Bill",
-            "Tax",
-            "Children School Fees",
-            "Staff Loan Repay",
-            "Social",
-            "Rent",
-            "Pension",
-          ].map(item => (
-            <tr className="bg-white border-b " key={item}>
+          {breakdown.map(item => (
+            <tr className="bg-white border-b " key={item.label}>
               <td className="px-6 py-4 font-medium text-gray-900  whitespace-nowrap">
-                {item}
+                {item.label}
               </td>
-              <td className="px-6 py-4">
-                <input
-                  type="text"
-                  className="max-w-[100px] placeholder:text-Text-meduim-emphasis border border-grey-300"
-                  placeholder="0.00"
-                />
+              <td
+                className={
+                  "px-6 py-4 " +
+                  (item.type === "deduction"
+                    ? "text-secondary-red-600"
+                    : "text-secondary-green-600")
+                }
+              >
+                {item.type === "deduction" ? "-" : "+"}₦
+                {item.amount.toLocaleString()}.00
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+    </div>
+  );
+}
+
+function SummaryStat({
+  label,
+  value,
+  highlight,
+}: {
+  label: string;
+  value: number;
+  highlight?: boolean;
+}) {
+  return (
+    <div className="text-right">
+      <p className="text-sm text-Text-meduim-emphasis">{label}</p>
+      <p
+        className={
+          "text-xl font-semibold " +
+          (highlight ? "text-primary-purple-700" : "text-Text-high-emphasis")
+        }
+      >
+        ₦{value.toLocaleString()}.00
+      </p>
     </div>
   );
 }

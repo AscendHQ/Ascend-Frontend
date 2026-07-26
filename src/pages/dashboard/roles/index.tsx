@@ -1,30 +1,95 @@
 import { Icon } from "@iconify/react";
-import { MenuProps, Modal } from "antd";
+import { MenuProps, Modal, notification } from "antd";
 import { Dropdown } from "antd";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
-import { roleInfo } from "@/config/dummyInfo";
+import { Spinner } from "@/components/ui/Loading";
+import {
+  RoleRecord,
+  useAllRoles,
+  useCreateRole,
+  useDeleteRole,
+  useUpdateRole,
+} from "@/templates/Roles/hooks";
 
 export default function Roles() {
+  const [api, contextHolder] = notification.useNotification();
+
   const [openAddNewRole, setOpenAddNewRole] = React.useState(false);
   const [openRoleDetail, setOpenRoleDetail] = React.useState(false);
   const [editRoleDetail, setEditRoleDetail] = React.useState(false);
+  const [selectedRole, setSelectedRole] = React.useState<RoleRecord | null>(
+    null
+  );
+
+  const [newRoleName, setNewRoleName] = React.useState("");
+  const [newRoleDescription, setNewRoleDescription] = React.useState("");
+
+  const [editName, setEditName] = React.useState("");
+  const [editDescription, setEditDescription] = React.useState("");
+
+  const { data: roles, isLoading } = useAllRoles();
+  const { createRole, isCreatingRole } = useCreateRole(api);
+  const { updateRole, isUpdatingRole } = useUpdateRole(api);
+  const { deleteRole } = useDeleteRole(api);
+
+  const openDetailFor = (role: RoleRecord) => {
+    setSelectedRole(role);
+    setEditName(role.name);
+    setEditDescription(role.description ?? "");
+    setEditRoleDetail(false);
+    setOpenRoleDetail(true);
+  };
+
+  const handleAddRole = () => {
+    if (!newRoleName.trim()) return;
+
+    createRole(
+      { name: newRoleName.trim(), description: newRoleDescription.trim() },
+      {
+        onSuccess: () => {
+          setOpenAddNewRole(false);
+          setNewRoleName("");
+          setNewRoleDescription("");
+        },
+      }
+    );
+  };
+
+  const handleSaveEdit = () => {
+    if (!selectedRole || !editName.trim()) return;
+
+    updateRole(
+      {
+        id: selectedRole._id,
+        data: { name: editName.trim(), description: editDescription.trim() },
+      },
+      {
+        onSuccess: () => {
+          setOpenRoleDetail(false);
+          setEditRoleDetail(false);
+        },
+      }
+    );
+  };
 
   return (
     <Container headerTitle="Roles">
+      {contextHolder}
       <main className="px-10 py-5 relative h-full bg-white">
         <Modal
           title={<h2 className="text-lg font-semibold">Add new role</h2>}
           centered
           open={openAddNewRole}
-          onOk={() => setOpenAddNewRole(false)}
+          onOk={handleAddRole}
           onCancel={() => setOpenAddNewRole(false)}
           maskClosable={false}
           width={480}
           okText={"Add Role"}
+          confirmLoading={isCreatingRole}
           okButtonProps={{
             style: {
               color: "#ffffff",
@@ -52,6 +117,8 @@ export default function Roles() {
                 <input
                   type="text"
                   id="role_name"
+                  value={newRoleName}
+                  onChange={e => setNewRoleName(e.target.value)}
                   className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
                   placeholder="Enter role name"
                   required
@@ -65,11 +132,16 @@ export default function Roles() {
                   Role Description
                 </label>
                 <textarea
+                  value={newRoleDescription}
+                  onChange={e => setNewRoleDescription(e.target.value)}
+                  maxLength={120}
                   className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis h-28"
                   id="role_description"
                   placeholder="What is this role about."
                 />
-                <span className="text-sm">0/40 characters remaining</span>
+                <span className="text-sm">
+                  {120 - newRoleDescription.length}/120 characters remaining
+                </span>
               </div>
             </div>
           </section>
@@ -78,7 +150,13 @@ export default function Roles() {
           title={<h2 className="text-lg font-semibold">Role detail</h2>}
           centered
           open={openRoleDetail}
-          onOk={() => setEditRoleDetail(true)}
+          onOk={() => {
+            if (editRoleDetail) {
+              handleSaveEdit();
+            } else {
+              setEditRoleDetail(true);
+            }
+          }}
           onCancel={() => {
             setOpenRoleDetail(false);
             setEditRoleDetail(false);
@@ -86,6 +164,7 @@ export default function Roles() {
           maskClosable={false}
           width={500}
           okText={editRoleDetail ? "Save Changes" : "Edit Role"}
+          confirmLoading={isUpdatingRole}
           okButtonProps={{
             style: {
               color: "#ffffff",
@@ -110,27 +189,24 @@ export default function Roles() {
             <div className="mt-4 space-y-6">
               <div>
                 <label
-                  htmlFor="role_name"
+                  htmlFor="edit_role_name"
                   className="block mb-2 text-sm font-semibold text-Text-high-emphasis"
                 >
                   Role name
                 </label>
 
-                <select
-                  name="role_name"
-                  id="role_name"
+                <input
+                  type="text"
+                  id="edit_role_name"
+                  value={editName}
+                  onChange={e => setEditName(e.target.value)}
+                  disabled={!editRoleDetail}
                   className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-                  disabled={editRoleDetail ? false : true}
-                  defaultValue={"Staff"}
-                >
-                  <option value="Staff">Staff</option>
-                  <option value="Teacher">Teacher</option>
-                  <option value="Bursary">Bursary</option>
-                </select>
+                />
               </div>
               <div>
                 <label
-                  htmlFor="role_description"
+                  htmlFor="edit_role_description"
                   className="block mb-2 text-sm font-semibold text-Text-high-emphasis"
                 >
                   Role Description
@@ -141,15 +217,24 @@ export default function Roles() {
                       ? "text-Text-high-emphasis"
                       : "text-Text-low-emphasis"
                   } h-24`}
-                  id="role_description"
+                  id="edit_role_description"
                   placeholder="What is this role about."
-                  readOnly={editRoleDetail ? false : true}
-                  defaultValue={
-                    "This is any person outside of the admin working together in the school."
-                  }
+                  readOnly={!editRoleDetail}
+                  value={editDescription}
+                  maxLength={120}
+                  onChange={e => setEditDescription(e.target.value)}
                 />
-                <span className="text-sm">0/40 characters remaining</span>
+                <span className="text-sm">
+                  {120 - editDescription.length}/120 characters remaining
+                </span>
               </div>
+              {selectedRole && (
+                <p className="text-sm text-Text-meduim-emphasis">
+                  {selectedRole.staff_count} staff member
+                  {selectedRole.staff_count === 1 ? "" : "s"} currently
+                  assigned to this role.
+                </p>
+              )}
             </div>
           </section>
         </Modal>
@@ -164,55 +249,37 @@ export default function Roles() {
           </DashboardButton>
         </div>
 
-        <Table setOpenRoleDetail={setOpenRoleDetail} />
-        {/* <div className="flex flex-col bg-black bg-opacity-95 text-white items-center gap-3 justify-center absolute inset-0">
-          <span className="text-2xl">COMING</span>
-          <div className="flex items-center gap-3 justify-center">
-            <span className="text-9xl font-GTWalsheimPro">S</span>
-            <div className="relative">
-              <div className="h-24 w-24 rounded-full border-t-8 border-b-8 border-grey-400"></div>
-              <div className="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-primary-purple-500 animate-spin"></div>
-            </div>
-            <div className="relative">
-              <div className="h-24 w-24 rounded-full border-t-8 border-b-8 border-grey-400"></div>
-              <div className="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-primary-purple-500 animate-spin"></div>
-            </div>
-            <span className="text-9xl font-GTWalsheimPro">N</span>
+        {isLoading ? (
+          <div className="flex justify-center py-16">
+            <Spinner />
           </div>
-        </div> */}
+        ) : !roles?.length ? (
+          <div className="flex flex-col items-center gap-2 py-16 text-Text-meduim-emphasis">
+            <p>No roles yet.</p>
+            <p className="text-sm">
+              Click &quot;Add Role&quot; to create your first one.
+            </p>
+          </div>
+        ) : (
+          <Table
+            roles={roles}
+            onView={openDetailFor}
+            onDelete={deleteRole}
+          />
+        )}
       </main>
     </Container>
   );
 }
 function Table({
-  setOpenRoleDetail,
+  roles,
+  onView,
+  onDelete,
 }: {
-  setOpenRoleDetail: React.Dispatch<React.SetStateAction<boolean>>;
+  roles: RoleRecord[];
+  onView: (role: RoleRecord) => void;
+  onDelete: (id: string) => void;
 }) {
-  const items: MenuProps["items"] = [
-    {
-      label: (
-        <button
-          className="flex gap-2 w-full transition-all py-1 rounded-sm items-center"
-          onClick={() => setOpenRoleDetail(true)}
-        >
-          <Icon icon="ep:more" fontSize={20} />
-          <span className="text-sm">View details</span>
-        </button>
-      ),
-      key: "0",
-    },
-    {
-      label: (
-        <button className="flex gap-2 w-full transition-all py-1 rounded-sm">
-          <Icon icon="solar:trash-bin-2-broken" fontSize={20} />
-          <span className="text-sm">Remove</span>
-        </button>
-      ),
-      key: "1",
-    },
-  ];
-
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
       <table className="w-full text-sm text-left text-gray-500">
@@ -229,42 +296,68 @@ function Table({
           </tr>
         </thead>
         <tbody className="text-xs">
-          {roleInfo.map((item, index) => (
-            <tr className="bg-white border-b " key={item.roleName}>
-              <TableBodyText
-                title={(index + 1).toString()}
-                styles="text-center"
-              />
-              <TableBodyText title={item.roleName} styles="whitespace-nowrap" />
-              <TableBodyText
-                title={item.description}
-                styles="whitespace-nowrap max-w-[5rem] overflow-hidden"
-              />
-              <TableBodyText
-                title={item.numberOfStaff.toString()}
-                styles="whitespace-nowrap text-center"
-              />
-
-              <TableBodyText
-                title={"12 May, 2023"}
-                styles="whitespace-nowrap text-center"
-              />
-
-              <td className="px-6 py-4">
-                <Dropdown
-                  menu={{ items }}
-                  trigger={["click"]}
-                  //   onOpenChange={() =>
-
-                  //   }
-                >
-                  <button>
-                    <Icon icon="ri:more-2-fill" />
+          {roles.map((item, index) => {
+            const items: MenuProps["items"] = [
+              {
+                label: (
+                  <button
+                    className="flex gap-2 w-full transition-all py-1 rounded-sm items-center"
+                    onClick={() => onView(item)}
+                  >
+                    <Icon icon="ep:more" fontSize={20} />
+                    <span className="text-sm">View details</span>
                   </button>
-                </Dropdown>
-              </td>
-            </tr>
-          ))}
+                ),
+                key: "0",
+              },
+              {
+                label: (
+                  <button
+                    className="flex gap-2 w-full transition-all py-1 rounded-sm"
+                    onClick={() => onDelete(item._id)}
+                  >
+                    <Icon icon="solar:trash-bin-2-broken" fontSize={20} />
+                    <span className="text-sm">Remove</span>
+                  </button>
+                ),
+                key: "1",
+              },
+            ];
+
+            return (
+              <tr className="bg-white border-b " key={item._id}>
+                <TableBodyText
+                  title={(index + 1).toString()}
+                  styles="text-center"
+                />
+                <TableBodyText title={item.name} styles="whitespace-nowrap" />
+                <TableBodyText
+                  title={item.description || "-"}
+                  styles="whitespace-nowrap max-w-[5rem] overflow-hidden"
+                />
+                <TableBodyText
+                  title={item.staff_count.toString()}
+                  styles="whitespace-nowrap text-center"
+                />
+
+                <TableBodyText
+                  title={new Date(item.createdAt).toLocaleDateString(
+                    "en-US",
+                    { day: "numeric", month: "short", year: "numeric" }
+                  )}
+                  styles="whitespace-nowrap text-center"
+                />
+
+                <td className="px-6 py-4">
+                  <Dropdown menu={{ items }} trigger={["click"]}>
+                    <button>
+                      <Icon icon="ri:more-2-fill" />
+                    </button>
+                  </Dropdown>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

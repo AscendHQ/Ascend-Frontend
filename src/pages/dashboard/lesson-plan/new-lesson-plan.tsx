@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
-import { Modal } from "antd";
+import { Modal, notification } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
@@ -20,24 +20,75 @@ import {
   newLessonPlanSchema,
   NewLessonPlanSchemaType,
 } from "@/types/form";
+import {
+  useAllClassesForLesson,
+  useAllSubjectsForLesson,
+  useCreateLesson,
+} from "@/templates/LessonPlan/hooks";
 
 const ReactHookForm = React.createContext<NewLessonPlanContextType | undefined>(
   undefined
 );
 
-export default function NewLessonPlan() {
-  const [open, setOpen] = React.useState(false);
+// Parses a free-text duration like "2 weeks" or "3 months" into the
+// { number, period } shape the backend expects. Defaults to 1 week if
+// nothing recognizable was typed.
+function parseDuration(input: string): {
+  number: number;
+  period: "hour" | "week" | "month";
+} {
+  const match = input.match(/\d+/);
+  const number = match ? parseInt(match[0], 10) : 1;
 
-  const onSubmit = (data: object) => {
-    console.log(data, "data");
-    setOpen(true);
+  let period: "hour" | "week" | "month" = "week";
+  if (/hour/i.test(input)) period = "hour";
+  else if (/month/i.test(input)) period = "month";
+  else if (/week/i.test(input)) period = "week";
+
+  return { number, period };
+}
+
+export default function NewLessonPlan() {
+  const [api, contextHolder] = notification.useNotification();
+  const [open, setOpen] = React.useState(false);
+  const [createdId, setCreatedId] = React.useState("");
+  const router = useRouter();
+
+  const { data: classesData } = useAllClassesForLesson();
+  const { data: subjectsData } = useAllSubjectsForLesson();
+  const { createLesson, isCreatingLesson } = useCreateLesson(api);
+
+  const classOptions = (classesData?.classes ?? []).map(
+    (c: { _id: string; name: string }) => ({ value: c._id, label: c.name })
+  );
+  const subjectOptions = (subjectsData?.subjects ?? []).map(
+    (s: { _id: string; name: string }) => ({ value: s.name, label: s.name })
+  );
+
+  const onSubmit = (data: NewLessonPlanSchemaType) => {
+    createLesson(
+      {
+        title: data.lesson_title,
+        subject: data.subject,
+        class_id: [data.class],
+        duration: parseDuration(data.duration),
+        lesson_plan: data.lesson_plan_overview,
+        objectives: data.weekly_plan_objectives,
+      },
+      {
+        onSuccess: response => {
+          setCreatedId(response._id);
+          setOpen(true);
+        },
+      }
+    );
   };
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
+    formState: { errors, isSubmitSuccessful },
   } = useForm<NewLessonPlanSchemaType>({
     resolver: zodResolver(newLessonPlanSchema),
   });
@@ -47,6 +98,7 @@ export default function NewLessonPlan() {
   }, [isSubmitSuccessful, reset]);
   return (
     <ReactHookForm.Provider value={{ register, errors, open }}>
+      {contextHolder}
       <Container headerTitle={"New Lesson Plan"}>
         <main className="bg-white px-10 pt-7 h-full">
           <div className="flex justify-between">
@@ -58,19 +110,27 @@ export default function NewLessonPlan() {
               <span>Back</span>
             </Link>
           </div>
-          <LessonInformation />
+          <LessonInformation
+            classOptions={classOptions}
+            subjectOptions={subjectOptions}
+            createdId={createdId}
+          />
           <ul className="flex gap-2 justify-end">
             <li>
-              <button className="text-Text-high-emphasis border-1.5 border-border-colour-light rounded-lg py-3 px-14 font-semibold text-sm">
+              <Link
+                href={DASHBOARD_LESSON_PLAN}
+                className="text-Text-high-emphasis border-1.5 border-border-colour-light rounded-lg py-3 px-14 font-semibold text-sm inline-block"
+              >
                 Cancel
-              </button>
+              </Link>
             </li>
             <li>
               <button
-                className="text-white bg-primary-purple-700 rounded-lg py-3 px-16 font-semibold text-sm"
+                className="text-white bg-primary-purple-700 rounded-lg py-3 px-16 font-semibold text-sm disabled:opacity-50"
                 onClick={handleSubmit(onSubmit)}
+                disabled={isCreatingLesson}
               >
-                <LoadingState label="Save" isSubmitting={isSubmitting} />
+                <LoadingState label="Save" isSubmitting={isCreatingLesson} />
               </button>
             </li>
           </ul>
@@ -87,7 +147,15 @@ const useFormContext = () => {
   return context;
 };
 
-function LessonInformation() {
+function LessonInformation({
+  classOptions,
+  subjectOptions,
+  createdId,
+}: {
+  classOptions: { value: string; label: string }[];
+  subjectOptions: { value: string; label: string }[];
+  createdId: string;
+}) {
   const { register, errors, open } = useFormContext();
 
   const router = useRouter();
@@ -98,13 +166,7 @@ function LessonInformation() {
         title=""
         centered
         open={open}
-        onOk={() =>
-          router.push(
-            DASHBOARD_LESSON_PLAN_INFO(
-              "Physics".split(" ").join("-").toLowerCase()
-            )
-          )
-        }
+        onOk={() => router.push(DASHBOARD_LESSON_PLAN_INFO(createdId))}
         okButtonProps={{
           style: {
             color: "#ffffff",
@@ -134,7 +196,7 @@ function LessonInformation() {
             New lesson plan added
           </h2>
           <p className="text-gray-700 font-medium px-5">
-            You have successfully added a 1 week lesson plan for physics.
+            You have successfully added a new lesson plan.
           </p>
         </section>
       </Modal>
@@ -159,22 +221,14 @@ function LessonInformation() {
           <SelectField
             id="subject"
             label="Subject"
-            options={[
-              "Use of English Language",
-              "Mathematics",
-              "Chemistry",
-              "Physics",
-              "Biology",
-              "Further Mathematics",
-              "Civic Education",
-            ]}
+            options={subjectOptions}
             register={register}
             errorMessage={errors.subject?.message || ""}
           />
           <SelectField
             id="class"
             label="Class"
-            options={["JSS1", "JSS2", "JSS3", "SS1", "SS2", "SS3"]}
+            options={classOptions}
             register={register}
             errorMessage={errors.class?.message || ""}
           />

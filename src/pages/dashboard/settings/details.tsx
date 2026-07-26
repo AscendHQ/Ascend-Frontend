@@ -1,80 +1,140 @@
-import { Icon } from "@iconify/react";
+import { notification } from "antd";
 import React from "react";
 
 import AccountSettingContainer from "@/components/layout/account-setting/container";
+import { Spinner } from "@/components/ui/Loading";
+import {
+  useAccountProfile,
+  useChangePassword,
+  useUpdateAccountProfile,
+} from "@/templates/Settings/hooks";
 
 export default function AccountSettingDetails() {
   return (
     <AccountSettingContainer headerTitle="Account Setting">
       <div className="mt-8">
-        <SchoolInformation />
-        <Contactinformation />
+        <PersonalInformation />
         <ChangePassword />
-        <Authorization />
       </div>
     </AccountSettingContainer>
   );
 }
-function Authorization() {
+
+function PersonalInformation() {
+  const [api, contextHolder] = notification.useNotification();
+  const { data: profile, isLoading } = useAccountProfile();
+  const { updateAccountProfile, isUpdatingAccount } =
+    useUpdateAccountProfile(api);
+
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
+
+  React.useEffect(() => {
+    if (profile) {
+      setFirstName(profile.first_name ?? "");
+      setLastName(profile.last_name ?? "");
+    }
+  }, [profile]);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-16">
+        <Spinner />
+      </div>
+    );
+  }
+
   return (
-    <div className="flex justify-between gap-16 border-b-2 border-border-colour-light py-16">
+    <div className="flex justify-between gap-16 pb-16 border-b-2 border-border-colour-light">
+      {contextHolder}
       <div className="w-96">
-        <h4 className="text-Text-high-emphasis font-semibold">Authorization</h4>
+        <h4 className="text-Text-high-emphasis font-semibold">
+          Personal Information
+        </h4>
         <p className="text-sm tracking-tight text-gray-800">
-          This will help strengthen your security
+          This is your personal account profile.
         </p>
       </div>
-      <div className="flex-1">
-        <label className="relative flex items-center mb-5 cursor-pointer">
-          <input type="checkbox" value="" className="sr-only peer" />
-          <div className="w-11 h-6 bg-neutral-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300  rounded-full peer  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[0px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-purple-500"></div>
-          <span className="ml-3 text-sm font-medium text-Text-high-emphasis">
-            Two-factor authentication
-          </span>
-        </label>
-        <h5 className="block mb-2 text-sm font-medium text-Text-high-emphasis">
-          Active methods:
-        </h5>
-
-        <button className="flex justify-between border border-border-colour-light lg:min-w-[250px] w-full items-center py-3 px-4 rounded-lg">
-          <div className="flex gap-2 items-center">
-            <Icon
-              icon="solar:password-minimalistic-input-outline"
-              className="text-primary-purple-500"
-            />
-            <span className="text-Text-high-emphasis tracking-tight text-sm">
-              Password
-            </span>
-          </div>
-          <Icon
-            icon="solar:trash-bin-minimalistic-broken"
-            className="text-Text-meduim-emphasis"
+      <div className="flex flex-1 flex-wrap gap-4">
+        <div className="lg:min-w-[250px] flex-1">
+          <label
+            htmlFor="first_name"
+            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
+          >
+            First name
+          </label>
+          <input
+            type="text"
+            id="first_name"
+            value={firstName}
+            onChange={e => setFirstName(e.target.value)}
+            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis p-2"
+            required
           />
-        </button>
-
-        <button className="flex justify-between border border-border-colour-light lg:min-w-[250px] w-full items-center py-3 px-4 rounded-lg mt-3">
-          <div className="flex gap-2 items-center">
-            <Icon
-              icon="solar:key-square-outline"
-              className="text-primary-purple-500"
-            />
-            <span className="text-Text-high-emphasis tracking-tight text-sm">
-              Authentication application
-            </span>
-          </div>
-          <Icon
-            icon="solar:trash-bin-minimalistic-broken"
-            className="text-Text-meduim-emphasis"
+        </div>
+        <div className="lg:min-w-[250px] flex-1">
+          <label
+            htmlFor="last_name"
+            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
+          >
+            Last name
+          </label>
+          <input
+            type="text"
+            id="last_name"
+            value={lastName}
+            onChange={e => setLastName(e.target.value)}
+            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis p-2"
+            required
           />
-        </button>
+        </div>
+        <div className="lg:min-w-full flex justify-end">
+          <button
+            className="text-white bg-primary-purple-700 rounded-lg py-3 px-10 font-semibold text-sm disabled:opacity-50"
+            onClick={() =>
+              updateAccountProfile({
+                first_name: firstName,
+                last_name: lastName,
+              })
+            }
+            disabled={isUpdatingAccount}
+          >
+            Save changes
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
 function ChangePassword() {
+  const [api, contextHolder] = notification.useNotification();
+  const { changePassword, isChangingPassword } = useChangePassword(api);
+
+  const [oldPassword, setOldPassword] = React.useState("");
+  const [newPassword, setNewPassword] = React.useState("");
+  const [confirmPassword, setConfirmPassword] = React.useState("");
+
+  const handleSubmit = () => {
+    changePassword(
+      {
+        old_password: oldPassword,
+        new_password: newPassword,
+        confirm_password: confirmPassword,
+      },
+      {
+        onSuccess: () => {
+          setOldPassword("");
+          setNewPassword("");
+          setConfirmPassword("");
+        },
+      }
+    );
+  };
+
   return (
     <div className="flex justify-between gap-16 py-16 border-b-2 border-border-colour-light">
+      {contextHolder}
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Change password
@@ -94,7 +154,9 @@ function ChangePassword() {
           <input
             type="password"
             id="current_password"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+            value={oldPassword}
+            onChange={e => setOldPassword(e.target.value)}
+            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis p-2"
             placeholder="*********"
             required
           />
@@ -109,7 +171,9 @@ function ChangePassword() {
           <input
             type="password"
             id="new_password"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+            value={newPassword}
+            onChange={e => setNewPassword(e.target.value)}
+            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis p-2"
             placeholder="*********"
             required
           />
@@ -125,136 +189,21 @@ function ChangePassword() {
           <input
             type="password"
             id="confirm_password"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
+            value={confirmPassword}
+            onChange={e => setConfirmPassword(e.target.value)}
+            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis p-2"
             placeholder="*********"
             required
           />
         </div>
-      </div>
-    </div>
-  );
-}
-
-function Contactinformation() {
-  return (
-    <div className="flex justify-between gap-16 border-b-2 border-border-colour-light py-16">
-      <div className="w-96">
-        <h4 className="text-Text-high-emphasis font-semibold">
-          Contact information
-        </h4>
-        <p className="text-sm tracking-tight text-gray-800">
-          Your contact information is displayed here
-        </p>
-      </div>
-      <div className="flex flex-1 flex-wrap gap-4">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="email_address"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
+        <div className="lg:min-w-full flex justify-end">
+          <button
+            className="text-white bg-primary-purple-700 rounded-lg py-3 px-10 font-semibold text-sm disabled:opacity-50"
+            onClick={handleSubmit}
+            disabled={isChangingPassword}
           >
-            Email Address
-          </label>
-          <input
-            type="email"
-            id="email_address"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="example@gmail.com"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="contact_details"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Contact Details
-          </label>
-          <input
-            type="text"
-            id="contact_details"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="(217) 555-0113"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="residential_address"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Residential Address
-          </label>
-          <input
-            type="text"
-            id="residential_address"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="4517 Washington Ave. Manchester, Kentucky 39495"
-            required
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function SchoolInformation() {
-  return (
-    <div className="flex justify-between gap-16 pb-16 border-b-2 border-border-colour-light">
-      <div className="w-96">
-        <h4 className="text-Text-high-emphasis font-semibold">
-          School Information
-        </h4>
-        <p className="text-sm tracking-tight text-gray-800">
-          This will be displayed on your organization profile.
-        </p>
-      </div>
-      <div className="flex flex-1 flex-wrap gap-4">
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="first_name"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            First name
-          </label>
-          <input
-            type="text"
-            id="first_name"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Blessing"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
-            htmlFor="last_name"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Last name
-          </label>
-          <input
-            type="text"
-            id="last_name"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-            placeholder="Okowah"
-            required
-          />
-        </div>
-        <div className="lg:min-w-[250px] flex-1 xl:max-w-[320px]">
-          <label
-            htmlFor="gender"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Gender
-          </label>
-          <select
-            name="gender"
-            id="gender"
-            defaultValue={"female"}
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis"
-          >
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
+            Update password
+          </button>
         </div>
       </div>
     </div>
