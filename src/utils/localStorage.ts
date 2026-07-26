@@ -4,8 +4,12 @@ export function setSecureStorage(name: string, value: string): void {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getSecureStorage(name: string): any {
-  const sessionValue = window?.localStorage?.getItem(name);
-  if (sessionValue !== null) {
+  if (typeof window === "undefined") {
+    return undefined;
+  }
+
+  const sessionValue = window.localStorage?.getItem(name);
+  if (sessionValue !== null && sessionValue !== undefined) {
     return JSON.parse(sessionValue);
   }
 }
