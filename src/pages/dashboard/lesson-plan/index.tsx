@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { MenuProps, Modal, notification } from "antd";
+import { MenuProps, notification } from "antd";
 import { Dropdown } from "antd";
 import Link from "next/link";
 import React from "react";
@@ -58,8 +58,8 @@ export default function LessonPlan() {
 
   return (
     <Container headerTitle="Lesson Plan">
-      {contextHolder}
       <main className="px-10 py-5 bg-white relative">
+        {contextHolder}
         <div className="flex">
           <Dropdown menu={{ items }} trigger={["click"]}>
             <DashboardButton

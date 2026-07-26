@@ -45,7 +45,12 @@ export type StudentOption = {
 export type SubjectOption = { _id: string; name: string };
 
 const fetchAllStudents = () =>
-  axiosInstance.get("/students").then(res => res.data);
+  axiosInstance
+    .get("/students")
+    .then(
+      res =>
+        res.data as { students: StudentOption[]; total_documents: number }
+    );
 
 export const useAllStudentsForResult = () => {
   return useQuery({
@@ -55,7 +60,12 @@ export const useAllStudentsForResult = () => {
 };
 
 const fetchAllSubjects = () =>
-  axiosInstance.get("/subjects").then(res => res.data);
+  axiosInstance
+    .get("/subjects")
+    .then(
+      res =>
+        res.data as { subjects: SubjectOption[]; total_documents: number }
+    );
 
 export const useAllSubjectsForResult = () => {
   return useQuery({

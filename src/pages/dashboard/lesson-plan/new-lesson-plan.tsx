@@ -16,15 +16,15 @@ import {
   DASHBOARD_LESSON_PLAN_INFO,
 } from "@/config/links";
 import {
-  NewLessonPlanContextType,
-  newLessonPlanSchema,
-  NewLessonPlanSchemaType,
-} from "@/types/form";
-import {
   useAllClassesForLesson,
   useAllSubjectsForLesson,
   useCreateLesson,
 } from "@/templates/LessonPlan/hooks";
+import {
+  NewLessonPlanContextType,
+  newLessonPlanSchema,
+  NewLessonPlanSchemaType,
+} from "@/types/form";
 
 const ReactHookForm = React.createContext<NewLessonPlanContextType | undefined>(
   undefined
@@ -52,7 +52,6 @@ export default function NewLessonPlan() {
   const [api, contextHolder] = notification.useNotification();
   const [open, setOpen] = React.useState(false);
   const [createdId, setCreatedId] = React.useState("");
-  const router = useRouter();
 
   const { data: classesData } = useAllClassesForLesson();
   const { data: subjectsData } = useAllSubjectsForLesson();

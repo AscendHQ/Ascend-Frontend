@@ -78,8 +78,8 @@ export default function Roles() {
 
   return (
     <Container headerTitle="Roles">
-      {contextHolder}
       <main className="px-10 py-5 relative h-full bg-white">
+        {contextHolder}
         <Modal
           title={<h2 className="text-lg font-semibold">Add new role</h2>}
           centered

@@ -205,11 +205,15 @@ export default function ResultInformation() {
             </select>
           </div>
           <div className="lg:min-w-[250px] flex-1">
-            <label className="block mb-2 text-sm font-medium text-Text-high-emphasis">
+            <label
+              htmlFor="student_class"
+              className="block mb-2 text-sm font-medium text-Text-high-emphasis"
+            >
               Student class
             </label>
             <input
               type="text"
+              id="student_class"
               readOnly
               value={
                 selectedStudent &&
@@ -222,11 +226,15 @@ export default function ResultInformation() {
             />
           </div>
           <div className="lg:min-w-[250px] flex-1">
-            <label className="block mb-2 text-sm font-medium text-Text-high-emphasis">
+            <label
+              htmlFor="student_registration_number"
+              className="block mb-2 text-sm font-medium text-Text-high-emphasis"
+            >
               Student Registration number
             </label>
             <input
               type="text"
+              id="student_registration_number"
               readOnly
               value={selectedStudent?.registration_number ?? ""}
               className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis p-2"
