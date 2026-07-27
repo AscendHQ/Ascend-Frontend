@@ -5,7 +5,7 @@ import { getSecureStorage } from "@/utils/localStorage";
 
 export const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
-  timeout: 3000,
+  timeout: 60000,
 });
 
 axiosInstance.interceptors.request.use(function (config) {
