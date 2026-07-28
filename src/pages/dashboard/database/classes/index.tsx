@@ -42,8 +42,22 @@ export default function Classes() {
   return (
     <Container headerTitle="Classes">
       <main className="px-10 py-5 h-full bg-white">
-        {classData.data.classes.length <= 0 ? (
-          <Spinner />
+        {classData.isLoading ? (
+          <div className="flex justify-center py-16">
+            <Spinner />
+          </div>
+        ) : classData.data.classes.length <= 0 ? (
+          <div className="flex flex-col items-center gap-4 py-16">
+            <p className="text-Text-meduim-emphasis">No classes yet.</p>
+            <DashboardButton
+              variant="primary"
+              isLink
+              path={NEW_CLASS}
+              leftElement={<Icon icon="tabler:plus" />}
+            >
+              Add Class
+            </DashboardButton>
+          </div>
         ) : (
           <>
             <div className="flex">

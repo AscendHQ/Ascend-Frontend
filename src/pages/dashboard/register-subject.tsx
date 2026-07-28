@@ -1,10 +1,12 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { notification } from "antd";
+import Link from "next/link";
 import React from "react";
 
 import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
 import { Spinner } from "@/components/ui/Loading";
+import { NEW_CLASS } from "@/config/links";
 import { classInfoProp } from "@/templates/Database/class/class-types";
 import { ClassInfo } from "@/templates/Database/subject/subject-types";
 import FilterStudentTab from "@/templates/Database/subject-registration/filter-student-tab";
@@ -95,9 +97,21 @@ export default function RegisterStudent() {
 
   return (
     <Container headerTitle="Subject Registration">
-      {classInfoQueryResult.data.classes.length <= 0 ? (
+      {classInfoQueryResult.isLoading ? (
         <div className="flex justify-center min-h-full items-center">
           <Spinner />
+        </div>
+      ) : classInfoQueryResult.data.classes.length <= 0 ? (
+        <div className="flex flex-col justify-center items-center gap-4 min-h-full">
+          <p className="text-Text-meduim-emphasis">
+            You need at least one class before you can register subjects.
+          </p>
+          <Link
+            href={NEW_CLASS}
+            className="text-white bg-primary-purple-700 rounded-lg py-3 px-10 font-semibold text-sm"
+          >
+            Add a class first
+          </Link>
         </div>
       ) : (
         <main className="bg-white p-10 h-full">

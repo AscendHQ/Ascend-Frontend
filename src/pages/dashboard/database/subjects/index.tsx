@@ -43,8 +43,22 @@ export default function Subjects() {
   return (
     <Container headerTitle="Subjects">
       <main className="px-10 py-5 h-full bg-white">
-        {subjectData.data.subjects.length <= 0 ? (
-          <Spinner />
+        {subjectData.isLoading ? (
+          <div className="flex justify-center py-16">
+            <Spinner />
+          </div>
+        ) : subjectData.data.subjects.length <= 0 ? (
+          <div className="flex flex-col items-center gap-4 py-16">
+            <p className="text-Text-meduim-emphasis">No subjects yet.</p>
+            <DashboardButton
+              isLink
+              variant="primary"
+              path={NEW_SUBJECT}
+              leftElement={<Icon icon="tabler:plus" />}
+            >
+              Add Subject
+            </DashboardButton>
+          </div>
         ) : (
           <>
             <div className="flex gap-2 justify-end">
