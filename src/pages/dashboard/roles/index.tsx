@@ -12,6 +12,7 @@ import {
   useAllRoles,
   useCreateRole,
   useDeleteRole,
+  useInviteStaff,
   useUpdateRole,
 } from "@/templates/Roles/hooks";
 
@@ -31,10 +32,50 @@ export default function Roles() {
   const [editName, setEditName] = React.useState("");
   const [editDescription, setEditDescription] = React.useState("");
 
+  const [openInvite, setOpenInvite] = React.useState(false);
+  const [inviteFirstName, setInviteFirstName] = React.useState("");
+  const [inviteLastName, setInviteLastName] = React.useState("");
+  const [inviteEmail, setInviteEmail] = React.useState("");
+  const [invitePassword, setInvitePassword] = React.useState("");
+  const [invitePermission, setInvitePermission] = React.useState("");
+
   const { data: roles, isLoading } = useAllRoles();
   const { createRole, isCreatingRole } = useCreateRole(api);
+  const { inviteStaff, isInvitingStaff } = useInviteStaff(api);
   const { updateRole, isUpdatingRole } = useUpdateRole(api);
   const { deleteRole } = useDeleteRole(api);
+
+  const handleInvite = () => {
+    if (
+      !inviteFirstName.trim() ||
+      !inviteLastName.trim() ||
+      !inviteEmail.trim() ||
+      !invitePassword ||
+      !invitePermission
+    ) {
+      return;
+    }
+
+    inviteStaff(
+      {
+        first_name: inviteFirstName.trim(),
+        last_name: inviteLastName.trim(),
+        email: inviteEmail.trim(),
+        password: invitePassword,
+        permission: invitePermission,
+      },
+      {
+        onSuccess: () => {
+          setOpenInvite(false);
+          setInviteFirstName("");
+          setInviteLastName("");
+          setInviteEmail("");
+          setInvitePassword("");
+          setInvitePermission("");
+        },
+      }
+    );
+  };
 
   const openDetailFor = (role: RoleRecord) => {
     setSelectedRole(role);
@@ -238,7 +279,133 @@ export default function Roles() {
             </div>
           </section>
         </Modal>
+        <Modal
+          title={
+            <h2 className="text-lg font-semibold">Invite team member</h2>
+          }
+          centered
+          open={openInvite}
+          onOk={handleInvite}
+          onCancel={() => setOpenInvite(false)}
+          maskClosable={false}
+          width={480}
+          okText={"Send Invite"}
+          confirmLoading={isInvitingStaff}
+          okButtonProps={{
+            style: {
+              color: "#ffffff",
+              minHeight: "48px",
+              backgroundColor: "#7864ff",
+              width: "100%",
+              marginLeft: "0px",
+            },
+          }}
+          cancelButtonProps={{
+            style: {
+              display: "none",
+            },
+          }}
+        >
+          <section className="space-y-4 mt-4">
+            <p className="text-sm text-Text-meduim-emphasis">
+              This creates a real login for them right away. Share the
+              email and password with them directly - no invite email is
+              sent yet.
+            </p>
+            <div className="flex gap-3">
+              <div className="flex-1">
+                <label
+                  htmlFor="invite_first_name"
+                  className="block mb-2 text-sm font-semibold text-Text-high-emphasis"
+                >
+                  First name
+                </label>
+                <input
+                  type="text"
+                  id="invite_first_name"
+                  value={inviteFirstName}
+                  onChange={e => setInviteFirstName(e.target.value)}
+                  className="border border-border-colour-light w-full rounded-lg bg-neutral-300 p-2"
+                />
+              </div>
+              <div className="flex-1">
+                <label
+                  htmlFor="invite_last_name"
+                  className="block mb-2 text-sm font-semibold text-Text-high-emphasis"
+                >
+                  Last name
+                </label>
+                <input
+                  type="text"
+                  id="invite_last_name"
+                  value={inviteLastName}
+                  onChange={e => setInviteLastName(e.target.value)}
+                  className="border border-border-colour-light w-full rounded-lg bg-neutral-300 p-2"
+                />
+              </div>
+            </div>
+            <div>
+              <label
+                htmlFor="invite_email"
+                className="block mb-2 text-sm font-semibold text-Text-high-emphasis"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                id="invite_email"
+                value={inviteEmail}
+                onChange={e => setInviteEmail(e.target.value)}
+                className="border border-border-colour-light w-full rounded-lg bg-neutral-300 p-2"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="invite_password"
+                className="block mb-2 text-sm font-semibold text-Text-high-emphasis"
+              >
+                Temporary password
+              </label>
+              <input
+                type="text"
+                id="invite_password"
+                value={invitePassword}
+                onChange={e => setInvitePassword(e.target.value)}
+                placeholder="At least 8 characters, upper+lowercase, a number, a special character"
+                className="border border-border-colour-light w-full rounded-lg bg-neutral-300 p-2"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="invite_permission"
+                className="block mb-2 text-sm font-semibold text-Text-high-emphasis"
+              >
+                Role
+              </label>
+              <select
+                id="invite_permission"
+                value={invitePermission}
+                onChange={e => setInvitePermission(e.target.value)}
+                className="border border-border-colour-light w-full rounded-lg bg-neutral-300 p-2"
+              >
+                <option value="">Select a role</option>
+                {(roles ?? []).map(role => (
+                  <option key={role._id} value={role._id}>
+                    {role.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </section>
+        </Modal>
         <div className="flex justify-end gap-3">
+          <DashboardButton
+            variant="secondary"
+            onClick={() => setOpenInvite(true)}
+            leftElement={<Icon icon="tabler:user-plus" />}
+          >
+            Invite Team Member
+          </DashboardButton>
           <DashboardButton
             variant="primary"
             onClick={() => setOpenAddNewRole(true)}

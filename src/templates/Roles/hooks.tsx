@@ -131,3 +131,43 @@ export function useDeleteRole(toast: NotificationInstance) {
 
   return { deleteRole };
 }
+
+export type InviteStaffPayload = {
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+  permission: string;
+};
+
+export function useInviteStaff(toast: NotificationInstance) {
+  const { mutate: inviteStaff, isPending: isInvitingStaff } = useMutation({
+    mutationFn: (data: InviteStaffPayload) => {
+      return axiosInstance.post("/accounts/invite", data).then(res => res.data);
+    },
+    onSuccess: () => {
+      toast.open({
+        message: (
+          <h3 className="text-secondary-green-600 font-semibold">
+            Success!
+          </h3>
+        ),
+        description: "Account created. Share the email and password with them directly.",
+        duration: 6,
+        className: "ant-toast",
+      });
+    },
+    onError: (error: Error & { response?: { data: string } }) => {
+      toast.open({
+        message: (
+          <h3 className="text-secondary-red-600 font-semibold">Error!</h3>
+        ),
+        description: error.response?.data ?? "Something went wrong",
+        duration: 8,
+        className: "ant-toast",
+      });
+    },
+  });
+
+  return { inviteStaff, isInvitingStaff };
+}
