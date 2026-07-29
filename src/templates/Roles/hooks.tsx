@@ -3,13 +3,67 @@ import { NotificationInstance } from "antd/es/notification/interface";
 
 import { axiosInstance } from "@/api";
 
+export type PermissionFlags = {
+  create: boolean;
+  view: boolean;
+  edit: boolean;
+  delete: boolean;
+};
+
+export const MODULE_KEYS = [
+  "dashboard",
+  "staff",
+  "students",
+  "subjects",
+  "classes",
+  "teachers",
+  "hostels",
+  "lesson_plan",
+  "time_table",
+  "results",
+  "administration",
+  "payroll",
+  "roles",
+] as const;
+
+export type ModuleKey = (typeof MODULE_KEYS)[number];
+
+export const MODULE_LABELS: Record<ModuleKey, string> = {
+  dashboard: "Dashboard",
+  staff: "Staff",
+  students: "Students",
+  subjects: "Subjects",
+  classes: "Classes",
+  teachers: "Teachers",
+  hostels: "Hostels",
+  lesson_plan: "Lesson Plan",
+  time_table: "Timetable",
+  results: "Results",
+  administration: "Administration",
+  payroll: "Payroll",
+  roles: "Roles",
+};
+
+export const emptyPermissions = (): Record<ModuleKey, PermissionFlags> => {
+  const defaultFlags = { create: false, view: false, edit: false, delete: false };
+  return MODULE_KEYS.reduce(
+    (acc, key) => ({ ...acc, [key]: { ...defaultFlags } }),
+    {} as Record<ModuleKey, PermissionFlags>
+  );
+};
+
+export type RolePayload = {
+  name: string;
+  description?: string;
+} & Partial<Record<ModuleKey, PermissionFlags>>;
+
 export type RoleRecord = {
   _id: string;
   name: string;
   description?: string;
   staff_count: number;
   createdAt: string;
-};
+} & Partial<Record<ModuleKey, PermissionFlags>>;
 
 const fetchAllRoles = () => axiosInstance.get("/roles").then(res => res.data);
 
@@ -24,7 +78,7 @@ export function useCreateRole(toast: NotificationInstance) {
   const queryClient = useQueryClient();
 
   const { mutate: createRole, isPending: isCreatingRole } = useMutation({
-    mutationFn: (data: { name: string; description?: string }) => {
+    mutationFn: (data: RolePayload) => {
       return axiosInstance.post("/roles", data).then(res => res.data);
     },
     onSuccess: () => {
@@ -64,7 +118,7 @@ export function useUpdateRole(toast: NotificationInstance) {
       data,
     }: {
       id: string;
-      data: { name: string; description?: string };
+      data: RolePayload;
     }) => {
       return axiosInstance.put(`/roles/${id}`, data).then(res => res.data);
     },

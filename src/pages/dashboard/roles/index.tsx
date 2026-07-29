@@ -8,6 +8,9 @@ import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
 import { Spinner } from "@/components/ui/Loading";
 import {
+  emptyPermissions,
+  ModuleKey,
+  PermissionFlags,
   RoleRecord,
   useAllRoles,
   useCreateRole,
@@ -15,6 +18,7 @@ import {
   useInviteStaff,
   useUpdateRole,
 } from "@/templates/Roles/hooks";
+import PermissionGrid from "@/templates/Roles/permission-grid";
 
 export default function Roles() {
   const [api, contextHolder] = notification.useNotification();
@@ -28,9 +32,15 @@ export default function Roles() {
 
   const [newRoleName, setNewRoleName] = React.useState("");
   const [newRoleDescription, setNewRoleDescription] = React.useState("");
+  const [newRolePermissions, setNewRolePermissions] = React.useState(
+    emptyPermissions()
+  );
 
   const [editName, setEditName] = React.useState("");
   const [editDescription, setEditDescription] = React.useState("");
+  const [editPermissions, setEditPermissions] = React.useState(
+    emptyPermissions()
+  );
 
   const [openInvite, setOpenInvite] = React.useState(false);
   const [inviteFirstName, setInviteFirstName] = React.useState("");
@@ -81,20 +91,43 @@ export default function Roles() {
     setSelectedRole(role);
     setEditName(role.name);
     setEditDescription(role.description ?? "");
+    const populated = emptyPermissions();
+    (Object.keys(populated) as ModuleKey[]).forEach(key => {
+      if (role[key]) {
+        populated[key] = role[key] as PermissionFlags;
+      }
+    });
+    setEditPermissions(populated);
     setEditRoleDetail(false);
     setOpenRoleDetail(true);
+  };
+
+  const togglePermission = (
+    setter: React.Dispatch<
+      React.SetStateAction<Record<ModuleKey, PermissionFlags>>
+    >
+  ) => (module: ModuleKey, flag: keyof PermissionFlags) => {
+    setter(prev => ({
+      ...prev,
+      [module]: { ...prev[module], [flag]: !prev[module][flag] },
+    }));
   };
 
   const handleAddRole = () => {
     if (!newRoleName.trim()) return;
 
     createRole(
-      { name: newRoleName.trim(), description: newRoleDescription.trim() },
+      {
+        name: newRoleName.trim(),
+        description: newRoleDescription.trim(),
+        ...newRolePermissions,
+      },
       {
         onSuccess: () => {
           setOpenAddNewRole(false);
           setNewRoleName("");
           setNewRoleDescription("");
+          setNewRolePermissions(emptyPermissions());
         },
       }
     );
@@ -106,7 +139,11 @@ export default function Roles() {
     updateRole(
       {
         id: selectedRole._id,
-        data: { name: editName.trim(), description: editDescription.trim() },
+        data: {
+          name: editName.trim(),
+          description: editDescription.trim(),
+          ...editPermissions,
+        },
       },
       {
         onSuccess: () => {
@@ -128,7 +165,7 @@ export default function Roles() {
           onOk={handleAddRole}
           onCancel={() => setOpenAddNewRole(false)}
           maskClosable={false}
-          width={480}
+          width={720}
           okText={"Add Role"}
           confirmLoading={isCreatingRole}
           okButtonProps={{
@@ -184,6 +221,15 @@ export default function Roles() {
                   {120 - newRoleDescription.length}/120 characters remaining
                 </span>
               </div>
+              <div>
+                <p className="block mb-2 text-sm font-semibold text-Text-high-emphasis">
+                  What can this role access?
+                </p>
+                <PermissionGrid
+                  permissions={newRolePermissions}
+                  onChange={togglePermission(setNewRolePermissions)}
+                />
+              </div>
             </div>
           </section>
         </Modal>
@@ -203,7 +249,7 @@ export default function Roles() {
             setEditRoleDetail(false);
           }}
           maskClosable={false}
-          width={500}
+          width={720}
           okText={editRoleDetail ? "Save Changes" : "Edit Role"}
           confirmLoading={isUpdatingRole}
           okButtonProps={{
@@ -268,6 +314,16 @@ export default function Roles() {
                 <span className="text-sm">
                   {120 - editDescription.length}/120 characters remaining
                 </span>
+              </div>
+              <div>
+                <p className="block mb-2 text-sm font-semibold text-Text-high-emphasis">
+                  What can this role access?
+                </p>
+                <PermissionGrid
+                  permissions={editPermissions}
+                  onChange={togglePermission(setEditPermissions)}
+                  disabled={!editRoleDetail}
+                />
               </div>
               {selectedRole && (
                 <p className="text-sm text-Text-meduim-emphasis">
