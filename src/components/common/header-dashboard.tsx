@@ -8,6 +8,7 @@ import React from "react";
 
 import { ACCOUNT_SETTING_DETAILS, LOGIN_PAGE } from "@/config/links";
 import useClickOutside from "@/hooks/useClickOutside";
+import { getStoredUserInfo } from "@/templates/Settings/hooks";
 
 export default function DashboardHeader({
   headerTitle,
@@ -438,6 +439,14 @@ function AccountDropDownSection({
     window.location.href = LOGIN_PAGE;
   };
 
+  const userInfo = getStoredUserInfo();
+  const fullName = userInfo
+    ? `${userInfo.first_name} ${userInfo.last_name}`
+    : "";
+  const initials = userInfo
+    ? `${userInfo.first_name?.[0] ?? ""}${userInfo.last_name?.[0] ?? ""}`.toUpperCase()
+    : "";
+
   return (
     <motion.section
       initial={{
@@ -452,17 +461,14 @@ function AccountDropDownSection({
         dropDown ? "block" : "hidden"
       }`}
     >
-      <Image
-        src="/joebrendan.png"
-        alt="unsplashh image as avatar"
-        width={50}
-        height={60}
-      />
+      <div className="w-[50px] h-[50px] rounded-full bg-primary-purple-700 flex items-center justify-center text-white text-lg font-semibold">
+        {initials || "?"}
+      </div>
       <p className="text-Text-high-emphasis text-lg font-medium tracking-tight">
-        Blessing Okowah
+        {fullName || "Loading..."}
       </p>
       <span className="text-sm text-gray-800 px-5">
-        blessingokowah@gmail.com
+        {userInfo?.email ?? ""}
       </span>
       <ul className="w-full py-3 space-y-1">
         {/* <li>
