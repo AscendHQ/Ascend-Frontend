@@ -82,6 +82,9 @@ export const DASHBOARD_LESSON_PLAN_INFO = (slug: string) =>
 export const DASHBOARD_TIMETABLE = "/dashboard/timetable";
 export const NEW_TIMETABLE = "/dashboard/timetable/new-timetable";
 
+// SCHOOLS (Ascend admin only - onboarding new schools)
+export const NEW_SCHOOL = "/dashboard/schools/new-school";
+
 export const BOOK_A_DEMO = "https://calendly.com/ascendafrica/30min";
 
 export const MOCK_API_LINK =
