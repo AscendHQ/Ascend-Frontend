@@ -14,6 +14,8 @@ type SubjectInfoSectionProps = {
   handleCheckboxChange: (subject: string) => void;
   currentStudentSubjects: studentRegistrationType["subjects"];
   currentClass: classInfoProp;
+  session: string;
+  term: string;
   toast: NotificationInstance;
 };
 
@@ -23,6 +25,8 @@ export default function SubjectInfo({
   handleCheckboxChange,
   currentStudentSubjects,
   currentClass,
+  session,
+  term,
   toast,
 }: SubjectInfoSectionProps) {
   const coreSubjects = currentStudentSubjects?.filter(
@@ -44,6 +48,8 @@ export default function SubjectInfo({
     mutateSubjectRegistration({
       class_id: currentClass._id,
       student: currentStudent._id,
+      session,
+      term,
       additional_subjects: selectedSubjects,
     });
   };

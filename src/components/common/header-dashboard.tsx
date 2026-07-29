@@ -8,7 +8,7 @@ import React from "react";
 
 import { ACCOUNT_SETTING_DETAILS, LOGIN_PAGE } from "@/config/links";
 import useClickOutside from "@/hooks/useClickOutside";
-import { getStoredUserInfo } from "@/templates/Settings/hooks";
+import { getStoredUserInfo, useOrganization } from "@/templates/Settings/hooks";
 
 export default function DashboardHeader({
   headerTitle,
@@ -18,6 +18,7 @@ export default function DashboardHeader({
   const [accountDropDown, setAccountDropDown] = React.useState(false);
   const [notificationDropDown, setNotificationDropDown] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState("All");
+  const { data: organization } = useOrganization();
 
   const accountTargetRef = React.useRef<HTMLButtonElement>(null);
   const notificationRef = React.useRef<HTMLButtonElement>(null);
@@ -39,6 +40,11 @@ export default function DashboardHeader({
       </Head>
       <h2 className="text-Text-high-emphasis text-2xl font-bold tracking-tight capitalize">
         {headerTitle}
+        {organization?.name && (
+          <span className="block text-sm font-normal text-Text-meduim-emphasis normal-case tracking-normal">
+            {organization.name}
+          </span>
+        )}
       </h2>
       <div className="flex items-center gap-11">
         {/* <button

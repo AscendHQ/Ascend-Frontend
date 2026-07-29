@@ -24,6 +24,8 @@ export default function RegisterStudent() {
     React.useState<registrationSubjectType>("all");
   const [currentClassId, setCurrentClassId] = React.useState("");
   const [selectedSubjects, setSelectedSubjects] = React.useState<string[]>([]);
+  const [session, setSession] = React.useState("2025/2026");
+  const [term, setTerm] = React.useState("1st Term");
 
   const classInfoQueryResult: UseQueryResult<ClassInfoData, Error> =
     useFetchClassInfo();
@@ -117,17 +119,37 @@ export default function RegisterStudent() {
         <main className="bg-white p-10 h-full">
           {contextHolder}
           <section className="flex justify-between items-start">
-            <div>
-              <dl className="space-y-2 p-2">
-                <div className="flex gap-1">
-                  <dt className="font-semibold">Session:</dt>
-                  <dd>2023/2024</dd>
-                </div>
-                <div className="flex gap-1">
-                  <dt className="font-semibold">Term:</dt>
-                  <dd>First Term</dd>
-                </div>
-              </dl>
+            <div className="flex gap-3">
+              <div>
+                <label htmlFor="session" className="block font-semibold mb-1">
+                  Session
+                </label>
+                <select
+                  id="session"
+                  value={session}
+                  onChange={e => setSession(e.target.value)}
+                  className="p-2 rounded bg-transparent min-w-[130px] border"
+                >
+                  <option value="2025/2026">2025/2026</option>
+                  <option value="2024/2025">2024/2025</option>
+                  <option value="2023/2024">2023/2024</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="term" className="block font-semibold mb-1">
+                  Term
+                </label>
+                <select
+                  id="term"
+                  value={term}
+                  onChange={e => setTerm(e.target.value)}
+                  className="p-2 rounded bg-transparent min-w-[130px] border"
+                >
+                  <option value="1st Term">1st Term</option>
+                  <option value="2nd Term">2nd Term</option>
+                  <option value="3rd Term">3rd Term</option>
+                </select>
+              </div>
             </div>
             <div className="space-y-3">
               <label htmlFor="classSelect" className="block font-semibold">
@@ -158,6 +180,8 @@ export default function RegisterStudent() {
           <RegisterStudentTable
             data={filteredData}
             currentClassId={currentClassId}
+            session={session}
+            term={term}
             handleCheckboxChange={handleCheckboxChange}
             selectedSubjects={selectedSubjects}
             toast={toast}

@@ -16,6 +16,8 @@ import RegisterStudentTableRow from "./register-student-table-row";
 export default function RegisterStudentTable({
   data,
   currentClassId,
+  session,
+  term,
   toast,
   selectedSubjects,
   handleCheckboxChange,
@@ -25,6 +27,8 @@ export default function RegisterStudentTable({
   data?: ClassInfo[];
   selectedSubjects: string[];
   currentClassId: string;
+  session: string;
+  term: string;
   toast: NotificationInstance;
   handleCheckboxChange: (subject: string) => void;
   setSelectedSubjects: React.Dispatch<React.SetStateAction<string[]>>;
@@ -32,16 +36,10 @@ export default function RegisterStudentTable({
 }) {
   const [isOpenDetails, setIsOpenDetails] = React.useState(false);
   const [currentStudentId, setCurrentStudentId] = React.useState("");
-  console.log(data, "datadatadatadata");
 
   const openDetailsModal = async (id: string) => {
     setCurrentStudentId(id);
-    // TODO: Give user feedback
-    console.log("Loading...");
 
-    // if (fetchStudentRegistrationQuery.data) {
-    //   setIsOpenDetails(true);
-    // }
     // Fetch data if it's not available yet
     if (!fetchStudentRegistrationQuery.data) {
       try {
@@ -66,13 +64,22 @@ export default function RegisterStudentTable({
     studentRegistrationType,
     Error
   > = useQuery({
-    queryKey: ["fetchStudentRegistration", currentStudentId, currentClassId],
+    queryKey: [
+      "fetchStudentRegistration",
+      currentStudentId,
+      currentClassId,
+      session,
+      term,
+    ],
     queryFn: ({ queryKey }) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const [_key, currentStudentId, currentClassId] = queryKey;
+      const [_key, currentStudentId, currentClassId, session, term] =
+        queryKey;
 
       return axiosInstance
-        .get(`/registrations/${currentStudentId}?class_id=${currentClassId}`)
+        .get(
+          `/registrations/${currentStudentId}?class_id=${currentClassId}&session=${session}&term=${term}`
+        )
         .then(res => res.data);
     },
     enabled: currentStudentId !== "",
@@ -98,6 +105,8 @@ export default function RegisterStudentTable({
     mutateSubjectRegistration({
       class_id: currentClassId,
       student: currentStudentId,
+      session,
+      term,
       additional_subjects: selectedSubjects,
     });
   };

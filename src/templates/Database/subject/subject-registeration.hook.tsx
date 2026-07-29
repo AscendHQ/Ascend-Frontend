@@ -13,6 +13,8 @@ function useMutateSubjectRegistration(
   mutateSubjectRegistration: (data: {
     student: string;
     class_id: string;
+    session: string;
+    term: string;
     additional_subjects: Array<string>;
   }) => void;
   isPendingAddSubjectRegistration: boolean;
@@ -26,16 +28,22 @@ function useMutateSubjectRegistration(
     mutationFn: ({
       student,
       class_id,
+      session,
+      term,
       additional_subjects,
     }: {
       student: string;
       class_id: string;
+      session: string;
+      term: string;
       additional_subjects: Array<string>;
     }) => {
       return axiosInstance
         .post("/registrations", {
           student,
           class_id,
+          session,
+          term,
           additional_subjects,
         })
         .then(res => res.data);
