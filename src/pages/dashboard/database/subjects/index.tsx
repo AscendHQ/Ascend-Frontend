@@ -6,6 +6,9 @@ import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
 import { Spinner } from "@/components/ui/Loading";
+import PermissionDeniedState, {
+  isAccessDeniedError,
+} from "@/components/ui/permission-denied-state";
 import { NEW_SUBJECT } from "@/config/links";
 import { SubjectsTable } from "@/templates/Database/subject";
 import { useFilterData } from "@/templates/Database/subject/hooks";
@@ -19,7 +22,6 @@ export function useFetchSubjectInfo() {
   return useQuery({
     queryKey: ["allSubject"],
     queryFn: fetchAllSubject,
-    initialData: { subjects: [] },
   });
 }
 
@@ -30,7 +32,7 @@ export default function Subjects() {
   const subjectData = useFetchSubjectInfo();
 
   const { filteredData } = useFilterData({
-    data: subjectData.isLoading ? [] : subjectData.data.subjects,
+    data: subjectData.data?.subjects ?? [],
     criteria: currentSubjectLevel,
   });
 
@@ -47,7 +49,9 @@ export default function Subjects() {
           <div className="flex justify-center py-16">
             <Spinner />
           </div>
-        ) : subjectData.data.subjects.length <= 0 ? (
+        ) : subjectData.isError && isAccessDeniedError(subjectData.error) ? (
+          <PermissionDeniedState message="You don't have permission to view subjects." />
+        ) : (subjectData.data?.subjects.length ?? 0) <= 0 ? (
           <div className="flex flex-col items-center gap-4 py-16">
             <p className="text-Text-meduim-emphasis">No subjects yet.</p>
             <DashboardButton

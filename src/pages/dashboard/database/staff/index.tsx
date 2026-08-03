@@ -6,6 +6,9 @@ import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
 import { Spinner } from "@/components/ui/Loading";
+import PermissionDeniedState, {
+  isAccessDeniedError,
+} from "@/components/ui/permission-denied-state";
 import { NEW_TEACHER_BIODATA } from "@/config/links";
 import {
   Tab,
@@ -58,6 +61,8 @@ export default function StaffDatabase() {
       <main className="px-10 py-5 h-full bg-white">
         {staffData.isLoading ? (
           <Spinner />
+        ) : staffData.isError && isAccessDeniedError(staffData.error) ? (
+          <PermissionDeniedState message="You don't have permission to view staff." />
         ) : (
           <>
             <StaffStatistics data={statisticsData} />

@@ -7,6 +7,9 @@ import { twMerge } from "tailwind-merge";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
 import { Spinner } from "@/components/ui/Loading";
+import PermissionDeniedState, {
+  isAccessDeniedError,
+} from "@/components/ui/permission-denied-state";
 import {
   emptyPermissions,
   ModuleKey,
@@ -49,7 +52,7 @@ export default function Roles() {
   const [invitePassword, setInvitePassword] = React.useState("");
   const [invitePermission, setInvitePermission] = React.useState("");
 
-  const { data: roles, isLoading } = useAllRoles();
+  const { data: roles, isLoading, isError, error } = useAllRoles();
   const { createRole, isCreatingRole } = useCreateRole(api);
   const { inviteStaff, isInvitingStaff } = useInviteStaff(api);
   const { updateRole, isUpdatingRole } = useUpdateRole(api);
@@ -476,6 +479,8 @@ export default function Roles() {
           <div className="flex justify-center py-16">
             <Spinner />
           </div>
+        ) : isError && isAccessDeniedError(error) ? (
+          <PermissionDeniedState message="You don't have permission to view roles." />
         ) : !roles?.length ? (
           <div className="flex flex-col items-center gap-2 py-16 text-Text-meduim-emphasis">
             <p>No roles yet.</p>

@@ -7,6 +7,9 @@ import ErrorBoundary from "@/components/common/error-boundary";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
 import { Spinner } from "@/components/ui/Loading";
+import PermissionDeniedState, {
+  isAccessDeniedError,
+} from "@/components/ui/permission-denied-state";
 import { NEW_STUDENT } from "@/config/links";
 import { StudentsTable } from "@/templates/Database/student";
 import { showAllStudentContext } from "@/templates/Database/student/student-types";
@@ -50,6 +53,8 @@ export default function DatabaseStudents() {
         <Container headerTitle="Students">
           {studentData.isLoading ? (
             <Spinner />
+          ) : studentData.isError && isAccessDeniedError(studentData.error) ? (
+            <PermissionDeniedState message="You don't have permission to view students." />
           ) : (
             <>
               <div className="bg-white p-10">

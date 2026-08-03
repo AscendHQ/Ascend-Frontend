@@ -7,6 +7,9 @@ import { twMerge } from "tailwind-merge";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
 import { Spinner } from "@/components/ui/Loading";
+import PermissionDeniedState, {
+  isAccessDeniedError,
+} from "@/components/ui/permission-denied-state";
 import { DASHBOARD_RESULT_INFO, NEW_RESULT } from "@/config/links";
 import { ResultRecord, useAllResults } from "@/templates/Result/hooks";
 
@@ -27,7 +30,7 @@ export default function Results() {
   const [session, setSession] = React.useState("2025/2026");
   const [term, setTerm] = React.useState("3rd Term");
 
-  const { data, isLoading } = useAllResults({ session, term });
+  const { data, isLoading, isError, error } = useAllResults({ session, term });
   const results = data?.results ?? [];
 
   return (
@@ -86,6 +89,8 @@ export default function Results() {
           <div className="flex justify-center py-16">
             <Spinner />
           </div>
+        ) : isError && isAccessDeniedError(error) ? (
+          <PermissionDeniedState message="You don't have permission to view results." />
         ) : !results.length ? (
           <div className="flex flex-col items-center gap-2 py-16 text-Text-meduim-emphasis">
             <p>No results for {session}, {term} yet.</p>

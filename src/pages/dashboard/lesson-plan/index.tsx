@@ -7,6 +7,9 @@ import React from "react";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
 import { Spinner } from "@/components/ui/Loading";
+import PermissionDeniedState, {
+  isAccessDeniedError,
+} from "@/components/ui/permission-denied-state";
 import { TableCell, TableHeader } from "@/components/ui/table";
 import {
   DASHBOARD_LESSON_PLAN_INFO,
@@ -21,7 +24,7 @@ import {
 
 export default function LessonPlan() {
   const [api, contextHolder] = notification.useNotification();
-  const { data, isLoading } = useAllLessons();
+  const { data, isLoading, isError, error } = useAllLessons();
   const { updateLessonStatus } = useUpdateLessonStatus(api);
 
   const lessons = data?.lessons ?? [];
@@ -85,6 +88,8 @@ export default function LessonPlan() {
           <div className="flex justify-center py-16">
             <Spinner />
           </div>
+        ) : isError && isAccessDeniedError(error) ? (
+          <PermissionDeniedState message="You don't have permission to view lesson plans." />
         ) : !lessons.length ? (
           <div className="flex flex-col items-center gap-2 py-16 text-Text-meduim-emphasis">
             <p>No lesson plans yet.</p>

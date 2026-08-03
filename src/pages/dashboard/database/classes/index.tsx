@@ -6,6 +6,9 @@ import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
 import { Spinner } from "@/components/ui/Loading";
+import PermissionDeniedState, {
+  isAccessDeniedError,
+} from "@/components/ui/permission-denied-state";
 import { NEW_CLASS } from "@/config/links";
 import { useFilterData } from "@/templates/Database/class/hooks";
 import { ClassList, LevelOptions } from "@/templates/Database/class/tab";
@@ -18,7 +21,6 @@ export function useFetchClassInfo() {
   return useQuery({
     queryKey: ["allClass"],
     queryFn: fetchAllClass,
-    initialData: { classes: [] },
     enabled: true,
   });
 }
@@ -29,7 +31,7 @@ export default function Classes() {
   const classData = useFetchClassInfo();
 
   const { filteredData } = useFilterData({
-    data: classData.isLoading ? [] : classData.data.classes,
+    data: classData.data?.classes ?? [],
     criteria: currentStudentLevel,
   });
 
@@ -46,7 +48,9 @@ export default function Classes() {
           <div className="flex justify-center py-16">
             <Spinner />
           </div>
-        ) : classData.data.classes.length <= 0 ? (
+        ) : classData.isError && isAccessDeniedError(classData.error) ? (
+          <PermissionDeniedState message="You don't have permission to view classes." />
+        ) : (classData.data?.classes.length ?? 0) <= 0 ? (
           <div className="flex flex-col items-center gap-4 py-16">
             <p className="text-Text-meduim-emphasis">No classes yet.</p>
             <DashboardButton

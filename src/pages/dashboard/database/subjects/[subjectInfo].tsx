@@ -100,7 +100,7 @@ export default function SubjectInfo() {
   return (
     <SubjectInfoContext.Provider value={{ register, errors }}>
       <Container headerTitle={"Edit Subject"}>
-        {subjectData.data.subjects.length === 0 ? (
+        {(subjectData.data?.subjects.length ?? 0) === 0 ? (
           <Spinner />
         ) : (
           <main className="bg-white px-10 pt-7 h-full">

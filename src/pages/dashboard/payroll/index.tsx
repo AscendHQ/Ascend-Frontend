@@ -9,6 +9,9 @@ import { twMerge } from "tailwind-merge";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
 import { Spinner } from "@/components/ui/Loading";
+import PermissionDeniedState, {
+  isAccessDeniedError,
+} from "@/components/ui/permission-denied-state";
 import { TableCell, TableHeader } from "@/components/ui/table";
 import { DASHBOARD_PAYROLL_INFO, GENERATE_PAYROLL } from "@/config/links";
 import { PayrollRecord, useAllPayroll } from "@/templates/Payroll/hooks";
@@ -116,7 +119,7 @@ export default function Payroll() {
 }
 function Table() {
   const [api, contextHolder] = notification.useNotification();
-  const { data, isLoading } = useAllPayroll();
+  const { data, isLoading, isError, error } = useAllPayroll();
 
   const payrolls: PayrollRecord[] = data?.payrolls ?? [];
 
@@ -126,6 +129,10 @@ function Table() {
         <Spinner />
       </div>
     );
+  }
+
+  if (isError && isAccessDeniedError(error)) {
+    return <PermissionDeniedState message="You don't have permission to view payroll." />;
   }
 
   if (!payrolls.length) {

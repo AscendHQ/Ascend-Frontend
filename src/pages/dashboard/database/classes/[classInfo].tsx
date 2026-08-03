@@ -88,7 +88,7 @@ export default function ClassInfo() {
   return (
     <ReactHookForm.Provider value={{ register, errors }}>
       <Container headerTitle={"Edit Class"}>
-        {classData.data.classes.length === 0 ? (
+        {(classData.data?.classes.length ?? 0) === 0 ? (
           <Spinner />
         ) : (
           <main className="bg-white px-10 pt-7 h-full">

@@ -6,6 +6,9 @@ import React from "react";
 import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
 import { Spinner } from "@/components/ui/Loading";
+import PermissionDeniedState, {
+  isAccessDeniedError,
+} from "@/components/ui/permission-denied-state";
 import { NEW_CLASS } from "@/config/links";
 import { classInfoProp } from "@/templates/Database/class/class-types";
 import { ClassInfo } from "@/templates/Database/subject/subject-types";
@@ -47,16 +50,16 @@ export default function RegisterStudent() {
 
   React.useEffect(() => {
     if (
-      classInfoQueryResult.data.classes &&
+      classInfoQueryResult.data?.classes &&
       classInfoQueryResult.data.classes.length > 0
     ) {
       setCurrentClassId(classInfoQueryResult.data.classes[0]._id);
     }
-  }, [classInfoQueryResult.data.classes]);
+  }, [classInfoQueryResult.data?.classes]);
 
   const handleClassChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedClassId = event.target.value;
-    const selectedClass = classInfoQueryResult.data.classes.find(
+    const selectedClass = classInfoQueryResult.data?.classes.find(
       data => data._id === selectedClassId
     );
     if (selectedClass) {
@@ -103,7 +106,10 @@ export default function RegisterStudent() {
         <div className="flex justify-center min-h-full items-center">
           <Spinner />
         </div>
-      ) : classInfoQueryResult.data.classes.length <= 0 ? (
+      ) : classInfoQueryResult.isError &&
+        isAccessDeniedError(classInfoQueryResult.error) ? (
+        <PermissionDeniedState message="You don't have permission to register subjects." />
+      ) : (classInfoQueryResult.data?.classes.length ?? 0) <= 0 ? (
         <div className="flex flex-col justify-center items-center gap-4 min-h-full">
           <p className="text-Text-meduim-emphasis">
             You need at least one class before you can register subjects.
@@ -160,7 +166,7 @@ export default function RegisterStudent() {
                 className="p-3 rounded bg-transparent min-w-[140px] border"
                 onChange={handleClassChange}
               >
-                {classInfoQueryResult.data.classes.map(data => (
+                {(classInfoQueryResult.data?.classes ?? []).map(data => (
                   <option value={data._id} key={data._id}>
                     {data.level === "junior"
                       ? `${data.name} - ${data.other_section}`
