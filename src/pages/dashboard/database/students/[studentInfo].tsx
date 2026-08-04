@@ -12,6 +12,9 @@ import ErrorBoundary from "@/components/common/error-boundary";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
 import LoadingState, { Spinner } from "@/components/ui/Loading";
+import PermissionDeniedState, {
+  isAccessDeniedError,
+} from "@/components/ui/permission-denied-state";
 import { DASHBOARD_STUDENT } from "@/config/links";
 import {
   EditAcademicDetails,
@@ -152,7 +155,12 @@ export default function StudentInfo() {
       >
         <Container headerTitle="Student">
           <>
-            {!currentSubjectData.data.students[0] ? (
+            {currentSubjectData.isLoading ? (
+              <Spinner />
+            ) : currentSubjectData.isError &&
+              isAccessDeniedError(currentSubjectData.error) ? (
+              <PermissionDeniedState message="You don't have permission to view this student." />
+            ) : !currentSubjectData.data?.students[0] ? (
               <Spinner />
             ) : (
               <div className="bg-white p-10">

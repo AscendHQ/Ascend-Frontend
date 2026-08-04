@@ -17,6 +17,9 @@ import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
 import LoadingState, { Spinner } from "@/components/ui/Loading";
+import PermissionDeniedState, {
+  isAccessDeniedError,
+} from "@/components/ui/permission-denied-state";
 import { DASHBOARD_SUBJECT } from "@/config/links";
 import EditSubjectInformation from "@/templates/Database/subject/edit-subject-information";
 import {
@@ -100,7 +103,11 @@ export default function SubjectInfo() {
   return (
     <SubjectInfoContext.Provider value={{ register, errors }}>
       <Container headerTitle={"Edit Subject"}>
-        {(subjectData.data?.subjects.length ?? 0) === 0 ? (
+        {subjectData.isLoading ? (
+          <Spinner />
+        ) : subjectData.isError && isAccessDeniedError(subjectData.error) ? (
+          <PermissionDeniedState message="You don't have permission to view this subject." />
+        ) : (subjectData.data?.subjects.length ?? 0) === 0 ? (
           <Spinner />
         ) : (
           <main className="bg-white px-10 pt-7 h-full">

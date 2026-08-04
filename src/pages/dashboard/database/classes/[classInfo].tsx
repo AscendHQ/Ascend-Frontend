@@ -11,6 +11,9 @@ import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
 import LoadingState, { Spinner } from "@/components/ui/Loading";
+import PermissionDeniedState, {
+  isAccessDeniedError,
+} from "@/components/ui/permission-denied-state";
 import { DASHBOARD_CLASS } from "@/config/links";
 import EditClassInformation from "@/templates/Database/class/edit-class-information";
 import {
@@ -88,7 +91,11 @@ export default function ClassInfo() {
   return (
     <ReactHookForm.Provider value={{ register, errors }}>
       <Container headerTitle={"Edit Class"}>
-        {(classData.data?.classes.length ?? 0) === 0 ? (
+        {classData.isLoading ? (
+          <Spinner />
+        ) : classData.isError && isAccessDeniedError(classData.error) ? (
+          <PermissionDeniedState message="You don't have permission to view this class." />
+        ) : (classData.data?.classes.length ?? 0) === 0 ? (
           <Spinner />
         ) : (
           <main className="bg-white px-10 pt-7 h-full">

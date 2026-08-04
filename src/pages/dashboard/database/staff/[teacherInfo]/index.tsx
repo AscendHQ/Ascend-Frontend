@@ -11,6 +11,9 @@ import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
 import { DashboardButton } from "@/components/ui/button/button";
 import LoadingState, { Spinner } from "@/components/ui/Loading";
+import PermissionDeniedState, {
+  isAccessDeniedError,
+} from "@/components/ui/permission-denied-state";
 import { DASHBOARD_TEACHER } from "@/config/links";
 import EditOfficialInformation from "@/templates/Database/staff/components/edit-official-information";
 import EditPersonalInformation from "@/templates/Database/staff/components/edit-personal-information";
@@ -113,6 +116,9 @@ export default function DatabaseTeacherBiodata() {
       <Container headerTitle={"Edit Staff"}>
         <>
           {staffData.isLoading && <Spinner />}
+          {staffData.isError && isAccessDeniedError(staffData.error) && (
+            <PermissionDeniedState message="You don't have permission to view this staff member." />
+          )}
           {contextHolder}
           {staffData.data && (
             <div className="bg-white p-10 h-full">
