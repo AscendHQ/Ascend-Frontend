@@ -63,7 +63,7 @@ export default function NewStudent() {
     >
       <div className="grid font-inter grid-cols-9 min-w-[900px]">
         <Sidebar />
-        {isLoading && classData.isLoading ? (
+        {isLoading || classData.isLoading ? (
           <div className="col-[3/-1] 3xl:col-[2/-1]">
             <Spinner />
           </div>

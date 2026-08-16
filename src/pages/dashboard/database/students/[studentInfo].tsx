@@ -74,7 +74,10 @@ export default function StudentInfo() {
         return axiosInstance
           .put(
             `/students/${studentDataFromBackend?.students[0]?._id}`,
-            transformData(data)
+            {
+              ...transformData(data),
+              is_active: isStudentActive,
+            }
           )
           .then(res => res.data);
       },
@@ -88,13 +91,14 @@ export default function StudentInfo() {
         });
         router.push(DASHBOARD_STUDENT);
       },
-      onError: (error: Error & { response: { data: string } }) => {
-        console.log(error, "onerror");
+      onError: (error: Error & { response?: { data?: string } }) => {
         api.open({
           message: (
             <h3 className="text-secondary-red-600 font-semibold">Error!</h3>
           ),
-          description: error.response.data,
+          description:
+            error.response?.data ??
+            "The student could not be updated. Please try again.",
           className: "ant-toast",
         });
       },
@@ -102,7 +106,6 @@ export default function StudentInfo() {
   const classData = useFetchClassInfo();
 
   const onSubmit = (data: StudentInfoSchemaType) => {
-    console.log(data, "data");
     updateStudentInfo(data);
   };
 
@@ -114,6 +117,9 @@ export default function StudentInfo() {
       previous_school_attended: student?.academic_details?.previous_school,
       gender: student?.personal_information?.gender,
       religion: student?.personal_information?.religion,
+      state_of_origin: student?.personal_information?.state_of_origin,
+      local_government_area:
+        student?.personal_information?.local_government_area,
       "hostel_room-number": student?.accommodation?.room,
       hostel_block: student?.accommodation?.block,
       date_of_birth: formatDateToYYYYMMDD(student?.personal_information?.dob),

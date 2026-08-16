@@ -3,8 +3,14 @@ import TextField from "@/components/ui/form/textfield";
 import { useFormContext } from "@/hooks/useFormContext";
 import { StudentInfoContext } from "@/pages/dashboard/database/students/[studentInfo]";
 
+import { useFetchStateAndLGA } from "./add-new-student.hook";
+
 export default function EditPersonalInformation() {
-  const { register, errors } = useFormContext(StudentInfoContext);
+  const { register, errors, watch } = useFormContext(StudentInfoContext);
+  const { stateAndLGA, getStatesArray } = useFetchStateAndLGA();
+  const selectedState = watch("state_of_origin");
+  const localGovernments =
+    stateAndLGA?.find(state => state.state === selectedState)?.lgas ?? [];
 
   return (
     <div
@@ -66,20 +72,20 @@ export default function EditPersonalInformation() {
           register={register}
           errorMessage={errors.religion?.message || ""}
         />
-        {/* <SelectField
+        <SelectField
           id="state_of_origin"
           label="State of Origin"
-          options={["Ondo", "Ekiti", "Edo", "Oyo", "Lagos", "Kwara"]}
+          options={getStatesArray}
           register={register}
           errorMessage={errors.state_of_origin?.message || ""}
         />
         <SelectField
           id="local_government_area"
           label="Local Government Area"
-          options={["Odigbo", "Ifon", "Okitipupa", "Ikorodu", "Oshodi"]}
+          options={localGovernments}
           register={register}
-          errorMessage={errors.state_of_origin?.message || ""}
-        /> */}
+          errorMessage={errors.local_government_area?.message || ""}
+        />
       </div>
     </div>
   );

@@ -22,6 +22,7 @@ export default function DatabaseStudents() {
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearchName(searchName);
+      setCurrentPage(1);
     }, 500);
 
     return () => {
@@ -30,15 +31,9 @@ export default function DatabaseStudents() {
   }, [searchName]);
 
   const studentData = useQuery({
-    queryKey: ["allStudent"],
+    queryKey: ["allStudent", currentPage, debouncedSearchName],
     queryFn: () => fetchAllStudent(currentPage, debouncedSearchName),
   });
-
-  useEffect(() => {
-    studentData.refetch();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, debouncedSearchName]);
 
   return (
     <ErrorBoundary fallback="Unexpected Error">
@@ -55,6 +50,10 @@ export default function DatabaseStudents() {
             <Spinner />
           ) : studentData.isError && isAccessDeniedError(studentData.error) ? (
             <PermissionDeniedState message="You don't have permission to view students." />
+          ) : studentData.isError ? (
+            <div className="bg-white p-10 text-secondary-red-600">
+              Students could not be loaded. Please try again.
+            </div>
           ) : (
             <>
               <div className="bg-white p-10">
