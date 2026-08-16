@@ -23,12 +23,12 @@ export default function FormSection() {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "ascendafrica.dev@gmail.com",
-      password: "Passw0rd",
+      email: "",
+      password: "",
     },
   });
 
@@ -37,7 +37,6 @@ export default function FormSection() {
       return axiosInstance.post("/auth/login", data);
     },
     onSuccess: data => {
-      console.log({ data });
       if (!data) {
         api.open({
           message: (
@@ -59,23 +58,19 @@ export default function FormSection() {
       setSecureStorage("userInfoData", JSON.stringify(data.data.account));
       router.push(DASHBOARD_OVERVIEW);
     },
-    onError: (error: Error & { response: { data: string } }) => {
-      console.log(error, "onerror");
+    onError: (error: Error & { response?: { data?: string } }) => {
       api.open({
         message: (
           <h3 className="text-secondary-red-600 font-semibold">Error!</h3>
         ),
-        description: error.response.data,
+        description:
+          error.response?.data ??
+          "Login failed. Please check your details and try again.",
         duration: 8,
         className: "ant-toast",
       });
     },
-    onSettled(data, error, variable, context) {
-      console.log(data, "data");
-      console.log(error, "error");
-      console.log(variable, "variable");
-      console.log(context, "context");
-
+    onSettled() {
       reset({
         email: "",
         password: "",
@@ -165,7 +160,7 @@ export default function FormSection() {
             className="absolute top-3 left-2 text-Text-high-emphasis"
           />
           <input
-            type="text"
+            type="password"
             placeholder="Enter your password"
             className="pl-11 border-border-colour-light py-3 border w-full rounded-md"
             id="password"
@@ -180,7 +175,9 @@ export default function FormSection() {
         <button
           onClick={handleSubmit(onSubmit)}
           className={`${
-            isSubmitting ? "bg-primary-purple-400" : "bg-primary-purple-700"
+            loginMutation.isPending
+              ? "bg-primary-purple-400"
+              : "bg-primary-purple-700"
           }  py-4 text-white rounded-lg mt-11 active:scale-90 transition-all flex justify-center items-center`}
         >
           <LoadingState

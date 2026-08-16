@@ -25,9 +25,12 @@ axiosInstance.interceptors.response.use(
     const response = error?.response;
     const statusCode = response?.status;
 
-    if (statusCode === 403) {
-      window.localStorage.clear();
+    if (statusCode === 401 || statusCode === 403) {
+      window.localStorage.removeItem("userInfoAccessToken");
+      window.localStorage.removeItem("userInfoData");
       window.location.href = LOGIN_PAGE;
     }
+
+    return Promise.reject(error);
   }
 );

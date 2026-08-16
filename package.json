@@ -12,6 +12,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "check": "yarn lint && yarn typecheck",
     "prettier": "prettier --write .",
     "prepare": "husky install"
   },

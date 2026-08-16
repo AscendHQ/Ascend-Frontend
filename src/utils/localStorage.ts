@@ -10,7 +10,12 @@ export function getSecureStorage(name: string): any {
 
   const sessionValue = window.localStorage?.getItem(name);
   if (sessionValue !== null && sessionValue !== undefined) {
-    return JSON.parse(sessionValue);
+    try {
+      return JSON.parse(sessionValue);
+    } catch {
+      window.localStorage.removeItem(name);
+      return undefined;
+    }
   }
 }
 
