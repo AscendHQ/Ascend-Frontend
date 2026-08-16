@@ -50,8 +50,8 @@ export const studentInfoSchema = z.object({
   middle_name: z.string().min(1, "Middle Name is required"),
   last_name: z.string().min(1, "Last Name is required"),
   date_of_birth: z.string().min(1, "Date of birth is required"),
-  // local_government_area: z.string().min(1, "Local government area is required"),
-  // state_of_origin: z.string().min(1, "State of origin is required"),
+  local_government_area: z.string().optional(),
+  state_of_origin: z.string().optional(),
   residential_address: z.string().min(1, "Residential address is required"),
   gender: z.string().min(1, "Gender is required"),
   guardian_first_name: z.string().min(1, "Guardian's first name is required"),
@@ -129,8 +129,8 @@ type StudentInfoFieldValues = {
   gender: string;
   date_of_birth: string;
   religion: string;
-  // state_of_origin: string;
-  // local_government_area: string;
+  state_of_origin?: string;
+  local_government_area?: string;
 
   residential_address: string;
   contact_details: string;
@@ -208,6 +208,8 @@ export type NewStudentData = {
     dob: string;
     religion: string;
     nationality: string;
+    state_of_origin?: string;
+    local_government_area?: string;
   };
   contact_information: {
     residential_address: string;

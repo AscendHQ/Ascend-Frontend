@@ -10,10 +10,12 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ConfigProvider } from "antd";
 import { AnimatePresence } from "framer-motion";
 import type { AppProps } from "next/app";
+import { useRouter } from "next/router";
 import NextNprogress from "nextjs-progressbar";
 import React from "react";
 
 import { GTWalsheimPro, InterFont } from "@/assets/fonts";
+import ProtectedRoute from "@/components/layout/protect-route";
 import MetaTag from "@/config/metaTag";
 
 import theme from "../styles/themeConfig";
@@ -22,7 +24,8 @@ const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
   const TuftsBlue = "#3498DB";
-  // const [queryClient] = React.useState(() => new QueryClient());
+  const router = useRouter();
+  const isDashboardRoute = router.pathname.startsWith("/dashboard");
   return (
     <>
       <style jsx global>
@@ -44,11 +47,17 @@ export default function App({ Component, pageProps }: AppProps) {
         <HydrationBoundary state={pageProps.dehydratedState}>
           <AnimatePresence>
             <ConfigProvider theme={theme}>
-              <Component {...pageProps} />
+              {isDashboardRoute ? (
+                <ProtectedRoute>
+                  <Component {...pageProps} />
+                </ProtectedRoute>
+              ) : (
+                <Component {...pageProps} />
+              )}
             </ConfigProvider>
           </AnimatePresence>
         </HydrationBoundary>
-        <ReactQueryDevtools />
+        {process.env.NODE_ENV !== "production" && <ReactQueryDevtools />}
       </QueryClientProvider>
     </>
   );

@@ -10,6 +10,7 @@ export default function StudentTableHeaders() {
         <TableHeader text="Student name" />
         <TableHeader text="Class" />
         <TableHeader text="Gender" isCentered />
+        <TableHeader text="Status" isCentered />
         <TableHeader text="Guardian Info" />
         <TableHeader text="Transcript" isCentered />
         <th scope="col" className="px-6 py-3">
