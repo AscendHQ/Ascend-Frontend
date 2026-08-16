@@ -53,10 +53,24 @@ const StudentTableRow: React.FC<StudentTableRowProps> = ({
       <TableCell
         content={`${item.personal_information.first_name} ${item.personal_information.last_name}`}
       />
-      <TableCell content={item.academic_details?.class?.name || "JSS 2"} />
+      <TableCell content={item.academic_details?.class?.name || "—"} />
       <TableCell
         content={item.personal_information.gender}
         styles="capitalize"
+      />
+      <TableCell
+        isCentered
+        content={
+          <span
+            className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
+              item.is_active
+                ? "bg-green-100 text-green-700"
+                : "bg-grey-300 text-gray-700"
+            }`}
+          >
+            {item.is_active ? "Active" : "Inactive"}
+          </span>
+        }
       />
       <TableCell
         content={`${item.guardian_information.first_name} ${item.guardian_information.last_name}`}
