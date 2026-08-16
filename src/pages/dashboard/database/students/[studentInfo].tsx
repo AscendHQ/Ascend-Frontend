@@ -1,6 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
-import { useMutation, UseQueryResult } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  UseQueryResult,
+} from "@tanstack/react-query";
 import { notification } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -42,6 +46,7 @@ export const StudentInfoContext = React.createContext<
 
 export default function StudentInfo() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [isStudentActive, setIsStudentActive] = React.useState(false);
   const [api, contextHolder] = notification.useNotification();
   const toast = api;
@@ -81,7 +86,18 @@ export default function StudentInfo() {
           )
           .then(res => res.data);
       },
-      onSuccess: () => {
+      onSuccess: async () => {
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: ["allStudent"] }),
+          queryClient.invalidateQueries({
+            queryKey: ["currentStudentInfo", studentRegId],
+          }),
+          queryClient.invalidateQueries({ queryKey: ["dashboardOverview"] }),
+          queryClient.invalidateQueries({ queryKey: ["fetchStudents"] }),
+          queryClient.invalidateQueries({
+            queryKey: ["fetchStudentRegistration"],
+          }),
+        ]);
         toast.open({
           message: (
             <h3 className="text-secondary-green-600 font-semibold">Success!</h3>
@@ -89,7 +105,7 @@ export default function StudentInfo() {
           description: "Student has been updated successfully",
           className: "ant-toast",
         });
-        router.push(DASHBOARD_STUDENT);
+        await router.push(DASHBOARD_STUDENT);
       },
       onError: (error: Error & { response?: { data?: string } }) => {
         api.open({

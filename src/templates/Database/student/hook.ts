@@ -37,6 +37,7 @@ export const useStudentData = (studentRegId: string) => {
   return useQuery({
     queryKey: ["currentStudentInfo", studentRegId],
     queryFn: () => fetchStudent(studentRegId),
-    initialData: { students: [] },
+    enabled: Boolean(studentRegId),
+    placeholderData: { students: [] },
   });
 };
