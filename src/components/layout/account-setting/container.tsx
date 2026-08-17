@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
@@ -10,6 +9,10 @@ import {
   ACCOUNT_SETTING_GENERALSETTING,
   ACCOUNT_SETTING_SCHOOLINFO,
 } from "@/config/links";
+import {
+  getStoredUserInfo,
+  useAccountProfile,
+} from "@/templates/Settings/hooks";
 
 type Props = {
   children: JSX.Element;
@@ -20,6 +23,13 @@ export default function AccountSettingContainer({
   headerTitle,
 }: Props) {
   const router = useRouter();
+  const storedUser = getStoredUserInfo();
+  const { data: accountProfile } = useAccountProfile();
+  const firstName = accountProfile?.first_name ?? storedUser?.first_name ?? "";
+  const lastName = accountProfile?.last_name ?? storedUser?.last_name ?? "";
+  const email = accountProfile?.email ?? storedUser?.email ?? "";
+  const fullName = [firstName, lastName].filter(Boolean).join(" ");
+  const initials = `${firstName[0] ?? ""}${lastName[0] ?? ""}`.toUpperCase();
 
   return (
     <div className="grid font-inter grid-cols-9 min-w-[950px]">
@@ -28,18 +38,15 @@ export default function AccountSettingContainer({
         <DashboardHeader headerTitle={headerTitle} />
         <div className="bg-white p-10">
           <div className="flex gap-4">
-            <Image
-              src="/joebrendan.png"
-              alt="unsplashh image as avatar"
-              width={60}
-              height={50}
-            />
+            <div className="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-primary-purple-700 text-lg font-semibold text-white">
+              {initials || "?"}
+            </div>
             <div>
               <h3 className="text-Text-high-emphasis text-2xl font-semibold tracking-tight">
-                Blessing Okowah
+                {fullName || "Account administrator"}
               </h3>
               <span className="text-base text-gray-800 font-medium">
-                blessingokowah@gmail.com
+                {email}
               </span>
             </div>
           </div>
