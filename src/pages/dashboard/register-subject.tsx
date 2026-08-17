@@ -23,6 +23,82 @@ export type ClassInfoData = {
 };
 export type registrationSubjectType = "pending" | "completed" | "all";
 
+type RegistrationStateProps = {
+  classInfoQueryResult: UseQueryResult<ClassInfoData, Error>;
+  children: React.ReactNode;
+};
+
+function RegistrationState({
+  classInfoQueryResult,
+  children,
+}: RegistrationStateProps) {
+  if (classInfoQueryResult.isLoading) {
+    return (
+      <div className="flex justify-center min-h-full items-center">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (
+    classInfoQueryResult.isError &&
+    isAccessDeniedError(classInfoQueryResult.error)
+  ) {
+    return (
+      <PermissionDeniedState message="You don't have permission to register subjects." />
+    );
+  }
+
+  if ((classInfoQueryResult.data?.classes.length ?? 0) === 0) {
+    return (
+      <div className="flex flex-col justify-center items-center gap-4 min-h-full">
+        <p className="text-Text-meduim-emphasis">
+          You need at least one class before you can register subjects.
+        </p>
+        <Link
+          href={NEW_CLASS}
+          className="text-white bg-primary-purple-700 rounded-lg py-3 px-10 font-semibold text-sm"
+        >
+          Add a class first
+        </Link>
+      </div>
+    );
+  }
+
+  return <>{children}</>;
+}
+
+type StudentTableStateProps = {
+  query: UseQueryResult<ClassInfo[], Error>;
+  table: React.ReactNode;
+};
+
+function StudentTableState({ query, table }: StudentTableStateProps) {
+  if (query.isLoading) {
+    return (
+      <div className="flex min-h-[400px] items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (query.isError) {
+    return (
+      <div className="mt-10 rounded bg-grey-50 p-8 text-center text-secondary-red-600">
+        Students could not be loaded for this class, session and term. Please
+        try again.
+      </div>
+    );
+  }
+
+  return <>{table}</>;
+}
+
+const getClassLabel = (classInfo: classInfoProp) =>
+  classInfo.level === "junior"
+    ? `${classInfo.name} - ${classInfo.other_section}`
+    : `${classInfo.name} - ${classInfo.section}`;
+
 const getAcademicSessions = () => {
   const today = new Date();
   const startingYear =
@@ -120,26 +196,7 @@ export default function RegisterStudent() {
 
   return (
     <Container headerTitle="Subject Registration">
-      {classInfoQueryResult.isLoading ? (
-        <div className="flex justify-center min-h-full items-center">
-          <Spinner />
-        </div>
-      ) : classInfoQueryResult.isError &&
-        isAccessDeniedError(classInfoQueryResult.error) ? (
-        <PermissionDeniedState message="You don't have permission to register subjects." />
-      ) : (classInfoQueryResult.data?.classes.length ?? 0) <= 0 ? (
-        <div className="flex flex-col justify-center items-center gap-4 min-h-full">
-          <p className="text-Text-meduim-emphasis">
-            You need at least one class before you can register subjects.
-          </p>
-          <Link
-            href={NEW_CLASS}
-            className="text-white bg-primary-purple-700 rounded-lg py-3 px-10 font-semibold text-sm"
-          >
-            Add a class first
-          </Link>
-        </div>
-      ) : (
+      <RegistrationState classInfoQueryResult={classInfoQueryResult}>
         <main className="bg-white p-10 h-full">
           {contextHolder}
           <section className="flex justify-between items-start">
@@ -189,9 +246,7 @@ export default function RegisterStudent() {
               >
                 {(classInfoQueryResult.data?.classes ?? []).map(data => (
                   <option value={data._id} key={data._id}>
-                    {data.level === "junior"
-                      ? `${data.name} - ${data.other_section}`
-                      : `${data.name} - ${data.section}`}
+                    {getClassLabel(data)}
                   </option>
                 ))}
               </select>
@@ -204,29 +259,23 @@ export default function RegisterStudent() {
               setCurrentCategory={setCurrentStudentStatusFilter}
             />
           </nav>
-          {fetchStudentsQuery.isLoading ? (
-            <div className="flex min-h-[400px] items-center justify-center">
-              <Spinner />
-            </div>
-          ) : fetchStudentsQuery.isError ? (
-            <div className="mt-10 rounded bg-grey-50 p-8 text-center text-secondary-red-600">
-              Students could not be loaded for this class, session and term.
-              Please try again.
-            </div>
-          ) : (
-            <RegisterStudentTable
-              data={filteredData}
-              currentClassId={currentClassId}
-              session={session}
-              term={term}
-              handleCheckboxChange={handleCheckboxChange}
-              selectedSubjects={selectedSubjects}
-              toast={toast}
-              setSelectedSubjects={setSelectedSubjects}
-            />
-          )}
+          <StudentTableState
+            query={fetchStudentsQuery}
+            table={
+              <RegisterStudentTable
+                data={filteredData}
+                currentClassId={currentClassId}
+                session={session}
+                term={term}
+                handleCheckboxChange={handleCheckboxChange}
+                selectedSubjects={selectedSubjects}
+                toast={toast}
+                setSelectedSubjects={setSelectedSubjects}
+              />
+            }
+          />
         </main>
-      )}
+      </RegistrationState>
     </Container>
   );
 }
