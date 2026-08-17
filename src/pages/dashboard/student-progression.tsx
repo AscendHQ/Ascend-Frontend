@@ -199,6 +199,9 @@ export default function StudentProgression() {
     [classQuery.data]
   );
   const settings = organization?.academic_settings;
+  const hasCompleteSettings = Boolean(
+    settings?.current_session && settings.current_term
+  );
   const [classId, setClassId] = React.useState("");
   const [session, setSession] = React.useState("");
   const [term, setTerm] = React.useState("1st Term");
@@ -211,7 +214,7 @@ export default function StudentProgression() {
   }, [classId, classes]);
 
   React.useEffect(() => {
-    if (settings) {
+    if (settings?.current_session && settings.current_term) {
       setSession(settings.current_session);
       setTerm(settings.current_term);
     }
@@ -355,7 +358,7 @@ export default function StudentProgression() {
     );
   }
 
-  if (!settings) {
+  if (!hasCompleteSettings) {
     return (
       <Container headerTitle="Student Progression">
         <div className="bg-white p-10">
@@ -438,9 +441,9 @@ export default function StudentProgression() {
 
         {isYearEnd && (
           <p className="mt-4 rounded border border-warning-main bg-warning-main/10 p-4 text-sm">
-            Pass mark: <strong>{settings.pass_mark}%</strong>. The result is a
-            recommendation only; an administrator must confirm Promote, Repeat,
-            or Graduate for each student.
+            Pass mark: <strong>{settings?.pass_mark ?? 50}%</strong>. The result
+            is a recommendation only; an administrator must confirm Promote,
+            Repeat, or Graduate for each student.
           </p>
         )}
 
@@ -478,7 +481,7 @@ export default function StudentProgression() {
                     classes={classes}
                     isYearEnd={isYearEnd}
                     nextTerm={nextPeriod.term}
-                    passMark={settings.pass_mark}
+                    passMark={settings?.pass_mark ?? 50}
                     updateChoice={updateChoice}
                     handleDecisionChange={handleDecisionChange}
                   />

@@ -152,7 +152,7 @@ export default function RegisterStudent() {
 
   React.useEffect(() => {
     const settings = organization?.academic_settings;
-    if (settings) {
+    if (settings?.current_session && settings.current_term) {
       setSession(settings.current_session);
       setTerm(settings.current_term);
     }

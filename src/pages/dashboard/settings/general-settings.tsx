@@ -180,15 +180,11 @@ function AcademicTimeline() {
 
   React.useEffect(() => {
     const settings = organization?.academic_settings;
-    if (settings) {
-      setSession(settings.current_session);
-      setTerm(settings.current_term);
-      setTermLength(settings.term_length_weeks);
-      setPassMark(settings.pass_mark);
-    } else {
-      const year = new Date().getFullYear();
-      setSession(current => current || `${year}/${year + 1}`);
-    }
+    const year = new Date().getFullYear();
+    setSession(settings?.current_session ?? `${year}/${year + 1}`);
+    setTerm(settings?.current_term ?? "1st Term");
+    setTermLength(settings?.term_length_weeks ?? 13);
+    setPassMark(settings?.pass_mark ?? 50);
   }, [organization]);
 
   const handleSave = () => {

@@ -23,10 +23,10 @@ export type OrganizationDetail = {
   description?: string;
   address?: { street?: string; zip_code?: string; country?: string };
   academic_settings?: {
-    current_session: string;
-    current_term: "1st Term" | "2nd Term" | "3rd Term";
-    term_length_weeks: number;
-    pass_mark: number;
+    current_session?: string;
+    current_term?: "1st Term" | "2nd Term" | "3rd Term";
+    term_length_weeks?: number;
+    pass_mark?: number;
   };
 };
 
@@ -34,7 +34,12 @@ type UpdateOrganizationPayload = {
   name?: string;
   description?: string;
   address?: { street?: string; zip_code?: string; country?: string };
-  academic_settings?: OrganizationDetail["academic_settings"];
+  academic_settings?: {
+    current_session: string;
+    current_term: "1st Term" | "2nd Term" | "3rd Term";
+    term_length_weeks: number;
+    pass_mark: number;
+  };
 };
 
 const fetchOrganization = (orgId: string) =>
