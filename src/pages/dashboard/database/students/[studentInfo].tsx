@@ -202,6 +202,12 @@ export default function StudentInfo() {
                 <EditContactInformation />
                 <EditGuardianInformation />
                 <EditAcademicDetails />
+                <AcademicProgressionHistory
+                  history={
+                    studentDataFromBackend?.students[0]?.academic_details
+                      ?.progression_history ?? []
+                  }
+                />
                 <EditHostelAccommodation />
                 <EditMedicalInformation />
                 <EditAdditionalInformation />
@@ -276,6 +282,99 @@ export default function StudentInfo() {
         </Container>
       </StudentInfoContext.Provider>
     </ErrorBoundary>
+  );
+}
+
+type ProgressionHistoryEntry = NonNullable<
+  StudentDataWithActive["academic_details"]["progression_history"]
+>[number];
+
+const getHistoryClassName = (
+  classInfo: ProgressionHistoryEntry["from_class"] | undefined
+) => {
+  if (!classInfo || typeof classInfo === "string") return "Not available";
+  const section = classInfo.other_section ?? classInfo.section;
+  return section ? `${classInfo.name} - ${section}` : classInfo.name;
+};
+
+function AcademicProgressionHistory({
+  history,
+}: {
+  history: ProgressionHistoryEntry[];
+}) {
+  const sortedHistory = [...history].sort(
+    (first, second) =>
+      new Date(second.processed_at).getTime() -
+      new Date(first.processed_at).getTime()
+  );
+
+  return (
+    <section className="flex justify-between flex-col lg:flex-row gap-16 pb-16 mb-8 border-b-2 border-border-colour-light">
+      <div className="w-96">
+        <h4 className="text-Text-high-emphasis font-semibold">
+          Academic progression history
+        </h4>
+        <p className="text-sm tracking-tight text-gray-800">
+          A permanent record of term advancement, promotion, repetition, and
+          graduation decisions.
+        </p>
+      </div>
+      <div className="flex-1 overflow-x-auto">
+        {sortedHistory.length === 0 ? (
+          <p className="rounded border p-5 text-sm text-gray-800">
+            No progression decisions have been recorded for this student yet.
+          </p>
+        ) : (
+          <table className="w-full min-w-[700px] text-left text-sm">
+            <thead className="bg-grey-50 text-xs uppercase text-gray-800">
+              <tr>
+                <th className="p-3">From</th>
+                <th className="p-3">To</th>
+                <th className="p-3">Decision</th>
+                <th className="p-3">Average</th>
+                <th className="p-3">Processed</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sortedHistory.map(entry => (
+                <tr
+                  key={`${entry.from_session}-${entry.from_term}-${entry.processed_at}`}
+                  className="border-t"
+                >
+                  <td className="p-3">
+                    <div className="font-semibold">
+                      {entry.from_session}, {entry.from_term}
+                    </div>
+                    <div className="text-xs text-gray-800">
+                      {getHistoryClassName(entry.from_class)}
+                    </div>
+                  </td>
+                  <td className="p-3">
+                    <div className="font-semibold">
+                      {entry.to_session}, {entry.to_term}
+                    </div>
+                    <div className="text-xs text-gray-800">
+                      {entry.decision === "graduated"
+                        ? "Graduated"
+                        : getHistoryClassName(entry.to_class)}
+                    </div>
+                  </td>
+                  <td className="p-3 capitalize">{entry.decision}</td>
+                  <td className="p-3">
+                    {entry.result_average === undefined
+                      ? "Not available"
+                      : `${entry.result_average}%`}
+                  </td>
+                  <td className="p-3">
+                    {new Date(entry.processed_at).toLocaleDateString("en-NG")}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </section>
   );
 }
 

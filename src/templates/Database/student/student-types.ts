@@ -254,6 +254,19 @@ export type StudentDataWithActive = NewStudentData & {
   academic_details: {
     class: { [key: string]: string };
     previous_school: string;
+    current_session?: string;
+    current_term?: string;
+    progression_history?: Array<{
+      from_session: string;
+      from_term: string;
+      from_class: { [key: string]: string } | string;
+      to_session: string;
+      to_term: string;
+      to_class?: { [key: string]: string } | string;
+      decision: "advanced" | "promoted" | "repeated" | "graduated";
+      result_average?: number;
+      processed_at: string;
+    }>;
   };
   is_active: boolean;
   _id: string;

@@ -12,6 +12,7 @@ import {
   NEW_TIMETABLE,
   STUDENT_PROGRESSION,
   SUBJECT_REGISTRATION,
+  TERM_CLOSING,
 } from "./links";
 
 type SideBarItemType = {
@@ -64,6 +65,13 @@ export const mainSidebarItems: SidebarItemType[] = [
     icon: "material-symbols:move-up-rounded",
     isActivePaths: [STUDENT_PROGRESSION],
     urlPath: STUDENT_PROGRESSION,
+    isDatabaseNav: false,
+  },
+  {
+    title: "Term Closing",
+    icon: "material-symbols:event-available-outline-rounded",
+    isActivePaths: [TERM_CLOSING],
+    urlPath: TERM_CLOSING,
     isDatabaseNav: false,
   },
   {

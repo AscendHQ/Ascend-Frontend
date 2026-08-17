@@ -28,6 +28,11 @@ export type OrganizationDetail = {
     term_length_weeks?: number;
     pass_mark?: number;
   };
+  academic_period_history?: Array<{
+    session: string;
+    term: string;
+    closed_at: string;
+  }>;
 };
 
 type UpdateOrganizationPayload = {

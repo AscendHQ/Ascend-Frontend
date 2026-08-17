@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { notification } from "antd";
+import { useRouter } from "next/router";
 import React from "react";
 
 import { axiosInstance } from "@/api";
@@ -73,10 +74,10 @@ function ProgressionRecommendation({
   if (student.already_processed) {
     return <span className="text-secondary-green-600">Processed</span>;
   }
-  if (!isYearEnd) return <>Advance to {nextTerm}</>;
   if (!student.has_result) {
-    return <span className="text-gray-800">Review manually</span>;
+    return <span className="text-secondary-red-600">Result required</span>;
   }
+  if (!isYearEnd) return <>Advance to {nextTerm}</>;
   if (Number(student.result_average) >= passMark) {
     return <span className="text-secondary-green-600">Pass — promote</span>;
   }
@@ -114,7 +115,7 @@ function ProgressionRow({
           type="checkbox"
           aria-label={`Select ${studentName}`}
           checked={Boolean(choice?.selected)}
-          disabled={student.already_processed}
+          disabled={student.already_processed || !student.has_result}
           onChange={event =>
             updateChoice(student._id, { selected: event.target.checked })
           }
@@ -189,6 +190,7 @@ function ProgressionRow({
 }
 
 export default function StudentProgression() {
+  const router = useRouter();
   const [api, contextHolder] = notification.useNotification();
   const queryClient = useQueryClient();
   const { data: organization, isLoading: isLoadingOrganization } =
@@ -210,15 +212,28 @@ export default function StudentProgression() {
   );
 
   React.useEffect(() => {
-    if (!classId && classes[0]) setClassId(classes[0]._id);
-  }, [classId, classes]);
+    const requestedClassId = router.query.classId;
+    if (
+      typeof requestedClassId === "string" &&
+      classes.some(classInfo => classInfo._id === requestedClassId)
+    ) {
+      setClassId(requestedClassId);
+    } else if (!classId && classes[0]) {
+      setClassId(classes[0]._id);
+    }
+  }, [classId, classes, router.query.classId]);
 
   React.useEffect(() => {
-    if (settings?.current_session && settings.current_term) {
+    const requestedSession = router.query.session;
+    const requestedTerm = router.query.term;
+    if (typeof requestedSession === "string" && typeof requestedTerm === "string") {
+      setSession(requestedSession);
+      setTerm(requestedTerm);
+    } else if (settings?.current_session && settings.current_term) {
       setSession(settings.current_session);
       setTerm(settings.current_term);
     }
-  }, [settings]);
+  }, [router.query.session, router.query.term, settings]);
 
   const progressionQuery = useQuery({
     queryKey: ["studentProgression", classId, session, term],
@@ -244,7 +259,7 @@ export default function StudentProgression() {
       for (const student of students) {
         const existing = current[student._id];
         next[student._id] = existing ?? {
-          selected: !student.already_processed,
+          selected: !student.already_processed && student.has_result,
           decision: isYearEnd ? undefined : "advanced",
           targetClassId: isYearEnd ? undefined : classId,
         };

@@ -30,6 +30,7 @@ export const DASHBOARD_SUBJECT_INFO = (slug: string) =>
 
 export const SUBJECT_REGISTRATION = "/dashboard/register-subject";
 export const STUDENT_PROGRESSION = "/dashboard/student-progression";
+export const TERM_CLOSING = "/dashboard/term-closing";
 
 // CLASS
 export const DASHBOARD_CLASS = "/dashboard/database/classes";
