@@ -10,6 +10,7 @@ import {
   GENERATE_PAYROLL,
   NEW_LESSON_PLAN,
   NEW_TIMETABLE,
+  STUDENT_PROGRESSION,
   SUBJECT_REGISTRATION,
 } from "./links";
 
@@ -22,7 +23,7 @@ type SideBarItemType = {
 };
 
 type DatabaseNavType = {
-  title:string;
+  title: string;
   isDatabaseNav: true;
 };
 
@@ -56,6 +57,13 @@ export const mainSidebarItems: SidebarItemType[] = [
     icon: "material-symbols-light:app-registration-outline-sharp",
     isActivePaths: [SUBJECT_REGISTRATION],
     urlPath: SUBJECT_REGISTRATION,
+    isDatabaseNav: false,
+  },
+  {
+    title: "Student Progression",
+    icon: "material-symbols:move-up-rounded",
+    isActivePaths: [STUDENT_PROGRESSION],
+    urlPath: STUDENT_PROGRESSION,
     isDatabaseNav: false,
   },
   {

@@ -22,6 +22,19 @@ export type OrganizationDetail = {
   name: string;
   description?: string;
   address?: { street?: string; zip_code?: string; country?: string };
+  academic_settings?: {
+    current_session: string;
+    current_term: "1st Term" | "2nd Term" | "3rd Term";
+    term_length_weeks: number;
+    pass_mark: number;
+  };
+};
+
+type UpdateOrganizationPayload = {
+  name?: string;
+  description?: string;
+  address?: { street?: string; zip_code?: string; country?: string };
+  academic_settings?: OrganizationDetail["academic_settings"];
 };
 
 const fetchOrganization = (orgId: string) =>
@@ -45,11 +58,7 @@ export function useUpdateOrganization(toast: NotificationInstance) {
 
   const { mutate: updateOrganization, isPending: isUpdatingOrganization } =
     useMutation({
-      mutationFn: (data: {
-        name: string;
-        description?: string;
-        address?: { street?: string; zip_code?: string; country?: string };
-      }) => {
+      mutationFn: (data: UpdateOrganizationPayload) => {
         return axiosInstance
           .put(`/organizations/${orgId}`, data)
           .then(res => res.data);
@@ -61,7 +70,7 @@ export function useUpdateOrganization(toast: NotificationInstance) {
               Success!
             </h3>
           ),
-          description: "School information has been updated",
+          description: "School settings have been updated",
           duration: 3,
           className: "ant-toast",
         });

@@ -15,6 +15,7 @@ import { ClassInfo } from "@/templates/Database/subject/subject-types";
 import FilterStudentTab from "@/templates/Database/subject-registration/filter-student-tab";
 import { useFilterData } from "@/templates/Database/subject-registration/hooks";
 import RegisterStudentTable from "@/templates/Database/subject-registration/register-student-table";
+import { useOrganization } from "@/templates/Settings/hooks";
 
 import { useFetchClassInfo } from "./database/classes";
 
@@ -115,7 +116,14 @@ export default function RegisterStudent() {
     React.useState<registrationSubjectType>("all");
   const [currentClassId, setCurrentClassId] = React.useState("");
   const [selectedSubjects, setSelectedSubjects] = React.useState<string[]>([]);
-  const academicSessions = React.useMemo(getAcademicSessions, []);
+  const { data: organization } = useOrganization();
+  const academicSessions = React.useMemo(() => {
+    const generatedSessions = getAcademicSessions();
+    const configuredSession = organization?.academic_settings?.current_session;
+    return configuredSession && !generatedSessions.includes(configuredSession)
+      ? [configuredSession, ...generatedSessions]
+      : generatedSessions;
+  }, [organization?.academic_settings?.current_session]);
   const [session, setSession] = React.useState(academicSessions[0]);
   const [term, setTerm] = React.useState("1st Term");
 
@@ -141,6 +149,14 @@ export default function RegisterStudent() {
     },
     enabled: currentClassId !== "",
   });
+
+  React.useEffect(() => {
+    const settings = organization?.academic_settings;
+    if (settings) {
+      setSession(settings.current_session);
+      setTerm(settings.current_term);
+    }
+  }, [organization?.academic_settings]);
 
   React.useEffect(() => {
     if (

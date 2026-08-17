@@ -1,8 +1,14 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { Icon } from "@iconify/react";
+import { notification } from "antd";
 import React from "react";
 
 import AccountSettingContainer from "@/components/layout/account-setting/container";
+import { Spinner } from "@/components/ui/Loading";
+import {
+  useOrganization,
+  useUpdateOrganization,
+} from "@/templates/Settings/hooks";
 
 export default function AccountSettingGeneralSettings() {
   return (
@@ -153,8 +159,60 @@ function AssessmentStyle() {
 }
 
 function AcademicTimeline() {
+  const [api, contextHolder] = notification.useNotification();
+  const { data: organization, isLoading } = useOrganization();
+  const { updateOrganization, isUpdatingOrganization } =
+    useUpdateOrganization(api);
+  const [session, setSession] = React.useState("");
+  const [term, setTerm] = React.useState<"1st Term" | "2nd Term" | "3rd Term">(
+    "1st Term"
+  );
+  const [termLength, setTermLength] = React.useState(13);
+  const [passMark, setPassMark] = React.useState(50);
+
+  const sessions = React.useMemo(() => {
+    const currentYear = new Date().getFullYear();
+    return Array.from({ length: 7 }, (_, index) => {
+      const year = currentYear + 2 - index;
+      return `${year}/${year + 1}`;
+    });
+  }, []);
+
+  React.useEffect(() => {
+    const settings = organization?.academic_settings;
+    if (settings) {
+      setSession(settings.current_session);
+      setTerm(settings.current_term);
+      setTermLength(settings.term_length_weeks);
+      setPassMark(settings.pass_mark);
+    } else {
+      const year = new Date().getFullYear();
+      setSession(current => current || `${year}/${year + 1}`);
+    }
+  }, [organization]);
+
+  const handleSave = () => {
+    updateOrganization({
+      academic_settings: {
+        current_session: session,
+        current_term: term,
+        term_length_weeks: termLength,
+        pass_mark: passMark,
+      },
+    });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-16">
+        <Spinner />
+      </div>
+    );
+  }
+
   return (
     <div className="flex justify-between gap-16 pb-16 border-b-2 border-border-colour-light">
+      {contextHolder}
       <div className="w-96">
         <h4 className="text-Text-high-emphasis font-semibold">
           Academic timeline
@@ -166,40 +224,25 @@ function AcademicTimeline() {
       <div className="flex flex-1 flex-wrap gap-5">
         <div className="lg:min-w-[250px] flex-1">
           <label
-            htmlFor="academic_year"
-            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-          >
-            Academic Year
-          </label>
-          <select
-            name="academic_year"
-            id="academic_year"
-            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-gray-800 text-Text-high-emphasis"
-          >
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-          </select>
-        </div>
-        <div className="lg:min-w-[250px] flex-1">
-          <label
             htmlFor="academic_session"
             className="block mb-2 text-sm font-medium text-Text-high-emphasis"
           >
-            Academic session
+            Current academic session
           </label>
           <select
             name="academic_session"
             id="academic_session"
+            value={session}
+            onChange={event => setSession(event.target.value)}
             className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-gray-800 text-Text-high-emphasis"
           >
-            <option value="2022/2023">2022/2023</option>
-            <option value="2021/2022">2021/2022</option>
-            <option value="2020/2021">2020/2021</option>
+            {sessions.map(option => (
+              <option value={option} key={option}>
+                {option}
+              </option>
+            ))}
           </select>
         </div>
-
         <div className="lg:min-w-[250px] flex-1">
           <label
             htmlFor="current_term"
@@ -210,11 +253,17 @@ function AcademicTimeline() {
           <select
             name="current_term"
             id="current_term"
+            value={term}
+            onChange={event =>
+              setTerm(
+                event.target.value as "1st Term" | "2nd Term" | "3rd Term"
+              )
+            }
             className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-gray-800 text-Text-high-emphasis"
           >
-            <option value="First term">First term</option>
-            <option value="Second term">Second term</option>
-            <option value="Third term">Third term</option>
+            <option value="1st Term">1st Term</option>
+            <option value="2nd Term">2nd Term</option>
+            <option value="3rd Term">3rd Term</option>
           </select>
         </div>
 
@@ -223,15 +272,46 @@ function AcademicTimeline() {
             htmlFor="term_length"
             className="block mb-2 text-sm font-medium text-Text-high-emphasis"
           >
-            Term length (in weeks)
+            Term length (weeks)
           </label>
           <input
-            type="text"
+            type="number"
             id="term_length"
+            min={1}
+            max={30}
+            value={termLength}
+            onChange={event => setTermLength(Number(event.target.value))}
             className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-gray-800 text-Text-high-emphasis"
-            placeholder="1 week"
+          />
+        </div>
+
+        <div className="lg:min-w-[250px] flex-1">
+          <label
+            htmlFor="pass_mark"
+            className="block mb-2 text-sm font-medium text-Text-high-emphasis"
+          >
+            Promotion pass mark (%)
+          </label>
+          <input
+            type="number"
+            id="pass_mark"
+            min={0}
+            max={100}
+            value={passMark}
+            onChange={event => setPassMark(Number(event.target.value))}
+            className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-gray-800 text-Text-high-emphasis"
             required
           />
+        </div>
+        <div className="lg:min-w-full flex justify-end">
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={isUpdatingOrganization || !session}
+            className="rounded-lg bg-primary-purple-700 px-10 py-3 text-sm font-semibold text-white disabled:opacity-50"
+          >
+            {isUpdatingOrganization ? "Saving..." : "Save academic settings"}
+          </button>
         </div>
       </div>
     </div>

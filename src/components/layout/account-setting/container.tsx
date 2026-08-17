@@ -43,7 +43,7 @@ export default function AccountSettingContainer({
               </span>
             </div>
           </div>
-          <div className="flex justify-between pt-10 pb-5">
+          <div className="flex pt-10 pb-5">
             <ul className="flex bg-neutral-300 border-1.5 items-center border-border-colour-light rounded px-2 py-1 gap-2">
               {[
                 {
@@ -72,18 +72,6 @@ export default function AccountSettingContainer({
                   </Link>
                 </li>
               ))}
-            </ul>
-            <ul className="flex gap-2">
-              <li>
-                <button className="text-Text-high-emphasis border-1.5 border-border-colour-light rounded-lg py-3 px-6 font-semibold text-sm">
-                  Cancel
-                </button>
-              </li>
-              <li>
-                <button className="text-white bg-primary-purple-700 rounded-lg py-3 px-6 font-semibold text-sm">
-                  Save changes
-                </button>
-              </li>
             </ul>
           </div>
           {children}
