@@ -1,4 +1,5 @@
 import {
+  ATTENDANCE,
   DASHBOARD_LESSON_PLAN,
   DASHBOARD_LESSON_PLAN_INFO,
   DASHBOARD_OVERVIEW,
@@ -65,6 +66,13 @@ export const mainSidebarItems: SidebarItemType[] = [
     icon: "material-symbols:move-up-rounded",
     isActivePaths: [STUDENT_PROGRESSION],
     urlPath: STUDENT_PROGRESSION,
+    isDatabaseNav: false,
+  },
+  {
+    title: "Attendance",
+    icon: "material-symbols:fact-check-outline-rounded",
+    isActivePaths: [ATTENDANCE],
+    urlPath: ATTENDANCE,
     isDatabaseNav: false,
   },
   {

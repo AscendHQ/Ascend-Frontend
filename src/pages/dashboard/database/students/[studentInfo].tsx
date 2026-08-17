@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Icon } from "@iconify/react";
 import {
   useMutation,
+  useQuery,
   useQueryClient,
   UseQueryResult,
 } from "@tanstack/react-query";
@@ -208,6 +209,9 @@ export default function StudentInfo() {
                       ?.progression_history ?? []
                   }
                 />
+                <StudentAttendanceHistory
+                  studentId={studentDataFromBackend?.students[0]?._id ?? ""}
+                />
                 <EditHostelAccommodation />
                 <EditMedicalInformation />
                 <EditAdditionalInformation />
@@ -285,6 +289,124 @@ export default function StudentInfo() {
   );
 }
 
+const NOT_AVAILABLE = "Not available";
+
+type AttendanceHistoryResponse = {
+  total_days: number;
+  attendance_percentage: number;
+  counts: {
+    present: number;
+    absent: number;
+    late: number;
+    excused: number;
+  };
+  history: Array<{
+    attendance_id: string;
+    date: string;
+    session: string;
+    term: string;
+    class: { _id: string; name: string } | string;
+    status: "present" | "absent" | "late" | "excused";
+    remark: string;
+  }>;
+};
+
+function StudentAttendanceHistory({ studentId }: { studentId: string }) {
+  const attendanceQuery = useQuery({
+    queryKey: ["studentAttendance", studentId],
+    queryFn: () =>
+      axiosInstance
+        .get(`/attendance/student/${studentId}`)
+        .then(response => response.data as AttendanceHistoryResponse),
+    enabled: Boolean(studentId),
+  });
+
+  if (attendanceQuery.isLoading) {
+    return (
+      <section className="flex justify-center border-b-2 border-border-colour-light py-12">
+        <Spinner />
+      </section>
+    );
+  }
+
+  const attendance = attendanceQuery.data;
+  return (
+    <section className="flex justify-between flex-col lg:flex-row gap-16 pb-16 mb-8 border-b-2 border-border-colour-light">
+      <div className="w-96">
+        <h4 className="text-Text-high-emphasis font-semibold">
+          Attendance history
+        </h4>
+        <p className="text-sm tracking-tight text-gray-800">
+          Calculated from saved daily class registers. Late counts as attended;
+          excused days are excluded from the percentage.
+        </p>
+      </div>
+      <div className="flex-1">
+        {attendanceQuery.isError ? (
+          <p className="rounded border p-5 text-secondary-red-600">
+            Attendance history could not be loaded.
+          </p>
+        ) : !attendance || attendance.total_days === 0 ? (
+          <p className="rounded border p-5 text-sm text-gray-800">
+            No attendance has been recorded for this student yet.
+          </p>
+        ) : (
+          <>
+            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+              {[
+                ["Attendance", `${attendance.attendance_percentage}%`],
+                ["Present", attendance.counts.present],
+                ["Absent", attendance.counts.absent],
+                ["Late", attendance.counts.late],
+                ["Excused", attendance.counts.excused],
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-lg border p-3">
+                  <p className="text-xs text-gray-800">{label}</p>
+                  <p className="text-xl font-bold">{value}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 overflow-x-auto rounded-lg border">
+              <table className="w-full min-w-[650px] text-left text-sm">
+                <thead className="bg-grey-50 text-xs uppercase text-gray-800">
+                  <tr>
+                    <th className="p-3">Date</th>
+                    <th className="p-3">Period</th>
+                    <th className="p-3">Class</th>
+                    <th className="p-3">Status</th>
+                    <th className="p-3">Remark</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {attendance.history.slice(0, 10).map(item => (
+                    <tr key={item.attendance_id} className="border-t">
+                      <td className="p-3">
+                        {new Date(`${item.date}T00:00:00`).toLocaleDateString(
+                          "en-NG"
+                        )}
+                      </td>
+                      <td className="p-3">
+                        {item.session}, {item.term}
+                      </td>
+                      <td className="p-3">
+                        {typeof item.class === "string"
+                          ? NOT_AVAILABLE
+                          : item.class.name}
+                      </td>
+                      <td className="p-3 capitalize">{item.status}</td>
+                      <td className="p-3">{item.remark || "—"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  );
+}
+
 type ProgressionHistoryEntry = NonNullable<
   StudentDataWithActive["academic_details"]["progression_history"]
 >[number];
@@ -292,7 +414,7 @@ type ProgressionHistoryEntry = NonNullable<
 const getHistoryClassName = (
   classInfo: ProgressionHistoryEntry["from_class"] | undefined
 ) => {
-  if (!classInfo || typeof classInfo === "string") return "Not available";
+  if (!classInfo || typeof classInfo === "string") return NOT_AVAILABLE;
   const section = classInfo.other_section ?? classInfo.section;
   return section ? `${classInfo.name} - ${section}` : classInfo.name;
 };
@@ -362,7 +484,7 @@ function AcademicProgressionHistory({
                   <td className="p-3 capitalize">{entry.decision}</td>
                   <td className="p-3">
                     {entry.result_average === undefined
-                      ? "Not available"
+                      ? NOT_AVAILABLE
                       : `${entry.result_average}%`}
                   </td>
                   <td className="p-3">
