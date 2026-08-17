@@ -1,5 +1,7 @@
 import {
   ATTENDANCE,
+  DASHBOARD_FEE_INVOICE,
+  DASHBOARD_FEES,
   DASHBOARD_LESSON_PLAN,
   DASHBOARD_LESSON_PLAN_INFO,
   DASHBOARD_OVERVIEW,
@@ -106,6 +108,15 @@ export const mainSidebarItems: SidebarItemType[] = [
 ];
 
 export const adminSidebarItems = [
+  {
+    title: "Fees & Invoices",
+    icon: "material-symbols:receipt-long-outline-rounded",
+    isActivePaths: [
+      DASHBOARD_FEES,
+      DASHBOARD_FEE_INVOICE("[invoiceInfo]"),
+    ],
+    urlPath: DASHBOARD_FEES,
+  },
   {
     title: "Payroll",
     icon: "icon-park-outline:transaction-order",

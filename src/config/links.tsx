@@ -32,6 +32,9 @@ export const SUBJECT_REGISTRATION = "/dashboard/register-subject";
 export const STUDENT_PROGRESSION = "/dashboard/student-progression";
 export const TERM_CLOSING = "/dashboard/term-closing";
 export const ATTENDANCE = "/dashboard/attendance";
+export const DASHBOARD_FEES = "/dashboard/fees";
+export const DASHBOARD_FEE_INVOICE = (slug: string) =>
+  `/dashboard/fees/${slug}`;
 
 // CLASS
 export const DASHBOARD_CLASS = "/dashboard/database/classes";

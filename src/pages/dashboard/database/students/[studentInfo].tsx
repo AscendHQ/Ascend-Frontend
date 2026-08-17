@@ -20,7 +20,7 @@ import LoadingState, { Spinner } from "@/components/ui/Loading";
 import PermissionDeniedState, {
   isAccessDeniedError,
 } from "@/components/ui/permission-denied-state";
-import { DASHBOARD_STUDENT } from "@/config/links";
+import { DASHBOARD_FEE_INVOICE, DASHBOARD_STUDENT } from "@/config/links";
 import {
   EditAcademicDetails,
   EditAdditionalInformation,
@@ -38,6 +38,7 @@ import {
   studentInfoSchema,
   StudentInfoSchemaType,
 } from "@/templates/Database/student/student-types";
+import { FeeInvoice } from "@/types/fees";
 
 import { useFetchClassInfo } from "../classes";
 
@@ -210,6 +211,9 @@ export default function StudentInfo() {
                   }
                 />
                 <StudentAttendanceHistory
+                  studentId={studentDataFromBackend?.students[0]?._id ?? ""}
+                />
+                <StudentFinanceHistory
                   studentId={studentDataFromBackend?.students[0]?._id ?? ""}
                 />
                 <EditHostelAccommodation />
@@ -395,6 +399,116 @@ function StudentAttendanceHistory({ studentId }: { studentId: string }) {
                       </td>
                       <td className="p-3 capitalize">{item.status}</td>
                       <td className="p-3">{item.remark || "—"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  );
+}
+
+type StudentFinanceResponse = {
+  summary: { invoiced: number; paid: number; balance: number };
+  invoices: FeeInvoice[];
+};
+
+const formatCurrency = (amount: number) =>
+  new Intl.NumberFormat("en-NG", {
+    style: "currency",
+    currency: "NGN",
+    maximumFractionDigits: 2,
+  }).format(amount);
+
+function StudentFinanceHistory({ studentId }: { studentId: string }) {
+  const financeQuery = useQuery({
+    queryKey: ["studentFinances", studentId],
+    queryFn: () =>
+      axiosInstance
+        .get(`/fees/students/${studentId}`)
+        .then(response => response.data as StudentFinanceResponse),
+    enabled: Boolean(studentId),
+  });
+
+  if (financeQuery.isLoading) {
+    return (
+      <section className="flex justify-center border-b-2 border-border-colour-light py-12">
+        <Spinner />
+      </section>
+    );
+  }
+
+  const finances = financeQuery.data;
+  return (
+    <section className="flex justify-between flex-col lg:flex-row gap-16 pb-16 mb-8 border-b-2 border-border-colour-light">
+      <div className="w-96">
+        <h4 className="text-Text-high-emphasis font-semibold">
+          Fees and payment history
+        </h4>
+        <p className="text-sm tracking-tight text-gray-800">
+          Student invoices, payments, and outstanding school-fee balances.
+        </p>
+      </div>
+      <div className="flex-1">
+        {financeQuery.isError ? (
+          <p className="rounded border p-5 text-secondary-red-600">
+            Financial history could not be loaded.
+          </p>
+        ) : !finances || finances.invoices.length === 0 ? (
+          <p className="rounded border p-5 text-sm text-gray-800">
+            No invoices have been generated for this student yet.
+          </p>
+        ) : (
+          <>
+            <div className="grid gap-3 sm:grid-cols-3">
+              {[
+                ["Total invoiced", formatCurrency(finances.summary.invoiced)],
+                ["Paid", formatCurrency(finances.summary.paid)],
+                ["Balance", formatCurrency(finances.summary.balance)],
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-lg border p-3">
+                  <p className="text-xs text-gray-800">{label}</p>
+                  <p className="text-xl font-bold">{value}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 overflow-x-auto rounded-lg border">
+              <table className="w-full min-w-[650px] text-left text-sm">
+                <thead className="bg-grey-50 text-xs uppercase text-gray-800">
+                  <tr>
+                    <th className="p-3">Invoice</th>
+                    <th className="p-3">Period</th>
+                    <th className="p-3">Total</th>
+                    <th className="p-3">Balance</th>
+                    <th className="p-3">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {finances.invoices.slice(0, 10).map(invoice => (
+                    <tr key={invoice._id} className="border-t">
+                      <td className="p-3">
+                        <Link
+                          href={DASHBOARD_FEE_INVOICE(invoice._id)}
+                          className="font-semibold text-primary-purple-700 hover:underline"
+                        >
+                          {invoice.invoice_number}
+                        </Link>
+                      </td>
+                      <td className="p-3">
+                        {invoice.session}, {invoice.term}
+                      </td>
+                      <td className="p-3">
+                        {formatCurrency(invoice.total_amount)}
+                      </td>
+                      <td className="p-3 font-semibold">
+                        {formatCurrency(invoice.balance)}
+                      </td>
+                      <td className="p-3 capitalize">
+                        {invoice.display_status}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
