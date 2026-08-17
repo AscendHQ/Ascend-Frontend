@@ -22,12 +22,25 @@ export type ClassInfoData = {
   classes: classInfoProp[];
 };
 export type registrationSubjectType = "pending" | "completed" | "all";
+
+const getAcademicSessions = () => {
+  const today = new Date();
+  const startingYear =
+    today.getMonth() >= 8 ? today.getFullYear() : today.getFullYear() - 1;
+
+  return Array.from({ length: 4 }, (_, index) => {
+    const year = startingYear - index;
+    return `${year}/${year + 1}`;
+  });
+};
+
 export default function RegisterStudent() {
   const [currentStudentStatusFilter, setCurrentStudentStatusFilter] =
     React.useState<registrationSubjectType>("all");
   const [currentClassId, setCurrentClassId] = React.useState("");
   const [selectedSubjects, setSelectedSubjects] = React.useState<string[]>([]);
-  const [session, setSession] = React.useState("2025/2026");
+  const academicSessions = React.useMemo(getAcademicSessions, []);
+  const [session, setSession] = React.useState(academicSessions[0]);
   const [term, setTerm] = React.useState("1st Term");
 
   const classInfoQueryResult: UseQueryResult<ClassInfoData, Error> =
@@ -37,12 +50,17 @@ export default function RegisterStudent() {
   const toast = api;
 
   const fetchStudentsQuery: UseQueryResult<ClassInfo[], Error> = useQuery({
-    queryKey: ["fetchStudents", currentClassId],
+    queryKey: ["fetchStudents", currentClassId, session, term],
     queryFn: ({ queryKey }) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const [_key, currentClass] = queryKey;
+      const [_key, currentClass, currentSession, currentTerm] = queryKey;
+      const params = new URLSearchParams({
+        class_id: String(currentClass),
+        session: String(currentSession),
+        term: String(currentTerm),
+      });
       return axiosInstance
-        .get(`/registrations?class_id=${currentClass}`)
+        .get(`/registrations?${params.toString()}`)
         .then(res => res.data);
     },
     enabled: currentClassId !== "",
@@ -64,6 +82,8 @@ export default function RegisterStudent() {
     );
     if (selectedClass) {
       setCurrentClassId(selectedClass._id);
+      setSelectedSubjects([]);
+      setCurrentStudentStatusFilter("all");
     }
   };
 
@@ -85,15 +105,13 @@ export default function RegisterStudent() {
     criteria: currentStudentStatusFilter,
   });
   const tabNumbers = {
-    all: fetchStudentsQuery.data
-      ? fetchStudentsQuery.data[0].students.length
-      : 0,
-    completed: fetchStudentsQuery.data
+    all: fetchStudentsQuery.data?.[0]?.students.length ?? 0,
+    completed: fetchStudentsQuery.data?.[0]
       ? fetchStudentsQuery.data[0].students.filter(
           student => student.is_registered === true
         ).length
       : 0,
-    pending: fetchStudentsQuery.data
+    pending: fetchStudentsQuery.data?.[0]
       ? fetchStudentsQuery.data[0].students.filter(
           student => !student.is_registered
         ).length
@@ -136,9 +154,11 @@ export default function RegisterStudent() {
                   onChange={e => setSession(e.target.value)}
                   className="p-2 rounded bg-transparent min-w-[130px] border"
                 >
-                  <option value="2025/2026">2025/2026</option>
-                  <option value="2024/2025">2024/2025</option>
-                  <option value="2023/2024">2023/2024</option>
+                  {academicSessions.map(academicSession => (
+                    <option value={academicSession} key={academicSession}>
+                      {academicSession}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div>
@@ -163,6 +183,7 @@ export default function RegisterStudent() {
               </label>
               <select
                 id="classSelect"
+                value={currentClassId}
                 className="p-3 rounded bg-transparent min-w-[140px] border"
                 onChange={handleClassChange}
               >
@@ -183,17 +204,27 @@ export default function RegisterStudent() {
               setCurrentCategory={setCurrentStudentStatusFilter}
             />
           </nav>
-          <RegisterStudentTable
-            data={filteredData}
-            currentClassId={currentClassId}
-            session={session}
-            term={term}
-            handleCheckboxChange={handleCheckboxChange}
-            selectedSubjects={selectedSubjects}
-            toast={toast}
-            setSelectedSubjects={setSelectedSubjects}
-            fetchStudentsQuery={fetchStudentsQuery}
-          />
+          {fetchStudentsQuery.isLoading ? (
+            <div className="flex min-h-[400px] items-center justify-center">
+              <Spinner />
+            </div>
+          ) : fetchStudentsQuery.isError ? (
+            <div className="mt-10 rounded bg-grey-50 p-8 text-center text-secondary-red-600">
+              Students could not be loaded for this class, session and term.
+              Please try again.
+            </div>
+          ) : (
+            <RegisterStudentTable
+              data={filteredData}
+              currentClassId={currentClassId}
+              session={session}
+              term={term}
+              handleCheckboxChange={handleCheckboxChange}
+              selectedSubjects={selectedSubjects}
+              toast={toast}
+              setSelectedSubjects={setSelectedSubjects}
+            />
+          )}
         </main>
       )}
     </Container>

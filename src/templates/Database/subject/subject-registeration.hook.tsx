@@ -48,7 +48,7 @@ function useMutateSubjectRegistration(
         })
         .then(res => res.data);
     },
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
       toast.open({
         message: (
           <h3 className="text-secondary-green-600 font-semibold">Success!</h3>
@@ -58,16 +58,32 @@ function useMutateSubjectRegistration(
         className: "ant-toast",
       });
       queryClient.invalidateQueries({
-        queryKey: ["fetchStudentRegistration", student, class_id],
+        queryKey: [
+          "fetchStudentRegistration",
+          variables.student,
+          variables.class_id,
+          variables.session,
+          variables.term,
+        ],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [
+          "fetchStudents",
+          variables.class_id,
+          variables.session,
+          variables.term,
+        ],
       });
       closeDetailsModal();
     },
-    onError: (error: Error & { response: { data: string } }) => {
+    onError: (error: Error & { response?: { data?: string } }) => {
       toast.open({
         message: (
           <h3 className="text-secondary-red-600 font-semibold">Error!</h3>
         ),
-        description: error.response.data,
+        description:
+          error.response?.data ??
+          "Subject registration could not be saved. Please try again.",
         duration: 8,
         className: "ant-toast",
       });

@@ -22,7 +22,6 @@ export default function RegisterStudentTable({
   selectedSubjects,
   handleCheckboxChange,
   setSelectedSubjects,
-  fetchStudentsQuery,
 }: {
   data?: ClassInfo[];
   selectedSubjects: string[];
@@ -32,31 +31,18 @@ export default function RegisterStudentTable({
   toast: NotificationInstance;
   handleCheckboxChange: (subject: string) => void;
   setSelectedSubjects: React.Dispatch<React.SetStateAction<string[]>>;
-  fetchStudentsQuery: UseQueryResult<ClassInfo[], Error>;
 }) {
   const [isOpenDetails, setIsOpenDetails] = React.useState(false);
   const [currentStudentId, setCurrentStudentId] = React.useState("");
 
-  const openDetailsModal = async (id: string) => {
+  const openDetailsModal = (id: string) => {
+    setSelectedSubjects([]);
     setCurrentStudentId(id);
-
-    // Fetch data if it's not available yet
-    if (!fetchStudentRegistrationQuery.data) {
-      try {
-        await fetchStudentRegistrationQuery.refetch();
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        // Handle error if necessary
-        return;
-      }
-    }
-
-    // Now that data is available, open the modal
     setIsOpenDetails(true);
   };
   const closeDetailsModal = () => {
-    fetchStudentsQuery.refetch();
     setIsOpenDetails(false);
+    setCurrentStudentId("");
     setSelectedSubjects([]);
   };
 
@@ -85,6 +71,13 @@ export default function RegisterStudentTable({
     enabled: currentStudentId !== "",
   });
   const currentStudentSubjects = fetchStudentRegistrationQuery.data?.subjects;
+
+  React.useEffect(() => {
+    const registeredSubjects =
+      fetchStudentRegistrationQuery.data?.registration?.additional_subjects ??
+      [];
+    setSelectedSubjects(registeredSubjects.map(subject => subject._id));
+  }, [fetchStudentRegistrationQuery.data, setSelectedSubjects]);
 
   const coreSubjects = currentStudentSubjects?.filter(
     item => item.type === "core"
@@ -197,7 +190,11 @@ export default function RegisterStudentTable({
         <div className="">
           <h3 className="text-center text-xl font-semibold">Choose Subjects</h3>
           <div className="overflow-y-auto h-[70vh]">
-            {fetchStudentRegistrationQuery.data ? (
+            {fetchStudentRegistrationQuery.isError ? (
+              <div className="p-8 text-center text-secondary-red-600">
+                Subject information could not be loaded. Please try again.
+              </div>
+            ) : fetchStudentRegistrationQuery.data ? (
               <>
                 <SubjectInfoWrapper heading="General Subjects">
                   <ul className="border border-grey-300 w-full p-3 h-[190px] overflow-y-scroll rounded">
@@ -209,6 +206,11 @@ export default function RegisterStudentTable({
                         {item.name}
                       </li>
                     ))}
+                    {coreSubjects?.length === 0 && (
+                      <li className="text-gray-600">
+                        No core subjects are assigned to this class.
+                      </li>
+                    )}
                   </ul>
                 </SubjectInfoWrapper>
                 <SubjectInfoWrapper heading="Choose Additional Subjects">
@@ -234,6 +236,11 @@ export default function RegisterStudentTable({
                         </label>
                       </button>
                     ))}
+                    {electiveSubjects?.length === 0 && (
+                      <p className="text-gray-600">
+                        No elective subjects are assigned to this class.
+                      </p>
+                    )}
                   </div>
                 </SubjectInfoWrapper>
                 <DashboardButton
