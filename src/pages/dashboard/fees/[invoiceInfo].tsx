@@ -55,6 +55,67 @@ const getClassName = (invoice: FeeInvoice) => {
   return section ? `${invoice.class.name} - ${section}` : invoice.class.name;
 };
 
+function SharePaymentLink({ invoiceId }: { invoiceId: string }) {
+  const [api, contextHolder] = notification.useNotification();
+  const [paymentUrl, setPaymentUrl] = React.useState("");
+  const mutation = useMutation({
+    mutationFn: () =>
+      axiosInstance
+        .post(`/fees/invoices/${invoiceId}/payment-link`)
+        .then(
+          response =>
+            response.data as { payment_url: string; expires_at: string }
+        ),
+    onSuccess: response => {
+      setPaymentUrl(response.payment_url);
+      navigator.clipboard.writeText(response.payment_url).then(
+        () =>
+          api.success({
+            message: "Payment link copied",
+            description:
+              "Send this secure link to the parent. It expires after 30 days.",
+          }),
+        () =>
+          api.info({
+            message: "Payment link created",
+            description: "Open the preview and copy its address from the browser.",
+          })
+      );
+    },
+    onError: (error: Error & { response?: { data?: string } }) => {
+      api.error({
+        message: "Payment link could not be created",
+        description: error.response?.data ?? error.message,
+      });
+    },
+  });
+
+  return (
+    <>
+      {contextHolder}
+      <button
+        type="button"
+        disabled={mutation.isPending}
+        onClick={() => mutation.mutate()}
+        className="flex items-center gap-2 rounded-lg bg-primary-purple-700 px-4 py-2 font-semibold text-white disabled:opacity-50"
+      >
+        <Icon icon="material-symbols:link-rounded" />
+        {mutation.isPending ? "Creating link..." : "Copy payment link"}
+      </button>
+      {paymentUrl && (
+        <a
+          href={paymentUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center gap-1 font-semibold text-primary-purple-700"
+        >
+          Preview <Icon icon="material-symbols:open-in-new-rounded" />
+        </a>
+      )}
+    </>
+  );
+}
+
 function PaymentForm({ invoice }: { invoice: FeeInvoice }) {
   const [api, contextHolder] = notification.useNotification();
   const queryClient = useQueryClient();
@@ -284,13 +345,18 @@ export default function FeeInvoiceDetails() {
   return (
     <Container headerTitle="Invoice">
       <main className="min-h-full bg-neutral-300 p-6 lg:p-10 print:bg-white print:p-0">
-        <div className="print:hidden mb-5 flex items-center justify-between">
+        <div className="print:hidden mb-5 flex flex-wrap items-center justify-between gap-3">
           <Link href={DASHBOARD_FEES} className="flex items-center gap-2 font-semibold text-primary-purple-700">
             <Icon icon="material-symbols:arrow-back-rounded" /> Back to fees
           </Link>
-          <button type="button" onClick={() => window.print()} className="flex items-center gap-2 rounded-lg border bg-white px-4 py-2 font-semibold">
-            <Icon icon="material-symbols:print-outline-rounded" /> Print invoice and receipts
-          </button>
+          <div className="flex flex-wrap items-center gap-3">
+            {invoice.balance > 0 && (
+              <SharePaymentLink invoiceId={invoice._id} />
+            )}
+            <button type="button" onClick={() => window.print()} className="flex items-center gap-2 rounded-lg border bg-white px-4 py-2 font-semibold">
+              <Icon icon="material-symbols:print-outline-rounded" /> Print invoice and receipts
+            </button>
+          </div>
         </div>
         <InvoiceDocument invoice={invoice} />
         <PaymentHistory payments={payments} />

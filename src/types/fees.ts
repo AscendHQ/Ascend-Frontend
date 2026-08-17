@@ -50,6 +50,8 @@ export type FeePayment = {
   receipt_number: string;
   note?: string;
   paid_at: string;
+  provider?: string;
+  channel?: string;
 };
 
 export type InvoiceListResponse = {
