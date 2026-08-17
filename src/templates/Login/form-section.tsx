@@ -16,6 +16,7 @@ import {
   HOME_PAGE,
   PARENT_DASHBOARD,
   STUDENT_DASHBOARD,
+  TEACHER_DASHBOARD,
 } from "@/config/links";
 import { formSchema, FormSchemaType } from "@/types/form";
 import { setSecureStorage } from "@/utils/localStorage";
@@ -67,6 +68,8 @@ export default function FormSection() {
           ? PARENT_DASHBOARD
           : accountType === "student"
             ? STUDENT_DASHBOARD
+            : accountType === "teacher"
+              ? TEACHER_DASHBOARD
             : DASHBOARD_OVERVIEW
       );
     },

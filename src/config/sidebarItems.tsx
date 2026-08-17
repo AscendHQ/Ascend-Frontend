@@ -12,6 +12,7 @@ import {
   DASHBOARD_RESULT,
   DASHBOARD_RESULT_INFO,
   DASHBOARD_STUDENT_PORTALS,
+  DASHBOARD_TEACHER_PORTALS,
   DASHBOARD_TIMETABLE,
   GENERATE_PAYROLL,
   NEW_LESSON_PLAN,
@@ -122,6 +123,12 @@ export const adminSidebarItems = [
     icon: "material-symbols:school-outline-rounded",
     isActivePaths: [DASHBOARD_STUDENT_PORTALS],
     urlPath: DASHBOARD_STUDENT_PORTALS,
+  },
+  {
+    title: "Teacher Portals",
+    icon: "material-symbols:co-present-outline-rounded",
+    isActivePaths: [DASHBOARD_TEACHER_PORTALS],
+    urlPath: DASHBOARD_TEACHER_PORTALS,
   },
   {
     title: "Parents",

@@ -3,7 +3,7 @@ export type PortalNotice = {
   title: string;
   message: string;
   type: "announcement" | "event";
-  audience: "all" | "parents" | "students";
+  audience: "all" | "parents" | "students" | "teachers";
   classes: Array<{ _id: string; name: string; section?: string; other_section?: string }>;
   starts_at: string;
   ends_at?: string;

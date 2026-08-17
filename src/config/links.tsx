@@ -40,7 +40,9 @@ export const PARENT_DASHBOARD = "/parent";
 export const PARENT_CHILD = (slug: string) => `/parent/children/${slug}`;
 export const STUDENT_DASHBOARD = "/student";
 export const DASHBOARD_STUDENT_PORTALS = "/dashboard/student-portals";
+export const DASHBOARD_TEACHER_PORTALS = "/dashboard/teacher-portals";
 export const DASHBOARD_COMMUNICATIONS = "/dashboard/communications";
+export const TEACHER_DASHBOARD = "/teacher";
 
 // CLASS
 export const DASHBOARD_CLASS = "/dashboard/database/classes";
