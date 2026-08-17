@@ -11,7 +11,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { axiosInstance } from "@/api";
 import { Button } from "@/components/ui/button";
 import LoadingState from "@/components/ui/Loading";
-import { DASHBOARD_OVERVIEW, HOME_PAGE } from "@/config/links";
+import { DASHBOARD_OVERVIEW, HOME_PAGE, PARENT_DASHBOARD } from "@/config/links";
 import { formSchema, FormSchemaType } from "@/types/form";
 import { setSecureStorage } from "@/utils/localStorage";
 
@@ -56,7 +56,11 @@ export default function FormSection() {
         JSON.stringify(data.data.access_token)
       );
       setSecureStorage("userInfoData", JSON.stringify(data.data.account));
-      router.push(DASHBOARD_OVERVIEW);
+      router.push(
+        data.data.account.account_type === "parent"
+          ? PARENT_DASHBOARD
+          : DASHBOARD_OVERVIEW
+      );
     },
     onError: (error: Error & { response?: { data?: string } }) => {
       api.open({

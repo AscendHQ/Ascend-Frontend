@@ -35,6 +35,9 @@ export const ATTENDANCE = "/dashboard/attendance";
 export const DASHBOARD_FEES = "/dashboard/fees";
 export const DASHBOARD_FEE_INVOICE = (slug: string) =>
   `/dashboard/fees/${slug}`;
+export const DASHBOARD_PARENTS = "/dashboard/parents";
+export const PARENT_DASHBOARD = "/parent";
+export const PARENT_CHILD = (slug: string) => `/parent/children/${slug}`;
 
 // CLASS
 export const DASHBOARD_CLASS = "/dashboard/database/classes";

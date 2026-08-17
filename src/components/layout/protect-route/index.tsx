@@ -20,6 +20,19 @@ const ProtectedRoute = ({ children }: { children: ReactNode }) => {
       return;
     }
 
+    const userInfo = getSecureStorage("userInfoData") as
+      | { account_type?: string }
+      | undefined;
+    const isParent = userInfo?.account_type === "parent";
+    if (router.pathname.startsWith("/parent") && !isParent) {
+      void router.replace("/dashboard");
+      return;
+    }
+    if (router.pathname.startsWith("/dashboard") && isParent) {
+      void router.replace("/parent");
+      return;
+    }
+
     setIsCheckingAuthentication(false);
   }, [router]);
 

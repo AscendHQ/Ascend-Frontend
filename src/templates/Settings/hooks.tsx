@@ -10,6 +10,7 @@ type StoredUserInfo = {
   first_name: string;
   last_name: string;
   email: string;
+  account_type?: "admin" | "staff" | "teacher" | "parent" | "student";
 };
 
 export const getStoredUserInfo = (): StoredUserInfo | undefined =>

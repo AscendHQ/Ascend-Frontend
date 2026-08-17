@@ -26,6 +26,8 @@ export default function App({ Component, pageProps }: AppProps) {
   const TuftsBlue = "#3498DB";
   const router = useRouter();
   const isDashboardRoute = router.pathname.startsWith("/dashboard");
+  const isProtectedRoute =
+    isDashboardRoute || router.pathname.startsWith("/parent");
   return (
     <>
       <style jsx global>
@@ -47,7 +49,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <HydrationBoundary state={pageProps.dehydratedState}>
           <AnimatePresence>
             <ConfigProvider theme={theme}>
-              {isDashboardRoute ? (
+              {isProtectedRoute ? (
                 <ProtectedRoute>
                   <Component {...pageProps} />
                 </ProtectedRoute>

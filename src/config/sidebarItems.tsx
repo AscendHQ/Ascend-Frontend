@@ -5,6 +5,7 @@ import {
   DASHBOARD_LESSON_PLAN,
   DASHBOARD_LESSON_PLAN_INFO,
   DASHBOARD_OVERVIEW,
+  DASHBOARD_PARENTS,
   DASHBOARD_PAYROLL,
   DASHBOARD_PAYROLL_INFO,
   DASHBOARD_RESULT,
@@ -108,6 +109,12 @@ export const mainSidebarItems: SidebarItemType[] = [
 ];
 
 export const adminSidebarItems = [
+  {
+    title: "Parents",
+    icon: "material-symbols:family-restroom-rounded",
+    isActivePaths: [DASHBOARD_PARENTS],
+    urlPath: DASHBOARD_PARENTS,
+  },
   {
     title: "Fees & Invoices",
     icon: "material-symbols:receipt-long-outline-rounded",
