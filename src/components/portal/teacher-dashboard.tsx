@@ -40,8 +40,10 @@ type TeacherDashboardData = {
       department?: string;
       post?: string;
     };
-    classes: AssignedClass[];
-    subjects: Array<{ _id: string; name: string; code: string }>;
+    assignments: Array<{
+      class: AssignedClass;
+      subjects: Array<{ _id: string; name: string; code: string }>;
+    }>;
   };
   academic_period: { session?: string; term?: string };
   summary: {
@@ -63,12 +65,36 @@ type TeacherDashboardData = {
 };
 
 const NAV_ITEMS: PortalNavItem[] = [
-  { title: "Overview", href: TEACHER_DASHBOARD, icon: "material-symbols:dashboard-outline-rounded" },
-  { title: "Announcements", href: `${TEACHER_DASHBOARD}/announcements`, icon: "material-symbols:campaign-outline-rounded" },
-  { title: "Timetable", href: `${TEACHER_DASHBOARD}/timetable`, icon: "material-symbols:calendar-month-outline-rounded" },
-  { title: "My Classes", href: `${TEACHER_DASHBOARD}/classes`, icon: "material-symbols:groups-outline-rounded" },
-  { title: "Attendance", href: `${TEACHER_DASHBOARD}/attendance`, icon: "material-symbols:fact-check-outline-rounded" },
-  { title: "Results", href: `${TEACHER_DASHBOARD}/results`, icon: "material-symbols:school-outline-rounded" },
+  {
+    title: "Overview",
+    href: TEACHER_DASHBOARD,
+    icon: "material-symbols:dashboard-outline-rounded",
+  },
+  {
+    title: "Announcements",
+    href: `${TEACHER_DASHBOARD}/announcements`,
+    icon: "material-symbols:campaign-outline-rounded",
+  },
+  {
+    title: "Timetable",
+    href: `${TEACHER_DASHBOARD}/timetable`,
+    icon: "material-symbols:calendar-month-outline-rounded",
+  },
+  {
+    title: "My Classes",
+    href: `${TEACHER_DASHBOARD}/classes`,
+    icon: "material-symbols:groups-outline-rounded",
+  },
+  {
+    title: "Attendance",
+    href: `${TEACHER_DASHBOARD}/attendance`,
+    icon: "material-symbols:fact-check-outline-rounded",
+  },
+  {
+    title: "Results",
+    href: `${TEACHER_DASHBOARD}/results`,
+    icon: "material-symbols:school-outline-rounded",
+  },
 ];
 
 const TITLES: Record<TeacherSection, string> = {
@@ -85,7 +111,15 @@ const getClassName = (item: AssignedClass) => {
   return section ? `${item.name} - ${section}` : item.name;
 };
 
-function SummaryCard({ label, value, helper }: { label: string; value: number; helper: string }) {
+function SummaryCard({
+  label,
+  value,
+  helper,
+}: {
+  label: string;
+  value: number;
+  helper: string;
+}) {
   return (
     <article className="rounded-2xl border bg-white p-5 shadow-sm">
       <p className="text-sm text-gray-800">{label}</p>
@@ -97,19 +131,48 @@ function SummaryCard({ label, value, helper }: { label: string; value: number; h
 
 function Overview({ data }: { data: TeacherDashboardData }) {
   const staff = data.profile.staff;
+  const subjectCount = new Set(
+    data.profile.assignments.flatMap(assignment =>
+      assignment.subjects.map(subject => subject._id)
+    )
+  ).size;
   return (
     <div className="space-y-6">
       <section className="rounded-2xl bg-primary-purple-700 p-6 text-white shadow-sm">
         <p className="text-sm text-primary-purple-100">Welcome back</p>
-        <h2 className="mt-1 text-2xl font-bold">{staff.surname} {staff.other_names}</h2>
-        <p className="mt-2 text-sm">{staff.staff_no} · {staff.post || staff.department || "Teaching staff"}</p>
-        <p className="mt-1 text-sm">{data.academic_period.session || "Session not set"}, {data.academic_period.term || "Term not set"}</p>
+        <h2 className="mt-1 text-2xl font-bold">
+          {staff.surname} {staff.other_names}
+        </h2>
+        <p className="mt-2 text-sm">
+          {staff.staff_no} ·{" "}
+          {staff.post || staff.department || "Teaching staff"}
+        </p>
+        <p className="mt-1 text-sm">
+          {data.academic_period.session || "Session not set"},{" "}
+          {data.academic_period.term || "Term not set"}
+        </p>
       </section>
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <SummaryCard label="Assigned classes" value={data.profile.classes.length} helper="Classes you can access" />
-        <SummaryCard label="Assigned subjects" value={data.profile.subjects.length} helper="Subjects you teach" />
-        <SummaryCard label="Students" value={data.summary.student_count} helper="Across assigned classes" />
-        <SummaryCard label="Attendance registers" value={data.summary.attendance_count} helper="Current academic period" />
+        <SummaryCard
+          label="Assigned classes"
+          value={data.profile.assignments.length}
+          helper="Classes you can access"
+        />
+        <SummaryCard
+          label="Assigned subjects"
+          value={subjectCount}
+          helper="Subjects you teach"
+        />
+        <SummaryCard
+          label="Students"
+          value={data.summary.student_count}
+          helper="Across assigned classes"
+        />
+        <SummaryCard
+          label="Attendance registers"
+          value={data.summary.attendance_count}
+          helper="Current academic period"
+        />
       </section>
     </div>
   );
@@ -118,22 +181,46 @@ function Overview({ data }: { data: TeacherDashboardData }) {
 function Classes({ data }: { data: TeacherDashboardData }) {
   return (
     <div className="grid gap-5 xl:grid-cols-2">
-      {data.profile.classes.map(classInfo => {
+      {data.profile.assignments.map(assignment => {
+        const classInfo = assignment.class;
         const students = data.students.filter(student => {
           const studentClass = student.academic_details.class;
-          return typeof studentClass !== "string" && studentClass?._id === classInfo._id;
+          return (
+            typeof studentClass !== "string" &&
+            studentClass?._id === classInfo._id
+          );
         });
         return (
-          <section key={classInfo._id} className="rounded-2xl border bg-white p-6 shadow-sm">
+          <section
+            key={classInfo._id}
+            className="rounded-2xl border bg-white p-6 shadow-sm"
+          >
             <h2 className="text-lg font-bold">{getClassName(classInfo)}</h2>
-            <p className="mt-1 text-sm text-gray-800">{students.length} student(s)</p>
+            <p className="mt-1 text-sm text-primary-purple-700">
+              {assignment.subjects.map(subject => subject.name).join(", ")}
+            </p>
+            <p className="mt-1 text-sm text-gray-800">
+              {students.length} student(s)
+            </p>
             <div className="mt-4 divide-y rounded-lg border">
-              {students.length ? students.map(student => (
-                <div key={student._id} className="flex justify-between gap-4 p-3 text-sm">
-                  <span className="font-semibold">{student.personal_information.last_name} {student.personal_information.first_name}</span>
-                  <span className="text-gray-800">{student.registration_number}</span>
-                </div>
-              )) : <p className="p-4 text-sm text-gray-800">No active students.</p>}
+              {students.length ? (
+                students.map(student => (
+                  <div
+                    key={student._id}
+                    className="flex justify-between gap-4 p-3 text-sm"
+                  >
+                    <span className="font-semibold">
+                      {student.personal_information.last_name}{" "}
+                      {student.personal_information.first_name}
+                    </span>
+                    <span className="text-gray-800">
+                      {student.registration_number}
+                    </span>
+                  </div>
+                ))
+              ) : (
+                <p className="p-4 text-sm text-gray-800">No active students.</p>
+              )}
             </div>
           </section>
         );
@@ -143,29 +230,52 @@ function Classes({ data }: { data: TeacherDashboardData }) {
 }
 
 function Timetables({ data }: { data: TeacherDashboardData }) {
-  if (!data.timetables.length) return <EmptyState message="No timetable has been published for your assigned classes." />;
+  if (!data.timetables.length)
+    return (
+      <EmptyState message="No timetable has been published for your assigned classes." />
+    );
   return (
     <div className="space-y-5">
       {data.timetables.map(timetable => {
-        const classInfo = typeof timetable.class === "string" ? undefined : timetable.class;
+        const classInfo =
+          typeof timetable.class === "string" ? undefined : timetable.class;
         return (
-          <section key={timetable._id} className="rounded-2xl border bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-bold">{classInfo ? getClassName(classInfo) : "Assigned class"}</h2>
-            <p className="text-sm text-gray-800">{timetable.session}, {timetable.term}</p>
+          <section
+            key={timetable._id}
+            className="rounded-2xl border bg-white p-6 shadow-sm"
+          >
+            <h2 className="text-lg font-bold">
+              {classInfo ? getClassName(classInfo) : "Assigned class"}
+            </h2>
+            <p className="text-sm text-gray-800">
+              {timetable.session}, {timetable.term}
+            </p>
             <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
-              {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map(day => (
-                <div key={day} className="rounded-lg border p-3">
-                  <h3 className="font-semibold">{day}</h3>
-                  <div className="mt-2 space-y-2">
-                    {timetable.entries.filter(entry => entry.day === day).map(entry => (
-                      <div key={entry._id ?? `${entry.start_time}-${entry.subject}`} className="rounded bg-neutral-300 p-2 text-xs">
-                        <p className="font-semibold">{entry.subject}</p>
-                        <p>{entry.start_time}–{entry.end_time}</p>
-                      </div>
-                    ))}
+              {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map(
+                day => (
+                  <div key={day} className="rounded-lg border p-3">
+                    <h3 className="font-semibold">{day}</h3>
+                    <div className="mt-2 space-y-2">
+                      {timetable.entries
+                        .filter(entry => entry.day === day)
+                        .map(entry => (
+                          <div
+                            key={
+                              entry._id ??
+                              `${entry.start_time}-${entry.subject}`
+                            }
+                            className="rounded bg-neutral-300 p-2 text-xs"
+                          >
+                            <p className="font-semibold">{entry.subject}</p>
+                            <p>
+                              {entry.start_time}–{entry.end_time}
+                            </p>
+                          </div>
+                        ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              )}
             </div>
           </section>
         );
@@ -175,28 +285,80 @@ function Timetables({ data }: { data: TeacherDashboardData }) {
 }
 
 function EmptyState({ message }: { message: string }) {
-  return <section className="rounded-2xl border bg-white p-8 text-center text-gray-800 shadow-sm">{message}</section>;
+  return (
+    <section className="rounded-2xl border bg-white p-8 text-center text-gray-800 shadow-sm">
+      {message}
+    </section>
+  );
 }
 
-function Content({ section, data, loading, error }: { section: TeacherSection; data?: TeacherDashboardData; loading: boolean; error: boolean }) {
+function Content({
+  section,
+  data,
+  loading,
+  error,
+}: {
+  section: TeacherSection;
+  data?: TeacherDashboardData;
+  loading: boolean;
+  error: boolean;
+}) {
   if (section === "announcements") return <NoticeFeed showEmptyState />;
-  if (loading) return <div className="flex justify-center py-20"><Spinner /></div>;
-  if (error || !data) return <EmptyState message="Your teacher portal could not be loaded. Please contact the school." />;
+  if (loading)
+    return (
+      <div className="flex justify-center py-20">
+        <Spinner />
+      </div>
+    );
+  if (error || !data)
+    return (
+      <EmptyState message="Your teacher portal could not be loaded. Please contact the school." />
+    );
   if (section === "overview") return <Overview data={data} />;
   if (section === "classes") return <Classes data={data} />;
   if (section === "timetable") return <Timetables data={data} />;
-  if (section === "attendance") return <SummaryCard label="Attendance registers" value={data.summary.attendance_count} helper="Recorded for your assigned classes this term" />;
-  return <SummaryCard label="Approved results" value={data.summary.approved_result_count} helper="Published results across your assigned classes this term" />;
+  if (section === "attendance")
+    return (
+      <SummaryCard
+        label="Attendance registers"
+        value={data.summary.attendance_count}
+        helper="Recorded for your assigned classes this term"
+      />
+    );
+  return (
+    <SummaryCard
+      label="Approved results"
+      value={data.summary.approved_result_count}
+      helper="Published results across your assigned classes this term"
+    />
+  );
 }
 
-export default function TeacherPortalPage({ section }: { section: TeacherSection }) {
+export default function TeacherPortalPage({
+  section,
+}: {
+  section: TeacherSection;
+}) {
   const dashboardQuery = useQuery({
     queryKey: ["teacherPortalDashboard"],
-    queryFn: () => axiosInstance.get("/teacher-portals/me/dashboard").then(response => response.data as TeacherDashboardData),
+    queryFn: () =>
+      axiosInstance
+        .get("/teacher-portals/me/dashboard")
+        .then(response => response.data as TeacherDashboardData),
   });
   return (
-    <ParentLayout title={TITLES[section]} portalLabel="Teacher portal" homeHref={TEACHER_DASHBOARD} navItems={NAV_ITEMS}>
-      <Content section={section} data={dashboardQuery.data} loading={dashboardQuery.isLoading} error={dashboardQuery.isError} />
+    <ParentLayout
+      title={TITLES[section]}
+      portalLabel="Teacher portal"
+      homeHref={TEACHER_DASHBOARD}
+      navItems={NAV_ITEMS}
+    >
+      <Content
+        section={section}
+        data={dashboardQuery.data}
+        loading={dashboardQuery.isLoading}
+        error={dashboardQuery.isError}
+      />
     </ParentLayout>
   );
 }
