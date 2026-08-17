@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { axiosInstance } from "@/api";
 import ParentLayout from "@/components/layout/parent";
+import NoticeFeed from "@/components/portal/notice-feed";
 import { Spinner } from "@/components/ui/Loading";
 import { PARENT_CHILD } from "@/config/links";
 import { ParentDashboardChild } from "@/types/parent";
@@ -78,6 +79,7 @@ export default function ParentDashboard() {
 
   return (
     <ParentLayout title="My children">
+      <NoticeFeed />
       {dashboardQuery.isLoading ? (
         <div className="flex justify-center py-20"><Spinner /></div>
       ) : dashboardQuery.isError ? (

@@ -1,5 +1,6 @@
 import {
   ATTENDANCE,
+  DASHBOARD_COMMUNICATIONS,
   DASHBOARD_FEE_INVOICE,
   DASHBOARD_FEES,
   DASHBOARD_LESSON_PLAN,
@@ -10,6 +11,7 @@ import {
   DASHBOARD_PAYROLL_INFO,
   DASHBOARD_RESULT,
   DASHBOARD_RESULT_INFO,
+  DASHBOARD_STUDENT_PORTALS,
   DASHBOARD_TIMETABLE,
   GENERATE_PAYROLL,
   NEW_LESSON_PLAN,
@@ -109,6 +111,18 @@ export const mainSidebarItems: SidebarItemType[] = [
 ];
 
 export const adminSidebarItems = [
+  {
+    title: "Announcements",
+    icon: "material-symbols:campaign-outline-rounded",
+    isActivePaths: [DASHBOARD_COMMUNICATIONS],
+    urlPath: DASHBOARD_COMMUNICATIONS,
+  },
+  {
+    title: "Student Portals",
+    icon: "material-symbols:school-outline-rounded",
+    isActivePaths: [DASHBOARD_STUDENT_PORTALS],
+    urlPath: DASHBOARD_STUDENT_PORTALS,
+  },
   {
     title: "Parents",
     icon: "material-symbols:family-restroom-rounded",

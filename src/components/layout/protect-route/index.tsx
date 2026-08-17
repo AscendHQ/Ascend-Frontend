@@ -4,6 +4,10 @@ import { ReactNode, useEffect, useState } from "react";
 import { LOGIN_PAGE } from "@/config/links";
 import { getSecureStorage } from "@/utils/localStorage";
 
+const ADMIN_PATH = "/dashboard";
+const PARENT_PATH = "/parent";
+const STUDENT_PATH = "/student";
+
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const [isCheckingAuthentication, setIsCheckingAuthentication] =
@@ -24,12 +28,21 @@ const ProtectedRoute = ({ children }: { children: ReactNode }) => {
       | { account_type?: string }
       | undefined;
     const isParent = userInfo?.account_type === "parent";
-    if (router.pathname.startsWith("/parent") && !isParent) {
-      void router.replace("/dashboard");
+    const isStudent = userInfo?.account_type === "student";
+    if (router.pathname.startsWith(PARENT_PATH) && !isParent) {
+      void router.replace(isStudent ? STUDENT_PATH : ADMIN_PATH);
       return;
     }
-    if (router.pathname.startsWith("/dashboard") && isParent) {
-      void router.replace("/parent");
+    if (router.pathname.startsWith(ADMIN_PATH) && isParent) {
+      void router.replace(PARENT_PATH);
+      return;
+    }
+    if (router.pathname.startsWith(STUDENT_PATH) && !isStudent) {
+      void router.replace(isParent ? PARENT_PATH : ADMIN_PATH);
+      return;
+    }
+    if (router.pathname.startsWith(ADMIN_PATH) && isStudent) {
+      void router.replace(STUDENT_PATH);
       return;
     }
 

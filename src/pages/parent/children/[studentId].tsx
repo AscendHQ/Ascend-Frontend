@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 
 import { axiosInstance } from "@/api";
 import ParentLayout from "@/components/layout/parent";
+import StudentTimetable from "@/components/portal/student-timetable";
 import { Spinner } from "@/components/ui/Loading";
 import { PARENT_DASHBOARD } from "@/config/links";
 import { ParentChildDetails } from "@/types/parent";
@@ -16,7 +17,7 @@ const formatCurrency = (amount: number) =>
     maximumFractionDigits: 2,
   }).format(amount);
 
-function FinanceSection({ details }: { details: ParentChildDetails }) {
+export function FinanceSection({ details }: { details: ParentChildDetails }) {
   return (
     <section className="rounded-2xl border bg-white p-6 shadow-sm">
       <h2 className="text-xl font-bold">Fees and payments</h2>
@@ -75,7 +76,7 @@ function Summary({ label, value }: { label: string; value: string | number }) {
   return <div className="rounded-lg bg-neutral-300 p-4"><p className="text-xs text-gray-800">{label}</p><p className="mt-1 text-xl font-bold">{value}</p></div>;
 }
 
-function AttendanceSection({ details }: { details: ParentChildDetails }) {
+export function AttendanceSection({ details }: { details: ParentChildDetails }) {
   const attendance = details.attendance;
   return (
     <section className="rounded-2xl border bg-white p-6 shadow-sm">
@@ -99,7 +100,7 @@ function AttendanceSection({ details }: { details: ParentChildDetails }) {
   );
 }
 
-function ResultsSection({ details }: { details: ParentChildDetails }) {
+export function ResultsSection({ details }: { details: ParentChildDetails }) {
   return (
     <section className="rounded-2xl border bg-white p-6 shadow-sm">
       <h2 className="text-xl font-bold">Approved results</h2>
@@ -135,7 +136,7 @@ export default function ParentChildPage() {
   return (
     <ParentLayout title={studentName}>
       <Link href={PARENT_DASHBOARD} className="mb-5 inline-flex items-center gap-2 font-semibold text-primary-purple-700"><Icon icon="material-symbols:arrow-back-rounded" /> Back to my children</Link>
-      {childQuery.isLoading ? <div className="flex justify-center py-20"><Spinner /></div> : childQuery.isError || !childQuery.data ? <div className="rounded-xl bg-white p-8 text-secondary-red-600">This student information could not be loaded.</div> : <div className="space-y-6"><AttendanceSection details={childQuery.data} /><ResultsSection details={childQuery.data} /><FinanceSection details={childQuery.data} /></div>}
+      {childQuery.isLoading ? <div className="flex justify-center py-20"><Spinner /></div> : childQuery.isError || !childQuery.data ? <div className="rounded-xl bg-white p-8 text-secondary-red-600">This student information could not be loaded.</div> : <div className="space-y-6"><StudentTimetable studentId={studentId} /><AttendanceSection details={childQuery.data} /><ResultsSection details={childQuery.data} /><FinanceSection details={childQuery.data} /></div>}
     </ParentLayout>
   );
 }

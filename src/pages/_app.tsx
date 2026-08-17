@@ -27,7 +27,9 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const isDashboardRoute = router.pathname.startsWith("/dashboard");
   const isProtectedRoute =
-    isDashboardRoute || router.pathname.startsWith("/parent");
+    isDashboardRoute ||
+    router.pathname.startsWith("/parent") ||
+    router.pathname.startsWith("/student");
   return (
     <>
       <style jsx global>

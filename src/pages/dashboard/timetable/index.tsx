@@ -1,189 +1,372 @@
-/* eslint-disable react/no-array-index-key */
 import { Icon } from "@iconify/react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { notification } from "antd";
 import React from "react";
 
+import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
-import { DashboardButton } from "@/components/ui/button/button";
-import { NEW_TIMETABLE } from "@/config/links";
+import { Spinner } from "@/components/ui/Loading";
+import { classInfoProp } from "@/templates/Database/class/class-types";
+import { useOrganization } from "@/templates/Settings/hooks";
+import { PortalTimetableRecord, TimetableEntry } from "@/types/portal";
+
+import { useFetchClassInfo } from "../database/classes";
+
+type EditableEntry = TimetableEntry & { localId: string };
+
+const DAYS: TimetableEntry["day"][] = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+];
+const TERMS = ["1st Term", "2nd Term", "3rd Term"];
+
+const makeEntry = (): EditableEntry => ({
+  localId: `${Date.now()}-${Math.random()}`,
+  day: "Monday",
+  start_time: "08:00",
+  end_time: "08:40",
+  subject: "",
+  teacher: "",
+  room: "",
+  type: "lesson",
+});
+
+const getClassLabel = (classInfo: classInfoProp) => {
+  const section =
+    classInfo.level === "junior"
+      ? classInfo.other_section
+      : classInfo.section;
+  return section ? `${classInfo.name} - ${section}` : classInfo.name;
+};
+
+const toPayloadEntry = (entry: EditableEntry): TimetableEntry => ({
+  day: entry.day,
+  start_time: entry.start_time,
+  end_time: entry.end_time,
+  subject: entry.subject,
+  teacher: entry.teacher,
+  room: entry.room,
+  type: entry.type,
+});
 
 export default function Timetable() {
+  const [api, contextHolder] = notification.useNotification();
+  const queryClient = useQueryClient();
+  const classQuery = useFetchClassInfo();
+  const { data: organization, isLoading: isLoadingOrganization } =
+    useOrganization();
+  const classes = React.useMemo<classInfoProp[]>(
+    () => classQuery.data?.classes ?? [],
+    [classQuery.data]
+  );
+  const [classId, setClassId] = React.useState("");
+  const [session, setSession] = React.useState("");
+  const [term, setTerm] = React.useState("1st Term");
+  const [entries, setEntries] = React.useState<EditableEntry[]>([makeEntry()]);
+
+  React.useEffect(() => {
+    if (!classId && classes[0]) setClassId(classes[0]._id);
+  }, [classId, classes]);
+
+  React.useEffect(() => {
+    const settings = organization?.academic_settings;
+    if (!session && settings?.current_session) {
+      setSession(settings.current_session);
+    }
+    if (settings?.current_term) setTerm(settings.current_term);
+  }, [organization, session]);
+
+  const timetableQuery = useQuery({
+    queryKey: ["adminTimetable", classId, session, term],
+    queryFn: () =>
+      axiosInstance
+        .get("/timetables", {
+          params: { class_id: classId, session, term },
+        })
+        .then(response => response.data as PortalTimetableRecord[]),
+    enabled: Boolean(classId && session && term),
+  });
+
+  React.useEffect(() => {
+    if (!timetableQuery.isSuccess) return;
+    const savedEntries = timetableQuery.data[0]?.entries;
+    setEntries(
+      savedEntries?.length
+        ? savedEntries.map(entry => ({
+            ...entry,
+            localId: entry._id ?? `${Date.now()}-${Math.random()}`,
+          }))
+        : [makeEntry()]
+    );
+  }, [timetableQuery.data, timetableQuery.isSuccess]);
+
+  const saveMutation = useMutation({
+    mutationFn: () =>
+      axiosInstance
+        .post("/timetables", {
+          class_id: classId,
+          session,
+          term,
+          entries: entries.map(toPayloadEntry),
+        })
+        .then(response => response.data as PortalTimetableRecord),
+    onSuccess: () => {
+      api.success({ message: "Timetable published" });
+      queryClient.invalidateQueries({ queryKey: ["adminTimetable"] });
+      queryClient.invalidateQueries({ queryKey: ["portalTimetable"] });
+    },
+    onError: (error: Error & { response?: { data?: string } }) => {
+      api.error({
+        message: "Timetable could not be saved",
+        description: error.response?.data ?? error.message,
+      });
+    },
+  });
+
+  const updateEntry = (localId: string, update: Partial<EditableEntry>) => {
+    setEntries(current =>
+      current.map(entry =>
+        entry.localId === localId ? { ...entry, ...update } : entry
+      )
+    );
+  };
+
+  const removeEntry = (localId: string) => {
+    setEntries(current => current.filter(entry => entry.localId !== localId));
+  };
+
+  const hasInvalidEntry = entries.some(
+    entry =>
+      !entry.subject.trim() ||
+      !entry.start_time ||
+      !entry.end_time ||
+      entry.start_time >= entry.end_time
+  );
+
+  if (classQuery.isLoading || isLoadingOrganization) {
+    return (
+      <Container headerTitle="Timetable">
+        <div className="flex min-h-[400px] items-center justify-center bg-white">
+          <Spinner />
+        </div>
+      </Container>
+    );
+  }
+
   return (
     <Container headerTitle="Timetable">
-      <main className="px-10 py-5 bg-white relative">
-        <div className="flex">
-          <DashboardButton
-            variant="primary"
-            leftElement={<Icon icon="tabler:plus" />}
-            isLink={true}
-            path={NEW_TIMETABLE}
-          >
-            Add timetable
-          </DashboardButton>
+      <main className="min-h-full bg-neutral-300 p-6 lg:p-10">
+        {contextHolder}
+        <div>
+          <h1 className="text-2xl font-bold">Class timetable</h1>
+          <p className="mt-1 text-sm text-gray-800">
+            Create the timetable parents and students will see for the selected
+            academic period.
+          </p>
         </div>
-        <div className="grid grid-cols-[40px_70px_repeat(10,_minmax(0,_1fr))] mb-5 grid-rows-5 gap-0.5 h-full mt-3 border-1.5 border-black rounded bg-black">
-          <TimetableWrapper />
-          {Array.from({ length: 50 }).map((_, i) => {
-            return (
-              <div
-                className="bg-grey-50 grid py-2 [&>span]:border-b [&>span]:border-black grid-rows-6 text-xs items-center [&>span]:text-center"
-                key={i}
+
+        <section className="mt-6 rounded-xl border bg-white p-5">
+          <div className="grid gap-4 md:grid-cols-3">
+            <label className="text-sm font-semibold">
+              Class
+              <select
+                value={classId}
+                onChange={event => setClassId(event.target.value)}
+                className="mt-1 w-full rounded border bg-white p-2 font-normal"
               >
-                {(i + 1).toString().at(-1) === "6" ? (
-                  <span className="border-none -rotate-90 col-span-full row-span-full text-lg font-semibold">
-                    Break
-                  </span>
-                ) : (
-                  <React.Fragment>
-                    <span>MATH</span>
-                    <span>ENG</span>
-                    <span>HISTORY</span>
-                    <span>ICT</span>
-                    <span>GOVT</span>
-                    <span>AGRIC</span>
-                  </React.Fragment>
-                )}
-              </div>
-            );
-          })}
-        </div>
-        {/* <div className="flex flex-col bg-black bg-opacity-95 text-white items-center gap-3 justify-center absolute inset-0">
-          <span className="text-2xl">COMING</span>
-          <div className="flex items-center gap-3 justify-center">
-            <span className="text-9xl font-GTWalsheimPro">S</span>
-            <div className="relative">
-              <div className="h-24 w-24 rounded-full border-t-8 border-b-8 border-grey-400"></div>
-              <div className="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-primary-purple-500 animate-spin"></div>
-            </div>
-            <div className="relative">
-              <div className="h-24 w-24 rounded-full border-t-8 border-b-8 border-grey-400"></div>
-              <div className="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-primary-purple-500 animate-spin"></div>
-            </div>
-            <span className="text-9xl font-GTWalsheimPro">N</span>
+                {classes.map(classInfo => (
+                  <option value={classInfo._id} key={classInfo._id}>
+                    {getClassLabel(classInfo)}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="text-sm font-semibold">
+              Session
+              <input
+                value={session}
+                onChange={event => setSession(event.target.value)}
+                placeholder="2026/2027"
+                className="mt-1 w-full rounded border p-2 font-normal"
+              />
+            </label>
+            <label className="text-sm font-semibold">
+              Term
+              <select
+                value={term}
+                onChange={event => setTerm(event.target.value)}
+                className="mt-1 w-full rounded border bg-white p-2 font-normal"
+              >
+                {TERMS.map(termOption => (
+                  <option key={termOption}>{termOption}</option>
+                ))}
+              </select>
+            </label>
           </div>
-        </div> */}
+        </section>
+
+        <section className="mt-5 rounded-xl border bg-white p-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 className="text-lg font-bold">Periods</h2>
+              <p className="text-sm text-gray-800">
+                Add lessons, breaks, assemblies, and activities in display
+                order.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setEntries(current => [...current, makeEntry()])}
+              className="flex items-center gap-2 rounded-lg border border-primary-purple-700 px-4 py-2 font-semibold text-primary-purple-700"
+            >
+              <Icon icon="material-symbols:add-rounded" /> Add period
+            </button>
+          </div>
+
+          {timetableQuery.isFetching ? (
+            <div className="flex justify-center py-16">
+              <Spinner />
+            </div>
+          ) : (
+            <div className="mt-5 space-y-4">
+              {entries.map((entry, index) => (
+                <div
+                  key={entry.localId}
+                  className="grid items-end gap-3 rounded-lg border bg-grey-50 p-4 md:grid-cols-2 xl:grid-cols-[130px_110px_110px_1fr_1fr_100px_130px_40px]"
+                >
+                  <label className="text-xs font-semibold">
+                    Day
+                    <select
+                      value={entry.day}
+                      onChange={event =>
+                        updateEntry(entry.localId, {
+                          day: event.target.value as TimetableEntry["day"],
+                        })
+                      }
+                      className="mt-1 w-full rounded border bg-white p-2 font-normal"
+                    >
+                      {DAYS.map(day => (
+                        <option key={day}>{day}</option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="text-xs font-semibold">
+                    Starts
+                    <input
+                      type="time"
+                      value={entry.start_time}
+                      onChange={event =>
+                        updateEntry(entry.localId, {
+                          start_time: event.target.value,
+                        })
+                      }
+                      className="mt-1 w-full rounded border bg-white p-2 font-normal"
+                    />
+                  </label>
+                  <label className="text-xs font-semibold">
+                    Ends
+                    <input
+                      type="time"
+                      value={entry.end_time}
+                      onChange={event =>
+                        updateEntry(entry.localId, {
+                          end_time: event.target.value,
+                        })
+                      }
+                      className="mt-1 w-full rounded border bg-white p-2 font-normal"
+                    />
+                  </label>
+                  <label className="text-xs font-semibold">
+                    Subject / title
+                    <input
+                      value={entry.subject}
+                      onChange={event =>
+                        updateEntry(entry.localId, {
+                          subject: event.target.value,
+                        })
+                      }
+                      placeholder="Mathematics"
+                      className="mt-1 w-full rounded border bg-white p-2 font-normal"
+                    />
+                  </label>
+                  <label className="text-xs font-semibold">
+                    Teacher (optional)
+                    <input
+                      value={entry.teacher ?? ""}
+                      onChange={event =>
+                        updateEntry(entry.localId, {
+                          teacher: event.target.value,
+                        })
+                      }
+                      className="mt-1 w-full rounded border bg-white p-2 font-normal"
+                    />
+                  </label>
+                  <label className="text-xs font-semibold">
+                    Room
+                    <input
+                      value={entry.room ?? ""}
+                      onChange={event =>
+                        updateEntry(entry.localId, {
+                          room: event.target.value,
+                        })
+                      }
+                      className="mt-1 w-full rounded border bg-white p-2 font-normal"
+                    />
+                  </label>
+                  <label className="text-xs font-semibold">
+                    Type
+                    <select
+                      value={entry.type}
+                      onChange={event =>
+                        updateEntry(entry.localId, {
+                          type: event.target.value as TimetableEntry["type"],
+                        })
+                      }
+                      className="mt-1 w-full rounded border bg-white p-2 font-normal"
+                    >
+                      <option value="lesson">Lesson</option>
+                      <option value="break">Break</option>
+                      <option value="assembly">Assembly</option>
+                      <option value="activity">Activity</option>
+                    </select>
+                  </label>
+                  <button
+                    type="button"
+                    aria-label={`Remove period ${index + 1}`}
+                    onClick={() => removeEntry(entry.localId)}
+                    className="flex h-10 items-center justify-center rounded text-secondary-red-600"
+                  >
+                    <Icon
+                      icon="material-symbols:delete-outline-rounded"
+                      className="text-xl"
+                    />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="mt-6 flex justify-end">
+            <button
+              type="button"
+              disabled={
+                !classId ||
+                !/^\d{4}\/\d{4}$/.test(session) ||
+                entries.length === 0 ||
+                hasInvalidEntry ||
+                saveMutation.isPending
+              }
+              onClick={() => saveMutation.mutate()}
+              className="rounded-lg bg-primary-purple-700 px-7 py-3 font-semibold text-white disabled:opacity-50"
+            >
+              {saveMutation.isPending ? "Publishing..." : "Publish timetable"}
+            </button>
+          </div>
+        </section>
       </main>
     </Container>
-  );
-}
-function TimetableWrapper() {
-  return (
-    <>
-      <div className="bg-grey-50 grid items-center row-start-1 justify-center text-sm col-start-1">
-        <span className="-rotate-90">Days</span>
-      </div>
-      <div className="bg-grey-50 text-sm grid items-center justify-center row-start-1 col-start-2 col-end-2">
-        <span className="-rotate-90">Class</span>
-      </div>
-      <div className="bg-grey-50 text-sm grid grid-rows-3 text-center row-start-1 col-start-3 col-end-3 items-center">
-        <span className="">8:30AM</span>
-        <span className="">-</span>
-        <span className="">9:10AM</span>
-      </div>
-      <div className="bg-grey-50 text-sm grid grid-rows-3 text-center row-start-1 col-start-4 col-end-4 items-center">
-        <span className="">9:10AM</span>
-        <span className="">-</span>
-        <span className="">9:50AM</span>
-      </div>
-      <div className="bg-grey-50 text-sm grid grid-rows-3 text-center row-start-1 col-start-5 col-end-5 items-center">
-        <span className="">9:50AM</span>
-        <span className="">-</span>
-        <span className="">10:30AM</span>
-      </div>
-      <div className="bg-grey-50 text-sm grid grid-rows-3 text-center row-start-1 col-start-6 col-end-6 items-center">
-        <span className="">10:30AM</span>
-        <span className="">-</span>
-        <span className="">11:10AM</span>
-      </div>
-      <div className="bg-grey-50 text-sm grid grid-rows-3 text-center row-start-1 col-start-7 col-end-7 items-center">
-        <span className="">10:30AM</span>
-        <span className="">-</span>
-        <span className="">11:10AM</span>
-      </div>
-      <div className="bg-grey-50 text-sm grid grid-rows-3 text-center row-start-1 col-start-8 col-end-8 items-center">
-        <span className="">11:10AM</span>
-        <span className="">-</span>
-        <span className="">11:40AM</span>
-      </div>
-      <div className="bg-grey-50 text-sm grid grid-rows-3 text-center row-start-1 col-start-9 col-end-9 items-center">
-        <span className="">11:40AM</span>
-        <span className="">-</span>
-        <span className="">12:20PM</span>
-      </div>
-      <div className="bg-grey-50 text-sm grid grid-rows-3 text-center row-start-1 col-start-10 col-end-10 items-center">
-        <span className="">12:20PM</span>
-        <span className="">-</span>
-        <span className="">1:00PM</span>
-      </div>
-      <div className="bg-grey-50 text-sm grid grid-rows-3 text-center row-start-1 col-start-11 col-end-11 items-center">
-        <span className="">1:00PM</span>
-        <span className="">-</span>
-        <span className="">1:40PM</span>
-      </div>
-      <div className="bg-grey-50 text-sm grid grid-rows-3 text-center row-start-1 col-start-12 col-end-12 items-center">
-        <span className="">1:40PM</span>
-        <span className="">-</span>
-        <span className="">2:30PM</span>
-      </div>
-      {/* days of the week */}
-      <div className="bg-grey-50 grid items-center row-start-2 text-xs row-end-2 justify-center">
-        <span className="-rotate-90">Monday</span>
-      </div>
-      <div className="bg-grey-50 grid items-center text-xs row-start-3 row-end-3 justify-center">
-        <span className="-rotate-90">Tuesday</span>
-      </div>
-      <div className="bg-grey-50 grid items-center text-xs row-start-4 row-end-4 justify-center">
-        <span className="-rotate-90">Wednesday</span>
-      </div>
-      <div className="bg-grey-50 grid items-center text-xs row-start-5 row-end-5 justify-center">
-        <span className="-rotate-90">Thursday</span>
-      </div>
-      <div className="bg-grey-50 grid items-center text-xs row-start-6 row-end-6 justify-center">
-        <span className="-rotate-90">Friday</span>
-      </div>
-      {/* classes */}
-      <div className="bg-grey-50 grid items-center row-start-2 col-start-2 text-xs grid-rows-6 row-end-2 font-semibold py-2 [&>span]:border-b [&>span]:text-center [&>span]:border-black">
-        <span>JSS1</span>
-        <span>JSS2</span>
-        <span>JSS3</span>
-        <span>SSS1</span>
-        <span>SSS2</span>
-        <span>SSS3</span>
-      </div>
-      <div className="bg-grey-50 grid items-center row-start-3 row-end-3 col-start-2 text-xs grid-rows-6 font-semibold py-2 [&>span]:border-b [&>span]:text-center [&>span]:border-black">
-        <span>JSS1</span>
-        <span>JSS2</span>
-        <span>JSS3</span>
-        <span>SSS1</span>
-        <span>SSS2</span>
-        <span>SSS3</span>
-      </div>
-
-      <div className="bg-grey-50 grid items-center row-start-4 row-end-4 col-start-2 text-xs grid-rows-6 font-semibold py-2 [&>span]:border-b [&>span]:text-center [&>span]:border-black">
-        <span>JSS1</span>
-        <span>JSS2</span>
-        <span>JSS3</span>
-        <span>SSS1</span>
-        <span>SSS2</span>
-        <span>SSS3</span>
-      </div>
-
-      <div className="bg-grey-50 grid items-center row-start-5 row-end-5 col-start-2 text-xs grid-rows-6 font-semibold py-2 [&>span]:border-b [&>span]:text-center [&>span]:border-black">
-        <span>JSS1</span>
-        <span>JSS2</span>
-        <span>JSS3</span>
-        <span>SSS1</span>
-        <span>SSS2</span>
-        <span>SSS3</span>
-      </div>
-
-      <div className="bg-grey-50 grid items-center row-start-6 row-end-6 col-start-2 text-xs grid-rows-6 font-semibold py-2 [&>span]:border-b [&>span]:text-center [&>span]:border-black">
-        <span>JSS1</span>
-        <span>JSS2</span>
-        <span>JSS3</span>
-        <span>SSS1</span>
-        <span>SSS2</span>
-        <span>SSS3</span>
-      </div>
-    </>
   );
 }
