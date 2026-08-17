@@ -32,7 +32,7 @@ export default function FormSection() {
   } = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
+      identifier: "",
       password: "",
     },
   });
@@ -84,7 +84,7 @@ export default function FormSection() {
     },
     onSettled() {
       reset({
-        email: "",
+        identifier: "",
         password: "",
       });
     },
@@ -92,7 +92,7 @@ export default function FormSection() {
 
   const onSubmit: SubmitHandler<FormSchemaType> = async data => {
     loginMutation.mutate({
-      email: data.email,
+      identifier: data.identifier,
       password: data.password,
     });
   };
@@ -131,10 +131,10 @@ export default function FormSection() {
 
       <div className="grid">
         <label
-          htmlFor="email_address"
+          htmlFor="login_identifier"
           className="text-step--2 text-Text-high-emphasis mb-1.5 font-semibold"
         >
-          Email Address
+          Email address or registration number
         </label>
         <div className="relative">
           <Image
@@ -145,16 +145,16 @@ export default function FormSection() {
             className="absolute top-3 left-2 text-Text-high-emphasis"
           />
           <input
-            type="email"
-            placeholder="Your email address"
+            type="text"
+            placeholder="Email or registration number"
             className="pl-11 border-border-colour-light placeholder:text-Text-meduim-emphasis py-3 border w-full rounded-md"
-            id="email_address"
-            {...register("email")}
+            id="login_identifier"
+            {...register("identifier")}
           />
         </div>
-        {errors.email && (
+        {errors.identifier && (
           <span className="text-red-800 block text-xs lg:text-sm mt-2">
-            {errors.email?.message}
+            {errors.identifier?.message}
           </span>
         )}
         <label
