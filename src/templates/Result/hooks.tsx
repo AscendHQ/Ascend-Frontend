@@ -9,6 +9,7 @@ export type ResultRecord = {
   _id: string;
   student: {
     _id: string;
+    registration_number?: string;
     personal_information: {
       first_name: string;
       last_name: string;
@@ -25,13 +26,14 @@ const fetchAllResults = (params: {
   term?: string;
 }) =>
   axiosInstance
-    .get("/results", { params })
+    .get("/results", { params: { ...params, limit: 1000 } })
     .then(res => res.data as { results: ResultRecord[]; total_documents: number });
 
 export const useAllResults = (params: { session?: string; term?: string }) => {
   return useQuery({
     queryKey: ["allResults", params],
     queryFn: () => fetchAllResults(params),
+    enabled: Boolean(params.session && params.term),
   });
 };
 
@@ -42,11 +44,15 @@ export type StudentOption = {
   academic_details: { class: { _id: string; name: string } | string };
 };
 
-export type SubjectOption = { _id: string; name: string };
+export type SubjectOption = {
+  _id: string;
+  name: string;
+  type?: "core" | "elective";
+};
 
 const fetchAllStudents = () =>
   axiosInstance
-    .get("/students")
+    .get("/students?is_active=true&limit=1000")
     .then(
       res =>
         res.data as { students: StudentOption[]; total_documents: number }
@@ -59,18 +65,31 @@ export const useAllStudentsForResult = () => {
   });
 };
 
-const fetchAllSubjects = () =>
-  axiosInstance
-    .get("/subjects")
-    .then(
-      res =>
-        res.data as { subjects: SubjectOption[]; total_documents: number }
-    );
-
-export const useAllSubjectsForResult = () => {
+export const useStudentSubjectsForResult = ({
+  studentId,
+  classId,
+  session,
+  term,
+}: {
+  studentId: string;
+  classId: string;
+  session: string;
+  term: string;
+}) => {
   return useQuery({
-    queryKey: ["allSubjectsForResult"],
-    queryFn: fetchAllSubjects,
+    queryKey: ["studentSubjectsForResult", studentId, classId, session, term],
+    queryFn: () =>
+      axiosInstance
+        .get(`/registrations/${studentId}`, {
+          params: { class_id: classId, session, term },
+        })
+        .then(
+          res =>
+            res.data as {
+              registration: { selected_subjects: SubjectOption[] } | null;
+            }
+        ),
+    enabled: Boolean(studentId && classId && session && term),
   });
 };
 

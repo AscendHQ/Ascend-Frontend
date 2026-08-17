@@ -51,7 +51,9 @@ export default function AddNewResultTable({
                 </td>
                 <td className="px-6 py-4">
                   <input
-                    type="text"
+                    type="number"
+                    min="0"
+                    step="0.01"
                     value={row.mid_term_test}
                     onChange={e =>
                       onChange(subject._id, "mid_term_test", e.target.value)
@@ -62,7 +64,9 @@ export default function AddNewResultTable({
                 </td>
                 <td className="px-6 py-4">
                   <input
-                    type="text"
+                    type="number"
+                    min="0"
+                    step="0.01"
                     value={row.ca_score}
                     onChange={e =>
                       onChange(subject._id, "ca_score", e.target.value)
@@ -73,7 +77,9 @@ export default function AddNewResultTable({
                 </td>
                 <td className="px-6 py-4">
                   <input
-                    type="text"
+                    type="number"
+                    min="0"
+                    step="0.01"
                     value={row.exam_score}
                     onChange={e =>
                       onChange(subject._id, "exam_score", e.target.value)

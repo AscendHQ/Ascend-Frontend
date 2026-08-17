@@ -3,24 +3,29 @@ import Link from "next/link";
 import React from "react";
 
 import { DASHBOARD_RESULT } from "@/config/links";
+import { useOrganization } from "@/templates/Settings/hooks";
 
 import AddNewResultTable, { SubjectScores } from "./add-new-result-table";
 import {
   CreateResultPayload,
   ResultBlockInput,
   useAllStudentsForResult,
-  useAllSubjectsForResult,
   useCreateResult,
+  useStudentSubjectsForResult,
 } from "./hooks";
 
-const SESSION_OPTIONS = [
-  "2025/2026",
-  "2024/2025",
-  "2023/2024",
-  "2022/2023",
-  "2021/2022",
-];
 const TERM_OPTIONS = ["1st Term", "2nd Term", "3rd Term"];
+
+const getSessionOptions = (configuredSession?: string) => {
+  const currentYear = new Date().getFullYear();
+  const sessions = Array.from({ length: 7 }, (_, index) => {
+    const year = currentYear + 1 - index;
+    return `${year}/${year + 1}`;
+  });
+  return configuredSession && !sessions.includes(configuredSession)
+    ? [configuredSession, ...sessions]
+    : sessions;
+};
 
 function computeGrade(total: number): ResultBlockInput["grade"] {
   if (total >= 70) return "A";
@@ -30,17 +35,113 @@ function computeGrade(total: number): ResultBlockInput["grade"] {
   return "F";
 }
 
+const buildResultBlocks = (scores: SubjectScores): ResultBlockInput[] =>
+  Object.entries(scores)
+    .filter(([, row]) => row.mid_term_test || row.ca_score || row.exam_score)
+    .map(([subjectId, row]) => {
+      const mid_term_test = Number(row.mid_term_test) || 0;
+      const ca_score = Number(row.ca_score) || 0;
+      const exam_score = Number(row.exam_score) || 0;
+      const total = mid_term_test + ca_score + exam_score;
+
+      return {
+        subject: subjectId,
+        mid_term_test,
+        ca_score,
+        exam_score,
+        total,
+        grade: computeGrade(total),
+      };
+    });
+
+const hasInvalidScoreValues = (scores: SubjectScores) =>
+  Object.values(scores).some(row => {
+    const values = [row.mid_term_test, row.ca_score, row.exam_score].map(Number);
+    return (
+      values.some(value => !Number.isFinite(value) || value < 0) ||
+      values.reduce((total, value) => total + value, 0) > 100
+    );
+  });
+
+function ResultSubjectFields({
+  isLoading,
+  isError,
+  hasSelection,
+  hasRegistration,
+  subjects,
+  scores,
+  onChange,
+}: {
+  isLoading: boolean;
+  isError: boolean;
+  hasSelection: boolean;
+  hasRegistration: boolean;
+  subjects: Parameters<typeof AddNewResultTable>[0]["subjects"];
+  scores: SubjectScores;
+  onChange: (
+    subjectId: string,
+    field: "mid_term_test" | "ca_score" | "exam_score",
+    value: string
+  ) => void;
+}) {
+  if (isLoading) {
+    return (
+      <p className="text-sm text-Text-meduim-emphasis">
+        Loading the student&apos;s registered subjects...
+      </p>
+    );
+  }
+  if (isError) {
+    return (
+      <p className="text-sm text-secondary-red-600">
+        Registered subjects could not be loaded. Please try again.
+      </p>
+    );
+  }
+  if (!hasSelection) {
+    return (
+      <p className="rounded border p-4 text-sm text-gray-800">
+        Select a student, session, and term to load registered subjects.
+      </p>
+    );
+  }
+  if (hasSelection && !hasRegistration) {
+    return (
+      <p className="rounded border border-warning-main bg-warning-main/10 p-4 text-sm">
+        This student has no subject registration for the selected session and
+        term. Complete Subject Registration before entering results.
+      </p>
+    );
+  }
+  if (hasRegistration && subjects.length === 0) {
+    return (
+      <p className="rounded border p-4 text-sm text-gray-800">
+        No subjects were selected in this student&apos;s registration.
+      </p>
+    );
+  }
+  return (
+    <AddNewResultTable
+      subjects={subjects}
+      scores={scores}
+      onChange={onChange}
+    />
+  );
+}
+
 export default function ResultInformation() {
   const [api, contextHolder] = notification.useNotification();
 
   const { data: studentsData, isLoading: isLoadingStudents } =
     useAllStudentsForResult();
-  const { data: subjectsData, isLoading: isLoadingSubjects } =
-    useAllSubjectsForResult();
+  const { data: organization } = useOrganization();
   const { createResult, isCreatingResult } = useCreateResult(api);
 
   const students = studentsData?.students ?? [];
-  const subjects = subjectsData?.subjects ?? [];
+  const sessionOptions = React.useMemo(
+    () => getSessionOptions(organization?.academic_settings?.current_session),
+    [organization?.academic_settings?.current_session]
+  );
 
   const [selectedStudentId, setSelectedStudentId] = React.useState("");
   const [session, setSession] = React.useState("");
@@ -48,6 +149,33 @@ export default function ResultInformation() {
   const [scores, setScores] = React.useState<SubjectScores>({});
 
   const selectedStudent = students.find(s => s._id === selectedStudentId);
+  const selectedClassId =
+    selectedStudent && typeof selectedStudent.academic_details.class === "object"
+      ? selectedStudent.academic_details.class._id
+      : "";
+  const {
+    data: registrationData,
+    isLoading: isLoadingSubjects,
+    isError: isSubjectsError,
+  } = useStudentSubjectsForResult({
+    studentId: selectedStudentId,
+    classId: selectedClassId,
+    session,
+    term,
+  });
+  const subjects = registrationData?.registration?.selected_subjects ?? [];
+
+  React.useEffect(() => {
+    const settings = organization?.academic_settings;
+    if (settings?.current_session && settings.current_term) {
+      setSession(settings.current_session);
+      setTerm(settings.current_term);
+    }
+  }, [organization?.academic_settings]);
+
+  React.useEffect(() => {
+    setScores({});
+  }, [selectedStudentId, session, term]);
 
   const handleScoreChange = (
     subjectId: string,
@@ -80,25 +208,22 @@ export default function ResultInformation() {
       return;
     }
 
-    const blocks: ResultBlockInput[] = Object.entries(scores)
-      .filter(
-        ([, row]) => row.mid_term_test || row.ca_score || row.exam_score
-      )
-      .map(([subjectId, row]) => {
-        const mid_term_test = Number(row.mid_term_test) || 0;
-        const ca_score = Number(row.ca_score) || 0;
-        const exam_score = Number(row.exam_score) || 0;
-        const total = mid_term_test + ca_score + exam_score;
-
-        return {
-          subject: subjectId,
-          mid_term_test,
-          ca_score,
-          exam_score,
-          total,
-          grade: computeGrade(total),
-        };
+    if (hasInvalidScoreValues(scores)) {
+      api.open({
+        message: (
+          <h3 className="text-secondary-red-600 font-semibold">
+            Invalid scores
+          </h3>
+        ),
+        description:
+          "Scores must be positive numbers and the subject total cannot exceed 100.",
+        duration: 5,
+        className: "ant-toast",
       });
+      return;
+    }
+
+    const blocks = buildResultBlocks(scores);
 
     if (!blocks.length) {
       api.open({
@@ -151,7 +276,7 @@ export default function ResultInformation() {
               className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis p-2"
             >
               <option value="">Select a session</option>
-              {SESSION_OPTIONS.map(s => (
+              {sessionOptions.map(s => (
                 <option key={s} value={s}>
                   {s}
                 </option>
@@ -242,17 +367,15 @@ export default function ResultInformation() {
             />
           </div>
 
-          {isLoadingSubjects ? (
-            <p className="text-sm text-Text-meduim-emphasis">
-              Loading subjects...
-            </p>
-          ) : (
-            <AddNewResultTable
-              subjects={subjects}
-              scores={scores}
-              onChange={handleScoreChange}
-            />
-          )}
+          <ResultSubjectFields
+            isLoading={isLoadingSubjects}
+            isError={isSubjectsError}
+            hasSelection={Boolean(selectedStudentId && session && term)}
+            hasRegistration={Boolean(registrationData?.registration)}
+            subjects={subjects}
+            scores={scores}
+            onChange={handleScoreChange}
+          />
         </div>
       </div>
       <ul className="flex gap-2 justify-end">

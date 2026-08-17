@@ -12,14 +12,20 @@ import PermissionDeniedState, {
 } from "@/components/ui/permission-denied-state";
 import { DASHBOARD_RESULT_INFO, NEW_RESULT } from "@/config/links";
 import { ResultRecord, useAllResults } from "@/templates/Result/hooks";
+import { useOrganization } from "@/templates/Settings/hooks";
 
-const SESSION_OPTIONS = [
-  "2025/2026",
-  "2024/2025",
-  "2023/2024",
-  "2022/2023",
-  "2021/2022",
-].map(value => ({ value, label: value }));
+const getSessionOptions = (configuredSession?: string) => {
+  const currentYear = new Date().getFullYear();
+  const sessions = Array.from({ length: 7 }, (_, index) => {
+    const year = currentYear + 1 - index;
+    return `${year}/${year + 1}`;
+  });
+  const options =
+    configuredSession && !sessions.includes(configuredSession)
+      ? [configuredSession, ...sessions]
+      : sessions;
+  return options.map(value => ({ value, label: value }));
+};
 
 const TERM_OPTIONS = ["1st Term", "2nd Term", "3rd Term"].map(value => ({
   value,
@@ -27,11 +33,42 @@ const TERM_OPTIONS = ["1st Term", "2nd Term", "3rd Term"].map(value => ({
 }));
 
 export default function Results() {
-  const [session, setSession] = React.useState("2025/2026");
-  const [term, setTerm] = React.useState("3rd Term");
+  const { data: organization } = useOrganization();
+  const [session, setSession] = React.useState("");
+  const [term, setTerm] = React.useState("");
+  const [search, setSearch] = React.useState("");
+  const sessionOptions = React.useMemo(
+    () => getSessionOptions(organization?.academic_settings?.current_session),
+    [organization?.academic_settings?.current_session]
+  );
+
+  React.useEffect(() => {
+    const settings = organization?.academic_settings;
+    if (settings?.current_session && settings.current_term) {
+      setSession(settings.current_session);
+      setTerm(settings.current_term);
+    } else {
+      setSession(sessionOptions[0]?.value ?? "");
+      setTerm("1st Term");
+    }
+  }, [organization?.academic_settings, sessionOptions]);
 
   const { data, isLoading, isError, error } = useAllResults({ session, term });
   const results = data?.results ?? [];
+  const normalizedSearch = search.trim().toLowerCase();
+  const filteredResults = normalizedSearch
+    ? results.filter(result => {
+        const studentName = result.student
+          ? `${result.student.personal_information.first_name} ${result.student.personal_information.last_name}`.toLowerCase()
+          : "";
+        return (
+          studentName.includes(normalizedSearch) ||
+          result.student?.registration_number
+            ?.toLowerCase()
+            .includes(normalizedSearch)
+        );
+      })
+    : results;
 
   return (
     <Container headerTitle="Results">
@@ -55,6 +92,8 @@ export default function Results() {
             <input
               type="search"
               placeholder="Search student's name or S/N"
+              value={search}
+              onChange={event => setSearch(event.target.value)}
               className="rounded text-sm w-full px-2 py-3 border border-grey-800"
             />
             <Icon
@@ -70,7 +109,7 @@ export default function Results() {
                 style={{ width: 110, fontSize: 14, borderRadius: 5 }}
                 onChange={value => setSession(value)}
                 className="[&>*]:!text-sm [&>*]:!border-none"
-                options={SESSION_OPTIONS}
+                options={sessionOptions}
               />
             </div>
             <div className="flex items-center border border-default-black pl-2 rounded">
@@ -98,8 +137,12 @@ export default function Results() {
               Click &quot;Add Results&quot; to record the first one.
             </p>
           </div>
+        ) : !filteredResults.length ? (
+          <div className="py-16 text-center text-Text-meduim-emphasis">
+            No results match &quot;{search}&quot;.
+          </div>
         ) : (
-          <Table results={results} />
+          <Table results={filteredResults} />
         )}
       </main>
     </Container>

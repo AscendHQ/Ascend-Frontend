@@ -19,6 +19,10 @@ export default function DashboardHeader({
   const [notificationDropDown, setNotificationDropDown] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState("All");
   const { data: organization } = useOrganization();
+  const userInfo = getStoredUserInfo();
+  const accountInitials = userInfo
+    ? `${userInfo.first_name?.[0] ?? ""}${userInfo.last_name?.[0] ?? ""}`.toUpperCase()
+    : "";
 
   const accountTargetRef = React.useRef<HTMLButtonElement>(null);
   const notificationRef = React.useRef<HTMLButtonElement>(null);
@@ -62,12 +66,9 @@ export default function DashboardHeader({
           ref={accountTargetRef}
           onClick={() => setAccountDropDown(prev => !prev)}
         >
-          <Image
-            src="/joebrendan.png"
-            alt="unsplashh image as avatar"
-            width={35}
-            height={40}
-          />
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-purple-700 font-semibold text-white">
+            {accountInitials || "?"}
+          </span>
           <Icon icon="tabler:chevron-down" fontSize={22} />
         </button>
         <AccountDropDownSection

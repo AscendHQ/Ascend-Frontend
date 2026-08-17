@@ -15,9 +15,18 @@ export default function AccountSettingGeneralSettings() {
     <AccountSettingContainer headerTitle="Account Setting">
       <div className="mt-8">
         <AcademicTimeline />
-        <AssessmentStyle />
-        <TimetableSetting />
-        <GradingStyle />
+        <div className="mt-10 rounded-lg border border-warning-main bg-warning-main/10 p-4">
+          <h3 className="font-semibold">Additional settings are coming soon</h3>
+          <p className="mt-1 text-sm text-gray-800">
+            Assessment, timetable, and grading controls are shown for preview
+            only and are not saved yet.
+          </p>
+        </div>
+        <div className="pointer-events-none opacity-60" aria-disabled="true">
+          <AssessmentStyle />
+          <TimetableSetting />
+          <GradingStyle />
+        </div>
       </div>
     </AccountSettingContainer>
   );
