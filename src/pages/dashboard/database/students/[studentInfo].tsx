@@ -164,8 +164,9 @@ export default function StudentInfo() {
     setIsStudentActive(student.is_active);
   };
   React.useEffect(() => {
-    if (currentSubjectData.data?.students?.length > 0) {
-      setFormValues(currentSubjectData.data.students[0]);
+    const student = currentSubjectData.data?.students?.[0];
+    if (student) {
+      setFormValues(student);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSubjectData.data]);
@@ -190,11 +191,11 @@ export default function StudentInfo() {
                   regNo={studentRegId}
                   firstName={
                     studentDataFromBackend?.students[0]?.personal_information
-                      ?.first_name
+                      ?.first_name ?? ""
                   }
                   lastName={
                     studentDataFromBackend?.students[0]?.personal_information
-                      ?.last_name
+                      ?.last_name ?? ""
                   }
                 />
                 <EditPersonalInformation />
