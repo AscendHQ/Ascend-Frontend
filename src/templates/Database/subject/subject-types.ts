@@ -106,7 +106,7 @@ type Subject = {
 export type studentRegistrationType = {
   registration: {
     _id: string;
-    additional_subjects: Subject[];
+    selected_subjects: Subject[];
   } | null;
   subjects: Subject[];
 };

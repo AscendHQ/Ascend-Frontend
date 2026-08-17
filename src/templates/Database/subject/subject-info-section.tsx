@@ -50,7 +50,7 @@ export default function SubjectInfo({
       student: currentStudent._id,
       session,
       term,
-      additional_subjects: selectedSubjects,
+      selected_subjects: selectedSubjects,
     });
   };
 
@@ -65,11 +65,23 @@ export default function SubjectInfo({
           {currentStudent.currentClass}
         </span>
       </div>
-      <SubjectInfoWrapper heading="General Subjects">
+      <SubjectInfoWrapper heading="Core Subjects">
         <ul className="border border-grey-300 w-full p-3 h-[250px] overflow-y-scroll rounded">
           {coreSubjects.map(item => (
             <li className="block border-b border-grey-300 pb-1" key={item._id}>
-              {item.name}
+              <button
+                type="button"
+                className="flex w-full items-center py-1 text-left"
+                onClick={() => handleCheckboxChange(item._id)}
+              >
+                <input
+                  type="checkbox"
+                  checked={selectedSubjects.includes(item._id)}
+                  className="mr-3"
+                  readOnly
+                />
+                <span>{item.name}</span>
+              </button>
             </li>
           ))}
         </ul>
@@ -78,6 +90,7 @@ export default function SubjectInfo({
         <div className="bg-grey-300 w-full p-3 h-[250px] overflow-y-scroll rounded">
           {electiveSubjects.map(subject => (
             <button
+              type="button"
               key={subject._id}
               className="flex items-center"
               onClick={() => handleCheckboxChange(subject._id)}
@@ -89,9 +102,9 @@ export default function SubjectInfo({
                 className="mr-3"
                 readOnly
               />
-              <label htmlFor={subject.name} className="block cursor-pointer">
+              <span className="block cursor-pointer">
                 {subject.name}
-              </label>
+              </span>
             </button>
           ))}
         </div>
