@@ -5,7 +5,11 @@ import { axiosInstance } from "@/api";
 import { Spinner } from "@/components/ui/Loading";
 import { PortalNotice } from "@/types/portal";
 
-export default function NoticeFeed() {
+export default function NoticeFeed({
+  showEmptyState = false,
+}: {
+  showEmptyState?: boolean;
+}) {
   const noticeQuery = useQuery({
     queryKey: ["portalNotices"],
     queryFn: () =>
@@ -14,7 +18,23 @@ export default function NoticeFeed() {
         .then(response => response.data as PortalNotice[]),
   });
   if (noticeQuery.isLoading) return <div className="flex justify-center py-10"><Spinner /></div>;
-  if (!noticeQuery.data?.length) return null;
+  if (noticeQuery.isError) {
+    return showEmptyState ? (
+      <section className="rounded-2xl border bg-white p-6 text-secondary-red-600 shadow-sm">
+        Announcements could not be loaded. Please try again.
+      </section>
+    ) : null;
+  }
+  if (!noticeQuery.data?.length) {
+    return showEmptyState ? (
+      <section className="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 className="text-xl font-bold">Announcements and events</h2>
+        <p className="mt-3 text-sm text-gray-800">
+          There are no announcements or events for you yet.
+        </p>
+      </section>
+    ) : null;
+  }
   return (
     <section className="mb-6 rounded-2xl border bg-white p-6 shadow-sm">
       <h2 className="text-xl font-bold">Announcements and events</h2>
