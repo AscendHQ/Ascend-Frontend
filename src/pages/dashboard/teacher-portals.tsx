@@ -109,34 +109,50 @@ function AssignmentEditor({
                 ))}
               </select>
             </label>
-            <label className="text-sm font-semibold">
-              Subjects taught in this class
-              <select
-                multiple
-                value={assignment.subjectIds}
-                disabled={!assignment.classId}
-                onChange={event =>
-                  update(assignment.key, {
-                    subjectIds: Array.from(
-                      event.target.selectedOptions,
-                      option => option.value
-                    ),
-                  })
-                }
-                className="mt-1 h-28 w-full rounded border bg-white p-2 font-normal disabled:bg-gray-100"
-              >
+            <div className="text-sm font-semibold">
+              <p>Subjects taught in this class</p>
+              <div className="mt-1 max-h-40 space-y-2 overflow-y-auto rounded border bg-white p-3 font-normal">
+                {!assignment.classId && (
+                  <p className="text-gray-600">Select a class first.</p>
+                )}
                 {availableSubjects.map(subject => (
-                  <option key={subject._id} value={subject._id}>
-                    {subject.name} ({subject.code})
-                  </option>
+                  <label
+                    key={subject._id}
+                    className="flex cursor-pointer items-center gap-2"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={assignment.subjectIds.includes(subject._id)}
+                      onChange={event =>
+                        update(assignment.key, {
+                          subjectIds: event.target.checked
+                            ? [...assignment.subjectIds, subject._id]
+                            : assignment.subjectIds.filter(
+                                subjectId => subjectId !== subject._id
+                              ),
+                        })
+                      }
+                      className="h-4 w-4 accent-primary-purple-700"
+                    />
+                    <span>
+                      {subject.name} ({subject.code})
+                    </span>
+                  </label>
                 ))}
-              </select>
+              </div>
               {assignment.classId && availableSubjects.length === 0 && (
                 <span className="mt-1 block text-xs font-normal text-red-700">
                   No subjects are registered for this class yet.
                 </span>
               )}
-            </label>
+              {assignment.classId &&
+                availableSubjects.length > 0 &&
+                assignment.subjectIds.length === 0 && (
+                  <span className="mt-1 block text-xs font-normal text-red-700">
+                    Select at least one subject for this class.
+                  </span>
+                )}
+            </div>
             <button
               type="button"
               aria-label={`Remove class assignment ${index + 1}`}
@@ -208,6 +224,7 @@ function TeacherForm({
   const validAssignments = assignments.every(
     item => item.classId && item.subjectIds.length > 0
   );
+  const missingCredentials = !profile && (!staffId || !email || !password);
   const save = () =>
     profile
       ? onUpdate(toPayload(assignments))
@@ -283,13 +300,15 @@ function TeacherForm({
         />
       </div>
       <div className="mt-5 flex justify-end">
+        {(!validAssignments || missingCredentials) && (
+          <p className="mr-4 self-center text-sm text-red-700">
+            Complete every required field and select at least one subject for
+            each class.
+          </p>
+        )}
         <button
           type="button"
-          disabled={
-            !validAssignments ||
-            (!profile && (!staffId || !email || !password)) ||
-            pending
-          }
+          disabled={!validAssignments || missingCredentials || pending}
           onClick={save}
           className="rounded-lg bg-primary-purple-700 px-6 py-3 font-semibold text-white disabled:opacity-50"
         >
