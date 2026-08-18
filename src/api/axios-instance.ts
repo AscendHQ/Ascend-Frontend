@@ -23,11 +23,15 @@ axiosInstance.interceptors.response.use(
   },
   function (error) {
     const response = error?.response;
-    const statusCode = response?.status;
+    const errorMessage = String(response?.data ?? "").toLowerCase();
+    const isAuthenticationFailure = [
+      "invalid token",
+      "request not authenticated",
+    ].includes(errorMessage);
 
-    // A 401 means the login is no longer valid. A 403 only means the signed-in
-    // user lacks permission for one action and must not destroy their session.
-    if (statusCode === 401) {
+    // Only explicit token failures may clear a login. Permission errors from
+    // individual modules must leave the rest of the signed-in session intact.
+    if (isAuthenticationFailure) {
       window.localStorage.removeItem("userInfoAccessToken");
       window.localStorage.removeItem("userInfoData");
       window.location.href = LOGIN_PAGE;
