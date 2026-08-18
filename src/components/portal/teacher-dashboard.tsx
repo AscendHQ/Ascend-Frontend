@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "@/api";
 import ParentLayout, { PortalNavItem } from "@/components/layout/parent";
 import NoticeFeed from "@/components/portal/notice-feed";
+import PortalErrorState from "@/components/portal/portal-error-state";
 import TeacherAttendance from "@/components/portal/teacher-attendance";
 import TeacherResults from "@/components/portal/teacher-results";
 import { Spinner } from "@/components/ui/Loading";
@@ -56,7 +57,7 @@ type TeacherDashboardData = {
   students: Array<{
     _id: string;
     registration_number: string;
-    personal_information: {
+    personal_information?: {
       first_name: string;
       middle_name?: string;
       last_name: string;
@@ -180,6 +181,16 @@ function Overview({ data }: { data: TeacherDashboardData }) {
   );
 }
 
+const hasDashboardShape = (
+  data?: TeacherDashboardData
+): data is TeacherDashboardData =>
+  Boolean(
+    data?.profile?.staff &&
+      Array.isArray(data.profile.assignments) &&
+      Array.isArray(data.students) &&
+      Array.isArray(data.timetables)
+  );
+
 function Classes({ data }: { data: TeacherDashboardData }) {
   return (
     <div className="grid gap-5 xl:grid-cols-2">
@@ -199,7 +210,10 @@ function Classes({ data }: { data: TeacherDashboardData }) {
           >
             <h2 className="text-lg font-bold">{getClassName(classInfo)}</h2>
             <p className="mt-1 text-sm text-primary-purple-700">
-              {assignment.subjects.map(subject => subject.name).join(", ")}
+              {(assignment.subjects ?? [])
+                .map(subject => subject?.name)
+                .filter(Boolean)
+                .join(", ")}
             </p>
             <p className="mt-1 text-sm text-gray-800">
               {students.length} student(s)
@@ -212,8 +226,8 @@ function Classes({ data }: { data: TeacherDashboardData }) {
                     className="flex justify-between gap-4 p-3 text-sm"
                   >
                     <span className="font-semibold">
-                      {student.personal_information.last_name}{" "}
-                      {student.personal_information.first_name}
+                      {student.personal_information?.last_name ?? "Student"}{" "}
+                      {student.personal_information?.first_name ?? ""}
                     </span>
                     <span className="text-gray-800">
                       {student.registration_number}
@@ -258,7 +272,7 @@ function Timetables({ data }: { data: TeacherDashboardData }) {
                   <div key={day} className="rounded-lg border p-3">
                     <h3 className="font-semibold">{day}</h3>
                     <div className="mt-2 space-y-2">
-                      {timetable.entries
+                      {(timetable.entries ?? [])
                         .filter(entry => entry.day === day)
                         .map(entry => (
                           <div
@@ -299,11 +313,13 @@ function Content({
   data,
   loading,
   error,
+  retry,
 }: {
   section: TeacherSection;
   data?: TeacherDashboardData;
   loading: boolean;
   error: boolean;
+  retry: () => void;
 }) {
   if (section === "announcements") return <NoticeFeed showEmptyState />;
   if (loading)
@@ -312,9 +328,12 @@ function Content({
         <Spinner />
       </div>
     );
-  if (error || !data)
+  if (error || !hasDashboardShape(data))
     return (
-      <EmptyState message="Your teacher portal could not be loaded. Please contact the school." />
+      <PortalErrorState
+        message="Your teacher portal could not be loaded safely."
+        onRetry={retry}
+      />
     );
   if (section === "overview") return <Overview data={data} />;
   if (section === "classes") return <Classes data={data} />;
@@ -360,6 +379,7 @@ export default function TeacherPortalPage({
         data={dashboardQuery.data}
         loading={dashboardQuery.isLoading}
         error={dashboardQuery.isError}
+        retry={() => void dashboardQuery.refetch()}
       />
     </ParentLayout>
   );

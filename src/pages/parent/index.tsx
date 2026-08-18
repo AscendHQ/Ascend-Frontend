@@ -5,6 +5,7 @@ import Link from "next/link";
 import { axiosInstance } from "@/api";
 import ParentLayout from "@/components/layout/parent";
 import NoticeFeed from "@/components/portal/notice-feed";
+import PortalErrorState from "@/components/portal/portal-error-state";
 import { Spinner } from "@/components/ui/Loading";
 import { PARENT_CHILD } from "@/config/links";
 import { ParentDashboardChild } from "@/types/parent";
@@ -40,7 +41,13 @@ function ChildCard({ child }: { child: ParentDashboardChild }) {
             {child.student.registration_number} · {getClassName(child)}
           </p>
         </div>
-        <span className={`rounded-full px-3 py-1 text-xs font-semibold ${child.student.is_active ? "bg-secondary-green-100 text-secondary-green-700" : "bg-grey-100 text-gray-800"}`}>
+        <span
+          className={`rounded-full px-3 py-1 text-xs font-semibold ${
+            child.student.is_active
+              ? "bg-secondary-green-100 text-secondary-green-700"
+              : "bg-grey-100 text-gray-800"
+          }`}
+        >
           {child.student.is_active ? "Active" : "Inactive"}
         </span>
       </div>
@@ -51,18 +58,23 @@ function ChildCard({ child }: { child: ParentDashboardChild }) {
         </div>
         <div className="rounded-lg bg-neutral-300 p-3">
           <p className="text-xs text-gray-800">Fee balance</p>
-          <p className="text-lg font-bold">{formatCurrency(child.finances.balance)}</p>
+          <p className="text-lg font-bold">
+            {formatCurrency(child.finances.balance)}
+          </p>
         </div>
         <div className="rounded-lg bg-neutral-300 p-3">
           <p className="text-xs text-gray-800">Latest average</p>
-          <p className="text-lg font-bold">{child.latest_result ? `${child.latest_result.average}%` : "—"}</p>
+          <p className="text-lg font-bold">
+            {child.latest_result ? `${child.latest_result.average}%` : "—"}
+          </p>
         </div>
       </div>
       <Link
         href={PARENT_CHILD(child.student._id)}
         className="mt-5 flex items-center justify-center gap-2 rounded-lg bg-primary-purple-700 px-4 py-3 font-semibold text-white"
       >
-        View school information <Icon icon="material-symbols:arrow-forward-rounded" />
+        View school information{" "}
+        <Icon icon="material-symbols:arrow-forward-rounded" />
       </Link>
     </article>
   );
@@ -74,21 +86,27 @@ export default function ParentDashboard() {
     queryFn: () =>
       axiosInstance
         .get("/parents/me/dashboard")
-        .then(response => response.data as { children: ParentDashboardChild[] }),
+        .then(
+          response => response.data as { children: ParentDashboardChild[] }
+        ),
   });
 
   return (
     <ParentLayout title="My children">
       <NoticeFeed />
       {dashboardQuery.isLoading ? (
-        <div className="flex justify-center py-20"><Spinner /></div>
-      ) : dashboardQuery.isError ? (
-        <div className="rounded-xl border bg-white p-8 text-secondary-red-600">
-          Your parent dashboard could not be loaded. Please contact the school.
+        <div className="flex justify-center py-20">
+          <Spinner />
         </div>
+      ) : dashboardQuery.isError ? (
+        <PortalErrorState
+          message="Your parent dashboard could not be loaded safely."
+          onRetry={() => void dashboardQuery.refetch()}
+        />
       ) : !dashboardQuery.data?.children.length ? (
         <div className="rounded-xl border bg-white p-8 text-center text-gray-800">
-          No students are linked to this account yet. Please contact the school administrator.
+          No students are linked to this account yet. Please contact the school
+          administrator.
         </div>
       ) : (
         <div className="grid gap-6 lg:grid-cols-2">

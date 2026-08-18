@@ -3,6 +3,7 @@ import { notification } from "antd";
 import React from "react";
 
 import { axiosInstance } from "@/api";
+import PortalErrorState from "@/components/portal/portal-error-state";
 import { Spinner } from "@/components/ui/Loading";
 
 type AssignedClass = {
@@ -174,11 +175,13 @@ function RegisterState({
   loading,
   error,
   students,
+  retry,
   children,
 }: {
   loading: boolean;
   error: boolean;
   students: ResultStudent[];
+  retry: () => void;
   children: React.ReactNode;
 }) {
   if (loading)
@@ -189,9 +192,10 @@ function RegisterState({
     );
   if (error)
     return (
-      <p className="rounded-xl border bg-white p-8 text-center text-red-700">
-        The result sheet could not be loaded.
-      </p>
+      <PortalErrorState
+        message="The result sheet could not be loaded."
+        onRetry={retry}
+      />
     );
   if (!students.length)
     return (
@@ -395,6 +399,7 @@ export default function TeacherResults({
         loading={registerQuery.isLoading}
         error={registerQuery.isError}
         students={students}
+        retry={() => void registerQuery.refetch()}
       >
         <ScoreSheet
           students={students}

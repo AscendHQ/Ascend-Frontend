@@ -15,12 +15,27 @@ import NextNprogress from "nextjs-progressbar";
 import React from "react";
 
 import { GTWalsheimPro, InterFont } from "@/assets/fonts";
+import ErrorBoundary from "@/components/common/error-boundary";
 import ProtectedRoute from "@/components/layout/protect-route";
 import MetaTag from "@/config/metaTag";
 
 import theme from "../styles/themeConfig";
 
-const queryClient = new QueryClient();
+const getErrorStatus = (error: unknown) =>
+  (error as { response?: { status?: number } })?.response?.status;
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: (failureCount, error) => {
+        const status = getErrorStatus(error);
+        return failureCount < 1 && (!status || status >= 500);
+      },
+    },
+    mutations: { retry: false },
+  },
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   const TuftsBlue = "#3498DB";
@@ -52,13 +67,15 @@ export default function App({ Component, pageProps }: AppProps) {
         <HydrationBoundary state={pageProps.dehydratedState}>
           <AnimatePresence>
             <ConfigProvider theme={theme}>
-              {isProtectedRoute ? (
-                <ProtectedRoute>
+              <ErrorBoundary key={router.asPath}>
+                {isProtectedRoute ? (
+                  <ProtectedRoute>
+                    <Component {...pageProps} />
+                  </ProtectedRoute>
+                ) : (
                   <Component {...pageProps} />
-                </ProtectedRoute>
-              ) : (
-                <Component {...pageProps} />
-              )}
+                )}
+              </ErrorBoundary>
             </ConfigProvider>
           </AnimatePresence>
         </HydrationBoundary>

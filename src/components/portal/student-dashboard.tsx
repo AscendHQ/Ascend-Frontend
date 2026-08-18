@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "@/api";
 import ParentLayout, { PortalNavItem } from "@/components/layout/parent";
 import NoticeFeed from "@/components/portal/notice-feed";
+import PortalErrorState from "@/components/portal/portal-error-state";
 import StudentTimetable from "@/components/portal/student-timetable";
 import { Spinner } from "@/components/ui/Loading";
 import { STUDENT_DASHBOARD } from "@/config/links";
@@ -185,11 +186,13 @@ function StudentSectionContent({
   details,
   isLoading,
   isError,
+  retry,
 }: {
   section: StudentPortalSection;
   details?: StudentDashboardResponse;
   isLoading: boolean;
   isError: boolean;
+  retry: () => void;
 }) {
   if (section === "announcements") return <NoticeFeed showEmptyState />;
   if (isLoading) {
@@ -201,9 +204,10 @@ function StudentSectionContent({
   }
   if (isError || !details) {
     return (
-      <div className="rounded-xl border bg-white p-8 text-secondary-red-600">
-        Your student portal could not be loaded. Please contact the school.
-      </div>
+      <PortalErrorState
+        message="Your student portal could not be loaded safely."
+        onRetry={retry}
+      />
     );
   }
 
@@ -247,6 +251,7 @@ export default function StudentPortalPage({
         details={details}
         isLoading={dashboardQuery.isLoading}
         isError={dashboardQuery.isError}
+        retry={() => void dashboardQuery.refetch()}
       />
     </ParentLayout>
   );

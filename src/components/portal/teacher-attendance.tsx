@@ -4,6 +4,7 @@ import { notification } from "antd";
 import React from "react";
 
 import { axiosInstance } from "@/api";
+import PortalErrorState from "@/components/portal/portal-error-state";
 import { Spinner } from "@/components/ui/Loading";
 
 type AttendanceStatus = "present" | "absent" | "late" | "excused";
@@ -16,7 +17,7 @@ type AssignedClass = {
 type AttendanceStudent = {
   _id: string;
   registration_number: string;
-  personal_information: {
+  personal_information?: {
     first_name: string;
     middle_name?: string;
     last_name: string;
@@ -51,12 +52,12 @@ const getClassName = (item: AssignedClass) => {
 
 const getStudentName = (student: AttendanceStudent) =>
   [
-    student.personal_information.last_name,
-    student.personal_information.first_name,
-    student.personal_information.middle_name,
+    student.personal_information?.last_name,
+    student.personal_information?.first_name,
+    student.personal_information?.middle_name,
   ]
     .filter(Boolean)
-    .join(" ");
+    .join(" ") || "Student name unavailable";
 
 function AttendanceSummary({
   values,
@@ -151,6 +152,7 @@ function RegisterContent({
   values,
   pending,
   isRecorded,
+  retry,
   updateValue,
   markAllPresent,
   save,
@@ -161,6 +163,7 @@ function RegisterContent({
   values: Record<string, AttendanceValue>;
   pending: boolean;
   isRecorded: boolean;
+  retry: () => void;
   updateValue: (studentId: string, update: Partial<AttendanceValue>) => void;
   markAllPresent: () => void;
   save: () => void;
@@ -174,9 +177,10 @@ function RegisterContent({
   }
   if (error) {
     return (
-      <section className="rounded-xl border bg-white p-8 text-center text-secondary-red-600">
-        The attendance register could not be loaded.
-      </section>
+      <PortalErrorState
+        message="The attendance register could not be loaded."
+        onRetry={retry}
+      />
     );
   }
   if (!students.length) {
@@ -387,6 +391,7 @@ export default function TeacherAttendance({
         values={values}
         pending={saveMutation.isPending}
         isRecorded={Boolean(registerQuery.data?.is_recorded)}
+        retry={() => void registerQuery.refetch()}
         updateValue={updateValue}
         markAllPresent={markAllPresent}
         save={() => saveMutation.mutate()}
