@@ -3,13 +3,21 @@ import { useRouter } from "next/router";
 import React from "react";
 
 import databaseNavSection from "@/config/databaseNavSection";
+import {
+  ACCOUNT_SETTING_DETAILS,
+  NEW_SCHOOL,
+  PLATFORM_METRICS,
+  PLATFORM_SCHOOLS,
+} from "@/config/links";
 import { adminSidebarItems, mainSidebarItems } from "@/config/sidebarItems";
+import useIsAscendOwner from "@/hooks/use-is-ascend-owner";
 
 import SideBarItem from "./sidebar-item";
 import SidebarMenu from "./sidebar-menu";
 
 export default function Sidebar() {
   const router = useRouter();
+  const { isReady, isAscendOwner } = useIsAscendOwner();
 
   const [showCollapsibleSideNav, setshowCollapsibleSideNav] =
     React.useState(false);
@@ -24,6 +32,73 @@ export default function Sidebar() {
         priority
         className="relative z-50 mt-3"
       />
+      {isReady && isAscendOwner ? (
+        <PlatformNavigation pathname={router.pathname} />
+      ) : (
+        isReady && (
+          <SchoolNavigation
+            pathname={router.pathname}
+            showCollapsibleSideNav={showCollapsibleSideNav}
+            setshowCollapsibleSideNav={setshowCollapsibleSideNav}
+          />
+        )
+      )}
+      <span className="text-primary-purple-600">©product of Ascend</span>
+    </aside>
+  );
+}
+
+function PlatformNavigation({ pathname }: { pathname: string }) {
+  const items = [
+    {
+      title: "Metrics",
+      icon: "material-symbols:monitoring-outline-rounded",
+      urlPath: PLATFORM_METRICS,
+    },
+    {
+      title: "Schools",
+      icon: "material-symbols:domain-outline-rounded",
+      urlPath: PLATFORM_SCHOOLS,
+    },
+    {
+      title: "Add School",
+      icon: "material-symbols:add-business-outline-rounded",
+      urlPath: NEW_SCHOOL,
+    },
+    {
+      title: "Account Settings",
+      icon: "material-symbols:manage-accounts-outline-rounded",
+      urlPath: ACCOUNT_SETTING_DETAILS,
+    },
+  ];
+
+  return (
+    <div className="mb-5 mt-16 space-y-2 border-b border-neutral-200 pb-6">
+      <h3 className="mb-4 text-base text-gray-800">ASCEND OWNER</h3>
+      {items.map(item => (
+        <SideBarItem
+          key={item.title}
+          title={item.title}
+          icon={item.icon}
+          isActive={pathname === item.urlPath}
+          urlPath={item.urlPath}
+        />
+      ))}
+    </div>
+  );
+}
+
+function SchoolNavigation({
+  pathname,
+  showCollapsibleSideNav,
+  setshowCollapsibleSideNav,
+}: {
+  pathname: string;
+  showCollapsibleSideNav: boolean;
+  setshowCollapsibleSideNav: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  return (
+    <>
       <div className="mt-16 pb-4 border-b border-neutral-200 space-y-2">
         <h3 className="text-base mb-4 text-gray-800">MAIN</h3>
         {mainSidebarItems.map(item => {
@@ -34,7 +109,7 @@ export default function Sidebar() {
                 key={item.title}
                 collapse={Boolean(
                   !databaseNavSection.find(each =>
-                    each.isActivepath.some(path => router.pathname === path)
+                    each.isActivepath.some(path => pathname === path)
                   )
                 )}
                 collapseAction={showCollapsibleSideNav}
@@ -44,7 +119,7 @@ export default function Sidebar() {
                   <SideBarItem
                     title={each.title}
                     isActive={each.isActivepath.some(
-                      path => router.pathname === path
+                      path => pathname === path
                     )}
                     urlPath={each.path}
                     isSideBarMenu
@@ -60,7 +135,7 @@ export default function Sidebar() {
                 title={item.title}
                 icon={item.icon}
                 isActive={item.isActivePaths.some(
-                  path => router.pathname === path
+                  path => pathname === path
                 )}
                 urlPath={item.urlPath}
               />
@@ -75,12 +150,11 @@ export default function Sidebar() {
             title={item.title}
             icon={item.icon}
             key={item.title}
-            isActive={item.isActivePaths.some(path => router.pathname === path)}
+            isActive={item.isActivePaths.some(path => pathname === path)}
             urlPath={item.urlPath}
           />
         ))}
       </div>
-      <span className="text-primary-purple-600">©product of Ascend</span>
-    </aside>
+    </>
   );
 }

@@ -1,0 +1,50 @@
+export type PlatformSchoolMetric = {
+  id: string;
+  name: string;
+  created_at?: string;
+  current_session?: string;
+  current_term?: string;
+  admin: { name: string; email: string } | null;
+  setup_progress: number;
+  last_active?: string;
+  students: number;
+  active_students: number;
+  staff: number;
+  teacher_portals: number;
+  parent_portals: number;
+  student_portals: number;
+  attendance_registers_30_days: number;
+  result_submissions_30_days: number;
+  invoices: number;
+  billed: number;
+  collected: number;
+  overdue_invoices: number;
+  attention_reasons: string[];
+};
+
+export type PlatformMetrics = {
+  totals: {
+    schools: number;
+    new_schools_30_days: number;
+    active_schools_7_days: number;
+    active_schools_30_days: number;
+    onboarding_complete: number;
+    average_setup_progress: number;
+    students: number;
+    active_students: number;
+    staff: number;
+    teacher_portals: number;
+    parent_portals: number;
+    student_portals: number;
+    attendance_registers_30_days: number;
+    result_submissions_30_days: number;
+    invoices: number;
+    billed: number;
+    collected: number;
+    overdue_invoices: number;
+    collection_rate: number;
+  };
+  recent_schools: PlatformSchoolMetric[];
+  schools_needing_attention: PlatformSchoolMetric[];
+  schools: PlatformSchoolMetric[];
+};
