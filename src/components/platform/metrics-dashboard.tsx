@@ -179,10 +179,21 @@ export default function MetricsDashboard() {
     return <div className="p-10 text-center text-gray-500">Loading platform metrics...</div>;
   }
   if (metricsQuery.isError || !metricsQuery.data) {
+    const error = metricsQuery.error as {
+      response?: { status?: number; data?: string };
+    };
+    const status = error.response?.status;
+    const message =
+      status === 403
+        ? "Your owner session could not be verified. Log out, sign in again, and retry."
+        : status === 404
+          ? "The metrics service is not available on the deployed backend yet."
+          : error.response?.data ??
+            "The metrics service encountered an error. Your owner access is not the problem.";
     return (
       <div className="m-6 rounded-xl border border-secondary-red-500 bg-white p-8 text-center">
         <h2 className="font-bold">Metrics could not be loaded</h2>
-        <p className="mt-2 text-sm text-gray-500">This page is available only to the Ascend owner account.</p>
+        <p className="mt-2 text-sm text-gray-500">{message}</p>
         <button onClick={() => void metricsQuery.refetch()} className="mt-4 rounded-lg bg-primary-purple-700 px-5 py-2 text-sm font-semibold text-white">Try again</button>
       </div>
     );
