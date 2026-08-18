@@ -4,6 +4,7 @@ import { axiosInstance } from "@/api";
 import ParentLayout, { PortalNavItem } from "@/components/layout/parent";
 import NoticeFeed from "@/components/portal/notice-feed";
 import TeacherAttendance from "@/components/portal/teacher-attendance";
+import TeacherResults from "@/components/portal/teacher-results";
 import { Spinner } from "@/components/ui/Loading";
 import { TEACHER_DASHBOARD } from "@/config/links";
 import { PortalTimetableRecord } from "@/types/portal";
@@ -104,7 +105,7 @@ const TITLES: Record<TeacherSection, string> = {
   timetable: "My timetable",
   classes: "My classes",
   attendance: "Class attendance",
-  results: "Results overview",
+  results: "Enter results",
 };
 
 const getClassName = (item: AssignedClass) => {
@@ -327,10 +328,10 @@ function Content({
       />
     );
   return (
-    <SummaryCard
-      label="Approved results"
-      value={data.summary.approved_result_count}
-      helper="Published results across your assigned classes this term"
+    <TeacherResults
+      assignments={data.profile.assignments}
+      session={data.academic_period.session}
+      term={data.academic_period.term}
     />
   );
 }

@@ -5,6 +5,7 @@ import React from "react";
 import { twMerge } from "tailwind-merge";
 
 import { Container } from "@/components/layout/dashboard";
+import TeacherResultApprovals from "@/components/portal/teacher-result-approvals";
 import { DashboardButton } from "@/components/ui/button/button";
 import { Spinner } from "@/components/ui/Loading";
 import PermissionDeniedState, {
@@ -87,6 +88,7 @@ export default function Results() {
             Add Results
           </DashboardButton>
         </div>
+        <TeacherResultApprovals />
         <div className="flex justify-between items-center mt-6">
           <div className="relative block border min-w-[300px]">
             <input
@@ -132,7 +134,9 @@ export default function Results() {
           <PermissionDeniedState message="You don't have permission to view results." />
         ) : !results.length ? (
           <div className="flex flex-col items-center gap-2 py-16 text-Text-meduim-emphasis">
-            <p>No results for {session}, {term} yet.</p>
+            <p>
+              No results for {session}, {term} yet.
+            </p>
             <p className="text-sm">
               Click &quot;Add Results&quot; to record the first one.
             </p>
