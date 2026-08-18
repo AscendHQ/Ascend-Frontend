@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "@/api";
 import ParentLayout, { PortalNavItem } from "@/components/layout/parent";
 import NoticeFeed from "@/components/portal/notice-feed";
+import TeacherAttendance from "@/components/portal/teacher-attendance";
 import { Spinner } from "@/components/ui/Loading";
 import { TEACHER_DASHBOARD } from "@/config/links";
 import { PortalTimetableRecord } from "@/types/portal";
@@ -102,7 +103,7 @@ const TITLES: Record<TeacherSection, string> = {
   announcements: "Announcements and events",
   timetable: "My timetable",
   classes: "My classes",
-  attendance: "Attendance overview",
+  attendance: "Class attendance",
   results: "Results overview",
 };
 
@@ -319,10 +320,10 @@ function Content({
   if (section === "timetable") return <Timetables data={data} />;
   if (section === "attendance")
     return (
-      <SummaryCard
-        label="Attendance registers"
-        value={data.summary.attendance_count}
-        helper="Recorded for your assigned classes this term"
+      <TeacherAttendance
+        classes={data.profile.assignments.map(assignment => assignment.class)}
+        session={data.academic_period.session}
+        term={data.academic_period.term}
       />
     );
   return (
