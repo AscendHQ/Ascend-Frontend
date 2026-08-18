@@ -63,8 +63,8 @@ const getStudentName = (student: ResultStudent) =>
 
 const hasAnyScore = (value: ScoreValue) =>
   Object.values(value).some(score => score !== "");
-const isCompleteScore = (value: ScoreValue) =>
-  Object.values(value).every(score => score !== "");
+const isCompleteScore = (value?: ScoreValue) =>
+  value ? Object.values(value).every(score => score !== "") : false;
 const getTotal = (value: ScoreValue) =>
   Number(value.mid_term_test || 0) +
   Number(value.ca_score || 0) +
