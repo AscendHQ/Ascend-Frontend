@@ -4,7 +4,6 @@ import React from "react";
 
 import databaseNavSection from "@/config/databaseNavSection";
 import {
-  ACCOUNT_SETTING_DETAILS,
   NEW_SCHOOL,
   PLATFORM_METRICS,
   PLATFORM_SCHOOLS,
@@ -32,26 +31,25 @@ export default function Sidebar() {
         priority
         className="relative z-50 mt-3"
       />
-      {isReady && isAscendOwner ? (
-        <PlatformNavigation pathname={router.pathname} />
-      ) : (
-        isReady && (
-          <SchoolNavigation
-            pathname={router.pathname}
-            showCollapsibleSideNav={showCollapsibleSideNav}
-            setshowCollapsibleSideNav={setshowCollapsibleSideNav}
-          />
-        )
+      {isReady && (
+        <SchoolNavigation
+          pathname={router.pathname}
+          showCollapsibleSideNav={showCollapsibleSideNav}
+          setshowCollapsibleSideNav={setshowCollapsibleSideNav}
+        />
+      )}
+      {isReady && isAscendOwner && (
+        <MetricsNavigation pathname={router.pathname} />
       )}
       <span className="text-primary-purple-600">©product of Ascend</span>
     </aside>
   );
 }
 
-function PlatformNavigation({ pathname }: { pathname: string }) {
+function MetricsNavigation({ pathname }: { pathname: string }) {
   const items = [
     {
-      title: "Metrics",
+      title: "Platform Overview",
       icon: "material-symbols:monitoring-outline-rounded",
       urlPath: PLATFORM_METRICS,
     },
@@ -65,16 +63,11 @@ function PlatformNavigation({ pathname }: { pathname: string }) {
       icon: "material-symbols:add-business-outline-rounded",
       urlPath: NEW_SCHOOL,
     },
-    {
-      title: "Account Settings",
-      icon: "material-symbols:manage-accounts-outline-rounded",
-      urlPath: ACCOUNT_SETTING_DETAILS,
-    },
   ];
 
   return (
-    <div className="mb-5 mt-16 space-y-2 border-b border-neutral-200 pb-6">
-      <h3 className="mb-4 text-base text-gray-800">ASCEND OWNER</h3>
+    <div className="mb-5 mt-10 space-y-2 border-b border-neutral-200 pb-6">
+      <h3 className="mb-4 text-base text-gray-800">METRICS</h3>
       {items.map(item => (
         <SideBarItem
           key={item.title}
