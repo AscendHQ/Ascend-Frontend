@@ -25,7 +25,9 @@ axiosInstance.interceptors.response.use(
     const response = error?.response;
     const statusCode = response?.status;
 
-    if (statusCode === 401 || statusCode === 403) {
+    // A 401 means the login is no longer valid. A 403 only means the signed-in
+    // user lacks permission for one action and must not destroy their session.
+    if (statusCode === 401) {
       window.localStorage.removeItem("userInfoAccessToken");
       window.localStorage.removeItem("userInfoData");
       window.location.href = LOGIN_PAGE;

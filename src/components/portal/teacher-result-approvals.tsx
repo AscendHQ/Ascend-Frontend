@@ -141,7 +141,7 @@ export default function TeacherResultApprovals() {
     queryKey: ["teacherResultSubmissions", "pending"],
     queryFn: () =>
       axiosInstance
-        .get("/teacher-portals/result-submissions", {
+        .get("/results/teacher-submissions", {
           params: { status: "pending" },
         })
         .then(response => response.data as Submission[]),
@@ -156,7 +156,7 @@ export default function TeacherResultApprovals() {
       decision: "approved" | "rejected";
       note: string;
     }) =>
-      axiosInstance.put(`/teacher-portals/result-submissions/${id}/review`, {
+      axiosInstance.put(`/results/teacher-submissions/${id}/review`, {
         decision,
         note,
       }),
