@@ -2,6 +2,8 @@
 import dynamic from "next/dynamic";
 import React from "react";
 
+import SchoolSetupChecklist from "@/components/dashboard/school-setup-checklist";
+
 import StatSectionOverview from "./stat-section-overview";
 import StudentPerformance from "./student-performance";
 import SubjectPerformance from "./subject-performance";
@@ -42,6 +44,7 @@ export default function MainSection() {
           </button>
         </section>
       )} */}
+      <SchoolSetupChecklist />
       <StatSectionOverview />
       <div className="flex flex-col xl:flex-row gap-2">
         <StudentPopulationChart />
