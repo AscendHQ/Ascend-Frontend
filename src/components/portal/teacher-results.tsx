@@ -21,7 +21,7 @@ type ScoreValue = {
 type ResultStudent = {
   _id: string;
   registration_number: string;
-  personal_information: {
+  personal_information?: {
     first_name: string;
     middle_name?: string;
     last_name: string;
@@ -54,12 +54,12 @@ const getClassName = (item: AssignedClass) => {
 
 const getStudentName = (student: ResultStudent) =>
   [
-    student.personal_information.last_name,
-    student.personal_information.first_name,
-    student.personal_information.middle_name,
+    student.personal_information?.last_name,
+    student.personal_information?.first_name,
+    student.personal_information?.middle_name,
   ]
     .filter(Boolean)
-    .join(" ");
+    .join(" ") || "Student name unavailable";
 
 const hasAnyScore = (value: ScoreValue) =>
   Object.values(value).some(score => score !== "");
@@ -216,17 +216,27 @@ export default function TeacherResults({
   const [classId, setClassId] = React.useState("");
   const [subjectId, setSubjectId] = React.useState("");
   const [scores, setScores] = React.useState<Record<string, ScoreValue>>({});
-  const assignment = assignments.find(item => item.class._id === classId);
+  const safeAssignments = assignments.filter(
+    item => item?.class?._id && Array.isArray(item.subjects)
+  );
+  const assignment = safeAssignments.find(item => item.class._id === classId);
+  const assignedSubjects = (assignment?.subjects ?? []).filter(
+    subject => subject?._id
+  );
+  const subjectIsAssigned = assignedSubjects.some(
+    subject => subject._id === subjectId
+  );
 
   React.useEffect(() => {
-    if (!classId && assignments[0]) setClassId(assignments[0].class._id);
-  }, [assignments, classId]);
-  React.useEffect(() => {
-    const subjects = assignment?.subjects ?? [];
-    if (!subjects.some(subject => subject._id === subjectId)) {
-      setSubjectId(subjects[0]?._id ?? "");
+    if (!classId && safeAssignments[0]) {
+      setClassId(safeAssignments[0].class._id);
     }
-  }, [assignment, subjectId]);
+  }, [classId, safeAssignments]);
+  React.useEffect(() => {
+    if (!subjectIsAssigned) {
+      setSubjectId(assignedSubjects[0]?._id ?? "");
+    }
+  }, [assignedSubjects, subjectIsAssigned]);
 
   const registerQuery = useQuery({
     queryKey: ["teacherResults", classId, subjectId, session, term],
@@ -236,7 +246,9 @@ export default function TeacherResults({
           params: { class_id: classId, subject_id: subjectId, session, term },
         })
         .then(response => response.data as ResultRegister),
-    enabled: Boolean(classId && subjectId && session && term),
+    enabled: Boolean(
+      classId && subjectId && subjectIsAssigned && session && term
+    ),
   });
   const students = React.useMemo(
     () => registerQuery.data?.students ?? [],
@@ -322,7 +334,7 @@ export default function TeacherResults({
         can be entered.
       </p>
     );
-  if (!assignments.length)
+  if (!safeAssignments.length)
     return (
       <p className="rounded-xl border bg-white p-8 text-center text-gray-800">
         No class and subject assignments were found.
@@ -337,10 +349,13 @@ export default function TeacherResults({
           Class
           <select
             value={classId}
-            onChange={event => setClassId(event.target.value)}
+            onChange={event => {
+              setSubjectId("");
+              setClassId(event.target.value);
+            }}
             className="mt-1 w-full rounded border bg-white p-2 font-normal"
           >
-            {assignments.map(item => (
+            {safeAssignments.map(item => (
               <option key={item.class._id} value={item.class._id}>
                 {getClassName(item.class)}
               </option>
@@ -354,7 +369,7 @@ export default function TeacherResults({
             onChange={event => setSubjectId(event.target.value)}
             className="mt-1 w-full rounded border bg-white p-2 font-normal"
           >
-            {(assignment?.subjects ?? []).map(subject => (
+            {assignedSubjects.map(subject => (
               <option key={subject._id} value={subject._id}>
                 {subject.name} ({subject.code})
               </option>
