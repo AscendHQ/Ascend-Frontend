@@ -10,7 +10,7 @@ import { Spinner } from "@/components/ui/Loading";
 import PermissionDeniedState, {
   isAccessDeniedError,
 } from "@/components/ui/permission-denied-state";
-import { NEW_STUDENT } from "@/config/links";
+import { NEW_BULK_STUDENT, NEW_STUDENT } from "@/config/links";
 import { StudentsTable } from "@/templates/Database/student";
 import { showAllStudentContext } from "@/templates/Database/student/student-types";
 
@@ -66,14 +66,26 @@ export default function DatabaseStudents() {
           ) : (
             <>
               <div className="bg-white p-10">
-                <DashboardButton
-                  variant="primary"
-                  leftElement={<Icon icon="tabler:plus" />}
-                  isLink
-                  path={NEW_STUDENT}
-                >
-                  Register student
-                </DashboardButton>
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <DashboardButton
+                    variant="primary"
+                    className="ml-0"
+                    leftElement={<Icon icon="tabler:plus" />}
+                    isLink
+                    path={NEW_STUDENT}
+                  >
+                    Register student
+                  </DashboardButton>
+                  <DashboardButton
+                    variant="secondary"
+                    className="ml-0"
+                    leftElement={<Icon icon="material-symbols:upload-file-outline" />}
+                    isLink
+                    path={NEW_BULK_STUDENT}
+                  >
+                    Import CSV
+                  </DashboardButton>
+                </div>
                 <div className="mt-5 flex max-w-xl flex-col gap-3 sm:flex-row">
                   <div className="relative flex-1">
                     <input
