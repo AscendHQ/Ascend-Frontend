@@ -79,14 +79,23 @@ export default function Results() {
             {session} Session - {term}
           </h3>
 
-          <DashboardButton
-            variant="primary"
-            isLink
-            leftElement={<Icon icon="tabler:plus" />}
-            path={NEW_RESULT}
-          >
-            Add Results
-          </DashboardButton>
+          <div className="flex flex-wrap gap-2">
+            <Link
+              href="/dashboard/results/bulk"
+              className="inline-flex items-center gap-2 rounded-lg border border-primary-purple-700 px-4 py-2 text-sm font-semibold text-primary-purple-700"
+            >
+              <Icon icon="material-symbols:upload-file-outline" />
+              Bulk upload
+            </Link>
+            <DashboardButton
+              variant="primary"
+              isLink
+              leftElement={<Icon icon="tabler:plus" />}
+              path={NEW_RESULT}
+            >
+              Add Results
+            </DashboardButton>
+          </div>
         </div>
         <TeacherResultApprovals />
         <div className="flex justify-between items-center mt-6">

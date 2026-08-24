@@ -3,6 +3,7 @@ import { notification } from "antd";
 import React from "react";
 
 import { axiosInstance } from "@/api";
+import BulkResultUpload from "@/components/portal/bulk-result-upload";
 import PortalErrorState from "@/components/portal/portal-error-state";
 import { Spinner } from "@/components/ui/Loading";
 
@@ -395,6 +396,24 @@ export default function TeacherResults({
           {registerQuery.data.submission.review_note}
         </p>
       )}
+      <BulkResultUpload
+        students={students}
+        endpoint="/teacher-portals/me/results/bulk"
+        fields={{
+          class_id: classId,
+          subject_id: subjectId,
+          session: session ?? "",
+          term: term ?? "",
+        }}
+        fileName={`ascend-${getClassName(
+          assignment?.class ?? safeAssignments[0].class
+        )}-${
+          assignedSubjects.find(subject => subject._id === subjectId)?.code ??
+          "subject"
+        }-${session}-${term}.csv`}
+        locked={locked}
+        teacher
+      />
       <RegisterState
         loading={registerQuery.isLoading}
         error={registerQuery.isError}
