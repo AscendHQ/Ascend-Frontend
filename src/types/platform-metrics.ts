@@ -1,6 +1,9 @@
 export type PlatformSchoolMetric = {
   id: string;
   name: string;
+  is_active: boolean;
+  suspended_at?: string;
+  suspension_reason?: string;
   created_at?: string;
   current_session?: string;
   current_term?: string;

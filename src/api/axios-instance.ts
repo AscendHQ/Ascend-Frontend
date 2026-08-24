@@ -27,6 +27,7 @@ axiosInstance.interceptors.response.use(
     const isAuthenticationFailure = [
       "invalid token",
       "request not authenticated",
+      "school account is suspended",
     ].includes(errorMessage);
 
     // Only explicit token failures may clear a login. Permission errors from

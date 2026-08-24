@@ -5,7 +5,7 @@ import React from "react";
 
 import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
-import { NEW_SCHOOL } from "@/config/links";
+import { NEW_SCHOOL, PLATFORM_SCHOOL_DETAILS } from "@/config/links";
 import type { PlatformMetrics } from "@/types/platform-metrics";
 
 const formatDate = (value?: string) =>
@@ -81,6 +81,7 @@ export default function PlatformSchoolsPage() {
                     <th className="p-3">Setup</th>
                     <th className="p-3">Last active</th>
                     <th className="p-3">Attention</th>
+                    <th className="p-3">Manage</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -104,10 +105,18 @@ export default function PlatformSchoolsPage() {
                           {!school.attention_reasons.length && <span className="text-secondary-green-600">Healthy</span>}
                         </div>
                       </td>
+                      <td className="p-3">
+                        <Link
+                          href={PLATFORM_SCHOOL_DETAILS(school.id)}
+                          className="font-semibold text-primary-purple-700"
+                        >
+                          Open
+                        </Link>
+                      </td>
                     </tr>
                   ))}
                   {!schools.length && (
-                    <tr><td colSpan={8} className="p-10 text-center text-gray-500">No matching schools found.</td></tr>
+                    <tr><td colSpan={9} className="p-10 text-center text-gray-500">No matching schools found.</td></tr>
                   )}
                 </tbody>
               </table>
