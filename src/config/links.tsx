@@ -55,6 +55,7 @@ export const DASHBOARD_CLASS_INFO = (slug: string) =>
 // TEACHER
 export const DASHBOARD_TEACHER = "/dashboard/database/staff";
 export const NEW_TEACHER_BIODATA = "/dashboard/database/staff/new-staff";
+export const NEW_BULK_STAFF = "/dashboard/database/staff/import";
 export const NEW_TEACHER_PERMISSION =
   "/dashboard/database/staff/new-teacher-permission";
 export const DASHBOARD_TEACHER_INFO_BIODATA = (slug: string) =>

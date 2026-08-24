@@ -9,7 +9,7 @@ import { Spinner } from "@/components/ui/Loading";
 import PermissionDeniedState, {
   isAccessDeniedError,
 } from "@/components/ui/permission-denied-state";
-import { NEW_TEACHER_BIODATA } from "@/config/links";
+import { NEW_BULK_STAFF, NEW_TEACHER_BIODATA } from "@/config/links";
 import {
   Tab,
   Table,
@@ -66,21 +66,32 @@ export default function StaffDatabase() {
         ) : (
           <>
             <StaffStatistics data={statisticsData} />
-            <div className="flex justify-between items-center mt-10">
+            <div className="mt-10 flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
               <Tab
                 tabNumbers={tabNumbers}
                 currentCategory={currentStaffCategory}
                 setCurrentCategory={setCurrentStaffCategory}
               />
-              <DashboardButton
-                isLink
-                path={NEW_TEACHER_BIODATA}
-                variant="primary"
-                leftElement={<Icon icon="tabler:plus" />}
-                className="mb-0"
-              >
-                Add Staff
-              </DashboardButton>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <DashboardButton
+                  isLink
+                  path={NEW_BULK_STAFF}
+                  variant="secondary"
+                  leftElement={<Icon icon="material-symbols:upload-file-outline" />}
+                  className="mb-0"
+                >
+                  Import CSV
+                </DashboardButton>
+                <DashboardButton
+                  isLink
+                  path={NEW_TEACHER_BIODATA}
+                  variant="primary"
+                  leftElement={<Icon icon="tabler:plus" />}
+                  className="mb-0"
+                >
+                  Add Staff
+                </DashboardButton>
+              </div>
             </div>
             <Table data={filteredData} />
           </>
