@@ -66,3 +66,30 @@ export type InvoiceListResponse = {
     overdue: number;
   };
 };
+
+export type StudentFinancialBalance = {
+  student: FeeStudent;
+  current_expected: number;
+  current_paid: number;
+  current_balance: number;
+  arrears_balance: number;
+  total_outstanding: number;
+  arrears_sources: { period: string; amount: number }[];
+};
+
+export type FinancialOverviewResponse = {
+  session: string;
+  term: string;
+  summary: {
+    expected: number;
+    collected: number;
+    current_outstanding: number;
+    previous_arrears: number;
+    total_receivable: number;
+    collection_rate: number;
+    fully_paid: number;
+    partially_paid: number;
+    unpaid: number;
+  };
+  students: StudentFinancialBalance[];
+};

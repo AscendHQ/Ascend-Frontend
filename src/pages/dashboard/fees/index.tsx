@@ -5,6 +5,7 @@ import Link from "next/link";
 import React from "react";
 
 import { axiosInstance } from "@/api";
+import FinancialOverview from "@/components/fees/financial-overview";
 import { Container } from "@/components/layout/dashboard";
 import { Spinner } from "@/components/ui/Loading";
 import { DASHBOARD_FEE_INVOICE } from "@/config/links";
@@ -49,25 +50,6 @@ const getStudentName = (student: InvoiceListResponse["invoices"][number]["studen
     .filter(Boolean)
     .join(" ");
 };
-
-function SummaryCards({ summary }: { summary?: InvoiceListResponse["summary"] }) {
-  const cards = [
-    ["Total invoiced", formatCurrency(summary?.invoiced ?? 0)],
-    ["Collected", formatCurrency(summary?.collected ?? 0)],
-    ["Outstanding", formatCurrency(summary?.outstanding ?? 0)],
-    ["Overdue invoices", summary?.overdue ?? 0],
-  ];
-  return (
-    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-      {cards.map(([label, value]) => (
-        <div key={label} className="rounded-lg border bg-white p-5">
-          <p className="text-sm text-gray-800">{label}</p>
-          <p className="mt-1 text-2xl font-bold">{value}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
 
 function FeeStructureList({ structures }: { structures?: FeeStructureSummary[] }) {
   const [api, contextHolder] = notification.useNotification();
@@ -413,7 +395,9 @@ export default function Fees() {
         {showCreate && session && term && (
           <CreateFeeStructure classes={classes} session={session} term={term} onClose={() => setShowCreate(false)} />
         )}
-        <div className="mt-6"><SummaryCards summary={invoiceQuery.data?.summary} /></div>
+        <div className="mt-6">
+          <FinancialOverview session={session} term={term} classId={classId} />
+        </div>
         <FeeStructureList structures={structureQuery.data} />
         <section className="my-6 flex flex-wrap gap-4 rounded-lg bg-white p-4">
           <label className="text-sm font-semibold">Session
