@@ -8,9 +8,9 @@ export interface StatCardProps {
 
 export function StatCard({ heading, items }: StatCardProps) {
   return (
-    <div className="bg-white min-w-[330px] xl:flex-1 xl:min-w-fit border rounded-xl border-border-colour-light p-4 space-y-2">
+    <div className="w-full min-w-0 space-y-2 rounded-xl border border-border-colour-light bg-white p-4">
       <h5 className="text-sm text-gray-800 font-medium">{heading}</h5>
-      <div className="flex items-end justify-between">
+      <div className="flex flex-wrap items-end justify-between gap-3">
         {items.map(item => {
           return (
             <div key={`stat-for-${item.name}}`} className="flex items-center">

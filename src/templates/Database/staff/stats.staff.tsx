@@ -10,7 +10,7 @@ export const StaffStatistics = (data: {
   };
 }) => {
   return (
-    <div className="flex gap-6">
+    <div className="grid gap-4 lg:grid-cols-2">
       <StatCard
         heading="Gender"
         items={[
