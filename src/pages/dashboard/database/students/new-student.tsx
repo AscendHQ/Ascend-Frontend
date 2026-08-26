@@ -61,16 +61,16 @@ export default function NewStudent() {
     <NewStudentFormContext.Provider
       value={{ register, watch, errors, classData: classData.data?.classes }}
     >
-      <div className="grid font-inter grid-cols-9 min-w-[900px]">
+      <div className="dashboard-shell min-h-screen overflow-x-hidden font-inter lg:grid lg:grid-cols-9">
         <Sidebar />
         {isLoading || classData.isLoading ? (
-          <div className="col-[3/-1] 3xl:col-[2/-1]">
+          <div className="min-w-0 lg:col-[3/-1] 3xl:col-[2/-1]">
             <Spinner />
           </div>
         ) : (
-          <div className="col-[3/-1] 3xl:col-[2/-1] bg-white">
+          <div className="min-w-0 bg-white lg:col-[3/-1] 3xl:col-[2/-1]">
             <DashboardHeader headerTitle="New Student" />
-            <main className="p-10">
+            <main className="p-4 sm:p-6 lg:p-10">
               <Link
                 href={DASHBOARD_STUDENT}
                 className="flex items-center gap-2"

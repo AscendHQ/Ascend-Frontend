@@ -1,13 +1,10 @@
+import { Icon } from "@iconify/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 
 import databaseNavSection from "@/config/databaseNavSection";
-import {
-  NEW_SCHOOL,
-  PLATFORM_METRICS,
-  PLATFORM_SCHOOLS,
-} from "@/config/links";
+import { NEW_SCHOOL, PLATFORM_METRICS, PLATFORM_SCHOOLS } from "@/config/links";
 import { adminSidebarItems, mainSidebarItems } from "@/config/sidebarItems";
 import useIsAscendOwner from "@/hooks/use-is-ascend-owner";
 
@@ -17,32 +14,62 @@ import SidebarMenu from "./sidebar-menu";
 export default function Sidebar() {
   const router = useRouter();
   const { isReady, isAscendOwner } = useIsAscendOwner();
+  const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const [showCollapsibleSideNav, setshowCollapsibleSideNav] =
     React.useState(false);
 
+  React.useEffect(() => {
+    setMobileOpen(false);
+  }, [router.asPath]);
+
   return (
-    <aside className="col-span-2 4xl:col-span-1 border-r border-neutral-200 py-6 px-4 bg-white relative">
-      <Image
-        src="/Ascend-Logo.svg"
-        alt="Ascend Logo"
-        width={100}
-        height={24}
-        priority
-        className="relative z-50 mt-3"
-      />
-      {isReady && (
-        <SchoolNavigation
-          pathname={router.pathname}
-          showCollapsibleSideNav={showCollapsibleSideNav}
-          setshowCollapsibleSideNav={setshowCollapsibleSideNav}
+    <>
+      <button
+        type="button"
+        aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
+        aria-expanded={mobileOpen}
+        onClick={() => setMobileOpen(open => !open)}
+        className="fixed left-4 top-4 z-[60] inline-flex h-10 w-10 items-center justify-center rounded-lg border bg-white text-2xl shadow-sm lg:hidden"
+      >
+        <Icon
+          icon={mobileOpen ? "carbon:close" : "material-symbols:menu-rounded"}
+        />
+      </button>
+      {mobileOpen && (
+        <button
+          type="button"
+          aria-label="Close navigation"
+          onClick={() => setMobileOpen(false)}
+          className="fixed inset-0 z-40 bg-black/40 lg:hidden"
         />
       )}
-      {isReady && isAscendOwner && (
-        <MetricsNavigation pathname={router.pathname} />
-      )}
-      <span className="text-primary-purple-600">©product of Ascend</span>
-    </aside>
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 w-[min(18rem,85vw)] overflow-y-auto border-r border-neutral-200 bg-white px-4 py-6 transition-transform duration-200 lg:static lg:z-auto lg:col-span-2 lg:w-auto lg:translate-x-0 4xl:col-span-1 ${
+          mobileOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <Image
+          src="/Ascend-Logo.svg"
+          alt="Ascend Logo"
+          width={100}
+          height={24}
+          priority
+          className="relative z-50 ml-12 mt-3 lg:ml-0"
+        />
+        {isReady && (
+          <SchoolNavigation
+            pathname={router.pathname}
+            showCollapsibleSideNav={showCollapsibleSideNav}
+            setshowCollapsibleSideNav={setshowCollapsibleSideNav}
+          />
+        )}
+        {isReady && isAscendOwner && (
+          <MetricsNavigation pathname={router.pathname} />
+        )}
+        <span className="text-primary-purple-600">©product of Ascend</span>
+      </aside>
+    </>
   );
 }
 
@@ -111,9 +138,7 @@ function SchoolNavigation({
                 {databaseNavSection.map(each => (
                   <SideBarItem
                     title={each.title}
-                    isActive={each.isActivepath.some(
-                      path => pathname === path
-                    )}
+                    isActive={each.isActivepath.some(path => pathname === path)}
                     urlPath={each.path}
                     isSideBarMenu
                     key={each.title}
@@ -127,9 +152,7 @@ function SchoolNavigation({
                 key={item.title}
                 title={item.title}
                 icon={item.icon}
-                isActive={item.isActivePaths.some(
-                  path => pathname === path
-                )}
+                isActive={item.isActivePaths.some(path => pathname === path)}
                 urlPath={item.urlPath}
               />
             );

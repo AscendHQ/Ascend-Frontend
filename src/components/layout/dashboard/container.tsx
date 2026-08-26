@@ -10,9 +10,9 @@ type ContainerProps = {
 
 export default function Container({ children, headerTitle }: ContainerProps) {
   return (
-    <div className="grid font-inter grid-cols-9 min-w-[950px]">
+    <div className="dashboard-shell min-h-screen overflow-x-hidden font-inter lg:grid lg:grid-cols-9">
       <Sidebar />
-      <main className="col-[3/-1] 4xl:col-[2/-1]">
+      <main className="min-w-0 lg:col-[3/-1] 4xl:col-[2/-1]">
         <DashboardHeader headerTitle={headerTitle} />
         {children}
       </main>

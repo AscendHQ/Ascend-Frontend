@@ -20,9 +20,15 @@ export default function StatSectionOverview() {
 
   return (
     <div className="grid 2xl:flex grid-cols-1 lg:grid-cols-2 justify-center flex-wrap my-5 gap-5 ">
-      <StatCard heading="TOTAL STUDENT POPULATION" number={totalStudents.toLocaleString()} />
-      <StatCard heading="TOTAL STAFF COUNT" number={totalStaff.toLocaleString()} />
-      <div className="bg-white min-w-[330px] 2xl:flex-1 2xl:min-w-fit border rounded-xl border-border-colour-light p-4 space-y-2">
+      <StatCard
+        heading="TOTAL STUDENT POPULATION"
+        number={totalStudents.toLocaleString()}
+      />
+      <StatCard
+        heading="TOTAL STAFF COUNT"
+        number={totalStaff.toLocaleString()}
+      />
+      <div className="w-full min-w-0 space-y-2 rounded-xl border border-border-colour-light bg-white p-4 2xl:min-w-fit 2xl:flex-1">
         <h5 className="text-sm text-gray-800 font-medium">
           GENDER DEMOGRAPHICS
         </h5>
@@ -40,15 +46,9 @@ export default function StatSectionOverview() {
     </div>
   );
 }
-function StatCard({
-  heading,
-  number,
-}: {
-  heading: string;
-  number: string;
-}) {
+function StatCard({ heading, number }: { heading: string; number: string }) {
   return (
-    <div className="bg-white min-w-[330px] xl:flex-1 xl:min-w-fit border rounded-xl border-border-colour-light p-4 space-y-2">
+    <div className="w-full min-w-0 space-y-2 rounded-xl border border-border-colour-light bg-white p-4 xl:min-w-fit xl:flex-1">
       <h5 className="text-sm text-gray-800 font-medium">{heading}</h5>
       <div className="flex items-end justify-between">
         <p className="text-Text-high-emphasis text-2xl font-bold">{number}</p>

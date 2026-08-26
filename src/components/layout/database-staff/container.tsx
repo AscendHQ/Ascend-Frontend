@@ -23,11 +23,11 @@ export default function DatabaseStaffContainer({
   const router = useRouter();
 
   return (
-    <div className="grid font-inter grid-cols-9 min-w-[950px]">
+    <div className="dashboard-shell min-h-screen overflow-x-hidden font-inter lg:grid lg:grid-cols-9">
       <Sidebar />
-      <div className="col-[3/-1] 3xl:col-[2/-1] bg-neutral-300">
+      <div className="min-w-0 bg-neutral-300 lg:col-[3/-1] 3xl:col-[2/-1]">
         <DashboardHeader headerTitle={headerTitle} />
-        <div className="bg-white p-10">
+        <div className="bg-white p-4 sm:p-6 lg:p-10">
           <div className="flex gap-4">
             <Image
               src="/joebrendan.png"
@@ -44,8 +44,8 @@ export default function DatabaseStaffContainer({
               </span>
             </div>
           </div>
-          <div className="flex justify-between pt-10 pb-5">
-            <ul className="flex bg-neutral-300 border-1.5 items-center border-border-colour-light rounded px-2 py-3 gap-2">
+          <div className="flex flex-wrap justify-between gap-4 pb-5 pt-10">
+            <ul className="flex max-w-full items-center gap-2 overflow-x-auto rounded border-1.5 border-border-colour-light bg-neutral-300 px-2 py-3">
               {[
                 {
                   title: "Biodata",

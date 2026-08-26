@@ -73,8 +73,8 @@ export default function Results() {
 
   return (
     <Container headerTitle="Results">
-      <main className="px-10 py-5 relative bg-white">
-        <div className="flex justify-between items-center">
+      <main className="relative bg-white px-4 py-5 sm:px-6 lg:px-10">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <h3 className="text-Text-high-emphasis font-semibold text-xl">
             {session} Session - {term}
           </h3>
@@ -98,8 +98,8 @@ export default function Results() {
           </div>
         </div>
         <TeacherResultApprovals />
-        <div className="flex justify-between items-center mt-6">
-          <div className="relative block border min-w-[300px]">
+        <div className="mt-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="relative block w-full border lg:min-w-[300px] lg:max-w-md">
             <input
               type="search"
               placeholder="Search student's name or S/N"
@@ -112,7 +112,7 @@ export default function Results() {
               icon="mingcute:search-line"
             />
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <div className="flex items-center border border-default-black pl-2 rounded">
               <span className="text-sm font-bold text-gray-800">Session :</span>
               <Select

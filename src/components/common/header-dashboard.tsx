@@ -21,7 +21,9 @@ export default function DashboardHeader({
   const { data: organization } = useOrganization();
   const userInfo = getStoredUserInfo();
   const accountInitials = userInfo
-    ? `${userInfo.first_name?.[0] ?? ""}${userInfo.last_name?.[0] ?? ""}`.toUpperCase()
+    ? `${userInfo.first_name?.[0] ?? ""}${
+        userInfo.last_name?.[0] ?? ""
+      }`.toUpperCase()
     : "";
 
   const accountTargetRef = React.useRef<HTMLButtonElement>(null);
@@ -32,7 +34,7 @@ export default function DashboardHeader({
   };
 
   return (
-    <header className="flex justify-between max-h-[80px] bg-white items-center p-10 relative">
+    <header className="relative flex min-h-[72px] items-center justify-between gap-3 bg-white p-4 pl-16 sm:p-6 sm:pl-16 lg:max-h-[80px] lg:p-10">
       <Head>
         <title>
           {`${headerTitle} - Ascend School Management System Dashboard`}
@@ -42,7 +44,7 @@ export default function DashboardHeader({
           content="School Management System Dashboard"
         />
       </Head>
-      <h2 className="text-Text-high-emphasis text-2xl font-bold tracking-tight capitalize">
+      <h2 className="text-xl font-bold capitalize tracking-tight text-Text-high-emphasis sm:text-2xl">
         {headerTitle}
         {organization?.name && (
           <span className="block text-sm font-normal text-Text-meduim-emphasis normal-case tracking-normal">
@@ -50,7 +52,7 @@ export default function DashboardHeader({
           </span>
         )}
       </h2>
-      <div className="flex items-center gap-11">
+      <div className="flex items-center gap-3 sm:gap-6 lg:gap-11">
         {/* <button
           ref={notificationRef}
           onClick={() => setNotificationDropDown(prev => !prev)}
@@ -129,7 +131,7 @@ function NotificationDropDownSection({
       ref={notificationRef}
       className={`absolute ${
         dropDown ? "block" : "hidden"
-      } bg-white top-[115%] right-28 rounded-2xl min-w-[500px] shadow-xl z-50`}
+      } right-4 top-[115%] z-50 w-[calc(100vw-2rem)] max-w-[500px] rounded-2xl bg-white shadow-xl sm:right-10`}
     >
       <Icon
         icon="teenyicons:up-solid"
@@ -451,7 +453,9 @@ function AccountDropDownSection({
     ? `${userInfo.first_name} ${userInfo.last_name}`
     : "";
   const initials = userInfo
-    ? `${userInfo.first_name?.[0] ?? ""}${userInfo.last_name?.[0] ?? ""}`.toUpperCase()
+    ? `${userInfo.first_name?.[0] ?? ""}${
+        userInfo.last_name?.[0] ?? ""
+      }`.toUpperCase()
     : "";
 
   return (
@@ -464,7 +468,7 @@ function AccountDropDownSection({
         y: dropDown ? 0 : 50,
       }}
       ref={accountRef}
-      className={`absolute bg-white top-full right-10 p-4 flex flex-col items-center justify-center rounded-md shadow-lg  z-50 ${
+      className={`absolute right-4 top-full z-50 flex max-w-[calc(100vw-2rem)] flex-col items-center justify-center rounded-md bg-white p-4 shadow-lg sm:right-10 ${
         dropDown ? "block" : "hidden"
       }`}
     >
