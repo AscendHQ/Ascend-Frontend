@@ -159,7 +159,9 @@ function StudentAccounts({
                   </td>
                   <td className="p-3">
                     <Link
-                      href={DASHBOARD_STUDENT_INFO(account.student._id)}
+                      href={DASHBOARD_STUDENT_INFO(
+                        account.student.registration_number
+                      )}
                       className="font-semibold text-primary-purple-700"
                     >
                       View account
