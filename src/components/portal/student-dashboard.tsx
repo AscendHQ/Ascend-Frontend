@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { axiosInstance } from "@/api";
+import StudentCbt from "@/components/cbt/student-cbt";
 import ParentLayout, { PortalNavItem } from "@/components/layout/parent";
 import NoticeFeed from "@/components/portal/notice-feed";
 import PortalErrorState from "@/components/portal/portal-error-state";
@@ -20,6 +21,7 @@ export type StudentPortalSection =
   | "timetable"
   | "attendance"
   | "results"
+  | "cbt"
   | "fees";
 
 type StudentDashboardResponse = ParentChildDetails & {
@@ -37,6 +39,7 @@ export const STUDENT_PORTAL_SECTIONS: StudentPortalSection[] = [
   "timetable",
   "attendance",
   "results",
+  "cbt",
   "fees",
 ];
 
@@ -67,6 +70,11 @@ const STUDENT_NAV_ITEMS: PortalNavItem[] = [
     icon: "material-symbols:school-outline-rounded",
   },
   {
+    title: "CBT Exams",
+    href: `${STUDENT_DASHBOARD}/cbt`,
+    icon: "material-symbols:quiz-outline-rounded",
+  },
+  {
     title: "Fees & Payments",
     href: `${STUDENT_DASHBOARD}/fees`,
     icon: "material-symbols:payments-outline-rounded",
@@ -79,6 +87,7 @@ const SECTION_TITLES: Record<StudentPortalSection, string> = {
   timetable: "Class timetable",
   attendance: "Attendance",
   results: "Results",
+  cbt: "CBT examinations",
   fees: "Fees and payments",
 };
 
@@ -195,6 +204,7 @@ function StudentSectionContent({
   retry: () => void;
 }) {
   if (section === "announcements") return <NoticeFeed showEmptyState />;
+  if (section === "cbt") return <StudentCbt />;
   if (isLoading) {
     return (
       <div className="flex justify-center py-20">
