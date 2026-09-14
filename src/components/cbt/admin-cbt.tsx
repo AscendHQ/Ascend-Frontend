@@ -7,6 +7,10 @@ import { axiosInstance } from "@/api";
 import { Spinner } from "@/components/ui/Loading";
 import { useOrganization } from "@/templates/Settings/hooks";
 import { CbtAttempt, CbtExam, CbtQuestionInput } from "@/types/cbt";
+import {
+  downloadCbtQuestionTemplate,
+  parseCbtQuestionCsv,
+} from "@/utils/cbt-csv";
 
 type ClassOption = {
   _id: string;
@@ -127,6 +131,30 @@ function ExamCreator({ onClose }: { onClose: () => void }) {
         index === questionIndex ? { ...question, ...update } : question
       )
     );
+  const importQuestions = async (file?: File) => {
+    if (!file) return;
+    try {
+      if (!file.name.toLowerCase().endsWith(".csv")) {
+        throw new Error("Choose a CSV file created from the CBT template.");
+      }
+      if (file.size > 2 * 1024 * 1024) {
+        throw new Error("The CBT question file must be smaller than 2 MB.");
+      }
+      const imported = parseCbtQuestionCsv(await file.text());
+      setQuestions(imported);
+      api.success({
+        message: `${imported.length} question${
+          imported.length === 1 ? "" : "s"
+        } imported`,
+        description: "Review the questions below before creating the draft.",
+      });
+    } catch (error) {
+      api.error({
+        message: "Questions could not be imported",
+        description: requestError(error),
+      });
+    }
+  };
   const canSubmit =
     form.title &&
     form.class_id &&
@@ -285,15 +313,47 @@ function ExamCreator({ onClose }: { onClose: () => void }) {
         </div>
       </div>
       <div className="mt-8 space-y-5">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-bold">Questions</h3>
-          <button
-            type="button"
-            onClick={() => setQuestions(current => [...current, newQuestion()])}
-            className="rounded-lg border border-primary-purple-700 px-4 py-2 text-sm font-semibold text-primary-purple-700"
-          >
-            Add question
-          </button>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h3 className="text-lg font-bold">Questions</h3>
+            <p className="text-sm text-gray-800">
+              Add questions here or import a completed CSV template.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={downloadCbtQuestionTemplate}
+              className="rounded-lg border px-4 py-2 text-sm font-semibold"
+            >
+              Download template
+            </button>
+            <label
+              htmlFor="cbt-question-csv"
+              className="cursor-pointer rounded-lg border border-primary-purple-700 px-4 py-2 text-sm font-semibold text-primary-purple-700"
+            >
+              Upload completed CSV
+              <input
+                id="cbt-question-csv"
+                type="file"
+                accept=".csv,text/csv"
+                className="sr-only"
+                onChange={event => {
+                  void importQuestions(event.target.files?.[0]);
+                  event.target.value = "";
+                }}
+              />
+            </label>
+            <button
+              type="button"
+              onClick={() =>
+                setQuestions(current => [...current, newQuestion()])
+              }
+              className="rounded-lg border border-primary-purple-700 px-4 py-2 text-sm font-semibold text-primary-purple-700"
+            >
+              Add question
+            </button>
+          </div>
         </div>
         {questions.map((question, questionIndex) => (
           // Draft questions do not have database IDs until the exam is saved.
