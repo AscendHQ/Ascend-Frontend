@@ -116,17 +116,26 @@ function Overview({ details }: { details: StudentDashboardResponse }) {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-2xl bg-primary-purple-700 p-6 text-white shadow-sm">
-        <p className="text-sm text-primary-purple-100">Welcome back</p>
-        <h2 className="mt-1 text-2xl font-bold">
-          {[info.first_name, info.middle_name, info.last_name]
-            .filter(Boolean)
-            .join(" ")}
-        </h2>
-        <div className="mt-4 flex flex-wrap gap-x-8 gap-y-2 text-sm">
-          <span>Registration: {details.student.registration_number}</span>
-          <span>Class: {getClassName(details)}</span>
-          <span>{period || "Academic period not set"}</span>
+      <section className="relative overflow-hidden rounded-lg bg-primary-purple-700 p-5 text-white sm:p-6">
+        <div className="absolute -right-12 -top-16 h-44 w-44 rounded-full bg-primary-purple-600 opacity-60" />
+        <div className="relative">
+          <p className="text-sm text-primary-purple-100">Welcome back</p>
+          <h2 className="mt-1 text-2xl font-semibold">
+            {[info.first_name, info.middle_name, info.last_name]
+              .filter(Boolean)
+              .join(" ")}
+          </h2>
+          <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-primary-purple-100">
+            <span className="rounded-md bg-white/10 px-2.5 py-1">
+              Registration: {details.student.registration_number}
+            </span>
+            <span className="rounded-md bg-white/10 px-2.5 py-1">
+              Class: {getClassName(details)}
+            </span>
+            <span className="rounded-md bg-white/10 px-2.5 py-1">
+              {period || "Academic period not set"}
+            </span>
+          </div>
         </div>
       </section>
 
@@ -161,9 +170,9 @@ function Overview({ details }: { details: StudentDashboardResponse }) {
         />
       </section>
 
-      <section className="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 className="text-lg font-bold">Use the sidebar to continue</h2>
-        <p className="mt-2 text-sm text-gray-800">
+      <section className="rounded-lg border border-border-colour-light bg-white p-5 sm:p-6">
+        <h2 className="font-semibold">Everything in one place</h2>
+        <p className="mt-2 text-sm text-Text-meduim-emphasis">
           Open announcements, your timetable, attendance, results, or fees from
           the menu.
         </p>
@@ -182,10 +191,12 @@ function SummaryCard({
   helper: string;
 }) {
   return (
-    <article className="rounded-2xl border bg-white p-5 shadow-sm">
-      <p className="text-sm text-gray-800">{label}</p>
-      <p className="mt-2 text-xl font-bold">{value}</p>
-      <p className="mt-1 text-xs text-gray-800">{helper}</p>
+    <article className="rounded-lg border border-border-colour-light bg-white p-4 sm:p-5">
+      <p className="text-sm text-Text-meduim-emphasis">{label}</p>
+      <p className="mt-2 text-xl font-semibold text-Text-high-emphasis">
+        {value}
+      </p>
+      <p className="mt-1 text-xs text-Text-meduim-emphasis">{helper}</p>
     </article>
   );
 }

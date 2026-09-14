@@ -33,45 +33,52 @@ const getClassName = (child: ParentDashboardChild) => {
 
 function ChildCard({ child }: { child: ParentDashboardChild }) {
   return (
-    <article className="rounded-2xl border bg-white p-6 shadow-sm">
+    <article className="flex h-full flex-col rounded-lg border border-border-colour-light bg-white p-5 sm:p-6">
       <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="text-xl font-bold">{getStudentName(child)}</p>
-          <p className="text-sm text-gray-800">
-            {child.student.registration_number} · {getClassName(child)}
-          </p>
+        <div className="flex min-w-0 items-center gap-3">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-purple-100 font-semibold text-primary-purple-700">
+            {getStudentName(child).charAt(0)}
+          </span>
+          <div className="min-w-0">
+            <p className="truncate font-semibold">{getStudentName(child)}</p>
+            <p className="mt-1 text-sm text-Text-meduim-emphasis">
+              {child.student.registration_number} · {getClassName(child)}
+            </p>
+          </div>
         </div>
         <span
           className={`rounded-full px-3 py-1 text-xs font-semibold ${
             child.student.is_active
-              ? "bg-secondary-green-100 text-secondary-green-700"
-              : "bg-grey-100 text-gray-800"
+              ? "bg-success-light text-success-dark"
+              : "bg-neutral-300 text-gray-600"
           }`}
         >
           {child.student.is_active ? "Active" : "Inactive"}
         </span>
       </div>
-      <div className="mt-5 grid grid-cols-3 gap-3">
+      <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
         <div className="rounded-lg bg-neutral-300 p-3">
-          <p className="text-xs text-gray-800">Attendance</p>
-          <p className="text-lg font-bold">{child.attendance.percentage}%</p>
-        </div>
-        <div className="rounded-lg bg-neutral-300 p-3">
-          <p className="text-xs text-gray-800">Fee balance</p>
-          <p className="text-lg font-bold">
-            {formatCurrency(child.finances.balance)}
+          <p className="text-xs text-Text-meduim-emphasis">Attendance</p>
+          <p className="mt-1 text-lg font-semibold">
+            {child.attendance.percentage}%
           </p>
         </div>
         <div className="rounded-lg bg-neutral-300 p-3">
-          <p className="text-xs text-gray-800">Latest average</p>
-          <p className="text-lg font-bold">
+          <p className="text-xs text-Text-meduim-emphasis">Fee balance</p>
+          <p className="mt-1 break-words text-lg font-semibold">
+            {formatCurrency(child.finances.balance)}
+          </p>
+        </div>
+        <div className="col-span-2 rounded-lg bg-neutral-300 p-3 sm:col-span-1">
+          <p className="text-xs text-Text-meduim-emphasis">Latest average</p>
+          <p className="mt-1 text-lg font-semibold">
             {child.latest_result ? `${child.latest_result.average}%` : "—"}
           </p>
         </div>
       </div>
       <Link
         href={PARENT_CHILD(child.student._id)}
-        className="mt-5 flex items-center justify-center gap-2 rounded-lg bg-primary-purple-700 px-4 py-3 font-semibold text-white"
+        className="mt-5 flex items-center justify-center gap-2 rounded-lg border-1.5 border-primary-purple-700 px-4 py-2.5 text-sm font-semibold text-primary-purple-700 transition hover:bg-primary-purple-700 hover:text-white"
       >
         View school information{" "}
         <Icon icon="material-symbols:arrow-forward-rounded" />
@@ -104,12 +111,12 @@ export default function ParentDashboard() {
           onRetry={() => void dashboardQuery.refetch()}
         />
       ) : !dashboardQuery.data?.children.length ? (
-        <div className="rounded-xl border bg-white p-8 text-center text-gray-800">
+        <div className="rounded-lg border border-dashed border-border-colour-light bg-white p-8 text-center text-Text-meduim-emphasis">
           No students are linked to this account yet. Please contact the school
           administrator.
         </div>
       ) : (
-        <div className="grid gap-6 lg:grid-cols-2">
+        <div className="grid gap-4 lg:grid-cols-2">
           {dashboardQuery.data.children.map(child => (
             <ChildCard key={child.student._id} child={child} />
           ))}

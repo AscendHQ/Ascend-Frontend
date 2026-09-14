@@ -34,21 +34,43 @@ export default function NoticeFeed({
   }
   if (!noticeQuery.data?.length) {
     return showEmptyState ? (
-      <section className="rounded-2xl border bg-white p-6 shadow-sm">
-        <h2 className="text-xl font-bold">Announcements and events</h2>
-        <p className="mt-3 text-sm text-gray-800">
+      <section className="rounded-lg border border-dashed border-border-colour-light bg-white p-8 text-center">
+        <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-primary-purple-100 text-primary-purple-700">
+          <Icon
+            icon="material-symbols:campaign-outline-rounded"
+            className="text-xl"
+          />
+        </span>
+        <h2 className="mt-4 font-semibold">No announcements yet</h2>
+        <p className="mt-2 text-sm text-Text-meduim-emphasis">
           There are no announcements or events for you yet.
         </p>
       </section>
     ) : null;
   }
   return (
-    <section className="mb-6 rounded-2xl border bg-white p-6 shadow-sm">
-      <h2 className="text-xl font-bold">Announcements and events</h2>
+    <section className="mb-6 rounded-lg border border-border-colour-light bg-white p-5 sm:p-6">
+      <div className="flex items-center gap-3">
+        <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-purple-100 text-primary-purple-700">
+          <Icon
+            icon="material-symbols:campaign-outline-rounded"
+            className="text-xl"
+          />
+        </span>
+        <div>
+          <h2 className="font-semibold">Announcements and events</h2>
+          <p className="text-xs text-Text-meduim-emphasis">
+            Latest updates from your school
+          </p>
+        </div>
+      </div>
       <div className="mt-4 grid gap-4 md:grid-cols-2">
         {noticeQuery.data.slice(0, 8).map(notice => (
-          <article key={notice._id} className="rounded-xl border p-4">
-            <div className="flex items-center gap-2 text-sm font-semibold text-primary-purple-700">
+          <article
+            key={notice._id}
+            className="rounded-lg border border-border-colour-light p-4"
+          >
+            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-primary-purple-700">
               <Icon
                 icon={
                   notice.type === "event"
@@ -58,11 +80,12 @@ export default function NoticeFeed({
               />
               <span className="capitalize">{notice.type}</span>
             </div>
-            <h3 className="mt-2 font-bold">{notice.title}</h3>
-            <p className="mt-1 whitespace-pre-line text-sm text-gray-800">
+            <h3 className="mt-2 font-semibold">{notice.title}</h3>
+            <p className="mt-1 whitespace-pre-line text-sm text-gray-600">
               {notice.message}
             </p>
-            <p className="mt-3 text-xs text-gray-800">
+            <p className="mt-3 flex items-center gap-1.5 text-xs text-Text-meduim-emphasis">
+              <Icon icon="material-symbols:schedule-outline-rounded" />
               {new Date(notice.starts_at).toLocaleString("en-NG", {
                 dateStyle: "medium",
                 timeStyle: "short",

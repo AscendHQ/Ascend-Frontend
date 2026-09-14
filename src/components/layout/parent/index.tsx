@@ -42,8 +42,8 @@ export default function ParentLayout({
   };
 
   return (
-    <div className="min-h-screen bg-neutral-300 font-inter">
-      <aside className="fixed inset-y-0 left-0 z-20 hidden w-64 flex-col border-r border-neutral-200 bg-white px-4 py-7 lg:flex">
+    <div className="min-h-screen bg-neutral-100 font-inter text-Text-high-emphasis">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-border-colour-light bg-white px-4 py-7 lg:flex">
         <Image
           src="/Ascend-Logo.svg"
           alt="Ascend"
@@ -52,21 +52,22 @@ export default function ParentLayout({
           priority
           className="mx-3"
         />
-        <p className="mx-3 mt-12 text-xs font-semibold uppercase tracking-wider text-gray-800">
+        <p className="mx-3 mt-12 text-xs font-semibold uppercase tracking-wider text-Text-meduim-emphasis">
           {portalLabel}
         </p>
-        <nav className="mt-4 space-y-2">
+        <nav className="mt-4 space-y-1">
           {items.map(item => {
             const isActive = currentPath === item.href;
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 rounded-md px-4 py-3 text-sm font-semibold ${
+                className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition ${
                   isActive
-                    ? "bg-primary-purple-100 text-primary-purple-800"
-                    : "text-Text-high-emphasis hover:bg-grey-50"
+                    ? "bg-primary-purple-100 text-primary-purple-700"
+                    : "text-gray-600 hover:bg-neutral-300 hover:text-Text-high-emphasis"
                 }`}
+                aria-current={isActive ? "page" : undefined}
               >
                 <Icon icon={item.icon} className="text-2xl" />
                 {item.title}
@@ -74,7 +75,7 @@ export default function ParentLayout({
             );
           })}
         </nav>
-        <div className="mt-auto border-t pt-5">
+        <div className="mt-auto border-t border-border-colour-light pt-5">
           <p className="px-3 font-semibold">
             {user ? `${user.first_name} ${user.last_name}` : portalLabel}
           </p>
@@ -89,7 +90,7 @@ export default function ParentLayout({
       </aside>
 
       <div className="lg:ml-64">
-        <header className="border-b bg-white px-5 py-4 lg:px-8">
+        <header className="sticky top-0 z-20 border-b border-border-colour-light bg-white px-4 py-4 sm:px-5 lg:px-8">
           <div className="flex items-center justify-between gap-4">
             <Image
               src="/Ascend-Logo.svg"
@@ -100,8 +101,8 @@ export default function ParentLayout({
               className="lg:hidden"
             />
             <div className="hidden lg:block">
-              <p className="text-xs text-gray-800">{portalLabel}</p>
-              <h1 className="text-xl font-bold">{title}</h1>
+              <p className="text-xs text-Text-meduim-emphasis">{portalLabel}</p>
+              <h1 className="text-xl font-semibold">{title}</h1>
             </div>
             <div className="ml-auto flex items-center gap-3 text-sm lg:hidden">
               <span className="font-semibold">
@@ -111,30 +112,34 @@ export default function ParentLayout({
                 type="button"
                 aria-label="Log out"
                 onClick={logOut}
-                className="rounded border p-2"
+                className="rounded-lg border border-border-colour-light p-2 text-gray-600"
               >
                 <Icon icon="solar:logout-linear" />
               </button>
             </div>
           </div>
-          <nav className="mt-4 flex gap-2 overflow-x-auto pb-1 lg:hidden">
-            {items.map(item => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`flex shrink-0 items-center gap-2 rounded-md px-3 py-2 text-sm font-semibold ${
-                  currentPath === item.href
-                    ? "bg-primary-purple-100 text-primary-purple-800"
-                    : "border bg-white"
-                }`}
-              >
-                <Icon icon={item.icon} /> {item.title}
-              </Link>
-            ))}
+          <nav className="-mx-4 mt-4 flex gap-1 overflow-x-auto px-4 pb-1 sm:-mx-5 sm:px-5 lg:hidden">
+            {items.map(item => {
+              const isActive = currentPath === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition ${
+                    isActive
+                      ? "bg-primary-purple-100 text-primary-purple-700"
+                      : "text-gray-600"
+                  }`}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  <Icon icon={item.icon} /> {item.title}
+                </Link>
+              );
+            })}
           </nav>
         </header>
-        <main className="mx-auto max-w-7xl px-5 py-7 lg:px-8">
-          <h1 className="mb-6 text-2xl font-bold lg:hidden">{title}</h1>
+        <main className="mx-auto max-w-7xl px-4 py-6 sm:px-5 lg:px-8 lg:py-8">
+          <h1 className="mb-5 text-xl font-semibold lg:hidden">{title}</h1>
           {children}
         </main>
       </div>
