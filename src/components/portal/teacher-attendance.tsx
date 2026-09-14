@@ -67,9 +67,12 @@ function AttendanceSummary({
   return (
     <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
       {STATUS_OPTIONS.map(option => (
-        <div key={option.value} className="rounded-xl border bg-white p-4">
-          <p className="text-xs text-gray-800">{option.label}</p>
-          <p className="mt-1 text-2xl font-bold">
+        <div
+          key={option.value}
+          className="rounded-lg border border-border-colour-light bg-white p-4"
+        >
+          <p className="text-xs text-Text-meduim-emphasis">{option.label}</p>
+          <p className="mt-1 text-2xl font-semibold">
             {
               Object.values(values).filter(
                 value => value.status === option.value
@@ -92,7 +95,7 @@ function StudentRegister({
   updateValue: (studentId: string, update: Partial<AttendanceValue>) => void;
 }) {
   return (
-    <div className="divide-y rounded-xl border bg-white">
+    <div className="divide-y divide-border-colour-light overflow-hidden rounded-lg border border-border-colour-light bg-white">
       {students.map(student => {
         const name = getStudentName(student);
         return (
@@ -101,12 +104,12 @@ function StudentRegister({
             className="grid gap-3 p-4 md:grid-cols-[minmax(180px,1fr)_150px_minmax(180px,1fr)] md:items-center"
           >
             <div>
-              <p className="font-semibold">{name}</p>
-              <p className="text-xs text-gray-800">
+              <p className="font-medium text-Text-high-emphasis">{name}</p>
+              <p className="text-xs text-Text-meduim-emphasis">
                 {student.registration_number}
               </p>
             </div>
-            <label className="text-xs font-semibold text-gray-800">
+            <label className="text-xs font-medium text-gray-600">
               Status
               <select
                 aria-label={`Attendance status for ${name}`}
@@ -116,7 +119,7 @@ function StudentRegister({
                     status: event.target.value as AttendanceStatus,
                   })
                 }
-                className="mt-1 w-full rounded border bg-white p-2 text-sm font-normal text-black"
+                className="mt-1 w-full rounded-lg border border-border-colour-light bg-neutral-300 p-2 text-sm font-normal text-Text-high-emphasis outline-none focus:border-primary-purple-500"
               >
                 {STATUS_OPTIONS.map(option => (
                   <option key={option.value} value={option.value}>
@@ -125,7 +128,7 @@ function StudentRegister({
                 ))}
               </select>
             </label>
-            <label className="text-xs font-semibold text-gray-800">
+            <label className="text-xs font-medium text-gray-600">
               Remark
               <input
                 aria-label={`Attendance remark for ${name}`}
@@ -135,7 +138,7 @@ function StudentRegister({
                   updateValue(student._id, { remark: event.target.value })
                 }
                 placeholder="Optional"
-                className="mt-1 w-full rounded border p-2 text-sm font-normal text-black"
+                className="mt-1 w-full rounded-lg border border-border-colour-light bg-neutral-300 p-2 text-sm font-normal text-Text-high-emphasis outline-none focus:border-primary-purple-500"
               />
             </label>
           </div>
@@ -185,7 +188,7 @@ function RegisterContent({
   }
   if (!students.length) {
     return (
-      <section className="rounded-xl border bg-white p-8 text-center text-gray-800">
+      <section className="rounded-lg border border-dashed border-border-colour-light bg-white p-8 text-center text-Text-meduim-emphasis">
         No active students belong to this class for the current academic period.
       </section>
     );
@@ -195,15 +198,15 @@ function RegisterContent({
       <AttendanceSummary values={values} />
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-lg font-bold">Daily class register</h2>
-          <p className="text-sm text-gray-800">
+          <h2 className="font-semibold">Daily class register</h2>
+          <p className="text-sm text-Text-meduim-emphasis">
             {students.length} active student(s)
           </p>
         </div>
         <button
           type="button"
           onClick={markAllPresent}
-          className="flex items-center gap-2 rounded-lg border px-4 py-2 font-semibold"
+          className="flex items-center gap-2 rounded-lg border-1.5 border-border-colour-light px-4 py-2 text-sm font-semibold transition hover:bg-neutral-300"
         >
           <Icon icon="material-symbols:done-all-rounded" /> Mark all present
         </button>
@@ -218,7 +221,7 @@ function RegisterContent({
           type="button"
           disabled={pending}
           onClick={save}
-          className="rounded-lg bg-primary-purple-700 px-6 py-3 font-semibold text-white disabled:opacity-50"
+          className="w-full rounded-lg bg-primary-purple-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-primary-purple-800 disabled:opacity-50 sm:w-auto"
         >
           {pending
             ? "Saving..."
@@ -329,7 +332,7 @@ export default function TeacherAttendance({
 
   if (!session || !term) {
     return (
-      <section className="rounded-xl border border-warning-main bg-warning-main/10 p-5">
+      <section className="rounded-lg border border-warning-main bg-warning-light p-5 text-warning-dark">
         The school administrator must set the current session and term before
         attendance can be recorded.
       </section>
@@ -337,7 +340,7 @@ export default function TeacherAttendance({
   }
   if (!classes.length) {
     return (
-      <section className="rounded-xl border bg-white p-8 text-center text-gray-800">
+      <section className="rounded-lg border border-dashed border-border-colour-light bg-white p-8 text-center text-Text-meduim-emphasis">
         No class has been assigned to your teacher account.
       </section>
     );
@@ -346,13 +349,13 @@ export default function TeacherAttendance({
   return (
     <div className="space-y-5">
       {contextHolder}
-      <section className="flex flex-wrap items-end gap-4 rounded-xl border bg-white p-5">
-        <label className="min-w-[190px] flex-1 text-sm font-semibold">
+      <section className="flex flex-wrap items-end gap-4 rounded-lg border border-border-colour-light bg-white p-5">
+        <label className="min-w-[190px] flex-1 text-sm font-medium">
           Class
           <select
             value={classId}
             onChange={event => setClassId(event.target.value)}
-            className="mt-1 w-full rounded border bg-white p-2 font-normal"
+            className="mt-2 w-full rounded-lg border border-border-colour-light bg-neutral-300 p-2.5 font-normal outline-none focus:border-primary-purple-500"
           >
             {classes.map(item => (
               <option key={item._id} value={item._id}>
@@ -361,24 +364,24 @@ export default function TeacherAttendance({
             ))}
           </select>
         </label>
-        <label className="text-sm font-semibold">
+        <label className="text-sm font-medium">
           Date
           <input
             type="date"
             max={getToday()}
             value={date}
             onChange={event => setDate(event.target.value)}
-            className="mt-1 block rounded border bg-white p-2 font-normal"
+            className="mt-2 block w-full rounded-lg border border-border-colour-light bg-neutral-300 p-2.5 font-normal outline-none focus:border-primary-purple-500"
           />
         </label>
         <div className="text-sm">
-          <p className="font-semibold">Academic period</p>
-          <p className="rounded bg-neutral-300 px-3 py-2">
+          <p className="font-medium">Academic period</p>
+          <p className="mt-2 rounded-lg bg-neutral-300 px-3 py-2.5">
             {session}, {term}
           </p>
         </div>
         {registerQuery.data?.is_recorded && (
-          <span className="rounded-full bg-secondary-green-100 px-3 py-2 text-sm font-semibold text-secondary-green-700">
+          <span className="rounded-full bg-success-light px-3 py-2 text-sm font-semibold text-success-dark">
             Saved register
           </span>
         )}

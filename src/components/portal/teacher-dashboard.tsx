@@ -124,10 +124,10 @@ function SummaryCard({
   helper: string;
 }) {
   return (
-    <article className="rounded-2xl border bg-white p-5 shadow-sm">
-      <p className="text-sm text-gray-800">{label}</p>
-      <p className="mt-2 text-2xl font-bold">{value}</p>
-      <p className="mt-1 text-xs text-gray-800">{helper}</p>
+    <article className="rounded-lg border border-border-colour-light bg-white p-5">
+      <p className="text-sm text-Text-meduim-emphasis">{label}</p>
+      <p className="mt-2 text-2xl font-semibold">{value}</p>
+      <p className="mt-1 text-xs text-Text-meduim-emphasis">{helper}</p>
     </article>
   );
 }
@@ -141,19 +141,22 @@ function Overview({ data }: { data: TeacherDashboardData }) {
   ).size;
   return (
     <div className="space-y-6">
-      <section className="rounded-2xl bg-primary-purple-700 p-6 text-white shadow-sm">
-        <p className="text-sm text-primary-purple-100">Welcome back</p>
-        <h2 className="mt-1 text-2xl font-bold">
-          {staff.surname} {staff.other_names}
-        </h2>
-        <p className="mt-2 text-sm">
-          {staff.staff_no} ·{" "}
-          {staff.post || staff.department || "Teaching staff"}
-        </p>
-        <p className="mt-1 text-sm">
-          {data.academic_period.session || "Session not set"},{" "}
-          {data.academic_period.term || "Term not set"}
-        </p>
+      <section className="relative overflow-hidden rounded-lg bg-primary-purple-700 p-5 text-white sm:p-6">
+        <div className="absolute -right-12 -top-16 h-44 w-44 rounded-full bg-primary-purple-600 opacity-60" />
+        <div className="relative">
+          <p className="text-sm text-primary-purple-100">Welcome back</p>
+          <h2 className="mt-1 text-2xl font-semibold">
+            {staff.surname} {staff.other_names}
+          </h2>
+          <p className="mt-3 text-sm text-primary-purple-100">
+            {staff.staff_no} ·{" "}
+            {staff.post || staff.department || "Teaching staff"}
+          </p>
+          <p className="mt-1 text-sm text-primary-purple-100">
+            {data.academic_period.session || "Session not set"},{" "}
+            {data.academic_period.term || "Term not set"}
+          </p>
+        </div>
       </section>
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <SummaryCard
@@ -193,7 +196,7 @@ const hasDashboardShape = (
 
 function Classes({ data }: { data: TeacherDashboardData }) {
   return (
-    <div className="grid gap-5 xl:grid-cols-2">
+    <div className="grid gap-4 xl:grid-cols-2">
       {data.profile.assignments.map(assignment => {
         const classInfo = assignment.class;
         const students = data.students.filter(student => {
@@ -206,36 +209,38 @@ function Classes({ data }: { data: TeacherDashboardData }) {
         return (
           <section
             key={classInfo._id}
-            className="rounded-2xl border bg-white p-6 shadow-sm"
+            className="rounded-lg border border-border-colour-light bg-white p-5 sm:p-6"
           >
-            <h2 className="text-lg font-bold">{getClassName(classInfo)}</h2>
+            <h2 className="font-semibold">{getClassName(classInfo)}</h2>
             <p className="mt-1 text-sm text-primary-purple-700">
               {(assignment.subjects ?? [])
                 .map(subject => subject?.name)
                 .filter(Boolean)
                 .join(", ")}
             </p>
-            <p className="mt-1 text-sm text-gray-800">
+            <p className="mt-1 text-sm text-Text-meduim-emphasis">
               {students.length} student(s)
             </p>
-            <div className="mt-4 divide-y rounded-lg border">
+            <div className="mt-4 divide-y divide-border-colour-light overflow-hidden rounded-lg border border-border-colour-light">
               {students.length ? (
                 students.map(student => (
                   <div
                     key={student._id}
                     className="flex justify-between gap-4 p-3 text-sm"
                   >
-                    <span className="font-semibold">
+                    <span className="font-medium text-Text-high-emphasis">
                       {student.personal_information?.last_name ?? "Student"}{" "}
                       {student.personal_information?.first_name ?? ""}
                     </span>
-                    <span className="text-gray-800">
+                    <span className="text-Text-meduim-emphasis">
                       {student.registration_number}
                     </span>
                   </div>
                 ))
               ) : (
-                <p className="p-4 text-sm text-gray-800">No active students.</p>
+                <p className="p-4 text-sm text-Text-meduim-emphasis">
+                  No active students.
+                </p>
               )}
             </div>
           </section>
@@ -258,20 +263,25 @@ function Timetables({ data }: { data: TeacherDashboardData }) {
         return (
           <section
             key={timetable._id}
-            className="rounded-2xl border bg-white p-6 shadow-sm"
+            className="rounded-lg border border-border-colour-light bg-white p-5 sm:p-6"
           >
-            <h2 className="text-lg font-bold">
+            <h2 className="font-semibold">
               {classInfo ? getClassName(classInfo) : "Assigned class"}
             </h2>
-            <p className="text-sm text-gray-800">
+            <p className="mt-1 text-sm text-Text-meduim-emphasis">
               {timetable.session}, {timetable.term}
             </p>
             <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
               {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map(
                 day => (
-                  <div key={day} className="rounded-lg border p-3">
-                    <h3 className="font-semibold">{day}</h3>
-                    <div className="mt-2 space-y-2">
+                  <div
+                    key={day}
+                    className="overflow-hidden rounded-lg border border-border-colour-light"
+                  >
+                    <h3 className="border-b border-border-colour-light bg-neutral-300 p-3 text-sm font-semibold">
+                      {day}
+                    </h3>
+                    <div className="space-y-2 p-3">
                       {(timetable.entries ?? [])
                         .filter(entry => entry.day === day)
                         .map(entry => (
@@ -280,7 +290,7 @@ function Timetables({ data }: { data: TeacherDashboardData }) {
                               entry._id ??
                               `${entry.start_time}-${entry.subject}`
                             }
-                            className="rounded bg-neutral-300 p-2 text-xs"
+                            className="rounded-md border-l-2 border-primary-purple-500 bg-neutral-100 p-2 text-xs"
                           >
                             <p className="font-semibold">{entry.subject}</p>
                             <p>
@@ -302,7 +312,7 @@ function Timetables({ data }: { data: TeacherDashboardData }) {
 
 function EmptyState({ message }: { message: string }) {
   return (
-    <section className="rounded-2xl border bg-white p-8 text-center text-gray-800 shadow-sm">
+    <section className="rounded-lg border border-dashed border-border-colour-light bg-white p-8 text-center text-Text-meduim-emphasis">
       {message}
     </section>
   );

@@ -91,7 +91,7 @@ function ScoreInput({
   onChange: (value: string) => void;
 }) {
   return (
-    <label className="text-xs font-semibold text-gray-800">
+    <label className="text-xs font-medium text-gray-600">
       {label}
       <input
         type="number"
@@ -100,7 +100,7 @@ function ScoreInput({
         disabled={disabled}
         value={value}
         onChange={event => onChange(event.target.value)}
-        className="mt-1 w-full rounded border p-2 text-sm font-normal text-black disabled:bg-gray-100"
+        className="mt-1 w-full rounded-lg border border-border-colour-light bg-neutral-300 p-2 text-sm font-normal text-Text-high-emphasis outline-none focus:border-primary-purple-500 disabled:cursor-not-allowed disabled:opacity-60"
       />
     </label>
   );
@@ -122,7 +122,7 @@ function ScoreSheet({
   ) => void;
 }) {
   return (
-    <div className="divide-y rounded-xl border bg-white">
+    <div className="divide-y divide-border-colour-light overflow-hidden rounded-lg border border-border-colour-light bg-white">
       {students.map(student => {
         const value = scores[student._id] ?? EMPTY_SCORE;
         const total = getTotal(value);
@@ -132,8 +132,10 @@ function ScoreSheet({
             className="grid gap-3 p-4 lg:grid-cols-[minmax(180px,1.5fr)_repeat(3,minmax(100px,1fr))_80px] lg:items-end"
           >
             <div>
-              <p className="font-semibold">{getStudentName(student)}</p>
-              <p className="text-xs text-gray-800">
+              <p className="font-medium text-Text-high-emphasis">
+                {getStudentName(student)}
+              </p>
+              <p className="text-xs text-Text-meduim-emphasis">
                 {student.registration_number}
               </p>
             </div>
@@ -157,8 +159,8 @@ function ScoreSheet({
               disabled={disabled}
               onChange={score => updateScore(student._id, "exam_score", score)}
             />
-            <div className="rounded bg-neutral-300 p-2 text-center text-sm">
-              <p className="text-xs text-gray-800">Total</p>
+            <div className="rounded-lg bg-neutral-300 p-2 text-center text-sm">
+              <p className="text-xs text-Text-meduim-emphasis">Total</p>
               <p
                 className={total > 100 ? "font-bold text-red-700" : "font-bold"}
               >
@@ -200,7 +202,7 @@ function RegisterState({
     );
   if (!students.length)
     return (
-      <p className="rounded-xl border bg-white p-8 text-center text-gray-800">
+      <p className="rounded-lg border border-dashed border-border-colour-light bg-white p-8 text-center text-Text-meduim-emphasis">
         No student in this class is registered for the selected subject.
       </p>
     );
@@ -334,14 +336,14 @@ export default function TeacherResults({
 
   if (!session || !term)
     return (
-      <p className="rounded-xl border border-warning-main bg-warning-main/10 p-5">
+      <p className="rounded-lg border border-warning-main bg-warning-light p-5 text-warning-dark">
         The administrator must set the current session and term before results
         can be entered.
       </p>
     );
   if (!safeAssignments.length)
     return (
-      <p className="rounded-xl border bg-white p-8 text-center text-gray-800">
+      <p className="rounded-lg border border-dashed border-border-colour-light bg-white p-8 text-center text-Text-meduim-emphasis">
         No class and subject assignments were found.
       </p>
     );
@@ -349,8 +351,8 @@ export default function TeacherResults({
   return (
     <div className="space-y-5">
       {contextHolder}
-      <section className="flex flex-wrap items-end gap-4 rounded-xl border bg-white p-5">
-        <label className="min-w-[190px] flex-1 text-sm font-semibold">
+      <section className="flex flex-wrap items-end gap-4 rounded-lg border border-border-colour-light bg-white p-5">
+        <label className="min-w-[190px] flex-1 text-sm font-medium">
           Class
           <select
             value={classId}
@@ -358,7 +360,7 @@ export default function TeacherResults({
               setSubjectId("");
               setClassId(event.target.value);
             }}
-            className="mt-1 w-full rounded border bg-white p-2 font-normal"
+            className="mt-2 w-full rounded-lg border border-border-colour-light bg-neutral-300 p-2.5 font-normal outline-none focus:border-primary-purple-500"
           >
             {safeAssignments.map(item => (
               <option key={item.class._id} value={item.class._id}>
@@ -367,12 +369,12 @@ export default function TeacherResults({
             ))}
           </select>
         </label>
-        <label className="min-w-[190px] flex-1 text-sm font-semibold">
+        <label className="min-w-[190px] flex-1 text-sm font-medium">
           Subject
           <select
             value={subjectId}
             onChange={event => setSubjectId(event.target.value)}
-            className="mt-1 w-full rounded border bg-white p-2 font-normal"
+            className="mt-2 w-full rounded-lg border border-border-colour-light bg-neutral-300 p-2.5 font-normal outline-none focus:border-primary-purple-500"
           >
             {assignedSubjects.map(subject => (
               <option key={subject._id} value={subject._id}>
@@ -381,17 +383,17 @@ export default function TeacherResults({
             ))}
           </select>
         </label>
-        <p className="rounded bg-neutral-300 px-3 py-2 text-sm">
+        <p className="rounded-lg bg-neutral-300 px-3 py-2.5 text-sm">
           {session}, {term}
         </p>
         {status && (
-          <span className="rounded-full border px-3 py-2 text-sm font-semibold capitalize">
+          <span className="rounded-full border border-border-colour-light px-3 py-2 text-sm font-semibold capitalize">
             {status}
           </span>
         )}
       </section>
       {registerQuery.data?.submission?.review_note && (
-        <p className="rounded-xl border border-warning-main bg-warning-main/10 p-4 text-sm">
+        <p className="rounded-lg border border-warning-main bg-warning-light p-4 text-sm text-warning-dark">
           <strong>Admin note:</strong>{" "}
           {registerQuery.data.submission.review_note}
         </p>
@@ -439,7 +441,7 @@ export default function TeacherResults({
                 !enteredScores.length || invalidScores || saveMutation.isPending
               }
               onClick={() => saveMutation.mutate("draft")}
-              className="rounded-lg border border-primary-purple-700 px-5 py-3 font-semibold text-primary-purple-700 disabled:opacity-50"
+              className="rounded-lg border-1.5 border-primary-purple-700 px-5 py-3 text-sm font-semibold text-primary-purple-700 transition hover:bg-primary-purple-100 disabled:opacity-50"
             >
               Save draft
             </button>
@@ -447,14 +449,14 @@ export default function TeacherResults({
               type="button"
               disabled={!complete || invalidScores || saveMutation.isPending}
               onClick={() => saveMutation.mutate("submit")}
-              className="rounded-lg bg-primary-purple-700 px-5 py-3 font-semibold text-white disabled:opacity-50"
+              className="rounded-lg bg-primary-purple-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-primary-purple-800 disabled:opacity-50"
             >
               Submit for approval
             </button>
           </div>
         )}
         {status === "pending" && (
-          <p className="mt-4 text-sm text-gray-800">
+          <p className="mt-4 text-sm text-Text-meduim-emphasis">
             This sheet is awaiting administrator review and cannot be edited.
           </p>
         )}
