@@ -5,6 +5,7 @@ import React from "react";
 
 import { axiosInstance } from "@/api";
 import { Container } from "@/components/layout/dashboard";
+import { DashboardButton } from "@/components/ui/button/button";
 import { Spinner } from "@/components/ui/Loading";
 import { classInfoProp } from "@/templates/Database/class/class-types";
 
@@ -30,6 +31,9 @@ type TeacherProfile = {
 };
 type AssignmentDraft = { key: string; classId: string; subjectIds: string[] };
 type AssignmentPayload = { class_id: string; subject_ids: string[] };
+
+const controlClassName =
+  "mt-2 w-full rounded-lg border border-border-colour-light bg-neutral-300 p-2.5 font-normal outline-none focus:border-primary-purple-500 focus:ring-2 focus:ring-primary-purple-100";
 
 const className = (item: classInfoProp) => {
   const section = item.level === "junior" ? item.other_section : item.section;
@@ -66,7 +70,7 @@ function AssignmentEditor({
     <div className="space-y-4 md:col-span-2">
       <div>
         <h3 className="text-sm font-semibold">Class and subject assignments</h3>
-        <p className="text-xs text-gray-800">
+        <p className="mt-1 text-xs text-Text-meduim-emphasis">
           Add one row per class, then select only the subjects this teacher
           handles in that class.
         </p>
@@ -83,9 +87,9 @@ function AssignmentEditor({
         return (
           <div
             key={assignment.key}
-            className="grid gap-3 rounded-lg border bg-grey-50 p-4 md:grid-cols-[1fr_2fr_auto]"
+            className="grid gap-3 rounded-lg border border-border-colour-light bg-grey-50 p-4 md:grid-cols-[1fr_2fr_auto]"
           >
-            <label className="text-sm font-semibold">
+            <label className="text-sm font-medium">
               Class {index + 1}
               <select
                 value={assignment.classId}
@@ -95,7 +99,7 @@ function AssignmentEditor({
                     subjectIds: [],
                   })
                 }
-                className="mt-1 w-full rounded border bg-white p-2 font-normal"
+                className={controlClassName}
               >
                 <option value="">Select class</option>
                 {classes.map(item => (
@@ -109,9 +113,9 @@ function AssignmentEditor({
                 ))}
               </select>
             </label>
-            <div className="text-sm font-semibold">
+            <div className="text-sm font-medium">
               <p>Subjects taught in this class</p>
-              <div className="mt-1 max-h-40 space-y-2 overflow-y-auto rounded border bg-white p-3 font-normal">
+              <div className="mt-2 max-h-40 space-y-2 overflow-y-auto rounded-lg border border-border-colour-light bg-white p-3 font-normal">
                 {!assignment.classId && (
                   <p className="text-gray-600">Select a class first.</p>
                 )}
@@ -175,7 +179,7 @@ function AssignmentEditor({
       <button
         type="button"
         onClick={() => setAssignments(current => [...current, newAssignment()])}
-        className="flex items-center gap-2 rounded border border-primary-purple-700 px-4 py-2 text-sm font-semibold text-primary-purple-700"
+        className="flex items-center gap-2 rounded-lg border-1.5 border-primary-purple-700 px-4 py-2 text-sm font-semibold text-primary-purple-700 hover:bg-primary-purple-100"
       >
         <Icon icon="material-symbols:add-rounded" /> Add another class
       </button>
@@ -235,31 +239,36 @@ function TeacherForm({
           assignments: toPayload(assignments),
         });
   return (
-    <section className="mt-6 rounded-xl border bg-white p-6">
-      <div className="flex justify-between gap-4">
+    <section className="mt-6 rounded-lg border-1.5 border-border-colour-light bg-white">
+      <div className="flex justify-between gap-4 border-b border-border-colour-light px-4 py-5 sm:px-6">
         <div>
-          <h2 className="text-xl font-bold">
+          <h2 className="text-lg font-semibold">
             {profile ? "Edit teacher assignments" : "Create teacher account"}
           </h2>
-          <p className="text-sm text-gray-800">
+          <p className="mt-1 text-sm text-Text-meduim-emphasis">
             {profile
               ? `${profile.staff.surname} ${profile.staff.other_names} · ${profile.account.email}`
               : "Every class assignment must include at least one subject."}
           </p>
         </div>
-        <button type="button" onClick={onCancel}>
+        <button
+          type="button"
+          onClick={onCancel}
+          aria-label="Close teacher form"
+          className="self-start rounded-lg p-2 text-gray-600 hover:bg-neutral-300"
+        >
           <Icon icon="carbon:close-outline" className="text-2xl" />
         </button>
       </div>
-      <div className="mt-5 grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 px-4 py-5 sm:px-6 md:grid-cols-2">
         {!profile && (
           <>
-            <label className="text-sm font-semibold">
+            <label className="text-sm font-medium">
               Teaching staff
               <select
                 value={staffId}
                 onChange={event => setStaffId(event.target.value)}
-                className="mt-1 w-full rounded border bg-white p-2 font-normal"
+                className={controlClassName}
               >
                 <option value="">Select teacher</option>
                 {teachers.map(staff => (
@@ -269,24 +278,24 @@ function TeacherForm({
                 ))}
               </select>
             </label>
-            <label className="text-sm font-semibold">
+            <label className="text-sm font-medium">
               Login email
               <input
                 type="email"
                 value={email}
                 onChange={event => setEmail(event.target.value)}
-                className="mt-1 w-full rounded border p-2 font-normal"
+                className={controlClassName}
               />
             </label>
-            <label className="text-sm font-semibold md:col-span-2">
+            <label className="text-sm font-medium md:col-span-2">
               Temporary password
               <input
                 type="password"
                 value={password}
                 onChange={event => setPassword(event.target.value)}
-                className="mt-1 w-full rounded border p-2 font-normal"
+                className={controlClassName}
               />
-              <span className="mt-1 block text-xs font-normal text-gray-800">
+              <span className="mt-1 block text-xs font-normal text-Text-meduim-emphasis">
                 8+ characters with uppercase, lowercase, number, and symbol.
               </span>
             </label>
@@ -299,9 +308,9 @@ function TeacherForm({
           subjects={subjects}
         />
       </div>
-      <div className="mt-5 flex justify-end">
+      <div className="flex flex-col-reverse gap-3 border-t border-border-colour-light px-4 py-4 sm:flex-row sm:justify-end sm:px-6">
         {(!validAssignments || missingCredentials) && (
-          <p className="mr-4 self-center text-sm text-red-700">
+          <p className="mr-auto self-center text-sm text-red-700">
             Complete every required field and select at least one subject for
             each class.
           </p>
@@ -310,7 +319,7 @@ function TeacherForm({
           type="button"
           disabled={!validAssignments || missingCredentials || pending}
           onClick={save}
-          className="rounded-lg bg-primary-purple-700 px-6 py-3 font-semibold text-white disabled:opacity-50"
+          className="rounded-lg bg-primary-purple-700 px-6 py-3 text-sm font-semibold text-white hover:bg-primary-purple-800 disabled:opacity-50"
         >
           {pending
             ? "Saving..."
@@ -332,14 +341,14 @@ function ProfilesTable({
 }) {
   if (!profiles.length)
     return (
-      <p className="py-12 text-center text-gray-800">
+      <p className="mt-5 rounded-lg border border-dashed border-border-colour-light py-12 text-center text-Text-meduim-emphasis">
         No teacher portal accounts yet.
       </p>
     );
   return (
-    <div className="mt-4 overflow-x-auto">
-      <table className="w-full min-w-[850px] text-left text-sm">
-        <thead className="bg-grey-50 text-xs uppercase text-gray-800">
+    <div className="mt-4 overflow-x-auto rounded-lg border border-border-colour-light">
+      <table className="w-full min-w-[850px] text-left text-sm text-gray-600">
+        <thead className="bg-neutral-300 text-xs font-semibold text-Text-high-emphasis">
           <tr>
             <th className="p-3">Teacher</th>
             <th className="p-3">Email</th>
@@ -349,8 +358,11 @@ function ProfilesTable({
         </thead>
         <tbody>
           {profiles.map(profile => (
-            <tr key={profile._id} className="border-t align-top">
-              <td className="p-3 font-semibold">
+            <tr
+              key={profile._id}
+              className="border-t border-border-colour-light align-top"
+            >
+              <td className="p-3 font-semibold text-Text-high-emphasis">
                 {profile.staff.surname} {profile.staff.other_names}
               </td>
               <td className="p-3">{profile.account.email}</td>
@@ -372,7 +384,7 @@ function ProfilesTable({
                 <button
                   type="button"
                   onClick={() => onEdit(profile)}
-                  className="rounded border border-primary-purple-700 px-3 py-2 font-semibold text-primary-purple-700"
+                  className="rounded-lg border-1.5 border-primary-purple-700 px-3 py-2 text-sm font-semibold text-primary-purple-700 hover:bg-primary-purple-100"
                 >
                   Edit assignments
                 </button>
@@ -465,27 +477,29 @@ export default function TeacherPortalAccounts() {
     subjectQuery.isLoading;
   return (
     <Container headerTitle="Teacher Portals">
-      <main className="min-h-full bg-neutral-300 p-6 lg:p-10">
+      <main className="min-h-full bg-white px-4 py-5 sm:px-6 lg:px-10">
         {contextHolder}
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold">Teacher portal accounts</h1>
-            <p className="text-sm text-gray-800">
+            <h1 className="text-xl font-semibold">Teacher portal accounts</h1>
+            <p className="mt-1 max-w-2xl text-sm text-Text-meduim-emphasis">
               Assign each teacher to exact class and subject combinations.
               Students are included automatically from their current class.
             </p>
           </div>
-          <button
-            type="button"
+          <DashboardButton
+            variant="primary"
             onClick={() => {
               setEditingProfile(undefined);
               setShowCreate(true);
             }}
-            className="flex items-center gap-2 rounded-lg bg-primary-purple-700 px-5 py-3 font-semibold text-white"
+            leftElement={
+              <Icon icon="material-symbols:person-add-outline-rounded" />
+            }
+            className="m-0"
           >
-            <Icon icon="material-symbols:person-add-outline-rounded" /> Add
-            teacher account
-          </button>
+            Add teacher account
+          </DashboardButton>
         </div>
         {(showCreate || editingProfile) && (
           <TeacherForm
@@ -503,8 +517,8 @@ export default function TeacherPortalAccounts() {
             onUpdate={value => updateMutation.mutate(value)}
           />
         )}
-        <section className="mt-6 rounded-xl border bg-white p-6">
-          <h2 className="text-lg font-bold">Registered teacher accounts</h2>
+        <section className="mt-8">
+          <h2 className="text-lg font-semibold">Registered teacher accounts</h2>
           {loading ? (
             <div className="flex justify-center py-16">
               <Spinner />

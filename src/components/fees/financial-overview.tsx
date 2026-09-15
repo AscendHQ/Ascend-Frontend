@@ -39,9 +39,12 @@ function OverviewCards({ data }: { data: FinancialOverviewResponse }) {
   return (
     <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
       {cards.map(([label, value]) => (
-        <div key={label} className="rounded-lg border bg-white p-4">
-          <p className="text-xs text-gray-800">{label}</p>
-          <p className="mt-1 text-xl font-bold">{value}</p>
+        <div
+          key={label}
+          className="rounded-lg border border-border-colour-light bg-white p-4"
+        >
+          <p className="text-xs text-Text-meduim-emphasis">{label}</p>
+          <p className="mt-1 text-xl font-semibold">{value}</p>
         </div>
       ))}
     </div>
@@ -79,15 +82,15 @@ function StudentAccounts({
       )
     : accounts;
   return (
-    <section className="mt-6 rounded-lg border bg-white p-5">
+    <section className="mt-6 rounded-lg border border-border-colour-light bg-white p-5">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h2 className="text-lg font-semibold">Student account overview</h2>
-          <p className="text-sm text-gray-800">
+          <p className="mt-1 text-sm text-Text-meduim-emphasis">
             Current balances and the earlier periods that produced arrears.
           </p>
         </div>
-        <label className="flex w-full max-w-sm items-center gap-2 rounded-lg border px-3 py-2">
+        <label className="flex w-full max-w-sm items-center gap-2 rounded-lg border border-border-colour-light bg-neutral-300 px-3 py-2.5">
           <Icon icon="material-symbols:search-rounded" />
           <span className="sr-only">Search students</span>
           <input
@@ -99,13 +102,13 @@ function StudentAccounts({
         </label>
       </div>
       {!filtered.length ? (
-        <p className="py-10 text-center text-sm text-gray-800">
+        <p className="py-10 text-center text-sm text-Text-meduim-emphasis">
           No student accounts match this view.
         </p>
       ) : (
-        <div className="mt-4 overflow-x-auto">
-          <table className="w-full min-w-[950px] text-left text-sm">
-            <thead className="bg-grey-50 text-xs uppercase text-gray-800">
+        <div className="mt-4 overflow-x-auto rounded-lg border border-border-colour-light">
+          <table className="w-full min-w-[950px] text-left text-sm text-gray-600">
+            <thead className="bg-neutral-300 text-xs font-semibold text-Text-high-emphasis">
               <tr>
                 <th className="p-3">Student</th>
                 <th className="p-3">Expected</th>
@@ -119,10 +122,15 @@ function StudentAccounts({
             </thead>
             <tbody>
               {filtered.map(account => (
-                <tr key={account.student._id} className="border-t align-top">
+                <tr
+                  key={account.student._id}
+                  className="border-t border-border-colour-light align-top"
+                >
                   <td className="p-3">
-                    <p className="font-semibold">{getStudentName(account)}</p>
-                    <p className="text-xs text-gray-800">
+                    <p className="font-semibold text-Text-high-emphasis">
+                      {getStudentName(account)}
+                    </p>
+                    <p className="text-xs text-Text-meduim-emphasis">
                       {account.student.registration_number}
                     </p>
                   </td>
@@ -154,7 +162,9 @@ function StudentAccounts({
                         ))}
                       </div>
                     ) : (
-                      <span className="text-xs text-gray-800">None</span>
+                      <span className="text-xs text-Text-meduim-emphasis">
+                        None
+                      </span>
                     )}
                   </td>
                   <td className="p-3">
@@ -205,7 +215,7 @@ export default function FinancialOverview({
   }
   if (!overviewQuery.data) {
     return (
-      <p className="rounded-lg border bg-white p-6 text-center text-secondary-red-600">
+      <p className="rounded-lg border border-secondary-red-500 bg-white p-6 text-center text-secondary-red-600">
         Financial overview could not be loaded.
       </p>
     );
