@@ -114,11 +114,11 @@ export default function BulkResultUpload({
   });
 
   return (
-    <section className="rounded-xl border bg-white p-5">
+    <section className="rounded-lg border border-border-colour-light bg-white p-4 sm:p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 className="font-semibold">Bulk result upload</h2>
-          <p className="mt-1 text-sm text-gray-800">
+          <p className="mt-1 text-sm text-Text-meduim-emphasis">
             Download this class roster, enter all scores, then upload it
             unchanged.
           </p>
@@ -127,14 +127,14 @@ export default function BulkResultUpload({
           type="button"
           disabled={!students.length}
           onClick={() => downloadRoster(students, fileName)}
-          className="inline-flex items-center gap-2 rounded-lg border border-primary-purple-700 px-4 py-2 text-sm font-semibold text-primary-purple-700 disabled:opacity-50"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-primary-purple-700 px-4 py-2.5 text-sm font-semibold text-primary-purple-700 transition-colors hover:bg-primary-purple-100 disabled:opacity-50 sm:w-auto"
         >
           <Icon icon="material-symbols:download-rounded" />
           Download roster CSV
         </button>
       </div>
       {!locked && students.length > 0 && (
-        <div className="mt-4 flex flex-wrap items-center gap-3">
+        <div className="mt-4 flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center">
           <input
             type="file"
             accept=".csv,text/csv"
@@ -142,7 +142,7 @@ export default function BulkResultUpload({
               setErrors([]);
               setFile(event.target.files?.[0] ?? null);
             }}
-            className="max-w-full text-sm"
+            className="max-w-full rounded-lg border border-border-colour-light bg-neutral-300 p-2 text-sm"
           />
           {teacher && (
             <select
@@ -150,7 +150,7 @@ export default function BulkResultUpload({
               onChange={event =>
                 setAction(event.target.value as "draft" | "submit")
               }
-              className="rounded border bg-white px-3 py-2 text-sm"
+              className="rounded-lg border border-border-colour-light bg-white px-3 py-2.5 text-sm outline-none focus:border-primary-purple-700"
             >
               <option value="submit">Submit for approval</option>
               <option value="draft">Save as draft</option>
@@ -160,7 +160,7 @@ export default function BulkResultUpload({
             type="button"
             disabled={!file || mutation.isPending}
             onClick={() => mutation.mutate()}
-            className="inline-flex items-center gap-2 rounded-lg bg-primary-purple-700 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary-purple-700 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
           >
             {mutation.isPending ? (
               <Spinner />
@@ -172,7 +172,7 @@ export default function BulkResultUpload({
         </div>
       )}
       {locked && (
-        <p className="mt-4 text-sm text-gray-800">
+        <p className="mt-4 text-sm text-Text-meduim-emphasis">
           This result sheet is locked while pending or approved.
         </p>
       )}

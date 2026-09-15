@@ -21,17 +21,17 @@ export default function ResultInfo() {
   return (
     <div>
       <Container headerTitle={studentName}>
-        <main className="bg-white px-10 pt-7 h-full">
-          <div className="flex justify-between">
+        <main className="min-h-full bg-white px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
+          <div className="flex flex-wrap items-center justify-between gap-3">
             <Link
               href={DASHBOARD_RESULT}
-              className="flex items-center gap-3 text-sm"
+              className="inline-flex items-center gap-3 text-sm font-semibold text-primary-purple-700"
             >
               <Icon icon="teenyicons:arrow-left-solid" />
               <span>Back</span>
             </Link>
             {result && (
-              <p className="uppercase text-sm">
+              <p className="rounded-full bg-neutral-300 px-3 py-1.5 text-xs font-semibold uppercase text-Text-high-emphasis">
                 {result.session} | {result.term} | {result.status ?? "pending"}
               </p>
             )}
@@ -45,10 +45,7 @@ export default function ResultInfo() {
               Result not found.
             </div>
           ) : (
-            <ResultInformation
-              result={result}
-              studentName={studentName}
-            />
+            <ResultInformation result={result} studentName={studentName} />
           )}
         </main>
       </Container>
@@ -69,16 +66,16 @@ function ResultInformation({
       : "-";
 
   return (
-    <div className="flex justify-between gap-16 pb-16 mt-14 mb-8 border-b-2 border-border-colour-light">
-      <div className="w-96">
+    <div className="mt-8 grid gap-8 pb-12 lg:grid-cols-[260px_minmax(0,1fr)]">
+      <div>
         <h4 className="text-Text-high-emphasis font-semibold">
           Session information
         </h4>
-        <p className="text-sm tracking-tight text-gray-800">
+        <p className="mt-1 text-sm tracking-tight text-Text-meduim-emphasis">
           This will be displayed on the student profile.
         </p>
       </div>
-      <div className="flex flex-1 min-w-[60%] flex-wrap gap-5">
+      <div className="grid min-w-0 gap-5 sm:grid-cols-2">
         <InfoField label="Session" value={result.session} />
         <InfoField label="Term" value={result.term} />
         <InfoField label="Student name" value={studentName} />
@@ -96,11 +93,11 @@ function ResultInformation({
 
 function InfoField({ label, value }: { label: string; value: string }) {
   return (
-    <div className="lg:min-w-[250px] flex-1">
+    <div className="min-w-0">
       <p className="block mb-2 text-sm font-medium text-Text-high-emphasis">
         {label}
       </p>
-      <p className="border border-border-colour-light w-full rounded-lg bg-neutral-300 px-3 py-2 text-Text-high-emphasis">
+      <p className="w-full rounded-lg border border-border-colour-light bg-neutral-300 px-3 py-2.5 text-Text-high-emphasis">
         {value}
       </p>
     </div>
@@ -109,9 +106,9 @@ function InfoField({ label, value }: { label: string; value: string }) {
 
 function Table({ blocks }: { blocks: ResultBlockRecord[] }) {
   return (
-    <div className="overflow-scroll shadow-md sm:rounded-lg w-full">
-      <table className="w-full text-sm text-left text-gray-500">
-        <thead className="text-xs text-gray-700 uppercase border-b border-grey-300 bg-gray-50 ">
+    <div className="overflow-x-auto rounded-lg border border-border-colour-light sm:col-span-2">
+      <table className="w-full min-w-[720px] text-left text-sm text-Text-meduim-emphasis">
+        <thead className="border-b border-border-colour-light bg-neutral-300 text-xs uppercase text-Text-high-emphasis">
           <tr>
             <th scope="col" className="pl-6 pr-3 py-3">
               Subject
@@ -135,11 +132,12 @@ function Table({ blocks }: { blocks: ResultBlockRecord[] }) {
         </thead>
         <tbody>
           {blocks.map(block => (
-            <tr className="bg-white border-b " key={block._id}>
-              <td className="px-6 py-4 font-medium text-gray-900  whitespace-nowrap">
-                {typeof block.subject === "object"
-                  ? block.subject.name
-                  : "-"}
+            <tr
+              className="border-b border-border-colour-light bg-white last:border-0"
+              key={block._id}
+            >
+              <td className="whitespace-nowrap px-6 py-4 font-medium text-Text-high-emphasis">
+                {typeof block.subject === "object" ? block.subject.name : "-"}
               </td>
               <td className="px-6 py-4">{block.mid_term_test}</td>
               <td className="px-6 py-4">{block.ca_score}</td>

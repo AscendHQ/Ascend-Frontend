@@ -109,7 +109,7 @@ function ProgressionRow({
   const isGraduating = choice?.decision === "graduated";
 
   return (
-    <tr className="border-t">
+    <tr className="border-t border-border-colour-light">
       <td className="p-4">
         <input
           type="checkbox"
@@ -122,8 +122,10 @@ function ProgressionRow({
         />
       </td>
       <td className="p-4">
-        <div className="font-semibold">{studentName}</div>
-        <div className="text-xs text-gray-800">
+        <div className="font-semibold text-Text-high-emphasis">
+          {studentName}
+        </div>
+        <div className="text-xs text-Text-meduim-emphasis">
           {student.registration_number}
         </div>
       </td>
@@ -150,7 +152,7 @@ function ProgressionRow({
                 (event.target.value || undefined) as Decision | undefined
               )
             }
-            className="rounded border p-2"
+            className="rounded-lg border border-border-colour-light bg-neutral-300 p-2 outline-none focus:border-primary-purple-500"
           >
             <option value="">Choose decision</option>
             <option value="promoted">Promote</option>
@@ -173,7 +175,7 @@ function ProgressionRow({
                   targetClassId: event.target.value,
                 })
               }
-              className="min-w-[170px] rounded border p-2"
+              className="min-w-[170px] rounded-lg border border-border-colour-light bg-neutral-300 p-2 outline-none focus:border-primary-purple-500"
             >
               <option value="">Choose class</option>
               {classes.map(classInfo => (
@@ -226,7 +228,10 @@ export default function StudentProgression() {
   React.useEffect(() => {
     const requestedSession = router.query.session;
     const requestedTerm = router.query.term;
-    if (typeof requestedSession === "string" && typeof requestedTerm === "string") {
+    if (
+      typeof requestedSession === "string" &&
+      typeof requestedTerm === "string"
+    ) {
       setSession(requestedSession);
       setTerm(requestedTerm);
     } else if (settings?.current_session && settings.current_term) {
@@ -376,11 +381,11 @@ export default function StudentProgression() {
   if (!hasCompleteSettings) {
     return (
       <Container headerTitle="Student Progression">
-        <div className="bg-white p-10">
+        <div className="bg-white px-4 py-8 sm:px-6 lg:px-10">
           <h2 className="text-xl font-semibold">
             Set the academic timeline first
           </h2>
-          <p className="mt-2 text-gray-800">
+          <p className="mt-2 text-Text-meduim-emphasis">
             Open Account Settings → General Settings and save the current
             session, term, and promotion pass mark.
           </p>
@@ -391,13 +396,20 @@ export default function StudentProgression() {
 
   return (
     <Container headerTitle="Student Progression">
-      <main className="bg-white p-10">
+      <main className="bg-white px-4 py-5 sm:px-6 lg:px-10">
         {contextHolder}
-        <div className="flex flex-wrap items-end gap-4 rounded-lg bg-neutral-300 p-5">
+        <div className="mb-6">
+          <h1 className="text-xl font-semibold">Student progression</h1>
+          <p className="mt-1 text-sm text-Text-meduim-emphasis">
+            Move students to the next term or class using their approved
+            results.
+          </p>
+        </div>
+        <div className="grid gap-4 rounded-lg border border-border-colour-light bg-neutral-300 p-4 sm:grid-cols-2 xl:grid-cols-4">
           <div>
             <label
               htmlFor="progression-session"
-              className="mb-1 block font-semibold"
+              className="mb-2 block text-sm font-medium"
             >
               From session
             </label>
@@ -405,13 +417,13 @@ export default function StudentProgression() {
               id="progression-session"
               value={session}
               onChange={event => setSession(event.target.value)}
-              className="rounded border bg-white p-2"
+              className="w-full rounded-lg border border-border-colour-light bg-white p-2.5 text-sm"
             />
           </div>
           <div>
             <label
               htmlFor="progression-term"
-              className="mb-1 block font-semibold"
+              className="mb-2 block text-sm font-medium"
             >
               From term
             </label>
@@ -419,7 +431,7 @@ export default function StudentProgression() {
               id="progression-term"
               value={term}
               onChange={event => setTerm(event.target.value)}
-              className="rounded border bg-white p-2"
+              className="w-full rounded-lg border border-border-colour-light bg-white p-2.5 text-sm"
             >
               <option>1st Term</option>
               <option>2nd Term</option>
@@ -429,7 +441,7 @@ export default function StudentProgression() {
           <div>
             <label
               htmlFor="progression-class"
-              className="mb-1 block font-semibold"
+              className="mb-2 block text-sm font-medium"
             >
               Current class
             </label>
@@ -437,7 +449,7 @@ export default function StudentProgression() {
               id="progression-class"
               value={classId}
               onChange={event => setClassId(event.target.value)}
-              className="min-w-[180px] rounded border bg-white p-2"
+              className="w-full rounded-lg border border-border-colour-light bg-white p-2.5 text-sm"
             >
               {classes.map(classInfo => (
                 <option value={classInfo._id} key={classInfo._id}>
@@ -446,16 +458,18 @@ export default function StudentProgression() {
               ))}
             </select>
           </div>
-          <div className="ml-auto rounded-lg bg-white px-5 py-3">
-            <span className="text-sm text-gray-800">Moving to</span>
-            <strong className="ml-2">
+          <div className="rounded-lg bg-white px-4 py-3 xl:self-end">
+            <span className="block text-xs text-Text-meduim-emphasis">
+              Moving to
+            </span>
+            <strong className="mt-1 block text-sm">
               {nextPeriod.session}, {nextPeriod.term}
             </strong>
           </div>
         </div>
 
         {isYearEnd && (
-          <p className="mt-4 rounded border border-warning-main bg-warning-main/10 p-4 text-sm">
+          <p className="mt-4 rounded-lg border border-warning-main bg-warning-light p-4 text-sm text-warning-dark">
             Pass mark: <strong>{settings?.pass_mark ?? 50}%</strong>. The result
             is a recommendation only; an administrator must confirm Promote,
             Repeat, or Graduate for each student.
@@ -471,13 +485,13 @@ export default function StudentProgression() {
             Students could not be loaded for this period.
           </p>
         ) : students.length === 0 ? (
-          <p className="p-10 text-center text-gray-800">
+          <p className="p-10 text-center text-Text-meduim-emphasis">
             No active students are in this class.
           </p>
         ) : (
-          <div className="mt-6 overflow-x-auto rounded-lg border">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-grey-50 text-xs uppercase text-gray-800">
+          <div className="mt-6 overflow-x-auto rounded-lg border border-border-colour-light">
+            <table className="w-full text-left text-sm text-gray-600">
+              <thead className="bg-neutral-300 text-xs font-semibold text-Text-high-emphasis">
                 <tr>
                   <th className="p-4">Select</th>
                   <th className="p-4">Student</th>
@@ -511,7 +525,7 @@ export default function StudentProgression() {
             type="button"
             onClick={handleSubmit}
             disabled={mutation.isPending || students.length === 0}
-            className="rounded-lg bg-primary-purple-700 px-8 py-3 font-semibold text-white disabled:opacity-50"
+            className="w-full rounded-lg bg-primary-purple-700 px-8 py-3 text-sm font-semibold text-white hover:bg-primary-purple-800 disabled:opacity-50 sm:w-auto"
           >
             {mutation.isPending
               ? "Saving progression..."

@@ -44,7 +44,7 @@ export default function FilterStudentTab({
   
   */
   return (
-    <ul className="flex bg-neutral-300 border-1.5 items-center w-fit my-2 border-border-colour-light rounded px-2 py-1 gap-2">
+    <ul className="flex w-fit items-center gap-1 rounded-lg border-1.5 border-border-colour-light bg-neutral-300 p-1">
       {classCategoryKeys.map(item => {
         const selectItem = item as LevelOptions;
         const selectedTabIndex =
@@ -57,17 +57,17 @@ export default function FilterStudentTab({
         return (
           <motion.li
             key={selectItem}
-            className={`px-3 ${
+            className={`${
               isCurrentItem
-                ? "shadow-[0px_2px_12px_0px_#18181B36] text-primary-purple-700 bg-white rounded"
-                : " text-gray-800"
-            } font-medium tracking-tight`}
+                ? "bg-white text-primary-purple-700 shadow-sm"
+                : "text-gray-600"
+            } whitespace-nowrap rounded-md font-medium tracking-tight`}
           >
             <button
-              className={`px-3 py-1 relative font-medium tracking-tight`}
+              className="relative px-3 py-2 text-sm font-medium tracking-tight"
               onClick={() => setCurrentCategory(selectItem)}
             >
-              {selectedCategory.name}({tabNumbers[selectedTabIndex]})
+              {selectedCategory.name} ({tabNumbers[selectedTabIndex]})
             </button>
           </motion.li>
         );

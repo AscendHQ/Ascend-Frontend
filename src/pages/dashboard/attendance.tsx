@@ -59,9 +59,7 @@ const getToday = () => {
 
 const getClassLabel = (classInfo: classInfoProp) => {
   const section =
-    classInfo.level === "junior"
-      ? classInfo.other_section
-      : classInfo.section;
+    classInfo.level === "junior" ? classInfo.other_section : classInfo.section;
   return section ? `${classInfo.name} - ${section}` : classInfo.name;
 };
 
@@ -74,7 +72,11 @@ const getStudentName = (student: AttendanceStudent) =>
     .filter(Boolean)
     .join(" ");
 
-function AttendanceSummary({ values }: { values: Record<string, AttendanceValue> }) {
+function AttendanceSummary({
+  values,
+}: {
+  values: Record<string, AttendanceValue>;
+}) {
   const counts = STATUS_OPTIONS.map(option => ({
     ...option,
     count: Object.values(values).filter(item => item.status === option.value)
@@ -84,9 +86,12 @@ function AttendanceSummary({ values }: { values: Record<string, AttendanceValue>
   return (
     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
       {counts.map(item => (
-        <div key={item.value} className="rounded-lg border bg-white p-4">
-          <p className="text-sm text-gray-800">{item.label}</p>
-          <p className="text-2xl font-bold">{item.count}</p>
+        <div
+          key={item.value}
+          className="rounded-lg border border-border-colour-light bg-white p-4"
+        >
+          <p className="text-sm text-Text-meduim-emphasis">{item.label}</p>
+          <p className="text-2xl font-semibold">{item.count}</p>
         </div>
       ))}
     </div>
@@ -122,16 +127,16 @@ function AttendanceRegisterState({
   }
   if (students.length === 0) {
     return (
-      <p className="py-16 text-center text-gray-800">
+      <p className="py-16 text-center text-Text-meduim-emphasis">
         No active students are assigned to this class.
       </p>
     );
   }
 
   return (
-    <div className="mt-5 overflow-x-auto rounded-lg border">
-      <table className="w-full text-left text-sm">
-        <thead className="bg-grey-50 text-xs uppercase text-gray-800">
+    <div className="mt-5 overflow-x-auto rounded-lg border border-border-colour-light">
+      <table className="w-full text-left text-sm text-gray-600">
+        <thead className="bg-neutral-300 text-xs font-semibold text-Text-high-emphasis">
           <tr>
             <th className="p-4">Student</th>
             <th className="p-4">Registration number</th>
@@ -143,8 +148,13 @@ function AttendanceRegisterState({
           {students.map(student => {
             const studentName = getStudentName(student);
             return (
-              <tr key={student._id} className="border-t">
-                <td className="p-4 font-semibold">{studentName}</td>
+              <tr
+                key={student._id}
+                className="border-t border-border-colour-light"
+              >
+                <td className="p-4 font-semibold text-Text-high-emphasis">
+                  {studentName}
+                </td>
                 <td className="p-4">{student.registration_number}</td>
                 <td className="p-4">
                   <select
@@ -155,7 +165,7 @@ function AttendanceRegisterState({
                         status: event.target.value as AttendanceStatus,
                       })
                     }
-                    className="min-w-[130px] rounded border p-2 capitalize"
+                    className="min-w-[130px] rounded-lg border border-border-colour-light bg-neutral-300 p-2 capitalize"
                   >
                     {STATUS_OPTIONS.map(option => (
                       <option key={option.value} value={option.value}>
@@ -173,7 +183,7 @@ function AttendanceRegisterState({
                       updateValue(student._id, { remark: event.target.value })
                     }
                     placeholder="Optional remark"
-                    className="w-full min-w-[220px] rounded border p-2"
+                    className="w-full min-w-[220px] rounded-lg border border-border-colour-light bg-neutral-300 p-2"
                   />
                 </td>
               </tr>
@@ -203,7 +213,9 @@ export default function Attendance() {
   const [session, setSession] = React.useState("");
   const [term, setTerm] = React.useState("");
   const [date, setDate] = React.useState(getToday);
-  const [values, setValues] = React.useState<Record<string, AttendanceValue>>({});
+  const [values, setValues] = React.useState<Record<string, AttendanceValue>>(
+    {}
+  );
 
   React.useEffect(() => {
     if (!classId && classes[0]) setClassId(classes[0]._id);
@@ -295,25 +307,34 @@ export default function Attendance() {
 
   return (
     <Container headerTitle="Attendance">
-      <main className="bg-white p-10">
+      <main className="bg-white px-4 py-5 sm:px-6 lg:px-10">
         {contextHolder}
         {!hasAcademicSettings ? (
-          <div className="rounded-lg border border-warning-main bg-warning-main/10 p-5">
+          <div className="rounded-lg border border-warning-main bg-warning-light p-5 text-warning-dark">
             Save the current session and term in General Settings before taking
             attendance.
           </div>
         ) : (
           <>
-            <section className="flex flex-wrap items-end gap-4 rounded-lg bg-neutral-300 p-5">
+            <div className="mb-6">
+              <h1 className="text-xl font-semibold">Attendance</h1>
+              <p className="mt-1 text-sm text-Text-meduim-emphasis">
+                Record and update the daily attendance register for each class.
+              </p>
+            </div>
+            <section className="grid gap-4 rounded-lg border border-border-colour-light bg-neutral-300 p-4 sm:grid-cols-2 xl:grid-cols-4">
               <div>
-                <label htmlFor="attendance-class" className="mb-1 block font-semibold">
+                <label
+                  htmlFor="attendance-class"
+                  className="mb-2 block text-sm font-medium"
+                >
                   Class
                 </label>
                 <select
                   id="attendance-class"
                   value={classId}
                   onChange={event => setClassId(event.target.value)}
-                  className="min-w-[180px] rounded border bg-white p-2"
+                  className="w-full rounded-lg border border-border-colour-light bg-white p-2.5 text-sm"
                 >
                   {classes.map(classInfo => (
                     <option key={classInfo._id} value={classInfo._id}>
@@ -323,7 +344,10 @@ export default function Attendance() {
                 </select>
               </div>
               <div>
-                <label htmlFor="attendance-date" className="mb-1 block font-semibold">
+                <label
+                  htmlFor="attendance-date"
+                  className="mb-2 block text-sm font-medium"
+                >
                   Date
                 </label>
                 <input
@@ -332,13 +356,13 @@ export default function Attendance() {
                   max={getToday()}
                   value={date}
                   onChange={event => setDate(event.target.value)}
-                  className="rounded border bg-white p-2"
+                  className="w-full rounded-lg border border-border-colour-light bg-white p-2.5 text-sm"
                 />
               </div>
               <div>
                 <label
                   htmlFor="attendance-session"
-                  className="mb-1 block font-semibold"
+                  className="mb-2 block text-sm font-medium"
                 >
                   Session
                 </label>
@@ -346,7 +370,7 @@ export default function Attendance() {
                   id="attendance-session"
                   value={session}
                   onChange={event => setSession(event.target.value)}
-                  className="rounded border bg-white p-2"
+                  className="w-full rounded-lg border border-border-colour-light bg-white p-2.5 text-sm"
                 >
                   {sessionOptions.map(option => (
                     <option key={option} value={option}>
@@ -356,21 +380,24 @@ export default function Attendance() {
                 </select>
               </div>
               <div>
-                <label htmlFor="attendance-term" className="mb-1 block font-semibold">
+                <label
+                  htmlFor="attendance-term"
+                  className="mb-2 block text-sm font-medium"
+                >
                   Term
                 </label>
                 <select
                   id="attendance-term"
                   value={term}
                   onChange={event => setTerm(event.target.value)}
-                  className="rounded border bg-white p-2"
+                  className="w-full rounded-lg border border-border-colour-light bg-white p-2.5 text-sm"
                 >
                   <option value="1st Term">1st Term</option>
                   <option value="2nd Term">2nd Term</option>
                   <option value="3rd Term">3rd Term</option>
                 </select>
               </div>
-              <div className="ml-auto">
+              <div className="xl:col-span-4">
                 {attendanceQuery.data?.is_recorded && (
                   <span className="rounded-full bg-secondary-green-100 px-3 py-2 text-sm font-semibold text-secondary-green-700">
                     Saved register
@@ -385,16 +412,17 @@ export default function Attendance() {
 
             <div className="mt-6 flex items-center justify-between">
               <div>
-                <h2 className="text-xl font-semibold">Daily class register</h2>
-                <p className="text-sm text-gray-800">
-                  Students belonging to this class in the selected session and term are shown.
+                <h2 className="text-lg font-semibold">Daily class register</h2>
+                <p className="text-sm text-Text-meduim-emphasis">
+                  Students belonging to this class in the selected session and
+                  term are shown.
                 </p>
               </div>
               <button
                 type="button"
                 onClick={markAllPresent}
                 disabled={students.length === 0}
-                className="flex items-center gap-2 rounded-lg border px-4 py-2 font-semibold disabled:opacity-50"
+                className="flex items-center gap-2 rounded-lg border-1.5 border-border-colour-light px-4 py-2 text-sm font-semibold hover:bg-neutral-300 disabled:opacity-50"
               >
                 <Icon icon="material-symbols:done-all-rounded" />
                 Mark all present
@@ -414,13 +442,13 @@ export default function Attendance() {
                 type="button"
                 onClick={() => saveMutation.mutate()}
                 disabled={students.length === 0 || saveMutation.isPending}
-                className="rounded-lg bg-primary-purple-700 px-8 py-3 font-semibold text-white disabled:opacity-50"
+                className="w-full rounded-lg bg-primary-purple-700 px-8 py-3 text-sm font-semibold text-white hover:bg-primary-purple-800 disabled:opacity-50 sm:w-auto"
               >
                 {saveMutation.isPending
                   ? "Saving attendance..."
                   : attendanceQuery.data?.is_recorded
-                    ? "Update attendance"
-                    : "Save attendance"}
+                  ? "Update attendance"
+                  : "Save attendance"}
               </button>
             </div>
           </>

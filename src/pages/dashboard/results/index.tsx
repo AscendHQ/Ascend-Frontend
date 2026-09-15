@@ -74,15 +74,20 @@ export default function Results() {
   return (
     <Container headerTitle="Results">
       <main className="relative bg-white px-4 py-5 sm:px-6 lg:px-10">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <h3 className="text-Text-high-emphasis font-semibold text-xl">
-            {session} Session - {term}
-          </h3>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h1 className="text-xl font-semibold text-Text-high-emphasis sm:text-2xl">
+              Student results
+            </h1>
+            <p className="mt-1 text-sm text-Text-meduim-emphasis">
+              Review, upload, and manage results for {session}, {term}.
+            </p>
+          </div>
 
           <div className="flex flex-wrap gap-2">
             <Link
               href="/dashboard/results/bulk"
-              className="inline-flex items-center gap-2 rounded-lg border border-primary-purple-700 px-4 py-2 text-sm font-semibold text-primary-purple-700"
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-primary-purple-700 px-4 py-2.5 text-sm font-semibold text-primary-purple-700 transition-colors hover:bg-primary-purple-100"
             >
               <Icon icon="material-symbols:upload-file-outline" />
               Bulk upload
@@ -99,22 +104,24 @@ export default function Results() {
         </div>
         <TeacherResultApprovals />
         <div className="mt-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="relative block w-full border lg:min-w-[300px] lg:max-w-md">
+          <div className="relative block w-full lg:min-w-[300px] lg:max-w-md">
             <input
               type="search"
               placeholder="Search student's name or S/N"
               value={search}
               onChange={event => setSearch(event.target.value)}
-              className="rounded text-sm w-full px-2 py-3 border border-grey-800"
+              className="w-full rounded-lg border border-border-colour-light px-3 py-2.5 pr-10 text-sm outline-none focus:border-primary-purple-700"
             />
             <Icon
-              className="absolute bottom-1/2 translate-y-1/2 right-2"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-lg text-Text-meduim-emphasis"
               icon="mingcute:search-line"
             />
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <div className="flex items-center border border-default-black pl-2 rounded">
-              <span className="text-sm font-bold text-gray-800">Session :</span>
+            <div className="flex flex-1 items-center rounded-lg border border-border-colour-light bg-white pl-3 sm:flex-none">
+              <span className="text-sm font-semibold text-Text-high-emphasis">
+                Session
+              </span>
               <Select
                 value={session}
                 style={{ width: 110, fontSize: 14, borderRadius: 5 }}
@@ -123,8 +130,10 @@ export default function Results() {
                 options={sessionOptions}
               />
             </div>
-            <div className="flex items-center border border-default-black pl-2 rounded">
-              <span className="text-sm font-bold text-gray-800">Term :</span>
+            <div className="flex flex-1 items-center rounded-lg border border-border-colour-light bg-white pl-3 sm:flex-none">
+              <span className="text-sm font-semibold text-Text-high-emphasis">
+                Term
+              </span>
               <Select
                 value={term}
                 style={{ width: 110, fontSize: 14, borderRadius: 5 }}
@@ -142,7 +151,7 @@ export default function Results() {
         ) : isError && isAccessDeniedError(error) ? (
           <PermissionDeniedState message="You don't have permission to view results." />
         ) : !results.length ? (
-          <div className="flex flex-col items-center gap-2 py-16 text-Text-meduim-emphasis">
+          <div className="mt-8 flex flex-col items-center gap-2 rounded-lg border border-dashed border-border-colour-light py-16 text-Text-meduim-emphasis">
             <p>
               No results for {session}, {term} yet.
             </p>
@@ -151,7 +160,7 @@ export default function Results() {
             </p>
           </div>
         ) : !filteredResults.length ? (
-          <div className="py-16 text-center text-Text-meduim-emphasis">
+          <div className="mt-8 rounded-lg border border-dashed border-border-colour-light py-16 text-center text-Text-meduim-emphasis">
             No results match &quot;{search}&quot;.
           </div>
         ) : (
@@ -164,9 +173,9 @@ export default function Results() {
 
 function Table({ results }: { results: ResultRecord[] }) {
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
-      <table className="w-full text-sm text-left text-gray-500">
-        <thead className="text-xs text-gray-700 normal-case border-b bg-neutral-300 border-grey-300 bg-gray-50 ">
+    <div className="relative mt-8 overflow-x-auto rounded-lg border border-border-colour-light">
+      <table className="w-full min-w-[700px] text-left text-sm text-Text-meduim-emphasis">
+        <thead className="border-b border-border-colour-light bg-neutral-300 text-Text-high-emphasis">
           <tr>
             <TableHeadingText title="S/N" styles="text-center" />
             <TableHeadingText title="Full name" />
@@ -177,7 +186,10 @@ function Table({ results }: { results: ResultRecord[] }) {
         </thead>
         <tbody>
           {results.map((item, index) => (
-            <tr className="bg-white border-b  border-grey-300 " key={item._id}>
+            <tr
+              className="border-b border-border-colour-light bg-white last:border-0"
+              key={item._id}
+            >
               <TableBodyText
                 title={(index + 1).toString()}
                 styles="text-center"
@@ -209,7 +221,7 @@ function Table({ results }: { results: ResultRecord[] }) {
               <td>
                 <Link
                   href={DASHBOARD_RESULT_INFO(item._id)}
-                  className="border-1.5 rounded border-border-colour-light text-gray-800 py-2 px-3 my-4 mx-auto block w-fit"
+                  className="mx-auto my-3 block w-fit rounded-lg border border-border-colour-light px-3 py-2 text-sm font-semibold text-primary-purple-700 transition-colors hover:border-primary-purple-700"
                 >
                   View Result
                 </Link>
@@ -232,7 +244,12 @@ function TableBodyText({
   leftElement?: JSX.Element;
 }) {
   return (
-    <td className={twMerge("px-4 py-1 font-medium text-gray-900", styles)}>
+    <td
+      className={twMerge(
+        "px-4 py-3 font-medium text-Text-high-emphasis",
+        styles
+      )}
+    >
       {leftElement}
       {title}
     </td>

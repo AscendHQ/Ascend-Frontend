@@ -59,8 +59,7 @@ export default function RegisterStudentTable({
     ],
     queryFn: ({ queryKey }) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const [_key, currentStudentId, currentClassId, session, term] =
-        queryKey;
+      const [_key, currentStudentId, currentClassId, session, term] = queryKey;
 
       return axiosInstance
         .get(
@@ -74,8 +73,7 @@ export default function RegisterStudentTable({
 
   React.useEffect(() => {
     const registeredSubjects =
-      fetchStudentRegistrationQuery.data?.registration?.selected_subjects ??
-      [];
+      fetchStudentRegistrationQuery.data?.registration?.selected_subjects ?? [];
     setSelectedSubjects(registeredSubjects.map(subject => subject._id));
   }, [fetchStudentRegistrationQuery.data, setSelectedSubjects]);
 
@@ -155,7 +153,7 @@ export default function RegisterStudentTable({
     ));
   };
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
+    <div className="relative mt-5 overflow-x-auto rounded-lg border border-border-colour-light">
       <div className="relative h-[400px] overflow-y-auto">
         <table className={`w-full relative text-sm text-left  text-gray-500`}>
           <RegisterStudentTableHeader />
@@ -188,7 +186,7 @@ export default function RegisterStudentTable({
 
       <ViewDetailsModal open={isOpenDetails} onClose={closeDetailsModal}>
         <div className="">
-          <h3 className="text-center text-xl font-semibold">Choose Subjects</h3>
+          <h3 className="text-center text-xl font-semibold">Choose subjects</h3>
           <div className="overflow-y-auto h-[70vh]">
             {fetchStudentRegistrationQuery.isError ? (
               <div className="p-8 text-center text-secondary-red-600">

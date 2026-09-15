@@ -19,9 +19,9 @@ export default function AddNewResultTable({
   ) => void;
 }) {
   return (
-    <div className="overflow-scroll shadow-md sm:rounded-lg w-full">
-      <table className="w-full text-sm text-left text-gray-500">
-        <thead className="text-xs text-gray-700 uppercase border-b border-grey-300 bg-gray-50 ">
+    <div className="overflow-x-auto rounded-lg border border-border-colour-light sm:col-span-2">
+      <table className="w-full min-w-[620px] text-left text-sm text-Text-meduim-emphasis">
+        <thead className="border-b border-border-colour-light bg-neutral-300 text-xs uppercase text-Text-high-emphasis">
           <tr>
             <th scope="col" className="pl-6 pr-3 py-3">
               Subject
@@ -45,8 +45,11 @@ export default function AddNewResultTable({
               exam_score: "",
             };
             return (
-              <tr className="bg-white border-b " key={subject._id}>
-                <td className="px-6 py-4 font-medium text-gray-900  whitespace-nowrap">
+              <tr
+                className="border-b border-border-colour-light bg-white last:border-0"
+                key={subject._id}
+              >
+                <td className="whitespace-nowrap px-6 py-4 font-medium text-Text-high-emphasis">
                   {subject.name}
                 </td>
                 <td className="px-6 py-4">
@@ -58,7 +61,7 @@ export default function AddNewResultTable({
                     onChange={e =>
                       onChange(subject._id, "mid_term_test", e.target.value)
                     }
-                    className="max-w-[100px] placeholder:text-Text-meduim-emphasis border border-grey-300"
+                    className="w-24 rounded-lg border border-border-colour-light px-3 py-2 placeholder:text-Text-meduim-emphasis outline-none focus:border-primary-purple-700"
                     placeholder="0.00"
                   />
                 </td>
@@ -71,7 +74,7 @@ export default function AddNewResultTable({
                     onChange={e =>
                       onChange(subject._id, "ca_score", e.target.value)
                     }
-                    className="max-w-[100px] placeholder:text-Text-meduim-emphasis border border-grey-300"
+                    className="w-24 rounded-lg border border-border-colour-light px-3 py-2 placeholder:text-Text-meduim-emphasis outline-none focus:border-primary-purple-700"
                     placeholder="0.00"
                   />
                 </td>
@@ -84,7 +87,7 @@ export default function AddNewResultTable({
                     onChange={e =>
                       onChange(subject._id, "exam_score", e.target.value)
                     }
-                    className="max-w-[100px] placeholder:text-Text-meduim-emphasis border border-grey-300"
+                    className="w-24 rounded-lg border border-border-colour-light px-3 py-2 placeholder:text-Text-meduim-emphasis outline-none focus:border-primary-purple-700"
                     placeholder="0.00"
                   />
                 </td>

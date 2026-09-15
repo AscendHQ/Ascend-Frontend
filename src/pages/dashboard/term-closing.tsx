@@ -83,8 +83,10 @@ function ReadinessRow({
   }).toString()}`;
 
   return (
-    <tr className="border-t">
-      <td className="p-4 font-semibold">{getClassLabel(classSummary)}</td>
+    <tr className="border-t border-border-colour-light">
+      <td className="p-4 font-semibold text-Text-high-emphasis">
+        {getClassLabel(classSummary)}
+      </td>
       <td className="p-4 text-center">{classSummary.total_students}</td>
       <td className="p-4 text-center">
         <CompletionCount
@@ -108,7 +110,9 @@ function ReadinessRow({
         {classSummary.total_students === 0 ? (
           <span className="text-gray-800">No students</span>
         ) : classSummary.complete ? (
-          <span className="font-semibold text-secondary-green-600">Complete</span>
+          <span className="font-semibold text-secondary-green-600">
+            Complete
+          </span>
         ) : classSummary.ready_for_progression ? (
           <Link
             href={progressionUrl}
@@ -119,11 +123,15 @@ function ReadinessRow({
         ) : (
           <div className="flex flex-col gap-1 text-sm">
             {classSummary.registered_students < classSummary.total_students && (
-              <Link href={SUBJECT_REGISTRATION} className="text-primary-purple-700">
+              <Link
+                href={SUBJECT_REGISTRATION}
+                className="text-primary-purple-700"
+              >
                 Complete registration
               </Link>
             )}
-            {classSummary.students_with_results < classSummary.total_students && (
+            {classSummary.students_with_results <
+              classSummary.total_students && (
               <Link href={DASHBOARD_RESULT} className="text-primary-purple-700">
                 Complete results
               </Link>
@@ -153,12 +161,12 @@ function ClosedPeriodHistory({
         {sortedHistory.map(period => (
           <div
             key={`${period.session}-${period.term}`}
-            className="rounded-lg border p-4"
+            className="rounded-lg border border-border-colour-light p-4"
           >
             <p className="font-semibold">
               {period.session} — {period.term}
             </p>
-            <p className="mt-1 text-xs text-gray-800">
+            <p className="mt-1 text-xs text-Text-meduim-emphasis">
               Closed {new Date(period.closed_at).toLocaleDateString("en-NG")}
             </p>
           </div>
@@ -188,14 +196,12 @@ export default function TermClosing() {
 
   const closeTermMutation = useMutation({
     mutationFn: () =>
-      axiosInstance
-        .post("/students/term-closing", { session, term })
-        .then(
-          response =>
-            response.data as {
-              current_period: { session: string; term: string };
-            }
-        ),
+      axiosInstance.post("/students/term-closing", { session, term }).then(
+        response =>
+          response.data as {
+            current_period: { session: string; term: string };
+          }
+      ),
     onSuccess: response => {
       api.success({
         message: "Academic term closed",
@@ -236,10 +242,13 @@ export default function TermClosing() {
   if (!session || !term) {
     return (
       <Container headerTitle="Term Closing">
-        <div className="bg-white p-10">
-          <h2 className="text-xl font-semibold">Academic settings are required</h2>
-          <p className="mt-2 text-gray-800">
-            Save the school&apos;s current session and term before closing a period.
+        <div className="bg-white px-4 py-8 sm:px-6 lg:px-10">
+          <h2 className="text-xl font-semibold">
+            Academic settings are required
+          </h2>
+          <p className="mt-2 text-Text-meduim-emphasis">
+            Save the school&apos;s current session and term before closing a
+            period.
           </p>
           <Link
             href={ACCOUNT_SETTING_GENERALSETTING}
@@ -254,7 +263,8 @@ export default function TermClosing() {
 
   const summary = readinessQuery.data;
   const totalStudents =
-    summary?.classes.reduce((total, item) => total + item.total_students, 0) ?? 0;
+    summary?.classes.reduce((total, item) => total + item.total_students, 0) ??
+    0;
   const progressedStudents =
     summary?.classes.reduce(
       (total, item) => total + item.progressed_students,
@@ -263,20 +273,32 @@ export default function TermClosing() {
 
   return (
     <Container headerTitle="Term Closing">
-      <main className="bg-white p-10">
+      <main className="bg-white px-4 py-5 sm:px-6 lg:px-10">
         {contextHolder}
-        <section className="flex flex-wrap items-center justify-between gap-5 rounded-lg bg-neutral-300 p-6">
+        <div className="mb-6">
+          <h1 className="text-xl font-semibold">Term closing</h1>
+          <p className="mt-1 text-sm text-Text-meduim-emphasis">
+            Review class readiness before advancing the school to the next
+            academic period.
+          </p>
+        </div>
+        <section className="flex flex-wrap items-center justify-between gap-5 rounded-lg border border-border-colour-light bg-neutral-300 p-5">
           <div>
-            <p className="text-sm text-gray-800">Current academic period</p>
-            <h2 className="text-2xl font-bold">
+            <p className="text-sm text-Text-meduim-emphasis">
+              Current academic period
+            </p>
+            <h2 className="text-2xl font-semibold">
               {session} — {term}
             </h2>
           </div>
           {summary?.next_period && (
             <div className="flex items-center gap-3">
-              <Icon icon="material-symbols:arrow-forward-rounded" fontSize={28} />
+              <Icon
+                icon="material-symbols:arrow-forward-rounded"
+                fontSize={28}
+              />
               <div>
-                <p className="text-sm text-gray-800">Next period</p>
+                <p className="text-sm text-Text-meduim-emphasis">Next period</p>
                 <p className="font-semibold">
                   {summary.next_period.session} — {summary.next_period.term}
                 </p>
@@ -284,8 +306,10 @@ export default function TermClosing() {
             </div>
           )}
           <div>
-            <p className="text-sm text-gray-800">Progression completed</p>
-            <p className="text-xl font-bold">
+            <p className="text-sm text-Text-meduim-emphasis">
+              Progression completed
+            </p>
+            <p className="text-xl font-semibold">
               {progressedStudents}/{totalStudents}
             </p>
           </div>
@@ -306,9 +330,9 @@ export default function TermClosing() {
             Term readiness could not be loaded. Refresh and try again.
           </div>
         ) : (
-          <div className="mt-6 overflow-x-auto rounded-lg border">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-grey-50 text-xs uppercase text-gray-800">
+          <div className="mt-6 overflow-x-auto rounded-lg border border-border-colour-light">
+            <table className="w-full text-left text-sm text-gray-600">
+              <thead className="bg-neutral-300 text-xs font-semibold text-Text-high-emphasis">
                 <tr>
                   <th className="p-4">Class</th>
                   <th className="p-4 text-center">Students</th>
@@ -332,19 +356,19 @@ export default function TermClosing() {
           </div>
         )}
 
-        <div className="mt-8 flex items-center justify-between gap-5 rounded-lg border p-5">
+        <div className="mt-8 flex flex-col items-start justify-between gap-5 rounded-lg border border-border-colour-light p-5 sm:flex-row sm:items-center">
           <div>
             <h3 className="font-semibold">Final confirmation</h3>
-            <p className="text-sm text-gray-800">
-              Closing is recorded permanently and advances the school&apos;s current
-              academic period.
+            <p className="text-sm text-Text-meduim-emphasis">
+              Closing is recorded permanently and advances the school&apos;s
+              current academic period.
             </p>
           </div>
           <button
             type="button"
             onClick={handleCloseTerm}
             disabled={!summary?.ready_to_close || closeTermMutation.isPending}
-            className="rounded-lg bg-primary-purple-700 px-8 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full rounded-lg bg-primary-purple-700 px-8 py-3 text-sm font-semibold text-white hover:bg-primary-purple-800 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
           >
             {closeTermMutation.isPending ? "Closing term..." : "Close term"}
           </button>

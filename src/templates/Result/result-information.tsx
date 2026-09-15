@@ -56,7 +56,9 @@ const buildResultBlocks = (scores: SubjectScores): ResultBlockInput[] =>
 
 const hasInvalidScoreValues = (scores: SubjectScores) =>
   Object.values(scores).some(row => {
-    const values = [row.mid_term_test, row.ca_score, row.exam_score].map(Number);
+    const values = [row.mid_term_test, row.ca_score, row.exam_score].map(
+      Number
+    );
     return (
       values.some(value => !Number.isFinite(value) || value < 0) ||
       values.reduce((total, value) => total + value, 0) > 100
@@ -100,14 +102,14 @@ function ResultSubjectFields({
   }
   if (!hasSelection) {
     return (
-      <p className="rounded border p-4 text-sm text-gray-800">
+      <p className="rounded-lg border border-dashed border-border-colour-light p-4 text-sm text-Text-meduim-emphasis">
         Select a student, session, and term to load registered subjects.
       </p>
     );
   }
   if (hasSelection && !hasRegistration) {
     return (
-      <p className="rounded border border-warning-main bg-warning-main/10 p-4 text-sm">
+      <p className="rounded-lg border border-warning-main bg-warning-main/10 p-4 text-sm">
         This student has no subject registration for the selected session and
         term. Complete Subject Registration before entering results.
       </p>
@@ -115,7 +117,7 @@ function ResultSubjectFields({
   }
   if (hasRegistration && subjects.length === 0) {
     return (
-      <p className="rounded border p-4 text-sm text-gray-800">
+      <p className="rounded-lg border border-dashed border-border-colour-light p-4 text-sm text-Text-meduim-emphasis">
         No subjects were selected in this student&apos;s registration.
       </p>
     );
@@ -150,7 +152,8 @@ export default function ResultInformation() {
 
   const selectedStudent = students.find(s => s._id === selectedStudentId);
   const selectedClassId =
-    selectedStudent && typeof selectedStudent.academic_details.class === "object"
+    selectedStudent &&
+    typeof selectedStudent.academic_details.class === "object"
       ? selectedStudent.academic_details.class._id
       : "";
   const {
@@ -252,17 +255,17 @@ export default function ResultInformation() {
   return (
     <section>
       {contextHolder}
-      <div className="flex justify-between gap-16 pb-16 mt-14 mb-8 border-b-2 border-border-colour-light">
-        <div className="w-96">
+      <div className="mt-8 grid gap-8 pb-10 lg:grid-cols-[260px_minmax(0,1fr)]">
+        <div>
           <h4 className="text-Text-high-emphasis font-semibold">
             Session information
           </h4>
-          <p className="text-sm tracking-tight text-gray-800">
+          <p className="mt-1 text-sm tracking-tight text-Text-meduim-emphasis">
             This will be displayed on the student profile.
           </p>
         </div>
-        <div className="flex flex-1 min-w-[60%] flex-wrap gap-5">
-          <div className="lg:min-w-[250px] flex-1">
+        <div className="grid min-w-0 gap-5 sm:grid-cols-2">
+          <div className="min-w-0">
             <label
               htmlFor="session"
               className="block mb-2 text-sm font-medium text-Text-high-emphasis"
@@ -273,7 +276,7 @@ export default function ResultInformation() {
               id="session"
               value={session}
               onChange={e => setSession(e.target.value)}
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis p-2"
+              className="w-full rounded-lg border border-border-colour-light bg-white p-2.5 text-Text-high-emphasis outline-none focus:border-primary-purple-700"
             >
               <option value="">Select a session</option>
               {sessionOptions.map(s => (
@@ -283,7 +286,7 @@ export default function ResultInformation() {
               ))}
             </select>
           </div>
-          <div className="lg:min-w-[250px] flex-1">
+          <div className="min-w-0">
             <label
               htmlFor="term"
               className="block mb-2 text-sm font-medium text-Text-high-emphasis"
@@ -294,7 +297,7 @@ export default function ResultInformation() {
               id="term"
               value={term}
               onChange={e => setTerm(e.target.value)}
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis p-2"
+              className="w-full rounded-lg border border-border-colour-light bg-white p-2.5 text-Text-high-emphasis outline-none focus:border-primary-purple-700"
             >
               <option value="">Select a term</option>
               {TERM_OPTIONS.map(t => (
@@ -304,7 +307,7 @@ export default function ResultInformation() {
               ))}
             </select>
           </div>
-          <div className="lg:min-w-[250px] flex-1">
+          <div className="min-w-0">
             <label
               htmlFor="student"
               className="block mb-2 text-sm font-medium text-Text-high-emphasis"
@@ -315,7 +318,7 @@ export default function ResultInformation() {
               id="student"
               value={selectedStudentId}
               onChange={e => setSelectedStudentId(e.target.value)}
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis p-2"
+              className="w-full rounded-lg border border-border-colour-light bg-white p-2.5 text-Text-high-emphasis outline-none focus:border-primary-purple-700"
             >
               <option value="">
                 {isLoadingStudents ? "Loading students..." : "Select a student"}
@@ -329,7 +332,7 @@ export default function ResultInformation() {
               ))}
             </select>
           </div>
-          <div className="lg:min-w-[250px] flex-1">
+          <div className="min-w-0">
             <label
               htmlFor="student_class"
               className="block mb-2 text-sm font-medium text-Text-high-emphasis"
@@ -346,11 +349,11 @@ export default function ResultInformation() {
                   ? selectedStudent.academic_details.class.name
                   : ""
               }
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis p-2"
+              className="w-full rounded-lg border border-border-colour-light bg-neutral-300 p-2.5 text-Text-high-emphasis"
               placeholder="-"
             />
           </div>
-          <div className="lg:min-w-[250px] flex-1">
+          <div className="min-w-0">
             <label
               htmlFor="student_registration_number"
               className="block mb-2 text-sm font-medium text-Text-high-emphasis"
@@ -362,7 +365,7 @@ export default function ResultInformation() {
               id="student_registration_number"
               readOnly
               value={selectedStudent?.registration_number ?? ""}
-              className="border border-border-colour-light w-full rounded-lg bg-neutral-300 focus:ring-primary-purple-500 placeholder:text-Text-meduim-emphasis text-Text-high-emphasis p-2"
+              className="w-full rounded-lg border border-border-colour-light bg-neutral-300 p-2.5 text-Text-high-emphasis"
               placeholder="-"
             />
           </div>
@@ -378,18 +381,18 @@ export default function ResultInformation() {
           />
         </div>
       </div>
-      <ul className="flex gap-2 justify-end">
-        <li>
+      <ul className="flex flex-col-reverse gap-2 border-t border-border-colour-light pt-6 sm:flex-row sm:justify-end">
+        <li className="sm:w-auto">
           <Link
             href={DASHBOARD_RESULT}
-            className="text-Text-high-emphasis border-1.5 border-border-colour-light rounded-lg py-3 px-14 font-semibold text-sm inline-block"
+            className="inline-block w-full rounded-lg border border-border-colour-light px-8 py-3 text-center text-sm font-semibold text-Text-high-emphasis sm:w-auto"
           >
             Cancel
           </Link>
         </li>
-        <li>
+        <li className="sm:w-auto">
           <button
-            className="text-white bg-primary-purple-700 rounded-lg py-3 px-16 font-semibold text-sm disabled:opacity-50"
+            className="w-full rounded-lg bg-primary-purple-700 px-10 py-3 text-sm font-semibold text-white disabled:opacity-50 sm:w-auto"
             onClick={handleSave}
             disabled={isCreatingResult}
           >

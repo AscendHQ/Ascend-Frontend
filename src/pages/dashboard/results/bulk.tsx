@@ -96,7 +96,7 @@ export default function BulkResults() {
 
   return (
     <Container headerTitle="Bulk results">
-      <main className="min-h-full bg-neutral-300 p-4 sm:p-6 lg:p-10">
+      <main className="min-h-full bg-neutral-300 px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
         <div className="mx-auto max-w-5xl space-y-5">
           <Link
             href="/dashboard/results"
@@ -104,14 +104,14 @@ export default function BulkResults() {
           >
             ← Back to results
           </Link>
-          <section className="rounded-xl bg-white p-5 shadow-sm sm:p-8">
-            <p className="text-sm font-semibold text-primary-purple-700">
-              BULK RESULTS
+          <section className="rounded-lg border border-border-colour-light bg-white p-5 sm:p-8">
+            <p className="text-xs font-semibold uppercase tracking-wide text-primary-purple-700">
+              Bulk results
             </p>
-            <h1 className="mt-1 text-2xl font-bold">
+            <h1 className="mt-1 text-xl font-semibold text-Text-high-emphasis sm:text-2xl">
               Upload a class subject result
             </h1>
-            <p className="mt-2 text-sm text-gray-800">
+            <p className="mt-2 text-sm text-Text-meduim-emphasis">
               Choose the exact class, subject, session, and term before
               downloading its populated roster.
             </p>
@@ -124,7 +124,7 @@ export default function BulkResults() {
                     setClassId(event.target.value);
                     setSubjectId("");
                   }}
-                  className="mt-1 w-full rounded border bg-white p-2 font-normal"
+                  className="mt-1 w-full rounded-lg border border-border-colour-light bg-white px-3 py-2.5 font-normal outline-none focus:border-primary-purple-700"
                 >
                   <option value="">Select class</option>
                   {classes.map(item => (
@@ -140,7 +140,7 @@ export default function BulkResults() {
                   value={subjectId}
                   disabled={!classId}
                   onChange={event => setSubjectId(event.target.value)}
-                  className="mt-1 w-full rounded border bg-white p-2 font-normal disabled:bg-gray-100"
+                  className="mt-1 w-full rounded-lg border border-border-colour-light bg-white px-3 py-2.5 font-normal outline-none focus:border-primary-purple-700 disabled:bg-neutral-300"
                 >
                   <option value="">Select subject</option>
                   {subjects.map(item => (
@@ -161,7 +161,7 @@ export default function BulkResults() {
                   value={session || undefined}
                   onChange={setSession}
                   options={sessions.map(value => ({ value, label: value }))}
-                  className="mt-1 w-full"
+                  className="mt-1 w-full [&_.ant-select-selector]:!h-[42px] [&_.ant-select-selector]:!items-center [&_.ant-select-selector]:!rounded-lg [&_.ant-select-selector]:!border-border-colour-light"
                 />
               </label>
               <label
@@ -174,24 +174,24 @@ export default function BulkResults() {
                   value={term || undefined}
                   onChange={setTerm}
                   options={terms.map(value => ({ value, label: value }))}
-                  className="mt-1 w-full"
+                  className="mt-1 w-full [&_.ant-select-selector]:!h-[42px] [&_.ant-select-selector]:!items-center [&_.ant-select-selector]:!rounded-lg [&_.ant-select-selector]:!border-border-colour-light"
                 />
               </label>
             </div>
           </section>
           {rosterQuery.isLoading && (
-            <div className="flex justify-center rounded-xl bg-white py-16">
+            <div className="flex justify-center rounded-lg border border-border-colour-light bg-white py-16">
               <Spinner />
             </div>
           )}
           {rosterQuery.isError && (
-            <p className="rounded-xl border border-secondary-red-500 bg-white p-6 text-center">
+            <p className="rounded-lg border border-secondary-red-500 bg-white p-6 text-center">
               The roster could not be loaded. Confirm the selected subject
               belongs to this class.
             </p>
           )}
           {rosterQuery.data && rosterQuery.data.students.length === 0 && (
-            <p className="rounded-xl bg-white p-8 text-center">
+            <p className="rounded-lg border border-dashed border-border-colour-light bg-white p-8 text-center text-Text-meduim-emphasis">
               No student in this class is registered for the selected subject.
             </p>
           )}

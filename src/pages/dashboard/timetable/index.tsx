@@ -36,9 +36,7 @@ const makeEntry = (): EditableEntry => ({
 
 const getClassLabel = (classInfo: classInfoProp) => {
   const section =
-    classInfo.level === "junior"
-      ? classInfo.other_section
-      : classInfo.section;
+    classInfo.level === "junior" ? classInfo.other_section : classInfo.section;
   return section ? `${classInfo.name} - ${section}` : classInfo.name;
 };
 
@@ -158,24 +156,26 @@ export default function Timetable() {
 
   return (
     <Container headerTitle="Timetable">
-      <main className="min-h-full bg-neutral-300 p-6 lg:p-10">
+      <main className="min-h-full bg-neutral-300 px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
         {contextHolder}
         <div>
-          <h1 className="text-2xl font-bold">Class timetable</h1>
-          <p className="mt-1 text-sm text-gray-800">
+          <h1 className="text-xl font-semibold text-Text-high-emphasis sm:text-2xl">
+            Class timetable
+          </h1>
+          <p className="mt-1 text-sm text-Text-meduim-emphasis">
             Create the timetable parents and students will see for the selected
             academic period.
           </p>
         </div>
 
-        <section className="mt-6 rounded-xl border bg-white p-5">
+        <section className="mt-6 rounded-lg border border-border-colour-light bg-white p-4 sm:p-5">
           <div className="grid gap-4 md:grid-cols-3">
             <label className="text-sm font-semibold">
               Class
               <select
                 value={classId}
                 onChange={event => setClassId(event.target.value)}
-                className="mt-1 w-full rounded border bg-white p-2 font-normal"
+                className="mt-1 w-full rounded-lg border border-border-colour-light bg-white px-3 py-2.5 font-normal outline-none focus:border-primary-purple-700"
               >
                 {classes.map(classInfo => (
                   <option value={classInfo._id} key={classInfo._id}>
@@ -190,7 +190,7 @@ export default function Timetable() {
                 value={session}
                 onChange={event => setSession(event.target.value)}
                 placeholder="2026/2027"
-                className="mt-1 w-full rounded border p-2 font-normal"
+                className="mt-1 w-full rounded-lg border border-border-colour-light px-3 py-2.5 font-normal outline-none focus:border-primary-purple-700"
               />
             </label>
             <label className="text-sm font-semibold">
@@ -198,7 +198,7 @@ export default function Timetable() {
               <select
                 value={term}
                 onChange={event => setTerm(event.target.value)}
-                className="mt-1 w-full rounded border bg-white p-2 font-normal"
+                className="mt-1 w-full rounded-lg border border-border-colour-light bg-white px-3 py-2.5 font-normal outline-none focus:border-primary-purple-700"
               >
                 {TERMS.map(termOption => (
                   <option key={termOption}>{termOption}</option>
@@ -208,11 +208,11 @@ export default function Timetable() {
           </div>
         </section>
 
-        <section className="mt-5 rounded-xl border bg-white p-5">
+        <section className="mt-5 rounded-lg border border-border-colour-light bg-white p-4 sm:p-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <h2 className="text-lg font-bold">Periods</h2>
-              <p className="text-sm text-gray-800">
+              <p className="text-sm text-Text-meduim-emphasis">
                 Add lessons, breaks, assemblies, and activities in display
                 order.
               </p>
@@ -220,7 +220,7 @@ export default function Timetable() {
             <button
               type="button"
               onClick={() => setEntries(current => [...current, makeEntry()])}
-              className="flex items-center gap-2 rounded-lg border border-primary-purple-700 px-4 py-2 font-semibold text-primary-purple-700"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-primary-purple-700 px-4 py-2.5 text-sm font-semibold text-primary-purple-700 transition-colors hover:bg-primary-purple-100 sm:w-auto"
             >
               <Icon icon="material-symbols:add-rounded" /> Add period
             </button>
@@ -235,7 +235,7 @@ export default function Timetable() {
               {entries.map((entry, index) => (
                 <div
                   key={entry.localId}
-                  className="grid items-end gap-3 rounded-lg border bg-grey-50 p-4 md:grid-cols-2 xl:grid-cols-[130px_110px_110px_1fr_1fr_100px_130px_40px]"
+                  className="grid items-end gap-3 rounded-lg border border-border-colour-light bg-neutral-300 p-4 md:grid-cols-2 xl:grid-cols-[130px_110px_110px_1fr_1fr_100px_130px_40px]"
                 >
                   <label className="text-xs font-semibold">
                     Day
@@ -246,7 +246,7 @@ export default function Timetable() {
                           day: event.target.value as TimetableEntry["day"],
                         })
                       }
-                      className="mt-1 w-full rounded border bg-white p-2 font-normal"
+                      className="mt-1 w-full rounded-lg border border-border-colour-light bg-white px-3 py-2.5 font-normal outline-none focus:border-primary-purple-700"
                     >
                       {DAYS.map(day => (
                         <option key={day}>{day}</option>
@@ -263,7 +263,7 @@ export default function Timetable() {
                           start_time: event.target.value,
                         })
                       }
-                      className="mt-1 w-full rounded border bg-white p-2 font-normal"
+                      className="mt-1 w-full rounded-lg border border-border-colour-light bg-white px-3 py-2.5 font-normal outline-none focus:border-primary-purple-700"
                     />
                   </label>
                   <label className="text-xs font-semibold">
@@ -276,7 +276,7 @@ export default function Timetable() {
                           end_time: event.target.value,
                         })
                       }
-                      className="mt-1 w-full rounded border bg-white p-2 font-normal"
+                      className="mt-1 w-full rounded-lg border border-border-colour-light bg-white px-3 py-2.5 font-normal outline-none focus:border-primary-purple-700"
                     />
                   </label>
                   <label className="text-xs font-semibold">
@@ -289,7 +289,7 @@ export default function Timetable() {
                         })
                       }
                       placeholder="Mathematics"
-                      className="mt-1 w-full rounded border bg-white p-2 font-normal"
+                      className="mt-1 w-full rounded-lg border border-border-colour-light bg-white px-3 py-2.5 font-normal outline-none focus:border-primary-purple-700"
                     />
                   </label>
                   <label className="text-xs font-semibold">
@@ -301,7 +301,7 @@ export default function Timetable() {
                           teacher: event.target.value,
                         })
                       }
-                      className="mt-1 w-full rounded border bg-white p-2 font-normal"
+                      className="mt-1 w-full rounded-lg border border-border-colour-light bg-white px-3 py-2.5 font-normal outline-none focus:border-primary-purple-700"
                     />
                   </label>
                   <label className="text-xs font-semibold">
@@ -313,7 +313,7 @@ export default function Timetable() {
                           room: event.target.value,
                         })
                       }
-                      className="mt-1 w-full rounded border bg-white p-2 font-normal"
+                      className="mt-1 w-full rounded-lg border border-border-colour-light bg-white px-3 py-2.5 font-normal outline-none focus:border-primary-purple-700"
                     />
                   </label>
                   <label className="text-xs font-semibold">
@@ -325,7 +325,7 @@ export default function Timetable() {
                           type: event.target.value as TimetableEntry["type"],
                         })
                       }
-                      className="mt-1 w-full rounded border bg-white p-2 font-normal"
+                      className="mt-1 w-full rounded-lg border border-border-colour-light bg-white px-3 py-2.5 font-normal outline-none focus:border-primary-purple-700"
                     >
                       <option value="lesson">Lesson</option>
                       <option value="break">Break</option>
@@ -337,7 +337,7 @@ export default function Timetable() {
                     type="button"
                     aria-label={`Remove period ${index + 1}`}
                     onClick={() => removeEntry(entry.localId)}
-                    className="flex h-10 items-center justify-center rounded text-secondary-red-600"
+                    className="flex h-10 items-center justify-center rounded-lg border border-transparent text-secondary-red-600 hover:border-secondary-red-600"
                   >
                     <Icon
                       icon="material-symbols:delete-outline-rounded"
@@ -360,7 +360,7 @@ export default function Timetable() {
                 saveMutation.isPending
               }
               onClick={() => saveMutation.mutate()}
-              className="rounded-lg bg-primary-purple-700 px-7 py-3 font-semibold text-white disabled:opacity-50"
+              className="w-full rounded-lg bg-primary-purple-700 px-7 py-3 font-semibold text-white transition-colors hover:bg-primary-purple-800 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
             >
               {saveMutation.isPending ? "Publishing..." : "Publish timetable"}
             </button>

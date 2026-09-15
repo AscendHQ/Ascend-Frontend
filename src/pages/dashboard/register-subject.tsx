@@ -85,7 +85,7 @@ function StudentTableState({ query, table }: StudentTableStateProps) {
 
   if (query.isError) {
     return (
-      <div className="mt-10 rounded bg-grey-50 p-8 text-center text-secondary-red-600">
+      <div className="mt-6 rounded-lg border border-secondary-red-500 bg-white p-8 text-center text-secondary-red-600">
         Students could not be loaded for this class, session and term. Please
         try again.
       </div>
@@ -213,19 +213,31 @@ export default function RegisterStudent() {
   return (
     <Container headerTitle="Subject Registration">
       <RegistrationState classInfoQueryResult={classInfoQueryResult}>
-        <main className="bg-white p-10 h-full">
+        <main className="h-full bg-white px-4 py-5 sm:px-6 lg:px-10">
           {contextHolder}
-          <section className="flex justify-between items-start">
-            <div className="flex gap-3">
+          <div>
+            <h1 className="text-xl font-semibold text-Text-high-emphasis">
+              Student subject registration
+            </h1>
+            <p className="mt-1 text-sm text-Text-meduim-emphasis">
+              Choose the subjects each student will take for a specific academic
+              period.
+            </p>
+          </div>
+          <section className="mt-6 grid gap-4 rounded-lg border border-border-colour-light bg-neutral-300 p-4 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-2 gap-3 sm:col-span-2 xl:col-span-1">
               <div>
-                <label htmlFor="session" className="block font-semibold mb-1">
+                <label
+                  htmlFor="session"
+                  className="mb-2 block text-sm font-medium"
+                >
                   Session
                 </label>
                 <select
                   id="session"
                   value={session}
                   onChange={e => setSession(e.target.value)}
-                  className="p-2 rounded bg-transparent min-w-[130px] border"
+                  className="w-full rounded-lg border border-border-colour-light bg-white p-2.5 text-sm outline-none focus:border-primary-purple-500"
                 >
                   {academicSessions.map(academicSession => (
                     <option value={academicSession} key={academicSession}>
@@ -235,14 +247,17 @@ export default function RegisterStudent() {
                 </select>
               </div>
               <div>
-                <label htmlFor="term" className="block font-semibold mb-1">
+                <label
+                  htmlFor="term"
+                  className="mb-2 block text-sm font-medium"
+                >
                   Term
                 </label>
                 <select
                   id="term"
                   value={term}
                   onChange={e => setTerm(e.target.value)}
-                  className="p-2 rounded bg-transparent min-w-[130px] border"
+                  className="w-full rounded-lg border border-border-colour-light bg-white p-2.5 text-sm outline-none focus:border-primary-purple-500"
                 >
                   <option value="1st Term">1st Term</option>
                   <option value="2nd Term">2nd Term</option>
@@ -250,14 +265,17 @@ export default function RegisterStudent() {
                 </select>
               </div>
             </div>
-            <div className="space-y-3">
-              <label htmlFor="classSelect" className="block font-semibold">
+            <div>
+              <label
+                htmlFor="classSelect"
+                className="mb-2 block text-sm font-medium"
+              >
                 Choose Class
               </label>
               <select
                 id="classSelect"
                 value={currentClassId}
-                className="p-3 rounded bg-transparent min-w-[140px] border"
+                className="w-full rounded-lg border border-border-colour-light bg-white p-2.5 text-sm outline-none focus:border-primary-purple-500"
                 onChange={handleClassChange}
               >
                 {(classInfoQueryResult.data?.classes ?? []).map(data => (
@@ -268,7 +286,7 @@ export default function RegisterStudent() {
               </select>
             </div>
           </section>
-          <nav>
+          <nav className="mt-6 overflow-x-auto">
             <FilterStudentTab
               tabNumbers={tabNumbers}
               currentCategory={currentStudentStatusFilter}

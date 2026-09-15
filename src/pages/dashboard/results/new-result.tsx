@@ -10,11 +10,11 @@ export default function NewResult() {
   return (
     <div>
       <Container headerTitle={"New Result"}>
-        <main className="bg-white px-10 pt-7 h-full">
+        <main className="min-h-full bg-white px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
           <div className="flex justify-between">
             <Link
               href={DASHBOARD_RESULT}
-              className="flex items-center gap-3 text-sm"
+              className="inline-flex items-center gap-3 text-sm font-semibold text-primary-purple-700"
             >
               <Icon icon="teenyicons:arrow-left-solid" />
               <span>Back</span>
