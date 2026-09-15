@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 
 import { Container } from "@/components/layout/dashboard";
-import { DASHBOARD_OVERVIEW } from "@/config/links";
+import { PLATFORM_SCHOOLS } from "@/config/links";
 import { useCreateSchool } from "@/templates/Schools/hooks";
 
 export default function NewSchool() {
@@ -16,6 +16,7 @@ export default function NewSchool() {
   const [lastName, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const handleSubmit = () => {
     if (
@@ -25,6 +26,11 @@ export default function NewSchool() {
       !email.trim() ||
       !password
     ) {
+      api.error({
+        message: "Complete the required fields",
+        description:
+          "Enter the school name and the administrator's full login details.",
+      });
       return;
     }
 
@@ -50,117 +56,173 @@ export default function NewSchool() {
 
   return (
     <Container headerTitle="Add a New School">
-      <main className="bg-white px-10 pt-7 h-full">
+      <main className="min-h-full bg-neutral-300 px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
         {contextHolder}
-        <div className="flex justify-between">
+        <div className="mx-auto max-w-4xl">
           <Link
-            href={DASHBOARD_OVERVIEW}
-            className="flex items-center gap-3 text-sm"
+            href={PLATFORM_SCHOOLS}
+            className="inline-flex items-center gap-2 text-sm font-semibold text-primary-purple-700"
           >
             <Icon icon="teenyicons:arrow-left-solid" />
-            <span>Back</span>
+            <span>Back to schools</span>
           </Link>
-        </div>
 
-        <div className="max-w-xl mt-10">
-          <h4 className="text-Text-high-emphasis font-semibold text-lg">
-            Onboard a new school
-          </h4>
-          <p className="text-sm text-Text-meduim-emphasis mb-8">
-            This creates a brand new, completely separate school account
-            with its own admin login. Share the email and password you
-            set below with that school's admin directly - no invite
-            email is sent.
-          </p>
-
-          <div className="space-y-5">
-            <div>
-              <label
-                htmlFor="school_name"
-                className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-              >
-                School name
-              </label>
-              <input
-                type="text"
-                id="school_name"
-                value={schoolName}
-                onChange={e => setSchoolName(e.target.value)}
-                className="border border-border-colour-light w-full rounded-lg bg-neutral-300 p-2"
-                placeholder="e.g. Bright Future Academy"
-              />
+          <section className="mt-5 overflow-hidden rounded-lg border border-border-colour-light bg-white">
+            <div className="border-b border-border-colour-light p-5 sm:p-7">
+              <p className="text-xs font-semibold uppercase tracking-wide text-primary-purple-700">
+                School onboarding
+              </p>
+              <h1 className="mt-1 text-xl font-semibold text-Text-high-emphasis sm:text-2xl">
+                Create a school account
+              </h1>
+              <p className="mt-2 max-w-2xl text-sm text-Text-meduim-emphasis">
+                Create a separate workspace and its first administrator. No
+                invitation email is sent, so share the login details securely.
+              </p>
             </div>
-            <div className="flex gap-4">
-              <div className="flex-1">
+
+            <div className="space-y-6 p-5 sm:p-7">
+              <div>
+                <h2 className="font-semibold text-Text-high-emphasis">
+                  School information
+                </h2>
+                <p className="mt-1 text-sm text-Text-meduim-emphasis">
+                  Use the school's official display name.
+                </p>
+              </div>
+              <div>
                 <label
-                  htmlFor="admin_first_name"
+                  htmlFor="school_name"
                   className="block mb-2 text-sm font-medium text-Text-high-emphasis"
                 >
-                  Admin first name
+                  School name
                 </label>
                 <input
                   type="text"
-                  id="admin_first_name"
-                  value={firstName}
-                  onChange={e => setFirstName(e.target.value)}
-                  className="border border-border-colour-light w-full rounded-lg bg-neutral-300 p-2"
+                  id="school_name"
+                  value={schoolName}
+                  onChange={e => setSchoolName(e.target.value)}
+                  autoComplete="organization"
+                  className="w-full rounded-lg border border-border-colour-light bg-white px-3 py-2.5 outline-none focus:border-primary-purple-700"
+                  placeholder="e.g. Bright Future Academy"
                 />
               </div>
-              <div className="flex-1">
+              <div className="border-t border-border-colour-light pt-6">
+                <h2 className="font-semibold text-Text-high-emphasis">
+                  Administrator login
+                </h2>
+                <p className="mt-1 text-sm text-Text-meduim-emphasis">
+                  The administrator can complete the school's remaining setup
+                  after signing in.
+                </p>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label
+                    htmlFor="admin_first_name"
+                    className="block mb-2 text-sm font-medium text-Text-high-emphasis"
+                  >
+                    Admin first name
+                  </label>
+                  <input
+                    type="text"
+                    id="admin_first_name"
+                    value={firstName}
+                    onChange={e => setFirstName(e.target.value)}
+                    autoComplete="given-name"
+                    className="w-full rounded-lg border border-border-colour-light bg-white px-3 py-2.5 outline-none focus:border-primary-purple-700"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="admin_last_name"
+                    className="block mb-2 text-sm font-medium text-Text-high-emphasis"
+                  >
+                    Admin last name
+                  </label>
+                  <input
+                    type="text"
+                    id="admin_last_name"
+                    value={lastName}
+                    onChange={e => setLastName(e.target.value)}
+                    autoComplete="family-name"
+                    className="w-full rounded-lg border border-border-colour-light bg-white px-3 py-2.5 outline-none focus:border-primary-purple-700"
+                  />
+                </div>
+              </div>
+              <div>
                 <label
-                  htmlFor="admin_last_name"
+                  htmlFor="admin_email"
                   className="block mb-2 text-sm font-medium text-Text-high-emphasis"
                 >
-                  Admin last name
+                  Admin email
                 </label>
                 <input
-                  type="text"
-                  id="admin_last_name"
-                  value={lastName}
-                  onChange={e => setLastName(e.target.value)}
-                  className="border border-border-colour-light w-full rounded-lg bg-neutral-300 p-2"
+                  type="email"
+                  id="admin_email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  autoComplete="email"
+                  placeholder="admin@school.com"
+                  className="w-full rounded-lg border border-border-colour-light bg-white px-3 py-2.5 outline-none focus:border-primary-purple-700"
                 />
               </div>
+              <div>
+                <label
+                  htmlFor="admin_password"
+                  className="block mb-2 text-sm font-medium text-Text-high-emphasis"
+                >
+                  Temporary password
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="admin_password"
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    autoComplete="new-password"
+                    placeholder="Enter a secure temporary password"
+                    className="w-full rounded-lg border border-border-colour-light bg-white px-3 py-2.5 pr-11 outline-none focus:border-primary-purple-700"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(value => !value)}
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-xl text-Text-meduim-emphasis"
+                  >
+                    <Icon
+                      icon={
+                        showPassword
+                          ? "material-symbols:visibility-off-outline"
+                          : "material-symbols:visibility-outline"
+                      }
+                    />
+                  </button>
+                </div>
+                <p className="mt-2 text-xs text-Text-meduim-emphasis">
+                  Use 8+ characters with uppercase, lowercase, a number, and a
+                  symbol.
+                </p>
+              </div>
+              <div className="flex flex-col-reverse gap-3 border-t border-border-colour-light pt-6 sm:flex-row sm:justify-end">
+                <Link
+                  href={PLATFORM_SCHOOLS}
+                  className="rounded-lg border border-border-colour-light px-6 py-3 text-center text-sm font-semibold text-Text-high-emphasis"
+                >
+                  Cancel
+                </Link>
+                <button
+                  className="rounded-lg bg-primary-purple-700 px-8 py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
+                  onClick={handleSubmit}
+                  disabled={isCreatingSchool}
+                >
+                  {isCreatingSchool ? "Creating school..." : "Create school"}
+                </button>
+              </div>
             </div>
-            <div>
-              <label
-                htmlFor="admin_email"
-                className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-              >
-                Admin email
-              </label>
-              <input
-                type="email"
-                id="admin_email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                className="border border-border-colour-light w-full rounded-lg bg-neutral-300 p-2"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="admin_password"
-                className="block mb-2 text-sm font-medium text-Text-high-emphasis"
-              >
-                Temporary password
-              </label>
-              <input
-                type="text"
-                id="admin_password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                placeholder="At least 8 characters, upper+lowercase, a number, a special character"
-                className="border border-border-colour-light w-full rounded-lg bg-neutral-300 p-2"
-              />
-            </div>
-            <button
-              className="text-white bg-primary-purple-700 rounded-lg py-3 px-10 font-semibold text-sm disabled:opacity-50"
-              onClick={handleSubmit}
-              disabled={isCreatingSchool}
-            >
-              Create School
-            </button>
-          </div>
+          </section>
         </div>
       </main>
     </Container>
