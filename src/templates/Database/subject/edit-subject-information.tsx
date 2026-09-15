@@ -7,16 +7,16 @@ export default function EditSubjectInformation() {
   const { register, errors } = useFormContext(SubjectInfoContext);
 
   return (
-    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 mt-14 mb-8 border-b-2 border-border-colour-light">
-      <div className="w-96">
+    <div className="my-8 grid gap-8 border-b border-border-colour-light pb-10 lg:grid-cols-[240px_minmax(0,1fr)]">
+      <div>
         <h4 className="text-Text-high-emphasis font-semibold">
           Subject information
         </h4>
-        <p className="text-sm tracking-tight text-gray-800">
+        <p className="mt-1 text-sm tracking-tight text-Text-meduim-emphasis">
           This will be displayed on your organization profile.
         </p>
       </div>
-      <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
+      <div className="flex min-w-0 flex-col flex-wrap gap-5 sm:flex-row">
         <TextField
           id="subject_name"
           label="Subject name"

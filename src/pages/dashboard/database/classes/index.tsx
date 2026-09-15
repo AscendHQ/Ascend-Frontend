@@ -43,7 +43,7 @@ export default function Classes() {
 
   return (
     <Container headerTitle="Classes">
-      <main className="px-10 py-5 h-full bg-white">
+      <main className="min-h-full bg-neutral-300 px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
         {classData.isLoading ? (
           <div className="flex justify-center py-16">
             <Spinner />
@@ -51,7 +51,7 @@ export default function Classes() {
         ) : classData.isError && isAccessDeniedError(classData.error) ? (
           <PermissionDeniedState message="You don't have permission to view classes." />
         ) : (classData.data?.classes.length ?? 0) <= 0 ? (
-          <div className="flex flex-col items-center gap-4 py-16">
+          <div className="rounded-lg border border-dashed border-border-colour-light bg-white py-16 text-center">
             <p className="text-Text-meduim-emphasis">No classes yet.</p>
             <DashboardButton
               variant="primary"
@@ -64,7 +64,15 @@ export default function Classes() {
           </div>
         ) : (
           <>
-            <div className="flex">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <h1 className="text-xl font-semibold text-Text-high-emphasis sm:text-2xl">
+                  Classes
+                </h1>
+                <p className="mt-1 text-sm text-Text-meduim-emphasis">
+                  Organize class levels, sections, and assigned subjects.
+                </p>
+              </div>
               <DashboardButton
                 variant="primary"
                 isLink
@@ -74,12 +82,14 @@ export default function Classes() {
                 Add Class
               </DashboardButton>
             </div>
-            <ClassList
-              tabNumbers={tabNumbers}
-              currentCategory={currentStudentLevel}
-              setCurrentCategory={setCurrentStudentLevel}
-            />
-            <Table data={filteredData} />
+            <section className="mt-6 rounded-lg border border-border-colour-light bg-white p-4 sm:p-5">
+              <ClassList
+                tabNumbers={tabNumbers}
+                currentCategory={currentStudentLevel}
+                setCurrentCategory={setCurrentStudentLevel}
+              />
+              <Table data={filteredData} />
+            </section>
           </>
         )}
       </main>

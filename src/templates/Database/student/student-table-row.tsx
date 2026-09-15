@@ -46,7 +46,7 @@ const StudentTableRow: React.FC<StudentTableRowProps> = ({
 
   return (
     <tr
-      className="bg-white items-start border-grey-300 border-b"
+      className="items-start border-b border-border-colour-light bg-white last:border-0 hover:bg-neutral-300/40"
       key={item.registration_number}
     >
       <TableCell content={item.registration_number} styles="uppercase" />
@@ -65,7 +65,7 @@ const StudentTableRow: React.FC<StudentTableRowProps> = ({
             className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
               item.is_active
                 ? "bg-green-100 text-green-700"
-                : "bg-grey-300 text-gray-700"
+                : "bg-neutral-300 text-Text-meduim-emphasis"
             }`}
           >
             {item.is_active ? "Active" : "Inactive"}
@@ -78,7 +78,7 @@ const StudentTableRow: React.FC<StudentTableRowProps> = ({
       <TableCell
         isCentered
         content={
-          <button className="border-1.5 border-border-colour-light text-gray-800 font-medium rounded px-3 py-2">
+          <button className="rounded-lg border border-border-colour-light px-3 py-2 font-medium text-Text-high-emphasis hover:border-primary-purple-700">
             Download
           </button>
         }
@@ -86,7 +86,10 @@ const StudentTableRow: React.FC<StudentTableRowProps> = ({
       <TableCell
         content={
           <Dropdown menu={{ items }} trigger={["click"]}>
-            <button>
+            <button
+              aria-label={`Actions for ${item.personal_information.first_name}`}
+              className="rounded-lg p-2 hover:bg-neutral-300"
+            >
               <Icon icon="ri:more-2-fill" />
             </button>
           </Dropdown>

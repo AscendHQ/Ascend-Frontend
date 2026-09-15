@@ -7,13 +7,13 @@ export default function EditClassInformation() {
   const { register, errors } = useFormContext(ReactHookForm);
 
   return (
-    <div className="flex justify-between gap-16 flex-col lg:flex-row pb-16 mt-14 mb-8 border-b-2 border-border-colour-light">
-      <div className="w-96">
+    <div className="my-8 grid gap-8 border-b border-border-colour-light pb-10 lg:grid-cols-[240px_minmax(0,1fr)]">
+      <div>
         <h4 className="text-Text-high-emphasis font-semibold">
           Class information
         </h4>
       </div>
-      <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
+      <div className="flex min-w-0 flex-col flex-wrap gap-5 sm:flex-row">
         <TextField
           id="class_name"
           label="Class name"

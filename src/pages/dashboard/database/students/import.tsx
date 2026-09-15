@@ -146,7 +146,8 @@ export default function ImportStudents() {
     if (!file) {
       notification.error({
         message: "Choose a CSV file",
-        description: "Download the template, complete it, then select the file.",
+        description:
+          "Download the template, complete it, then select the file.",
       });
       return;
     }
@@ -155,24 +156,24 @@ export default function ImportStudents() {
 
   return (
     <Container headerTitle="Import students">
-      <main className="min-h-full bg-neutral-300 p-4 sm:p-6 lg:p-10">
+      <main className="min-h-full bg-neutral-300 px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
         <div className="mx-auto max-w-5xl">
           <Link
             href={DASHBOARD_STUDENT}
-            className="mb-4 inline-flex items-center gap-2 text-sm font-medium"
+            className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-primary-purple-700"
           >
             <Icon icon="material-symbols:arrow-back-rounded" />
             Back to students
           </Link>
 
-          <section className="rounded-xl bg-white p-5 shadow-sm sm:p-8">
-            <p className="text-sm font-semibold text-primary-purple-700">
-              BULK STUDENT IMPORT
+          <section className="rounded-lg border border-border-colour-light bg-white p-5 sm:p-8">
+            <p className="text-xs font-semibold uppercase tracking-wide text-primary-purple-700">
+              Bulk student import
             </p>
-            <h1 className="mt-1 text-2xl font-bold text-Text-high-emphasis">
+            <h1 className="mt-1 text-xl font-semibold text-Text-high-emphasis sm:text-2xl">
               Register students from a CSV file
             </h1>
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-gray-800">
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-Text-meduim-emphasis">
               Download the template, keep its column names unchanged, and use
               class names exactly as they appear in Ascend. Blank registration
               numbers will be generated automatically.
@@ -182,7 +183,11 @@ export default function ImportStudents() {
               {[
                 ["1", "Download template", "Use the Ascend CSV structure."],
                 ["2", "Complete the rows", "One student per row; maximum 500."],
-                ["3", "Upload and review", "Nothing imports until every row is valid."],
+                [
+                  "3",
+                  "Upload and review",
+                  "Nothing imports until every row is valid.",
+                ],
               ].map(([number, title, description]) => (
                 <div
                   key={number}
@@ -192,7 +197,7 @@ export default function ImportStudents() {
                     {number}
                   </span>
                   <p className="mt-3 text-sm font-semibold">{title}</p>
-                  <p className="mt-1 text-xs leading-5 text-gray-800">
+                  <p className="mt-1 text-xs leading-5 text-Text-meduim-emphasis">
                     {description}
                   </p>
                 </div>
@@ -202,7 +207,7 @@ export default function ImportStudents() {
             <button
               type="button"
               onClick={downloadTemplate}
-              className="mt-6 inline-flex items-center gap-2 rounded-lg border border-primary-purple-700 px-4 py-2.5 text-sm font-semibold text-primary-purple-700"
+              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-primary-purple-700 px-4 py-2.5 text-sm font-semibold text-primary-purple-700 sm:w-auto"
             >
               <Icon icon="material-symbols:download-rounded" />
               Download CSV template
@@ -211,7 +216,7 @@ export default function ImportStudents() {
             <form onSubmit={submitImport} className="mt-6">
               <label
                 htmlFor="student-csv"
-                className="block rounded-xl border-2 border-dashed border-primary-purple-300 bg-primary-purple-100 p-6 text-center"
+                className="block rounded-lg border-2 border-dashed border-primary-purple-300 bg-primary-purple-100 p-6 text-center"
               >
                 <Icon
                   icon="material-symbols:upload-file-outline"
@@ -220,7 +225,7 @@ export default function ImportStudents() {
                 <span className="mt-2 block text-sm font-semibold">
                   Choose the completed CSV file
                 </span>
-                <span className="mt-1 block text-xs text-gray-800">
+                <span className="mt-1 block text-xs text-Text-meduim-emphasis">
                   CSV only, up to 2 MB
                 </span>
                 <input
@@ -242,16 +247,18 @@ export default function ImportStudents() {
               <button
                 type="submit"
                 disabled={!file || importMutation.isPending}
-                className="mt-5 inline-flex items-center justify-center gap-2 rounded-lg bg-primary-purple-700 px-5 py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
+                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary-purple-700 px-5 py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
               >
                 {importMutation.isPending ? <Spinner /> : null}
-                {importMutation.isPending ? "Checking file..." : "Import students"}
+                {importMutation.isPending
+                  ? "Checking file..."
+                  : "Import students"}
               </button>
             </form>
           </section>
 
           {result && (
-            <section className="mt-5 rounded-xl border border-secondary-green-300 bg-secondary-green-100 p-5">
+            <section className="mt-5 rounded-lg border border-secondary-green-300 bg-secondary-green-100 p-5">
               <h2 className="font-semibold text-secondary-green-700">
                 Import completed
               </h2>
@@ -266,7 +273,7 @@ export default function ImportStudents() {
           )}
 
           {errors.length > 0 && (
-            <section className="mt-5 rounded-xl bg-white p-5">
+            <section className="mt-5 rounded-lg border border-border-colour-light bg-white p-5">
               <h2 className="font-semibold text-secondary-red-700">
                 Fix these rows and upload again
               </h2>

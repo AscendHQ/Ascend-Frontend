@@ -98,11 +98,11 @@ export default function ClassInfo() {
         ) : (classData.data?.classes.length ?? 0) === 0 ? (
           <Spinner />
         ) : (
-          <main className="bg-white px-10 pt-7 h-full">
-            <div className="flex justify-between">
+          <main className="min-h-full bg-neutral-300 px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
+            <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
               <Link
                 href={DASHBOARD_CLASS}
-                className="flex items-center gap-3 text-sm"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-primary-purple-700"
               >
                 <Icon icon="teenyicons:arrow-left-solid" />
                 <span>Back</span>
@@ -117,7 +117,12 @@ export default function ClassInfo() {
                 />
               </DashboardButton>
             </div>
-            <EditClassInformation />
+            <section className="mt-5 rounded-lg border border-border-colour-light bg-white p-5 sm:p-7">
+              <h1 className="text-xl font-semibold text-Text-high-emphasis sm:text-2xl">
+                Edit class
+              </h1>
+              <EditClassInformation />
+            </section>
             {contextHolder}
           </main>
         )}

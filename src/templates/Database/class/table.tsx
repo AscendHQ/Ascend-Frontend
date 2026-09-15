@@ -20,8 +20,8 @@ export default function Table({ data }: { data: classInfoProp[] }) {
   };
 
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
-      <table className="w-full text-sm text-left text-gray-500">
+    <div className="relative mt-5 overflow-x-auto rounded-lg border border-border-colour-light">
+      <table className="w-full min-w-[620px] text-left text-sm text-Text-meduim-emphasis">
         <TableHeaders />
         <tbody>
           {data.map((item, index) => (
@@ -32,6 +32,16 @@ export default function Table({ data }: { data: classInfoProp[] }) {
               action={openModal}
             />
           ))}
+          {!data.length && (
+            <tr>
+              <td
+                colSpan={5}
+                className="p-10 text-center text-Text-meduim-emphasis"
+              >
+                No classes match this level.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
 

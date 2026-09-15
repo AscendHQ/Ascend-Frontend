@@ -69,7 +69,10 @@ export default function SubjectRow({
   ];
 
   return (
-    <tr className="bg-white border-b border-grey-300" key={item._id}>
+    <tr
+      className="border-b border-border-colour-light bg-white last:border-0 hover:bg-neutral-300/40"
+      key={item._id}
+    >
       <TableCell content={index + 1} isCentered />
       <TableCell content={item.name} />
       <TableCell content={item.code} />
@@ -80,13 +83,13 @@ export default function SubjectRow({
           item.level === "junior" ? (
             <span
               className={
-                "border-primary-purple-400 border rounded-lg px-3 py-2 text-primary-purple-700"
+                "rounded-full bg-primary-purple-100 px-3 py-1 text-xs font-semibold text-primary-purple-700"
               }
             >
               Junior
             </span>
           ) : (
-            <span className="bg-white border border-secondary-green-500 rounded-lg px-3 py-2 text-secondary-green-500">
+            <span className="rounded-full bg-secondary-green-100 px-3 py-1 text-xs font-semibold text-secondary-green-600">
               Senior
             </span>
           )
@@ -95,7 +98,10 @@ export default function SubjectRow({
       <TableCell
         content={
           <Dropdown menu={{ items }} trigger={["click"]}>
-            <button>
+            <button
+              aria-label={`Actions for ${item.name}`}
+              className="rounded-lg p-2 hover:bg-neutral-300"
+            >
               <Icon icon="ri:more-2-fill" />
             </button>
           </Dropdown>

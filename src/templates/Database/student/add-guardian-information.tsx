@@ -6,8 +6,8 @@ export default function AddGuardianInformation() {
   const { register, errors } = useFormContext(NewStudentFormContext);
 
   return (
-    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
-      <div className="w-96">
+    <div className="mb-8 flex flex-col justify-between gap-6 border-b border-border-colour-light pb-10 lg:flex-row lg:gap-12">
+      <div className="w-full lg:w-60">
         <h4 className="text-Text-high-emphasis font-semibold">
           Guardian/Parent information
         </h4>

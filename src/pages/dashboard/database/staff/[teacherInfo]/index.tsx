@@ -121,41 +121,43 @@ export default function DatabaseTeacherBiodata() {
           )}
           {contextHolder}
           {staffData.data && (
-            <div className="bg-white p-10 h-full">
-              {contextHolder}
-              <div className="flex justify-between">
-                <div>
-                  <h3 className="text-Text-high-emphasis text-xl font-semibold tracking-tight">
-                    {staffData.data.surname} {staffData.data.other_names}
-                  </h3>
-                  <span className="text-sm text-gray-800 font-medium capitalize">
-                    Staff ID: {(usernameStaffId as string)?.split("-").at(-1)}
-                  </span>
+            <main className="min-h-full bg-neutral-300 px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
+              <div className="rounded-lg border border-border-colour-light bg-white p-5 sm:p-7">
+                {contextHolder}
+                <div className="flex flex-col-reverse gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <h3 className="text-Text-high-emphasis text-xl font-semibold tracking-tight">
+                      {staffData.data.surname} {staffData.data.other_names}
+                    </h3>
+                    <span className="text-sm font-medium capitalize text-Text-meduim-emphasis">
+                      Staff ID: {(usernameStaffId as string)?.split("-").at(-1)}
+                    </span>
+                  </div>
+                  <Link
+                    href={DASHBOARD_TEACHER}
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-primary-purple-700"
+                  >
+                    <Icon icon="teenyicons:arrow-left-solid" />
+                    Back
+                  </Link>
                 </div>
-                <Link
-                  href={DASHBOARD_TEACHER}
-                  className="flex items-center gap-2 mb-10"
-                >
-                  <Icon icon="teenyicons:arrow-left-solid" />
-                  Back
-                </Link>
+                <div className="mt-6 border-t border-border-colour-light pt-8">
+                  <EditPersonalInformation />
+                  <EditOfficialInformation />
+                  <DashboardButton
+                    variant="primary"
+                    disabled={!isDirty}
+                    onClick={handleSubmit(onSubmit)}
+                    className="disabled:bg-primary-purple-400 disabled:cursor-not-allowed"
+                  >
+                    <LoadingState
+                      label="Save Changes"
+                      isSubmitting={isPendingExistingStaff}
+                    />
+                  </DashboardButton>
+                </div>
               </div>
-              <main className="h-full border-t-2 border-border-colour-light mt-4 pt-8">
-                <EditPersonalInformation />
-                <EditOfficialInformation />
-                <DashboardButton
-                  variant="primary"
-                  disabled={!isDirty}
-                  onClick={handleSubmit(onSubmit)}
-                  className="disabled:bg-primary-purple-400 disabled:cursor-not-allowed"
-                >
-                  <LoadingState
-                    label="Save Changes"
-                    isSubmitting={isPendingExistingStaff}
-                  />
-                </DashboardButton>
-              </main>
-            </div>
+            </main>
           )}
         </>
       </Container>

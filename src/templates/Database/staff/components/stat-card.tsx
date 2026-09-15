@@ -8,14 +8,18 @@ export interface StatCardProps {
 
 export function StatCard({ heading, items }: StatCardProps) {
   return (
-    <div className="w-full min-w-0 space-y-2 rounded-xl border border-border-colour-light bg-white p-4">
-      <h5 className="text-sm text-gray-800 font-medium">{heading}</h5>
+    <div className="w-full min-w-0 space-y-3 rounded-lg border border-border-colour-light bg-white p-4">
+      <h5 className="text-sm font-medium text-Text-meduim-emphasis">
+        {heading}
+      </h5>
       <div className="flex flex-wrap items-end justify-between gap-3">
         {items.map(item => {
           return (
-            <div key={`stat-for-${item.name}}`} className="flex items-center">
-              <p className=" uppercase mr-2 ">{item.name}</p>
-              <p className="text-Text-high-emphasis text-2xl font-bold">
+            <div key={`stat-for-${item.name}}`}>
+              <p className="text-xs font-medium uppercase text-Text-meduim-emphasis">
+                {item.name}
+              </p>
+              <p className="mt-1 text-2xl font-semibold text-Text-high-emphasis">
                 {item.value}
               </p>
             </div>

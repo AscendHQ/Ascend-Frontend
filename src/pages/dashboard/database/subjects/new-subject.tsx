@@ -90,7 +90,7 @@ export default function NewSubject() {
       value={{ register, errors, watch, juniorFields, seniorFields }}
     >
       <Container headerTitle="New Subject">
-        <main className="px-10 py-5 bg-white h-full">
+        <main className="min-h-full bg-neutral-300 px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
           {classData.isLoading ? (
             <div className="min-h-full flex justify-center items-center">
               <Spinner />
@@ -99,23 +99,31 @@ export default function NewSubject() {
             <>
               <Link
                 href={DASHBOARD_SUBJECT}
-                className="flex items-center gap-3 text-sm"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-primary-purple-700"
               >
                 <Icon icon="teenyicons:arrow-left-solid" />
                 <span>Back</span>
               </Link>
-              <AddSubjectInformation />
-              <div className="ml-auto w-fit">
-                <button
-                  onClick={handleSubmit(onSubmit)}
-                  className="text-white bg-primary-purple-700 rounded-lg py-3 px-6 font-semibold text-sm"
-                >
-                  <LoadingState
-                    label="Save changes"
-                    isSubmitting={isPendingAddNewSubject}
-                  />
-                </button>
-              </div>
+              <section className="mt-5 rounded-lg border border-border-colour-light bg-white p-5 sm:p-7">
+                <h1 className="text-xl font-semibold text-Text-high-emphasis sm:text-2xl">
+                  Add a subject
+                </h1>
+                <p className="mt-1 text-sm text-Text-meduim-emphasis">
+                  Set the subject type, level, and classes where it is taught.
+                </p>
+                <AddSubjectInformation />
+                <div className="flex justify-end">
+                  <button
+                    onClick={handleSubmit(onSubmit)}
+                    className="w-full rounded-lg bg-primary-purple-700 px-6 py-3 text-sm font-semibold text-white sm:w-auto"
+                  >
+                    <LoadingState
+                      label="Save changes"
+                      isSubmitting={isPendingAddNewSubject}
+                    />
+                  </button>
+                </div>
+              </section>
               {contextHolder}
             </>
           )}

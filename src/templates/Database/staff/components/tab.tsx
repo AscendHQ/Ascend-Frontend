@@ -10,7 +10,7 @@ export function Tab({
   setCurrentCategory: React.Dispatch<React.SetStateAction<TeacherOptions>>;
 }) {
   return (
-    <ul className="flex bg-neutral-300 border-1.5 items-center w-fit my-2 border-border-colour-light rounded px-2 py-1 gap-2">
+    <ul className="my-2 flex max-w-full items-center gap-1 overflow-x-auto rounded-lg border border-border-colour-light bg-neutral-300 p-1">
       {staffCategoryKeys.map(item => {
         const selectItem = item as TeacherOptions;
         const selectedTabIndex =
@@ -22,11 +22,11 @@ export function Tab({
         return (
           <li key={selectItem}>
             <button
-              className={`px-3 py-2 ${
+              className={`whitespace-nowrap rounded-md px-3 py-2 text-sm ${
                 isCurrentItem
-                  ? "shadow-[0px_2px_12px_0px_#18181B36] text-primary-purple-700 bg-white rounded"
-                  : " text-gray-800"
-              } font-medium tracking-tight`}
+                  ? "bg-white font-semibold text-primary-purple-700 shadow-sm"
+                  : "font-medium text-Text-meduim-emphasis"
+              } tracking-tight`}
               onClick={() => setCurrentCategory(selectItem)}
             >
               {selectedCategory.name} ({tabNumbers[selectedTabIndex]})

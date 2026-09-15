@@ -102,9 +102,7 @@ export default function SubjectInfo({
                 className="mr-3"
                 readOnly
               />
-              <span className="block cursor-pointer">
-                {subject.name}
-              </span>
+              <span className="block cursor-pointer">{subject.name}</span>
             </button>
           ))}
         </div>

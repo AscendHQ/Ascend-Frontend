@@ -15,10 +15,10 @@ export default function EditPersonalInformation() {
   return (
     <div
       className={
-        "flex flex-col lg:flex-row justify-between gap-16 pb-16 border-b-2 mb-8 mt-5 border-border-colour-light"
+        "mb-8 mt-5 flex flex-col justify-between gap-6 border-b border-border-colour-light pb-10 lg:flex-row lg:gap-12"
       }
     >
-      <div className="w-96">
+      <div className="w-full lg:w-60">
         <h4 className="text-Text-high-emphasis font-semibold">
           Personal information
         </h4>

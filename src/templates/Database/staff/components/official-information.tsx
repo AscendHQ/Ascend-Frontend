@@ -8,12 +8,12 @@ import { ReactHookForm } from "@/pages/dashboard/database/staff/new-staff";
 export default function OfficialInformation() {
   const { register, errors } = useFormContext(ReactHookForm);
   return (
-    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
-      <div className="w-96">
+    <div className="mb-8 flex flex-col justify-between gap-6 border-b border-border-colour-light pb-10 lg:flex-row lg:gap-12">
+      <div className="w-full lg:w-60">
         <h4 className="text-Text-high-emphasis font-semibold">
           Official information
         </h4>
-        <p className="text-sm tracking-tight text-gray-800">
+        <p className="mt-1 text-sm tracking-tight text-Text-meduim-emphasis">
           This will be displayed on your organization profile.
         </p>
       </div>

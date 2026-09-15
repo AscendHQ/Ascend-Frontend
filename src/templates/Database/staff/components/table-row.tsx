@@ -58,7 +58,10 @@ export function TableRow({
     },
   ];
   return (
-    <tr className="bg-white border-b border-grey-300" key={item.surname}>
+    <tr
+      className="border-b border-border-colour-light bg-white last:border-0 hover:bg-neutral-300/40"
+      key={item.surname}
+    >
       <TableCell
         content={`${item.surname} ${item.other_names}`}
         styles="whitespace-nowrap"
@@ -70,7 +73,10 @@ export function TableRow({
       <TableCell
         content={
           <Dropdown menu={{ items }} trigger={["click"]}>
-            <button>
+            <button
+              aria-label={`Actions for ${item.surname}`}
+              className="rounded-lg p-2 hover:bg-neutral-300"
+            >
               <Icon icon="ri:more-2-fill" />
             </button>
           </Dropdown>

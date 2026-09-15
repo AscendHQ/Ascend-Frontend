@@ -44,13 +44,13 @@ function StudentsTable({
   };
 
   return (
-    <div className="overflow-x-auto shadow-md sm:rounded-lg mt-10">
-      <div className="relative h-[400px] overflow-y-auto">
-        <table className="w-full text-sm text-left text-gray-500">
+    <div className="mt-5 overflow-hidden rounded-lg border border-border-colour-light">
+      <div className="relative max-h-[440px] overflow-auto">
+        <table className="w-full min-w-[950px] text-left text-sm text-Text-meduim-emphasis">
           <TableHeaders />
           <tbody>
             {isFetching && (
-              <tr className="absolute inset-0 bg-white bg-opacity-70 flex h-[445px] justify-center items-center">
+              <tr className="absolute inset-0 flex h-[440px] items-center justify-center bg-white/70">
                 <td>
                   <Spinner />
                 </td>
@@ -64,6 +64,16 @@ function StudentsTable({
                   openModal={openStudentDetailsModal}
                 />
               ))}
+            {!isFetching && (!data || data.length === 0) && (
+              <tr>
+                <td
+                  colSpan={8}
+                  className="p-10 text-center text-Text-meduim-emphasis"
+                >
+                  No students match the current search or status filter.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

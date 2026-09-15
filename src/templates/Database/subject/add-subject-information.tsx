@@ -9,13 +9,13 @@ export default function AddSubjectInformation() {
   const levelOption = watch("level");
 
   return (
-    <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mt-14 mb-8 border-border-colour-light">
-      <div className="w-96">
+    <div className="my-8 grid gap-8 border-b border-border-colour-light pb-10 lg:grid-cols-[240px_minmax(0,1fr)]">
+      <div>
         <h4 className="text-Text-high-emphasis font-semibold">
           Subject information
         </h4>
       </div>
-      <div className="flex flex-1 flex-col lg:flex-row flex-wrap gap-5">
+      <div className="flex min-w-0 flex-col flex-wrap gap-5 sm:flex-row">
         <TextField
           id="subject_name"
           label="Subject name"
@@ -47,7 +47,7 @@ export default function AddSubjectInformation() {
           errorMessage={errors.level?.message || ""}
         />
         {levelOption === "junior" && (
-          <div className="min-w-full flex flex-wrap space-x-4">
+          <div className="flex min-w-full flex-wrap gap-4">
             {juniorFields.map((field, index) => (
               <div key={field.id}>
                 <label>
@@ -64,7 +64,7 @@ export default function AddSubjectInformation() {
           </div>
         )}
         {levelOption === "senior" && (
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid min-w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {seniorFields.map((field, index) => (
               <div key={field.id}>
                 <label>

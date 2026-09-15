@@ -79,13 +79,10 @@ export default function StudentInfo() {
     useMutation({
       mutationFn: (data: StudentInfoSchemaType) => {
         return axiosInstance
-          .put(
-            `/students/${studentDataFromBackend?.students[0]?._id}`,
-            {
-              ...transformData(data),
-              is_active: isStudentActive,
-            }
-          )
+          .put(`/students/${studentDataFromBackend?.students[0]?._id}`, {
+            ...transformData(data),
+            is_active: isStudentActive,
+          })
           .then(res => res.data);
       },
       onSuccess: async () => {
@@ -188,103 +185,105 @@ export default function StudentInfo() {
             ) : !currentSubjectData.data?.students[0] ? (
               <Spinner />
             ) : (
-              <div className="bg-white p-10">
-                <BioUpdate
-                  regNo={studentRegId}
-                  firstName={
-                    studentDataFromBackend?.students[0]?.personal_information
-                      ?.first_name ?? ""
-                  }
-                  lastName={
-                    studentDataFromBackend?.students[0]?.personal_information
-                      ?.last_name ?? ""
-                  }
-                />
-                <EditPersonalInformation />
-                <EditContactInformation />
-                <EditGuardianInformation />
-                <EditAcademicDetails />
-                <AcademicProgressionHistory
-                  history={
-                    studentDataFromBackend?.students[0]?.academic_details
-                      ?.progression_history ?? []
-                  }
-                />
-                <StudentAttendanceHistory
-                  studentId={studentDataFromBackend?.students[0]?._id ?? ""}
-                />
-                <StudentFinanceHistory
-                  studentId={studentDataFromBackend?.students[0]?._id ?? ""}
-                />
-                <EditHostelAccommodation />
-                <EditMedicalInformation />
-                <EditAdditionalInformation />
-                <div className="flex justify-between flex-col lg:flex-row gap-16 pb-16 border-b-2 mb-8 border-border-colour-light">
-                  <div className="w-96">
-                    <h4 className="text-Text-high-emphasis font-semibold">
-                      Student Status
-                    </h4>
-                    <p className="text-sm tracking-tight text-gray-800">
-                      This will be displayed on your organization profile.
-                    </p>
-                  </div>
-                  <div className="flex flex-1 flex-col lg:flex-row flex-wrap">
-                    <div className="flex items-center gap-3">
-                      <span>Inactive</span>
-                      <label
-                        htmlFor="toggle"
-                        className={`flex items-center cursor-pointer`}
-                      >
-                        <div className="relative">
-                          <input
-                            type="checkbox"
-                            id="toggle"
-                            className="sr-only"
-                            onChange={toggle}
-                            checked={isStudentActive}
-                          />
-                          <div
-                            className={`block ${
-                              isStudentActive
-                                ? "bg-secondary-green-500"
-                                : "bg-gray-600"
-                            } w-14 h-8 rounded-full`}
-                          ></div>
-                          <div
-                            className={`dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition ${
-                              isStudentActive
-                                ? "transform translate-x-full"
-                                : ""
-                            }`}
-                          ></div>
-                        </div>
-                      </label>
-                      <span>Active</span>
+              <main className="min-h-full bg-neutral-300 px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
+                <div className="rounded-lg border border-border-colour-light bg-white p-5 sm:p-7">
+                  <BioUpdate
+                    regNo={studentRegId}
+                    firstName={
+                      studentDataFromBackend?.students[0]?.personal_information
+                        ?.first_name ?? ""
+                    }
+                    lastName={
+                      studentDataFromBackend?.students[0]?.personal_information
+                        ?.last_name ?? ""
+                    }
+                  />
+                  <EditPersonalInformation />
+                  <EditContactInformation />
+                  <EditGuardianInformation />
+                  <EditAcademicDetails />
+                  <AcademicProgressionHistory
+                    history={
+                      studentDataFromBackend?.students[0]?.academic_details
+                        ?.progression_history ?? []
+                    }
+                  />
+                  <StudentAttendanceHistory
+                    studentId={studentDataFromBackend?.students[0]?._id ?? ""}
+                  />
+                  <StudentFinanceHistory
+                    studentId={studentDataFromBackend?.students[0]?._id ?? ""}
+                  />
+                  <EditHostelAccommodation />
+                  <EditMedicalInformation />
+                  <EditAdditionalInformation />
+                  <div className="mb-8 flex flex-col justify-between gap-6 border-b border-border-colour-light pb-10 lg:flex-row lg:gap-12">
+                    <div className="w-full lg:w-60">
+                      <h4 className="text-Text-high-emphasis font-semibold">
+                        Student Status
+                      </h4>
+                      <p className="mt-1 text-sm tracking-tight text-Text-meduim-emphasis">
+                        This will be displayed on your organization profile.
+                      </p>
                     </div>
-                    <p className="text-sm mt-4 mb-2">
-                      <span className="font-bold">Active:</span> This student is
-                      currently enrolled in the school
-                    </p>
-                    <p className="text-sm">
-                      <span className="font-bold">Inactive:</span> This student
-                      is not currently enrolled in the school
-                    </p>
+                    <div className="flex flex-1 flex-col lg:flex-row flex-wrap">
+                      <div className="flex items-center gap-3">
+                        <span>Inactive</span>
+                        <label
+                          htmlFor="toggle"
+                          className={`flex items-center cursor-pointer`}
+                        >
+                          <div className="relative">
+                            <input
+                              type="checkbox"
+                              id="toggle"
+                              className="sr-only"
+                              onChange={toggle}
+                              checked={isStudentActive}
+                            />
+                            <div
+                              className={`block ${
+                                isStudentActive
+                                  ? "bg-secondary-green-500"
+                                  : "bg-gray-600"
+                              } w-14 h-8 rounded-full`}
+                            ></div>
+                            <div
+                              className={`dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition ${
+                                isStudentActive
+                                  ? "transform translate-x-full"
+                                  : ""
+                              }`}
+                            ></div>
+                          </div>
+                        </label>
+                        <span>Active</span>
+                      </div>
+                      <p className="text-sm mt-4 mb-2">
+                        <span className="font-bold">Active:</span> This student
+                        is currently enrolled in the school
+                      </p>
+                      <p className="text-sm">
+                        <span className="font-bold">Inactive:</span> This
+                        student is not currently enrolled in the school
+                      </p>
+                    </div>
                   </div>
+                  <div className="flex justify-end gap-6">
+                    <DashboardButton
+                      variant="primary"
+                      className="font-semibold px-7 ml-0"
+                      onClick={handleSubmit(onSubmit)}
+                    >
+                      <LoadingState
+                        label="Update"
+                        isSubmitting={isPendingExistingStudent}
+                      />
+                    </DashboardButton>
+                  </div>
+                  {contextHolder}
                 </div>
-                <div className="flex justify-end gap-6">
-                  <DashboardButton
-                    variant="primary"
-                    className="font-semibold px-7 ml-0"
-                    onClick={handleSubmit(onSubmit)}
-                  >
-                    <LoadingState
-                      label="Update"
-                      isSubmitting={isPendingExistingStudent}
-                    />
-                  </DashboardButton>
-                </div>
-                {contextHolder}
-              </div>
+              </main>
             )}
           </>
         </Container>
@@ -335,12 +334,12 @@ function StudentAttendanceHistory({ studentId }: { studentId: string }) {
 
   const attendance = attendanceQuery.data;
   return (
-    <section className="flex justify-between flex-col lg:flex-row gap-16 pb-16 mb-8 border-b-2 border-border-colour-light">
-      <div className="w-96">
+    <section className="mb-8 grid gap-6 border-b border-border-colour-light pb-10 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-12">
+      <div>
         <h4 className="text-Text-high-emphasis font-semibold">
           Attendance history
         </h4>
-        <p className="text-sm tracking-tight text-gray-800">
+        <p className="mt-1 text-sm tracking-tight text-Text-meduim-emphasis">
           Calculated from saved daily class registers. Late counts as attended;
           excused days are excluded from the percentage.
         </p>
@@ -443,12 +442,12 @@ function StudentFinanceHistory({ studentId }: { studentId: string }) {
 
   const finances = financeQuery.data;
   return (
-    <section className="flex justify-between flex-col lg:flex-row gap-16 pb-16 mb-8 border-b-2 border-border-colour-light">
-      <div className="w-96">
+    <section className="mb-8 grid gap-6 border-b border-border-colour-light pb-10 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-12">
+      <div>
         <h4 className="text-Text-high-emphasis font-semibold">
           Fees and payment history
         </h4>
-        <p className="text-sm tracking-tight text-gray-800">
+        <p className="mt-1 text-sm tracking-tight text-Text-meduim-emphasis">
           Student invoices, payments, and outstanding school-fee balances.
         </p>
       </div>
@@ -545,12 +544,12 @@ function AcademicProgressionHistory({
   );
 
   return (
-    <section className="flex justify-between flex-col lg:flex-row gap-16 pb-16 mb-8 border-b-2 border-border-colour-light">
-      <div className="w-96">
+    <section className="mb-8 grid gap-6 border-b border-border-colour-light pb-10 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-12">
+      <div>
         <h4 className="text-Text-high-emphasis font-semibold">
           Academic progression history
         </h4>
-        <p className="text-sm tracking-tight text-gray-800">
+        <p className="mt-1 text-sm tracking-tight text-Text-meduim-emphasis">
           A permanent record of term advancement, promotion, repetition, and
           graduation decisions.
         </p>
@@ -624,17 +623,20 @@ function BioUpdate({
   lastName: string;
 }) {
   return (
-    <div className="flex gap-4 justify-between pb-7 mb-8 border-b-2 border-border-colour-light">
+    <div className="mb-8 flex flex-col-reverse gap-4 border-b border-border-colour-light pb-7 sm:flex-row sm:items-start sm:justify-between">
       <div>
         <h3 className="text-Text-high-emphasis text-2xl font-semibold tracking-tight">
           {firstName} {lastName}
         </h3>
-        <span className="text-base text-gray-800 font-medium">
+        <span className="text-sm font-medium text-Text-meduim-emphasis sm:text-base">
           Registration Number:
           {regNo}
         </span>
       </div>
-      <Link href={DASHBOARD_STUDENT} className="flex items-center gap-2">
+      <Link
+        href={DASHBOARD_STUDENT}
+        className="inline-flex items-center gap-2 text-sm font-semibold text-primary-purple-700"
+      >
         <Icon icon="teenyicons:arrow-left-solid" />
         Back to Students
       </Link>

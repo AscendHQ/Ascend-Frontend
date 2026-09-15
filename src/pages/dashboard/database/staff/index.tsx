@@ -58,13 +58,21 @@ export default function StaffDatabase() {
 
   return (
     <Container headerTitle="Staff">
-      <main className="px-10 py-5 h-full bg-white">
+      <main className="min-h-full bg-neutral-300 px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
         {staffData.isLoading ? (
           <Spinner />
         ) : staffData.isError && isAccessDeniedError(staffData.error) ? (
           <PermissionDeniedState message="You don't have permission to view staff." />
         ) : (
           <>
+            <div className="mb-6">
+              <h1 className="text-xl font-semibold text-Text-high-emphasis sm:text-2xl">
+                Staff
+              </h1>
+              <p className="mt-1 text-sm text-Text-meduim-emphasis">
+                Manage teaching and non-teaching staff records.
+              </p>
+            </div>
             <StaffStatistics data={statisticsData} />
             <div className="mt-10 flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
               <Tab
@@ -77,7 +85,9 @@ export default function StaffDatabase() {
                   isLink
                   path={NEW_BULK_STAFF}
                   variant="secondary"
-                  leftElement={<Icon icon="material-symbols:upload-file-outline" />}
+                  leftElement={
+                    <Icon icon="material-symbols:upload-file-outline" />
+                  }
                   className="mb-0"
                 >
                   Import CSV
@@ -93,7 +103,9 @@ export default function StaffDatabase() {
                 </DashboardButton>
               </div>
             </div>
-            <Table data={filteredData} />
+            <section className="mt-6 rounded-lg border border-border-colour-light bg-white p-4 sm:p-5">
+              <Table data={filteredData} />
+            </section>
           </>
         )}
       </main>

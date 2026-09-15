@@ -68,36 +68,45 @@ export default function NewStudent() {
             <Spinner />
           </div>
         ) : (
-          <div className="min-w-0 bg-white lg:col-[3/-1] 3xl:col-[2/-1]">
+          <div className="min-w-0 bg-neutral-300 lg:col-[3/-1] 3xl:col-[2/-1]">
             <DashboardHeader headerTitle="New Student" />
-            <main className="p-4 sm:p-6 lg:p-10">
+            <main className="px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
               <Link
                 href={DASHBOARD_STUDENT}
-                className="flex items-center gap-2"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-primary-purple-700"
               >
                 <Icon icon="teenyicons:arrow-left-solid" />
                 Back
               </Link>
-              {/* <StudentBiodataHeading /> */}
-              <AddPersonalInformation />
-              <AddContactInformation />
-              <AddGuardianInformation />
-              <AddAcademicDetails />
-              <AddHostelAccommodation />
-              <AddMedicalInformation />
-              <AddAdditionalInformation />
-              <div className="flex justify-end gap-6">
-                <DashboardButton
-                  variant="primary"
-                  className="font-semibold px-7 ml-0"
-                  onClick={handleSubmit(onSubmit)}
-                >
-                  <LoadingState
-                    label="Submit"
-                    isSubmitting={isPendingAddNewStudent}
-                  />
-                </DashboardButton>
-              </div>
+              <section className="mt-5 rounded-lg border border-border-colour-light bg-white p-5 sm:p-7">
+                <h1 className="text-xl font-semibold text-Text-high-emphasis sm:text-2xl">
+                  Register a student
+                </h1>
+                <p className="mt-1 text-sm text-Text-meduim-emphasis">
+                  Create the student's biodata, guardian, academic, and medical
+                  record.
+                </p>
+                {/* <StudentBiodataHeading /> */}
+                <AddPersonalInformation />
+                <AddContactInformation />
+                <AddGuardianInformation />
+                <AddAcademicDetails />
+                <AddHostelAccommodation />
+                <AddMedicalInformation />
+                <AddAdditionalInformation />
+                <div className="flex justify-end gap-6">
+                  <DashboardButton
+                    variant="primary"
+                    className="font-semibold px-7 ml-0"
+                    onClick={handleSubmit(onSubmit)}
+                  >
+                    <LoadingState
+                      label="Submit"
+                      isSubmitting={isPendingAddNewStudent}
+                    />
+                  </DashboardButton>
+                </div>
+              </section>
             </main>
           </div>
         )}

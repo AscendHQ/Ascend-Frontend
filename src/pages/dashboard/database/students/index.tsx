@@ -34,12 +34,7 @@ export default function DatabaseStudents() {
   }, [searchName]);
 
   const studentData = useQuery({
-    queryKey: [
-      "allStudent",
-      currentPage,
-      debouncedSearchName,
-      statusFilter,
-    ],
+    queryKey: ["allStudent", currentPage, debouncedSearchName, statusFilter],
     queryFn: () =>
       fetchAllStudent(currentPage, debouncedSearchName, statusFilter),
   });
@@ -60,69 +55,83 @@ export default function DatabaseStudents() {
           ) : studentData.isError && isAccessDeniedError(studentData.error) ? (
             <PermissionDeniedState message="You don't have permission to view students." />
           ) : studentData.isError ? (
-            <div className="bg-white p-10 text-secondary-red-600">
+            <div className="m-4 rounded-lg border border-secondary-red-500 bg-white p-8 text-center text-secondary-red-600 sm:m-6">
               Students could not be loaded. Please try again.
             </div>
           ) : (
             <>
-              <div className="bg-white p-10">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                  <DashboardButton
-                    variant="primary"
-                    className="ml-0"
-                    leftElement={<Icon icon="tabler:plus" />}
-                    isLink
-                    path={NEW_STUDENT}
-                  >
-                    Register student
-                  </DashboardButton>
-                  <DashboardButton
-                    variant="secondary"
-                    className="ml-0"
-                    leftElement={<Icon icon="material-symbols:upload-file-outline" />}
-                    isLink
-                    path={NEW_BULK_STUDENT}
-                  >
-                    Import CSV
-                  </DashboardButton>
-                </div>
-                <div className="mt-5 flex max-w-xl flex-col gap-3 sm:flex-row">
-                  <div className="relative flex-1">
-                    <input
-                      type="search"
-                      placeholder="Search Student"
-                      aria-label="Search students"
-                      className="rounded text-sm w-full px-2 py-3 border border-grey-800"
-                      value={searchName}
-                      onChange={e => setSearchName(e.target.value)}
-                    />
-                    <Icon
-                      className="absolute bottom-1/2 translate-y-1/2 right-2"
-                      icon="mingcute:search-line"
-                    />
+              <main className="min-h-full bg-neutral-300 px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <h1 className="text-xl font-semibold text-Text-high-emphasis sm:text-2xl">
+                      Students
+                    </h1>
+                    <p className="mt-1 text-sm text-Text-meduim-emphasis">
+                      Register, find, and manage every student record.
+                    </p>
                   </div>
-                  <select
-                    aria-label="Filter students by status"
-                    className="rounded border border-grey-800 bg-white px-3 py-3 text-sm"
-                    value={statusFilter}
-                    onChange={e => {
-                      setStatusFilter(
-                        e.target.value as "all" | "active" | "inactive"
-                      );
-                      setCurrentPage(1);
-                    }}
-                  >
-                    <option value="active">Active students</option>
-                    <option value="inactive">Inactive students</option>
-                    <option value="all">All students</option>
-                  </select>
+                  <div className="flex flex-col gap-3 sm:flex-row">
+                    <DashboardButton
+                      variant="primary"
+                      className="ml-0"
+                      leftElement={<Icon icon="tabler:plus" />}
+                      isLink
+                      path={NEW_STUDENT}
+                    >
+                      Register student
+                    </DashboardButton>
+                    <DashboardButton
+                      variant="secondary"
+                      className="ml-0"
+                      leftElement={
+                        <Icon icon="material-symbols:upload-file-outline" />
+                      }
+                      isLink
+                      path={NEW_BULK_STUDENT}
+                    >
+                      Import CSV
+                    </DashboardButton>
+                  </div>
                 </div>
+                <section className="mt-6 rounded-lg border border-border-colour-light bg-white p-4 sm:p-5">
+                  <div className="flex max-w-2xl flex-col gap-3 sm:flex-row">
+                    <div className="relative flex-1">
+                      <input
+                        type="search"
+                        placeholder="Search Student"
+                        aria-label="Search students"
+                        className="w-full rounded-lg border border-border-colour-light px-3 py-2.5 pr-10 text-sm outline-none focus:border-primary-purple-700"
+                        value={searchName}
+                        onChange={e => setSearchName(e.target.value)}
+                      />
+                      <Icon
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-lg text-Text-meduim-emphasis"
+                        icon="mingcute:search-line"
+                      />
+                    </div>
+                    <select
+                      aria-label="Filter students by status"
+                      className="rounded-lg border border-border-colour-light bg-white px-3 py-2.5 text-sm outline-none focus:border-primary-purple-700"
+                      value={statusFilter}
+                      onChange={e => {
+                        setStatusFilter(
+                          e.target.value as "all" | "active" | "inactive"
+                        );
+                        setCurrentPage(1);
+                      }}
+                    >
+                      <option value="active">Active students</option>
+                      <option value="inactive">Inactive students</option>
+                      <option value="all">All students</option>
+                    </select>
+                  </div>
 
-                <StudentsTable
-                  data={studentData?.data?.students}
-                  isFetching={studentData?.isFetching}
-                />
-              </div>
+                  <StudentsTable
+                    data={studentData?.data?.students}
+                    isFetching={studentData?.isFetching}
+                  />
+                </section>
+              </main>
             </>
           )}
         </Container>

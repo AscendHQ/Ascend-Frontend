@@ -74,30 +74,38 @@ export default function NewStaff() {
         {staffNo.isLoading ? (
           <Spinner />
         ) : (
-          <main className="p-10 bg-white h-full">
+          <main className="min-h-full bg-neutral-300 px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
             {contextHolder}
 
             <Link
               href={DASHBOARD_TEACHER}
-              className="flex items-center gap-2 mb-10"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-primary-purple-700"
             >
               <Icon icon="teenyicons:arrow-left-solid" />
               Back
             </Link>
-            <PersonalInformation staffNo={staffNo.data} />
-            <OfficialInformation />
-            <div className="flex justify-end gap-6">
-              <DashboardButton
-                variant="primary"
-                onClick={handleSubmit(onSubmit)}
-                className="text-base px-7"
-              >
-                <LoadingState
-                  label="Submit"
-                  isSubmitting={isPendingAddNewStaff}
-                />
-              </DashboardButton>
-            </div>
+            <section className="mt-5 rounded-lg border border-border-colour-light bg-white p-5 sm:p-7">
+              <h1 className="text-xl font-semibold text-Text-high-emphasis sm:text-2xl">
+                Add a staff member
+              </h1>
+              <p className="mt-1 text-sm text-Text-meduim-emphasis">
+                Create the staff biodata and employment record.
+              </p>
+              <PersonalInformation staffNo={staffNo.data} />
+              <OfficialInformation />
+              <div className="flex justify-end gap-6">
+                <DashboardButton
+                  variant="primary"
+                  onClick={handleSubmit(onSubmit)}
+                  className="text-base px-7"
+                >
+                  <LoadingState
+                    label="Submit"
+                    isSubmitting={isPendingAddNewStaff}
+                  />
+                </DashboardButton>
+              </div>
+            </section>
           </main>
         )}
       </Container>

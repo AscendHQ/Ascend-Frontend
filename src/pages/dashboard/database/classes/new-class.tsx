@@ -67,26 +67,34 @@ export default function NewClass() {
       value={{ register, errors, watch, tags, setTags }}
     >
       <Container headerTitle="New Class">
-        <main className="px-10 py-5 bg-white h-full">
+        <main className="min-h-full bg-neutral-300 px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
           <Link
             href={DASHBOARD_CLASS}
-            className="flex items-center gap-3 text-sm"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-primary-purple-700"
           >
             <Icon icon="teenyicons:arrow-left-solid" />
             <span>Back</span>
           </Link>
-          <ClassInformation />
+          <section className="mt-5 rounded-lg border border-border-colour-light bg-white p-5 sm:p-7">
+            <h1 className="text-xl font-semibold text-Text-high-emphasis sm:text-2xl">
+              Add a class
+            </h1>
+            <p className="mt-1 text-sm text-Text-meduim-emphasis">
+              Create a class level and its section.
+            </p>
+            <ClassInformation />
 
-          <DashboardButton
-            variant="primary"
-            onClick={handleSubmit(onSubmit)}
-            className="text-base px-7"
-          >
-            <LoadingState
-              label="Save Class"
-              isSubmitting={isPendingAddNewClass}
-            />
-          </DashboardButton>
+            <DashboardButton
+              variant="primary"
+              onClick={handleSubmit(onSubmit)}
+              className="text-base px-7"
+            >
+              <LoadingState
+                label="Save Class"
+                isSubmitting={isPendingAddNewClass}
+              />
+            </DashboardButton>
+          </section>
         </main>
       </Container>
       {contextHolder}

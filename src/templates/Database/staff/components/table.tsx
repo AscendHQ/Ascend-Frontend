@@ -45,8 +45,8 @@ export function Table({ data }: { data: StaffProp[] }) {
 
   return (
     <>
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-10">
-        <table className="w-full text-sm text-left text-gray-500">
+      <div className="relative mt-5 overflow-x-auto rounded-lg border border-border-colour-light">
+        <table className="w-full min-w-[720px] text-left text-sm text-Text-meduim-emphasis">
           <TableHeaders data={tableHeaders} />
           <tbody>
             {data.map(item => {
@@ -58,6 +58,16 @@ export function Table({ data }: { data: StaffProp[] }) {
                 />
               );
             })}
+            {!data.length && (
+              <tr>
+                <td
+                  colSpan={6}
+                  className="p-10 text-center text-Text-meduim-emphasis"
+                >
+                  No staff members match this category.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
