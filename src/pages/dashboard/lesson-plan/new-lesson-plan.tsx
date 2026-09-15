@@ -99,40 +99,48 @@ export default function NewLessonPlan() {
     <ReactHookForm.Provider value={{ register, errors, open }}>
       {contextHolder}
       <Container headerTitle={"New Lesson Plan"}>
-        <main className="bg-white px-10 pt-7 h-full">
+        <main className="min-h-full bg-neutral-300 px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
           <div className="flex justify-between">
             <Link
               href={DASHBOARD_LESSON_PLAN}
-              className="flex items-center gap-3 text-sm"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-primary-purple-700"
             >
               <Icon icon="teenyicons:arrow-left-solid" />
               <span>Back</span>
             </Link>
           </div>
-          <LessonInformation
-            classOptions={classOptions}
-            subjectOptions={subjectOptions}
-            createdId={createdId}
-          />
-          <ul className="flex gap-2 justify-end">
-            <li>
-              <Link
-                href={DASHBOARD_LESSON_PLAN}
-                className="text-Text-high-emphasis border-1.5 border-border-colour-light rounded-lg py-3 px-14 font-semibold text-sm inline-block"
-              >
-                Cancel
-              </Link>
-            </li>
-            <li>
-              <button
-                className="text-white bg-primary-purple-700 rounded-lg py-3 px-16 font-semibold text-sm disabled:opacity-50"
-                onClick={handleSubmit(onSubmit)}
-                disabled={isCreatingLesson}
-              >
-                <LoadingState label="Save" isSubmitting={isCreatingLesson} />
-              </button>
-            </li>
-          </ul>
+          <section className="mt-5 rounded-lg border border-border-colour-light bg-white p-5 sm:p-7">
+            <h1 className="text-xl font-semibold text-Text-high-emphasis sm:text-2xl">
+              Create a lesson plan
+            </h1>
+            <p className="mt-1 text-sm text-Text-meduim-emphasis">
+              Add the lesson information, overview, and learning objectives.
+            </p>
+            <LessonInformation
+              classOptions={classOptions}
+              subjectOptions={subjectOptions}
+              createdId={createdId}
+            />
+            <ul className="flex flex-col-reverse gap-2 border-t border-border-colour-light pt-6 sm:flex-row sm:justify-end">
+              <li className="sm:w-auto">
+                <Link
+                  href={DASHBOARD_LESSON_PLAN}
+                  className="inline-block w-full rounded-lg border border-border-colour-light px-8 py-3 text-center text-sm font-semibold text-Text-high-emphasis sm:w-auto"
+                >
+                  Cancel
+                </Link>
+              </li>
+              <li className="sm:w-auto">
+                <button
+                  className="w-full rounded-lg bg-primary-purple-700 px-10 py-3 text-sm font-semibold text-white disabled:opacity-50 sm:w-auto"
+                  onClick={handleSubmit(onSubmit)}
+                  disabled={isCreatingLesson}
+                >
+                  <LoadingState label="Save" isSubmitting={isCreatingLesson} />
+                </button>
+              </li>
+            </ul>
+          </section>
         </main>
       </Container>
     </ReactHookForm.Provider>
@@ -199,16 +207,16 @@ function LessonInformation({
           </p>
         </section>
       </Modal>
-      <div className="flex justify-between gap-16 pb-16 mt-14 mb-8 border-b-2 border-border-colour-light">
-        <div className="w-96">
+      <div className="my-8 grid gap-8 pb-4 lg:grid-cols-[240px_minmax(0,1fr)]">
+        <div>
           <h4 className="text-Text-high-emphasis font-semibold">
             Lesson plan information
           </h4>
-          <p className="text-sm tracking-tight text-gray-800">
+          <p className="mt-1 text-sm tracking-tight text-Text-meduim-emphasis">
             This will be displayed on lesson plan detail page.
           </p>
         </div>
-        <div className="flex flex-1 min-w-[60%] flex-wrap gap-5">
+        <div className="flex min-w-0 flex-col flex-wrap gap-5 sm:flex-row">
           <TextField
             id="lesson_title"
             label="Lesson title"

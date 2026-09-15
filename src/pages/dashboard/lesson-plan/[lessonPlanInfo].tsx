@@ -98,11 +98,11 @@ export default function LessonPlanInfo() {
     <ReactHookForm.Provider value={{ register, errors, open }}>
       {contextHolder}
       <Container headerTitle={lesson?.title ?? "Lesson Plan"}>
-        <main className="bg-white px-10 pt-7 h-full">
+        <main className="min-h-full bg-neutral-300 px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
           <div className="flex justify-between">
             <Link
               href={DASHBOARD_LESSON_PLAN}
-              className="flex items-center gap-3 text-sm"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-primary-purple-700"
             >
               <Icon icon="teenyicons:arrow-left-solid" />
               <span>Back</span>
@@ -117,20 +117,26 @@ export default function LessonPlanInfo() {
               Lesson plan not found.
             </div>
           ) : (
-            <>
+            <section className="mt-5 rounded-lg border border-border-colour-light bg-white p-5 sm:p-7">
+              <h1 className="text-xl font-semibold text-Text-high-emphasis sm:text-2xl">
+                Edit lesson plan
+              </h1>
+              <p className="mt-1 text-sm text-Text-meduim-emphasis">
+                Update the lesson information and objectives.
+              </p>
               <LessonInformation
                 classOptions={classOptions}
                 subjectOptions={subjectOptions}
               />
 
               <button
-                className="text-white bg-primary-purple-700 rounded-lg py-3 px-16 font-semibold text-sm block ml-auto disabled:opacity-50"
+                className="ml-auto block w-full rounded-lg bg-primary-purple-700 px-10 py-3 text-sm font-semibold text-white disabled:opacity-50 sm:w-auto"
                 onClick={handleSubmit(onSubmit)}
                 disabled={isUpdatingLesson}
               >
                 <LoadingState label="Save" isSubmitting={isUpdatingLesson} />
               </button>
-            </>
+            </section>
           )}
         </main>
       </Container>
@@ -191,16 +197,16 @@ function LessonInformation({
           </p>
         </section>
       </Modal>
-      <div className="flex justify-between gap-16 pb-16 mt-14 mb-8 border-b-2 border-border-colour-light">
-        <div className="w-96">
+      <div className="my-8 grid gap-8 border-b border-border-colour-light pb-10 lg:grid-cols-[240px_minmax(0,1fr)]">
+        <div>
           <h4 className="text-Text-high-emphasis font-semibold">
             Lesson plan information
           </h4>
-          <p className="text-sm tracking-tight text-gray-800">
+          <p className="mt-1 text-sm tracking-tight text-Text-meduim-emphasis">
             This will be displayed on lesson plan detail page.
           </p>
         </div>
-        <div className="flex flex-1 min-w-[60%] flex-wrap gap-5">
+        <div className="flex min-w-0 flex-col flex-wrap gap-5 sm:flex-row">
           <TextField
             id="lesson_title"
             label="Lesson title"

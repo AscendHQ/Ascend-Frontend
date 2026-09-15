@@ -3,6 +3,8 @@ import { NotificationInstance } from "antd/es/notification/interface";
 
 import { axiosInstance } from "@/api";
 
+const GENERIC_ERROR_MESSAGE = "Something went wrong";
+
 export type LessonRecord = {
   _id: string;
   title: string;
@@ -15,7 +17,9 @@ export type LessonRecord = {
 const fetchAllLessons = () =>
   axiosInstance
     .get("/lessons")
-    .then(res => res.data as { lessons: LessonRecord[]; total_documents: number });
+    .then(
+      res => res.data as { lessons: LessonRecord[]; total_documents: number }
+    );
 
 export const useAllLessons = () => {
   return useQuery({
@@ -42,9 +46,7 @@ export function useUpdateLessonStatus(toast: NotificationInstance) {
     onSuccess: (_, variables) => {
       toast.open({
         message: (
-          <h3 className="text-secondary-green-600 font-semibold">
-            Success!
-          </h3>
+          <h3 className="text-secondary-green-600 font-semibold">Success!</h3>
         ),
         description: `Lesson plan has been ${variables.status}`,
         duration: 3,
@@ -57,7 +59,7 @@ export function useUpdateLessonStatus(toast: NotificationInstance) {
         message: (
           <h3 className="text-secondary-red-600 font-semibold">Error!</h3>
         ),
-        description: error.response?.data ?? "Something went wrong",
+        description: error.response?.data ?? GENERIC_ERROR_MESSAGE,
         duration: 8,
         className: "ant-toast",
       });
@@ -109,9 +111,7 @@ export function useCreateLesson(toast: NotificationInstance) {
     onSuccess: () => {
       toast.open({
         message: (
-          <h3 className="text-secondary-green-600 font-semibold">
-            Success!
-          </h3>
+          <h3 className="text-secondary-green-600 font-semibold">Success!</h3>
         ),
         description: "Lesson plan has been added successfully",
         duration: 3,
@@ -124,7 +124,7 @@ export function useCreateLesson(toast: NotificationInstance) {
         message: (
           <h3 className="text-secondary-red-600 font-semibold">Error!</h3>
         ),
-        description: error.response?.data ?? "Something went wrong",
+        description: error.response?.data ?? GENERIC_ERROR_MESSAGE,
         duration: 8,
         className: "ant-toast",
       });
@@ -172,9 +172,7 @@ export function useUpdateLesson(toast: NotificationInstance) {
     onSuccess: (_, variables) => {
       toast.open({
         message: (
-          <h3 className="text-secondary-green-600 font-semibold">
-            Success!
-          </h3>
+          <h3 className="text-secondary-green-600 font-semibold">Success!</h3>
         ),
         description: "Lesson plan has been updated successfully",
         duration: 3,
@@ -190,7 +188,7 @@ export function useUpdateLesson(toast: NotificationInstance) {
         message: (
           <h3 className="text-secondary-red-600 font-semibold">Error!</h3>
         ),
-        description: error.response?.data ?? "Something went wrong",
+        description: error.response?.data ?? GENERIC_ERROR_MESSAGE,
         duration: 8,
         className: "ant-toast",
       });
