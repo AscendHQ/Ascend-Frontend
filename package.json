@@ -8,9 +8,9 @@
     "npm": "please-use-yarn"
   },
   "scripts": {
-    "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "node api.js && cross-env NODE_OPTIONS='--inspect' next dev",
+    "build": "node api.js && next build",
+    "start": "node api.js && next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "check": "yarn lint && yarn typecheck",
